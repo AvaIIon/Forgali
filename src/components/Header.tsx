@@ -2,15 +2,11 @@ import { Search, User, ShoppingCart, ChevronDown } from "lucide-react";
 import { Input } from "@/components/ui/input";
 
 const navItems = [
-  { label: "Dollhouses & Doll Play", hasDropdown: true },
-  { label: "Kitchens & Pretend Play", hasDropdown: true },
-  { label: "Play Sets & Activity Tables", hasDropdown: true },
-  { label: "Kids Furniture", hasDropdown: true, active: true },
-  { label: "Outdoor", hasDropdown: true },
-  { label: "Shop By Age & Skill", hasDropdown: true },
-  { label: "Outlet", hasDropdown: false },
-  { label: "Gift Guide", hasDropdown: false, highlight: true },
-  { label: "New Arrivals", hasDropdown: false },
+  { label: "Bunk Beds", hasDropdown: true, active: true },
+  { label: "Loft Beds", hasDropdown: true },
+  { label: "Single Beds", hasDropdown: true },
+  { label: "Storage & Accessories", hasDropdown: true },
+  { label: "Smart Deals", hasDropdown: false, highlight: true },
 ];
 
 export const Header = () => {
@@ -18,7 +14,7 @@ export const Header = () => {
     <header className="w-full">
       {/* Top banner */}
       <div className="bg-primary text-primary-foreground text-center py-2.5 text-sm font-medium">
-        Free shipping over $75 for indoor items!
+        Free Canada-Wide Shipping on All Orders!
       </div>
       
       {/* Main header */}
@@ -37,10 +33,10 @@ export const Header = () => {
           {/* Logo */}
           <div className="flex-shrink-0">
             <h1 className="text-3xl font-bold tracking-tight" style={{ fontFamily: 'serif' }}>
-              KidKraft
+              Forgali
             </h1>
             <p className="text-[10px] text-center text-muted-foreground tracking-[0.2em]">
-              MADE FOR MAKE BELIEVE
+              SOLID WOOD BEDS
             </p>
           </div>
           
@@ -49,8 +45,8 @@ export const Header = () => {
             <div className="flex items-center gap-2 text-sm">
               <span className="text-muted-foreground">Country:</span>
               <div className="flex items-center gap-1">
-                <span className="text-lg">🇺🇸</span>
-                <span>USD</span>
+                <span className="text-lg">🇨🇦</span>
+                <span>CAD</span>
                 <ChevronDown className="w-4 h-4" />
               </div>
             </div>

@@ -3,10 +3,10 @@ import bunkBedsImg from "@/assets/bunk-beds.png";
 import floorBedsImg from "@/assets/floor-beds.png";
 
 const categories = [
-  { name: "Bunk Beds", image: bunkBedsImg },
-  { name: "Single Beds", image: bunkBedsImg },
-  { name: "Loft Beds", image: floorBedsImg },
-  { name: "Floor Beds", image: floorBedsImg },
+  { name: "Bunk Beds", count: "124 Products", image: bunkBedsImg },
+  { name: "Loft Beds", count: "136 Products", image: floorBedsImg },
+  { name: "Single Beds", count: "50 Products", image: bunkBedsImg },
+  { name: "Accessories", count: "33 Products", image: floorBedsImg },
 ];
 
 export const SleepSolutions = () => {
@@ -27,9 +27,10 @@ export const SleepSolutions = () => {
                 />
               </div>
               <div className="flex items-center gap-2 justify-start">
-                <span className="text-sm font-medium">{category.name}</span>
+                <span className="text-sm font-bold">{category.name}</span>
                 <ArrowRight className="w-4 h-4 text-primary" />
               </div>
+              <span className="text-xs text-muted-foreground">{category.count}</span>
             </div>
           ))}
         </div>

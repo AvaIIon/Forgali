@@ -8,11 +8,11 @@ export const Footer = () => {
           <div>
             <h4 className="font-bold mb-4">Shop</h4>
             <ul className="space-y-2 text-sm text-background/70">
-              <li><a href="#" className="hover:text-background">Dollhouses</a></li>
-              <li><a href="#" className="hover:text-background">Kitchens</a></li>
-              <li><a href="#" className="hover:text-background">Play Sets</a></li>
-              <li><a href="#" className="hover:text-background">Kids Furniture</a></li>
-              <li><a href="#" className="hover:text-background">Outdoor</a></li>
+              <li><a href="#" className="hover:text-background">Bunk Beds</a></li>
+              <li><a href="#" className="hover:text-background">Loft Beds</a></li>
+              <li><a href="#" className="hover:text-background">Single Beds</a></li>
+              <li><a href="#" className="hover:text-background">Accessories</a></li>
+              <li><a href="#" className="hover:text-background">Smart Deals</a></li>
             </ul>
           </div>
           
@@ -23,16 +23,16 @@ export const Footer = () => {
               <li><a href="#" className="hover:text-background">FAQs</a></li>
               <li><a href="#" className="hover:text-background">Shipping Info</a></li>
               <li><a href="#" className="hover:text-background">Returns</a></li>
-              <li><a href="#" className="hover:text-background">Assembly</a></li>
+              <li><a href="#" className="hover:text-background">Assembly Guide</a></li>
             </ul>
           </div>
           
           <div>
             <h4 className="font-bold mb-4">Company</h4>
             <ul className="space-y-2 text-sm text-background/70">
-              <li><a href="#" className="hover:text-background">About Us</a></li>
-              <li><a href="#" className="hover:text-background">Careers</a></li>
-              <li><a href="#" className="hover:text-background">Press</a></li>
+              <li><a href="#" className="hover:text-background">About Forgali</a></li>
+              <li><a href="#" className="hover:text-background">Warranty</a></li>
+              <li><a href="#" className="hover:text-background">Safety Standards</a></li>
               <li><a href="#" className="hover:text-background">Blog</a></li>
             </ul>
           </div>
@@ -49,7 +49,7 @@ export const Footer = () => {
         </div>
         
         <div className="border-t border-background/20 pt-8 text-center text-sm text-background/50">
-          <p>© 2024 KidKraft. All rights reserved.</p>
+          <p>© 2024 Forgali. All rights reserved.</p>
         </div>
       </div>
     </footer>
