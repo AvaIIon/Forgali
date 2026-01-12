@@ -6,43 +6,43 @@ export const BedsSection = () => {
     <section className="py-16 px-4">
       <div className="max-w-7xl mx-auto">
         <h2 className="text-2xl font-bold text-center mb-10">
-          Beds That Fit Your Family's Setup
+          Why Choose Forgali?
         </h2>
         
         <div className="grid grid-cols-2 gap-8">
-          {/* Independent Sleepers */}
+          {/* Solid Wood Construction */}
           <div className="text-center">
             <div className="aspect-[4/3] overflow-hidden rounded-lg mb-4">
               <img 
                 src={independentImg} 
-                alt="Independent Sleepers" 
+                alt="Solid Wood Construction" 
                 className="w-full h-full object-cover"
               />
             </div>
-            <h3 className="text-lg font-bold mb-2">Independent Sleepers</h3>
+            <h3 className="text-lg font-bold mb-2">Solid Wood Construction</h3>
             <p className="text-muted-foreground text-sm mb-4 max-w-sm mx-auto">
-              Give them a space that's all theirs — from first big-kid floor beds to stylish singles, daybeds, and dreamy canopies.
+              Built to last with premium solid wood materials. Safety tested and warrantied for your peace of mind.
             </p>
             <button className="bg-primary text-primary-foreground px-6 py-2 rounded-full text-sm font-medium hover:bg-primary/90 transition-colors">
-              Shop Now
+              Shop Bunk Beds
             </button>
           </div>
           
-          {/* Shared Spaces */}
+          {/* Easy Assembly */}
           <div className="text-center">
             <div className="aspect-[4/3] overflow-hidden rounded-lg mb-4">
               <img 
                 src={sharedImg} 
-                alt="Shared Spaces" 
+                alt="Easy Assembly" 
                 className="w-full h-full object-cover"
               />
             </div>
-            <h3 className="text-lg font-bold mb-2">Shared Spaces</h3>
+            <h3 className="text-lg font-bold mb-2">Easy Assembly & Free Shipping</h3>
             <p className="text-muted-foreground text-sm mb-4 max-w-sm mx-auto">
-              Bunks, lofts, and trundles designed for siblings, sleepovers, and all the extra fun that comes with sharing.
+              Clear instructions for hassle-free setup. Free Canada-wide shipping on all orders.
             </p>
             <button className="bg-primary text-primary-foreground px-6 py-2 rounded-full text-sm font-medium hover:bg-primary/90 transition-colors">
-              Shop Now
+              Shop Loft Beds
             </button>
           </div>
         </div>

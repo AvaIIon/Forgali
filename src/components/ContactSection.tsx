@@ -11,8 +11,8 @@ export const ContactSection = () => {
           </div>
           
           <p className="text-muted-foreground text-sm mb-6">
-            From bedtime to playtime, our friendly team is here to make sure everything goes smoothly. 
-            Reach out anytime during business hours M-F, 9 AM - 6 PM EST!
+            Our friendly team is here to help you find the perfect bed for your family. 
+            Reach out anytime during business hours M-F, 9 AM - 5 PM EST!
           </p>
           
           <div className="grid grid-cols-2 gap-4">

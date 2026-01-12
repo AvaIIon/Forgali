@@ -1,10 +1,10 @@
 import { useState } from "react";
 
 const tabs = [
-  { id: "holiday", label: "holiday wows", active: true },
-  { id: "savings", label: "big season savings" },
+  { id: "deals", label: "smart deals", active: true },
   { id: "bestsellers", label: "best sellers" },
-  { id: "gifts", label: "gifts under $250" },
+  { id: "bunkbeds", label: "bunk beds" },
+  { id: "loftbeds", label: "loft beds" },
 ];
 
 export const CategoryTabs = () => {
