@@ -77,7 +77,7 @@ export default {
         "cursor-blink": "cursor-blink 1s ease-in-out infinite",
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
+        sans: ['Manrope', 'system-ui', 'sans-serif'],
       },
     },
   },
