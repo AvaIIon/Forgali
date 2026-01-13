@@ -1,12 +1,13 @@
 import { Search, User, ShoppingCart, ChevronDown } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { Link } from "react-router-dom";
 
 const navItems = [
-  { label: "Bunk Beds", hasDropdown: true, active: true },
-  { label: "Loft Beds", hasDropdown: true },
-  { label: "Single Beds", hasDropdown: true },
-  { label: "Storage & Accessories", hasDropdown: true },
-  { label: "Smart Deals", hasDropdown: false, highlight: true },
+  { label: "Bunk Beds", hasDropdown: true, href: "/category/bunk-beds" },
+  { label: "Loft Beds", hasDropdown: true, href: "/category/loft-beds" },
+  { label: "Single Beds", hasDropdown: true, href: "/category/single-beds" },
+  { label: "Storage & Accessories", hasDropdown: true, href: "/category/accessories" },
+  { label: "Smart Deals", hasDropdown: false, highlight: true, href: "/" },
 ];
 
 export const Header = () => {
@@ -31,14 +32,14 @@ export const Header = () => {
           </div>
           
           {/* Logo */}
-          <div className="flex-shrink-0">
+          <Link to="/" className="flex-shrink-0">
             <h1 className="text-3xl font-bold tracking-tight" style={{ fontFamily: 'serif' }}>
               Forgali
             </h1>
             <p className="text-[10px] text-center text-muted-foreground tracking-[0.2em]">
               SOLID WOOD BEDS
             </p>
-          </div>
+          </Link>
           
           {/* Right side */}
           <div className="flex items-center gap-6">
@@ -62,16 +63,15 @@ export const Header = () => {
           <ul className="flex items-center justify-center gap-6 py-3">
             {navItems.map((item) => (
               <li key={item.label}>
-                <a 
-                  href="#" 
-                  className={`flex items-center gap-1 text-sm whitespace-nowrap transition-colors
-                    ${item.active ? 'text-primary font-medium' : 'text-foreground hover:text-primary'}
-                    ${item.highlight ? 'text-primary' : ''}
+                <Link 
+                  to={item.href} 
+                  className={`flex items-center gap-1 text-sm whitespace-nowrap transition-colors text-foreground hover:text-primary
+                    ${item.highlight ? 'text-primary font-medium' : ''}
                   `}
                 >
                   {item.label}
                   {item.hasDropdown && <ChevronDown className="w-3 h-3" />}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>
