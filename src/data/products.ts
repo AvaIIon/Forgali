@@ -11,6 +11,7 @@ export interface Product {
   badge?: "new" | "bestseller" | "sale";
   rating: number;
   reviews: number;
+  description?: string;
 }
 
 export const products: Product[] = [
@@ -920,3 +921,7 @@ export const getCategories = () => [
   { slug: "single-beds", name: "Single Beds", count: products.filter(p => p.category === "single-beds").length },
   { slug: "accessories", name: "Accessories", count: products.filter(p => p.category === "accessories").length }
 ];
+
+export const getRelatedProducts = (category: string, excludeId: string): Product[] => {
+  return products.filter(p => p.category === category && p.id !== excludeId).slice(0, 8);
+};
