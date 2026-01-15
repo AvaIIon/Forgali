@@ -5,7 +5,7 @@ interface ProductCardProps {
   rating: number;
   reviews: number;
   price: number;
-  originalPrice: number;
+  originalPrice?: number;
   savings?: number;
   image: string;
   badge?: "new" | "bestseller";
@@ -68,9 +68,11 @@ export const ProductCard = ({
       
       <div className="flex items-center gap-2">
         <span className="text-primary font-bold">${price.toLocaleString()}</span>
-        <span className="text-muted-foreground line-through text-sm">
-          ${originalPrice.toLocaleString()}
-        </span>
+        {originalPrice && (
+          <span className="text-muted-foreground line-through text-sm">
+            ${originalPrice.toLocaleString()}
+          </span>
+        )}
       </div>
     </div>
   );
