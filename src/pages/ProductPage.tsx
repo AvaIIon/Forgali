@@ -6,6 +6,8 @@ import { Star, Check, Truck, Shield, CreditCard, ChevronDown, ChevronUp, Minus, 
 import { products, getProductById, getRelatedProducts } from "@/data/products";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { useCart } from "@/context/CartContext";
+import { useToast } from "@/hooks/use-toast";
 
 const ProductPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -15,6 +17,19 @@ const ProductPage = () => {
   const [selectedImage, setSelectedImage] = useState(0);
   const [selectedFinish, setSelectedFinish] = useState(0);
   const [quantity, setQuantity] = useState(1);
+  const { addToCart } = useCart();
+  const { toast } = useToast();
+
+  const handleAddToCart = () => {
+    if (product) {
+      const finishName = product.finishes?.[selectedFinish];
+      addToCart(product, quantity, finishName);
+      toast({
+        title: "Added to cart!",
+        description: `${product.name} has been added to your cart.`,
+      });
+    }
+  };
 
   if (!product) {
     return (
@@ -194,7 +209,10 @@ const ProductPage = () => {
                   <Plus className="w-4 h-4" />
                 </button>
               </div>
-              <Button className="flex-1 bg-[#2D8B6F] hover:bg-[#247558] text-white py-6 text-lg font-semibold rounded-lg">
+              <Button 
+                onClick={handleAddToCart}
+                className="flex-1 bg-[#2D8B6F] hover:bg-[#247558] text-white py-6 text-lg font-semibold rounded-lg"
+              >
                 Add to Cart
               </Button>
             </div>

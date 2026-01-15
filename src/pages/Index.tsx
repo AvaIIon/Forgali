@@ -6,6 +6,8 @@ import { BedsSection } from "@/components/BedsSection";
 import { ProductGrid } from "@/components/ProductGrid";
 import { ContactSection } from "@/components/ContactSection";
 import { Footer } from "@/components/Footer";
+import { FeaturedCategories } from "@/components/FeaturedCategories";
+import { PromoBanner } from "@/components/PromoBanner";
 
 const Index = () => {
   return (
@@ -13,7 +15,9 @@ const Index = () => {
       <Header />
       <main>
         <Hero />
+        <FeaturedCategories />
         <SleepSolutions />
+        <PromoBanner />
         <TestimonialSection />
         <BedsSection />
         <ProductGrid />
