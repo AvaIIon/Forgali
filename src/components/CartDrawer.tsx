@@ -1,11 +1,17 @@
-import { X, Minus, Plus, Trash2 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Minus, Plus, Trash2 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { useCart } from "@/context/CartContext";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 
 export const CartDrawer = () => {
   const { items, isCartOpen, setIsCartOpen, updateQuantity, removeFromCart, getTotalPrice } = useCart();
+  const navigate = useNavigate();
+
+  const handleCheckout = () => {
+    setIsCartOpen(false);
+    navigate("/checkout");
+  };
 
   return (
     <Sheet open={isCartOpen} onOpenChange={setIsCartOpen}>
@@ -74,11 +80,12 @@ export const CartDrawer = () => {
                   </span>
                 </div>
                 <p className="text-sm text-muted-foreground">Shipping calculated at checkout</p>
-                <Link to="/checkout" onClick={() => setIsCartOpen(false)}>
-                  <Button className="w-full bg-[#2D8B6F] hover:bg-[#247558] text-white py-6 text-lg font-semibold">
-                    Checkout
-                  </Button>
-                </Link>
+                <Button 
+                  onClick={handleCheckout}
+                  className="w-full bg-[#2D8B6F] hover:bg-[#247558] text-white py-6 text-lg font-semibold"
+                >
+                  Checkout
+                </Button>
                 <Button 
                   variant="outline" 
                   className="w-full"
