@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { LogOut } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { getProxiedImage } from "@/lib/imageProxy";
 
 const navItems = [
   { 
@@ -239,19 +240,7 @@ export const Header = () => {
                             {item.image && (
                               <div className="relative rounded-lg overflow-hidden">
                                 <img 
-                                  src={(() => {
-                                    const url = item.image;
-                                    if (!url || !url.startsWith('http')) return url;
-                                    if (import.meta.env.DEV) {
-                                      try {
-                                        const urlObj = new URL(url);
-                                        return `/api/images${urlObj.pathname}${urlObj.search}`;
-                                      } catch {
-                                        return url;
-                                      }
-                                    }
-                                    return url;
-                                  })()}
+                                  src={getProxiedImage(item.image)}
                                   alt={`Shop ${item.label}`}
                                   className="w-full h-full object-cover"
                                 />

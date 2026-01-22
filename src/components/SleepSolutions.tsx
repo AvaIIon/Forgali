@@ -2,20 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { getProducts, getCategories } from "@/data/products";
-
-// Helper to get proxied image URL
-const getProxiedImage = (url: string): string => {
-  if (!url || !url.startsWith('http')) return url;
-  if (import.meta.env.DEV) {
-    try {
-      const urlObj = new URL(url);
-      return `/api/images${urlObj.pathname}${urlObj.search}`;
-    } catch {
-      return url;
-    }
-  }
-  return url;
-};
+import { getProxiedImage } from "@/lib/imageProxy";
 
 export const SleepSolutions = () => {
   const [categories, setCategories] = useState<Array<{ name: string; count: number; image: string; href: string }>>([]);

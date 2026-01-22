@@ -8,20 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { useCart } from "@/context/CartContext";
 import { useToast } from "@/hooks/use-toast";
-
-// Helper to get proxied image URL
-const getProxiedImage = (url: string): string => {
-  if (!url || !url.startsWith('http')) return url;
-  if (import.meta.env.DEV) {
-    try {
-      const urlObj = new URL(url);
-      return `/api/images${urlObj.pathname}${urlObj.search}`;
-    } catch {
-      return url;
-    }
-  }
-  return url;
-};
+import { getProxiedImage } from "@/lib/imageProxy";
 
 const ProductPage = () => {
   const { id } = useParams<{ id: string }>();

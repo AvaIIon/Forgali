@@ -2,24 +2,11 @@ import { Heart } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import type { Product } from "@/data/products";
+import { getProxiedImage } from "@/lib/imageProxy";
 
 interface CategoryProductCardProps {
   product: Product;
 }
-
-// Helper to get proxied image URL
-const getProxiedImage = (url: string): string => {
-  if (!url || !url.startsWith('http')) return url;
-  if (import.meta.env.DEV) {
-    try {
-      const urlObj = new URL(url);
-      return `/api/images${urlObj.pathname}${urlObj.search}`;
-    } catch {
-      return url;
-    }
-  }
-  return url;
-};
 
 export const CategoryProductCard = ({ product }: CategoryProductCardProps) => {
   const displayColors = product.colors.slice(0, 4);

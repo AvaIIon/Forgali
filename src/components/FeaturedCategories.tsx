@@ -1,18 +1,5 @@
 import { Link } from "react-router-dom";
-
-// Helper to get proxied image URL
-const getProxiedImage = (url: string): string => {
-  if (!url || !url.startsWith('http')) return url;
-  if (import.meta.env.DEV) {
-    try {
-      const urlObj = new URL(url);
-      return `/api/images${urlObj.pathname}${urlObj.search}`;
-    } catch {
-      return url;
-    }
-  }
-  return url;
-};
+import { getProxiedImage } from "@/lib/imageProxy";
 
 const categories = [
   {

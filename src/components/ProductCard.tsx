@@ -1,5 +1,6 @@
 import { Star, Heart } from "lucide-react";
 import { useState } from "react";
+import { getProxiedImage } from "@/lib/imageProxy";
 
 interface ProductCardProps {
   name: string;
@@ -11,20 +12,6 @@ interface ProductCardProps {
   image: string;
   badge?: "new" | "bestseller";
 }
-
-// Helper to get proxied image URL
-const getProxiedImage = (url: string): string => {
-  if (!url || !url.startsWith('http')) return url;
-  if (import.meta.env.DEV) {
-    try {
-      const urlObj = new URL(url);
-      return `/api/images${urlObj.pathname}${urlObj.search}`;
-    } catch {
-      return url;
-    }
-  }
-  return url;
-};
 
 export const ProductCard = ({
   name,
