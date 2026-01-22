@@ -1,20 +1,29 @@
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { CategoryHeader } from "@/components/CategoryHeader";
 import { CategoryFilters } from "@/components/CategoryFilters";
 import { CategoryProductCard } from "@/components/CategoryProductCard";
-import { getProductsByCategory, getCategoryInfo } from "@/data/products";
+import { SubcategoryTabs } from "@/components/SubcategoryTabs";
+import { getProductsByCategory, getProductsBySubcategory, getCategoryInfo } from "@/data/products";
 
 const CategoryPage = () => {
   const { category } = useParams<{ category: string }>();
-  const products = getProductsByCategory(category || "");
+  const [searchParams] = useSearchParams();
+  const subcategory = searchParams.get('subcategory');
+  
   const categoryInfo = getCategoryInfo(category || "");
+  
+  // Get products filtered by subcategory if provided
+  const products = subcategory 
+    ? getProductsBySubcategory(category || "", subcategory)
+    : getProductsByCategory(category || "");
 
   return (
     <div className="min-h-screen bg-background">
       <Header />
       <CategoryHeader title={categoryInfo.title} description={categoryInfo.description} />
+      <SubcategoryTabs />
       <CategoryFilters />
       
       <section className="py-8 px-4">

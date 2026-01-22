@@ -34,7 +34,19 @@ export const CartDrawer = () => {
                 {items.map((item) => (
                   <div key={item.product.id} className="flex gap-4 p-4 bg-secondary/30 rounded-lg">
                     <img
-                      src={item.product.image}
+                      src={(() => {
+                        const url = item.product.image;
+                        if (!url || !url.startsWith('http')) return url;
+                        if (import.meta.env.DEV) {
+                          try {
+                            const urlObj = new URL(url);
+                            return `/api/images${urlObj.pathname}${urlObj.search}`;
+                          } catch {
+                            return url;
+                          }
+                        }
+                        return url;
+                      })()}
                       alt={item.product.name}
                       className="w-20 h-20 object-cover rounded-lg"
                     />

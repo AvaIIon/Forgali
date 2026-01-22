@@ -1,13 +1,27 @@
 import { Link } from "react-router-dom";
 
+// Helper to get proxied image URL
+const getProxiedImage = (url: string): string => {
+  if (!url || !url.startsWith('http')) return url;
+  if (import.meta.env.DEV) {
+    try {
+      const urlObj = new URL(url);
+      return `/api/images${urlObj.pathname}${urlObj.search}`;
+    } catch {
+      return url;
+    }
+  }
+  return url;
+};
+
 // Using a high-quality bunk bed image from the product catalog
 const heroImage = "https://bedsmart.ca/wp-content/uploads/2024/09/cool_20ws__4.jpg";
 
 export const Hero = () => {
   return (
-    <section className="relative w-full h-[500px] overflow-hidden">
+    <section className="relative w-full h-[600px] md:h-[700px] overflow-hidden">
       <img 
-        src={heroImage} 
+        src={getProxiedImage(heroImage)} 
         alt="Premium Solid Wood Bunk Beds" 
         className="w-full h-full object-cover"
       />
@@ -22,7 +36,7 @@ export const Hero = () => {
         <div className="flex flex-wrap gap-3">
           <Link 
             to="/category/bunk-beds" 
-            className="bg-white text-foreground px-6 py-2.5 rounded-full text-sm font-medium border border-foreground hover:bg-gray-100 transition-colors"
+            className="bg-[#f2f4f6] text-foreground px-6 py-2.5 rounded-full text-sm font-medium border border-foreground hover:bg-[#e8eaed] transition-colors"
           >
             Shop Bunk Beds
           </Link>

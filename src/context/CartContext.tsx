@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, ReactNode } from "react";
 import { Product } from "@/data/products";
+import { isShopifyConfigured } from "@/services/shopifyService";
 
 interface CartItem {
   product: Product;

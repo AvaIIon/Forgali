@@ -8,9 +8,9 @@ const LovableLogo = ({ className = "w-10 h-10" }: { className?: string }) => {
     >
       <defs>
         <linearGradient id="logoGradient" x1="20%" y1="0%" x2="80%" y2="100%">
-          <stop offset="0%" stopColor="#FF9147" />
-          <stop offset="60%" stopColor="#FF6B8A" />
-          <stop offset="100%" stopColor="#B56EE0" />
+          <stop offset="0%" stopColor="#6B8CA3" />
+          <stop offset="60%" stopColor="#4A647C" />
+          <stop offset="100%" stopColor="#3A5066" />
         </linearGradient>
       </defs>
       <path

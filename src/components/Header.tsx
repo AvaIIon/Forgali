@@ -3,6 +3,8 @@ import { Search, User, ShoppingCart, ChevronDown } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Link } from "react-router-dom";
 import { useCart } from "@/context/CartContext";
+import { useAdmin } from "@/context/AdminContext";
+import LoginDialog from "@/components/LoginDialog";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -11,11 +13,21 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { LogOut } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const navItems = [
   { 
     label: "Bunk Beds", 
     href: "/category/bunk-beds",
+    image: "https://bedsmart.ca/wp-content/uploads/2022/06/2875.jpg",
     subcategories: [
       { name: "Twin Over Twin Bunk Beds", href: "/category/bunk-beds" },
       { name: "Twin Over Full Bunk Beds", href: "/category/bunk-beds" },
@@ -29,6 +41,7 @@ const navItems = [
   { 
     label: "Loft Beds", 
     href: "/category/loft-beds",
+    image: "https://bedsmart.ca/wp-content/uploads/2024/05/uber-slam-ns__5-1024x1024.jpg",
     subcategories: [
       { name: "Low Loft Beds", href: "/category/loft-beds" },
       { name: "Mid Loft Beds", href: "/category/loft-beds" },
@@ -40,6 +53,7 @@ const navItems = [
   { 
     label: "Single Beds", 
     href: "/category/single-beds",
+    image: "https://bedsmart.ca/wp-content/uploads/2016/11/2075_20001__3_900x.webp",
     subcategories: [
       { name: "Twin Beds", href: "/category/single-beds" },
       { name: "Full Beds", href: "/category/single-beds" },
@@ -51,6 +65,7 @@ const navItems = [
   { 
     label: "Storage & Accessories", 
     href: "/category/accessories",
+    image: "https://bedsmart.ca/wp-content/uploads/2025/11/200006-002__2.jpg",
     subcategories: [
       { name: "Under Bed Storage", href: "/category/accessories" },
       { name: "Bed Curtains", href: "/category/accessories" },
@@ -59,12 +74,30 @@ const navItems = [
       { name: "Ladders", href: "/category/accessories" },
     ]
   },
-  { label: "Smart Deals", href: "/", highlight: true },
+  { 
+    label: "Mattresses", 
+    href: "/category/mattresses",
+    image: "https://bedsmart.ca/wp-content/uploads/2017/08/JESS_HYBRIDMATTRESS_DREAM_STAR_BEDDING_BEST_QUALITY_MATTRESS_CANADIAN_78a94e84-5481-4da1-a595-be181f65301f-1024x1024.jpg",
+    subcategories: [
+      { name: "Twin Mattresses", href: "/category/mattresses" },
+      { name: "Full Mattresses", href: "/category/mattresses" },
+      { name: "Queen Mattresses", href: "/category/mattresses" },
+    ]
+  },
+  { label: "Smart Deals", href: "/smart-deals", highlight: true },
 ];
 
 export const Header = () => {
   const { getTotalItems, setIsCartOpen } = useCart();
+  const { isAuthenticated, logout } = useAdmin();
+  const [isLoginDialogOpen, setIsLoginDialogOpen] = useState(false);
   const totalItems = getTotalItems();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+  };
 
   return (
     <header className="w-full">
@@ -106,7 +139,39 @@ export const Header = () => {
                 <ChevronDown className="w-4 h-4" />
               </div>
             </div>
-            <User className="w-5 h-5 text-foreground cursor-pointer" />
+            {isAuthenticated ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <button className="flex items-center justify-center w-10 h-10 rounded-full hover:bg-muted transition-colors">
+                    <User className="w-5 h-5 text-foreground cursor-pointer" />
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-48">
+                  <div className="px-2 py-1.5 text-sm">
+                    <div className="font-medium">Admin</div>
+                    <div className="text-xs text-muted-foreground">Logged in</div>
+                  </div>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem asChild>
+                    <Link to="/admin/dashboard" className="cursor-pointer">
+                      Admin Dashboard
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={handleLogout} className="cursor-pointer">
+                    <LogOut className="w-4 h-4 mr-2" />
+                    Logout
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <button
+                onClick={() => setIsLoginDialogOpen(true)}
+                className="flex items-center justify-center w-10 h-10 rounded-full hover:bg-muted transition-colors"
+              >
+                <User className="w-5 h-5 text-foreground cursor-pointer" />
+              </button>
+            )}
             <button 
               onClick={() => setIsCartOpen(true)} 
               className="relative"
@@ -121,6 +186,9 @@ export const Header = () => {
           </div>
         </div>
       </div>
+      
+      {/* Login Dialog */}
+      <LoginDialog open={isLoginDialogOpen} onOpenChange={setIsLoginDialogOpen} />
       
       {/* Navigation */}
       <nav className="border-b border-border">
@@ -168,17 +236,31 @@ export const Header = () => {
                               </Link>
                             </div>
                             {/* Featured Image */}
-                            <div className="relative rounded-lg overflow-hidden">
-                              <img 
-                                src="https://bedsmart.ca/wp-content/uploads/2022/06/139.jpg"
-                                alt={`Shop ${item.label}`}
-                                className="w-full h-full object-cover"
-                              />
-                              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                              <div className="absolute bottom-4 left-4 text-white">
-                                <p className="font-semibold">Shop {item.label}</p>
+                            {item.image && (
+                              <div className="relative rounded-lg overflow-hidden">
+                                <img 
+                                  src={(() => {
+                                    const url = item.image;
+                                    if (!url || !url.startsWith('http')) return url;
+                                    if (import.meta.env.DEV) {
+                                      try {
+                                        const urlObj = new URL(url);
+                                        return `/api/images${urlObj.pathname}${urlObj.search}`;
+                                      } catch {
+                                        return url;
+                                      }
+                                    }
+                                    return url;
+                                  })()}
+                                  alt={`Shop ${item.label}`}
+                                  className="w-full h-full object-cover"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                                <div className="absolute bottom-4 left-4 text-white">
+                                  <p className="font-semibold">Shop {item.label}</p>
+                                </div>
                               </div>
-                            </div>
+                            )}
                           </div>
                         </div>
                       </NavigationMenuContent>

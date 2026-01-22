@@ -1,5 +1,19 @@
 import { Link } from "react-router-dom";
 
+// Helper to get proxied image URL
+const getProxiedImage = (url: string): string => {
+  if (!url || !url.startsWith('http')) return url;
+  if (import.meta.env.DEV) {
+    try {
+      const urlObj = new URL(url);
+      return `/api/images${urlObj.pathname}${urlObj.search}`;
+    } catch {
+      return url;
+    }
+  }
+  return url;
+};
+
 const categories = [
   {
     name: "Bunk Beds",
@@ -14,18 +28,18 @@ const categories = [
   {
     name: "Single Beds",
     href: "/category/single-beds",
-    image: "https://bedsmart.ca/wp-content/uploads/2025/11/185237-179__1.jpg",
+    image: "https://bedsmart.ca/wp-content/uploads/2016/11/2075_20001__3_900x.webp",
   },
   {
-    name: "Accessories",
+    name: "Storage & Accessories",
     href: "/category/accessories",
-    image: "https://bedsmart.ca/wp-content/uploads/2022/06/2287.jpg",
+    image: "https://bedsmart.ca/wp-content/uploads/2025/11/200006-002__2.jpg",
   },
 ];
 
 export const FeaturedCategories = () => {
   return (
-    <section className="py-16 px-4 bg-secondary/30">
+    <section className="py-16 px-4 bg-[#f2f4f6]/30">
       <div className="max-w-7xl mx-auto">
         <h2 className="text-3xl font-bold text-center mb-12">Shop By Category</h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
@@ -35,9 +49,9 @@ export const FeaturedCategories = () => {
               to={category.href}
               className="group"
             >
-              <div className="relative aspect-square rounded-2xl overflow-hidden bg-white">
+              <div className="relative aspect-square rounded-2xl overflow-hidden bg-[#f2f4f6]">
                 <img 
-                  src={category.image} 
+                  src={getProxiedImage(category.image)} 
                   alt={category.name}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />

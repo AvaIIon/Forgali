@@ -1,11 +1,25 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 
+// Helper to get proxied image URL
+const getProxiedImage = (url: string): string => {
+  if (!url || !url.startsWith('http')) return url;
+  if (import.meta.env.DEV) {
+    try {
+      const urlObj = new URL(url);
+      return `/api/images${urlObj.pathname}${urlObj.search}`;
+    } catch {
+      return url;
+    }
+  }
+  return url;
+};
+
 export const PromoBanner = () => {
   return (
     <section className="relative h-[400px] md:h-[500px] overflow-hidden">
       <img 
-        src="https://bedsmart.ca/wp-content/uploads/2022/06/max-and-lily-twin-over-twin-bunk-bed-with-trundle-in-natural.jpg"
+        src={getProxiedImage("https://bedsmart.ca/wp-content/uploads/2022/06/max-and-lily-twin-over-twin-bunk-bed-with-trundle-in-natural.jpg")}
         alt="Sale Banner"
         className="absolute inset-0 w-full h-full object-cover"
       />
@@ -24,7 +38,7 @@ export const PromoBanner = () => {
           </p>
           <div className="flex gap-4 mt-6">
             <Link to="/category/bunk-beds">
-              <Button size="lg" className="bg-white text-foreground hover:bg-white/90">
+              <Button size="lg" className="bg-[#f2f4f6] text-foreground hover:bg-[#f2f4f6]/90">
                 Shop Sale
               </Button>
             </Link>

@@ -3,11 +3,25 @@ import { useParams, Link } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Star, Check, Truck, Shield, CreditCard, ChevronDown, ChevronUp, Minus, Plus } from "lucide-react";
-import { products, getProductById, getRelatedProducts } from "@/data/products";
+import { getProducts, getProductById, getRelatedProducts } from "@/data/products";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { useCart } from "@/context/CartContext";
 import { useToast } from "@/hooks/use-toast";
+
+// Helper to get proxied image URL
+const getProxiedImage = (url: string): string => {
+  if (!url || !url.startsWith('http')) return url;
+  if (import.meta.env.DEV) {
+    try {
+      const urlObj = new URL(url);
+      return `/api/images${urlObj.pathname}${urlObj.search}`;
+    } catch {
+      return url;
+    }
+  }
+  return url;
+};
 
 const ProductPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -17,8 +31,55 @@ const ProductPage = () => {
   const [selectedImage, setSelectedImage] = useState(0);
   const [selectedFinish, setSelectedFinish] = useState(0);
   const [quantity, setQuantity] = useState(1);
+  const [imageErrors, setImageErrors] = useState<Set<number>>(new Set());
   const { addToCart } = useCart();
   const { toast } = useToast();
+  
+  const handleImageError = (index: number) => {
+    setImageErrors(prev => new Set([...prev, index]));
+  };
+  
+  // Get images for the selected finish (filter images that match the finish name in URL)
+  const getFinishImages = () => {
+    if (!product || !product.finishes || product.finishes.length === 0) {
+      return product.images || [product.image];
+    }
+    
+    const selectedFinishName = product.finishes[selectedFinish];
+    const finishLower = selectedFinishName.toLowerCase();
+    
+    // Try to find images that match the finish (check if finish name appears in image URL)
+    const matchingImages = product.images.filter(img => {
+      const imgLower = img.toLowerCase();
+      return imgLower.includes(finishLower.replace(/[^a-z0-9]/g, '')) || 
+             imgLower.includes(finishLower.replace(/\s+/g, '-')) ||
+             imgLower.includes(finishLower.replace(/\s+/g, '_'));
+    });
+    
+    // If we found matching images, use those, otherwise use all images
+    return matchingImages.length > 0 ? matchingImages : product.images;
+  };
+  
+  const finishImages = getFinishImages();
+  
+  const getImageSrc = (index: number) => {
+    if (!product) return '';
+    let src = '';
+    const images = finishImages;
+    if (imageErrors.has(index) && images && images.length > index + 1) {
+      // Try next image in array
+      src = images[index + 1] || images[0] || product.image;
+    } else {
+      src = images[index] || images[0] || product.image;
+    }
+    return getProxiedImage(src);
+  };
+  
+  // Reset selected image when finish changes
+  const handleFinishChange = (index: number) => {
+    setSelectedFinish(index);
+    setSelectedImage(0); // Reset to first image when finish changes
+  };
 
   const handleAddToCart = () => {
     if (product) {
@@ -48,11 +109,11 @@ const ProductPage = () => {
     : 0;
 
   const finishColors: Record<string, string> = {
-    "White": "#FFFFFF",
+    "White": "#f2f4f6",
     "Grey": "#808080",
     "Natural": "#D4A574",
     "Espresso": "#3C1414",
-    "Blue": "#4A90A4",
+    "Blue": "#4A647C",
     "Pecan": "#C19A6B",
     "Walnut": "#5C4033",
     "Clay": "#C9B8A8",
@@ -62,9 +123,9 @@ const ProductPage = () => {
     "Barnwood Brown": "#8B7355",
     "White/Pecan": "#F5E6D3",
     "White/Walnut": "#E8DED0",
-    "Grey/Pink": "#D4A5A5",
+    "Grey/Pink": "#7A9BA8",
     "Blue/Grey": "#7A9BA8",
-    "Pink/Grey": "#D4A5B5",
+    "Pink/Grey": "#7A9BA8",
     "Purple/Grey": "#A89BC9",
   };
 
@@ -94,24 +155,32 @@ const ProductPage = () => {
             {/* Main Image */}
             <div className="aspect-square rounded-lg overflow-hidden bg-secondary">
               <img 
-                src={product.images[selectedImage] || product.image} 
+                src={getImageSrc(selectedImage)} 
                 alt={product.name}
                 className="w-full h-full object-cover"
+                onError={() => handleImageError(selectedImage)}
+                loading="eager"
               />
             </div>
             
             {/* Thumbnail Gallery */}
-            {product.images.length > 1 && (
+            {finishImages.length > 1 && (
               <div className="flex gap-3 overflow-x-auto pb-2">
-                {product.images.map((img, index) => (
+                {finishImages.map((img, index) => (
                   <button
                     key={index}
                     onClick={() => setSelectedImage(index)}
                     className={`flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 transition-colors ${
-                      selectedImage === index ? "border-[#4A90A4]" : "border-transparent"
+                      selectedImage === index ? "border-[#4A647C]" : "border-transparent"
                     }`}
                   >
-                    <img src={img} alt={`${product.name} view ${index + 1}`} className="w-full h-full object-cover" />
+                    <img 
+                      src={getProxiedImage(imageErrors.has(index) ? finishImages[index + 1] || finishImages[0] || product.image : img)} 
+                      alt={`${product.name} ${product.finishes?.[selectedFinish]} view ${index + 1}`} 
+                      className="w-full h-full object-cover"
+                      onError={() => handleImageError(index)}
+                      loading="lazy"
+                    />
                   </button>
                 ))}
               </div>
@@ -178,10 +247,10 @@ const ProductPage = () => {
                   {product.finishes.map((finish, index) => (
                     <button
                       key={index}
-                      onClick={() => setSelectedFinish(index)}
+                      onClick={() => handleFinishChange(index)}
                       className={`w-10 h-10 rounded-full border-2 transition-all ${
                         selectedFinish === index 
-                          ? "border-[#4A90A4] ring-2 ring-[#4A90A4] ring-offset-2" 
+                          ? "border-[#4A647C] ring-2 ring-[#4A647C] ring-offset-2" 
                           : "border-border hover:border-muted-foreground"
                       }`}
                       style={{ backgroundColor: finishColors[finish] || "#CCCCCC" }}
@@ -189,6 +258,11 @@ const ProductPage = () => {
                     />
                   ))}
                 </div>
+                {finishImages.length < product.images.length && (
+                  <p className="text-xs text-muted-foreground">
+                    Showing {finishImages.length} of {product.images.length} images for {product.finishes[selectedFinish]}
+                  </p>
+                )}
               </div>
             )}
 
@@ -230,19 +304,19 @@ const ProductPage = () => {
             <div className="grid grid-cols-3 gap-4 pt-4 border-t border-border">
               <div className="text-center space-y-2">
                 <div className="w-12 h-12 mx-auto bg-secondary rounded-full flex items-center justify-center">
-                  <Truck className="w-6 h-6 text-[#4A90A4]" />
+                  <Truck className="w-6 h-6 text-[#4A647C]" />
                 </div>
                 <p className="text-xs font-medium">Fast Shipping</p>
               </div>
               <div className="text-center space-y-2">
                 <div className="w-12 h-12 mx-auto bg-secondary rounded-full flex items-center justify-center">
-                  <Shield className="w-6 h-6 text-[#4A90A4]" />
+                  <Shield className="w-6 h-6 text-[#4A647C]" />
                 </div>
                 <p className="text-xs font-medium">100% Solid Wood</p>
               </div>
               <div className="text-center space-y-2">
                 <div className="w-12 h-12 mx-auto bg-secondary rounded-full flex items-center justify-center">
-                  <CreditCard className="w-6 h-6 text-[#4A90A4]" />
+                  <CreditCard className="w-6 h-6 text-[#4A647C]" />
                 </div>
                 <p className="text-xs font-medium">Easy Financing</p>
               </div>
@@ -255,11 +329,11 @@ const ProductPage = () => {
                 <AccordionContent className="space-y-4">
                   <div className="grid grid-cols-2 gap-4">
                     <div className="bg-secondary/50 p-4 rounded-lg text-center">
-                      <p className="text-2xl font-bold text-[#4A90A4]">400 lbs</p>
+                      <p className="text-2xl font-bold text-[#4A647C]">400 lbs</p>
                       <p className="text-sm text-muted-foreground">Weight Capacity</p>
                     </div>
                     <div className="bg-secondary/50 p-4 rounded-lg text-center">
-                      <p className="text-2xl font-bold text-[#4A90A4]">Solid Pine</p>
+                      <p className="text-2xl font-bold text-[#4A647C]">Solid Pine</p>
                       <p className="text-sm text-muted-foreground">Wood Type</p>
                     </div>
                   </div>
@@ -333,14 +407,15 @@ const ProductPage = () => {
                   to={`/product/${relatedProduct.id}`}
                   className="group"
                 >
-                  <div className="aspect-square rounded-lg overflow-hidden bg-white mb-3">
+                  <div className="aspect-square rounded-lg overflow-hidden bg-[#f2f4f6] mb-3">
                     <img 
-                      src={relatedProduct.image} 
+                      src={getProxiedImage(relatedProduct.image)} 
                       alt={relatedProduct.name}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      loading="lazy"
                     />
                   </div>
-                  <h3 className="font-medium text-sm line-clamp-2 group-hover:text-[#4A90A4] transition-colors">
+                  <h3 className="font-medium text-sm line-clamp-2 group-hover:text-[#4A647C] transition-colors">
                     {relatedProduct.name}
                   </h3>
                   <p className="text-[#2D8B6F] font-bold mt-1">

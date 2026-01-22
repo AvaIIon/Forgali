@@ -13,7 +13,7 @@
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 15%;
 
-    --primary: 340 82% 52%;
+    --primary: 209 25% 39%;
     --primary-foreground: 0 0% 100%;
 
     --secondary: 0 0% 96%;
@@ -22,7 +22,7 @@
     --muted: 0 0% 96%;
     --muted-foreground: 0 0% 45%;
 
-    --accent: 340 82% 52%;
+    --accent: 209 25% 39%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
@@ -30,7 +30,7 @@
 
     --border: 0 0% 90%;
     --input: 0 0% 90%;
-    --ring: 340 82% 52%;
+    --ring: 209 25% 39%;
 
     --radius: 0.5rem;
     
@@ -41,9 +41,9 @@
     --chart-5: 27 87% 67%;
 
     /* KidKraft brand colors */
-    --kidkraft-pink: 340 82% 52%;
-    --kidkraft-pink-light: 340 82% 95%;
-    --kidkraft-pink-dark: 340 82% 45%;
+    --kidkraft-pink: 209 25% 39%;
+    --kidkraft-pink-light: 209 25% 95%;
+    --kidkraft-pink-dark: 209 25% 30%;
     --kidkraft-coral: 8 82% 56%;
     --kidkraft-teal: 175 60% 45%;
     --kidkraft-gray: 0 0% 96%;
@@ -51,7 +51,7 @@
     --kidkraft-text-light: 0 0% 55%;
     
     --link-color: 0 0% 30%;
-    --link-hover: 340 82% 52%;
+    --link-hover: 209 25% 39%;
   }
 
   .dark {
@@ -64,7 +64,7 @@
     --popover: 0 0% 12%;
     --popover-foreground: 0 0% 95%;
 
-    --primary: 340 82% 55%;
+    --primary: 209 25% 42%;
     --primary-foreground: 0 0% 100%;
 
     --secondary: 0 0% 15%;
@@ -81,7 +81,7 @@
 
     --border: 0 0% 20%;
     --input: 0 0% 20%;
-    --ring: 340 82% 55%;
+    --ring: 209 25% 42%;
   }
 }
 
@@ -131,4 +131,14 @@
   border-radius: 4px;
   font-size: 12px;
   font-weight: 600;
+}
+
+/* Scrollbar hide utility */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }

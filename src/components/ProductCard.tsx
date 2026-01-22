@@ -1,4 +1,5 @@
 import { Star, Heart } from "lucide-react";
+import { useState } from "react";
 
 interface ProductCardProps {
   name: string;
@@ -10,6 +11,20 @@ interface ProductCardProps {
   image: string;
   badge?: "new" | "bestseller";
 }
+
+// Helper to get proxied image URL
+const getProxiedImage = (url: string): string => {
+  if (!url || !url.startsWith('http')) return url;
+  if (import.meta.env.DEV) {
+    try {
+      const urlObj = new URL(url);
+      return `/api/images${urlObj.pathname}${urlObj.search}`;
+    } catch {
+      return url;
+    }
+  }
+  return url;
+};
 
 export const ProductCard = ({
   name,
@@ -23,6 +38,15 @@ export const ProductCard = ({
 }: ProductCardProps) => {
   const fullStars = Math.floor(rating);
   const hasHalfStar = rating % 1 >= 0.5;
+  const [imageError, setImageError] = useState(false);
+  const [imageSrc, setImageSrc] = useState(getProxiedImage(image));
+  
+  const handleImageError = () => {
+    if (!imageError) {
+      setImageSrc(getProxiedImage('https://bedsmart.ca/wp-content/uploads/placeholder.jpg'));
+      setImageError(true);
+    }
+  };
   
   return (
     <div className="group">
@@ -38,13 +62,15 @@ export const ProductCard = ({
         {badge === "bestseller" && (
           <span className="absolute top-3 left-3 bestseller-badge">BEST SELLER</span>
         )}
-        <button className="absolute top-3 right-3 w-8 h-8 rounded-full bg-white shadow-md flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+        <button className="absolute top-3 right-3 w-8 h-8 rounded-full bg-[#f2f4f6] shadow-md flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
           <Heart className="w-4 h-4 text-foreground" />
         </button>
         <img 
-          src={image} 
+          src={imageSrc} 
           alt={name}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+          onError={handleImageError}
+          loading="lazy"
         />
       </div>
       

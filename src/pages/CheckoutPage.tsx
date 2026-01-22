@@ -8,6 +8,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Lock, CreditCard, Truck, ChevronLeft } from "lucide-react";
+import { ShopifyCheckoutButton } from "@/components/ShopifyCheckoutButton";
+import { isShopifyConfigured } from "@/services/shopifyService";
 
 const CheckoutPage = () => {
   const { items, getTotalPrice, clearCart } = useCart();
@@ -144,15 +146,19 @@ const CheckoutPage = () => {
               </div>
             </div>
 
-            <Button 
-              className="w-full bg-[#2D8B6F] hover:bg-[#247558] text-white py-6 text-lg font-semibold"
-              onClick={() => {
-                alert("Order placed successfully! Thank you for your purchase.");
-                clearCart();
-              }}
-            >
-              Complete Order - ${total.toLocaleString(undefined, { minimumFractionDigits: 2 })}
-            </Button>
+            {isShopifyConfigured() ? (
+              <ShopifyCheckoutButton className="w-full bg-[#4A647C] hover:bg-[#3A5066] text-white py-6 text-lg font-semibold" />
+            ) : (
+              <Button 
+                className="w-full bg-[#4A647C] hover:bg-[#3A5066] text-white py-6 text-lg font-semibold"
+                onClick={() => {
+                  alert("Order placed successfully! Thank you for your purchase.");
+                  clearCart();
+                }}
+              >
+                Complete Order - ${total.toLocaleString(undefined, { minimumFractionDigits: 2 })}
+              </Button>
+            )}
           </div>
 
           {/* Right - Order Summary */}
