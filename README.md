@@ -62,7 +62,39 @@ This project is built with:
 
 ## How can I deploy this project?
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+### Deploy to Vercel (Recommended)
+
+1. **Sign up/Login to Vercel**
+   - Go to [vercel.com](https://vercel.com)
+   - Sign in with your GitHub account
+
+2. **Import Your Repository**
+   - Click "New Project" in your Vercel dashboard
+   - Import your GitHub repository: `AvaIIon/Forgali` (or `AvaIIon/lily-max-replica-64828607`)
+   - Vercel will auto-detect it's a Vite project
+
+3. **Configure Environment Variables**
+   - In the project settings, go to "Environment Variables"
+   - Add these variables:
+     ```
+     VITE_SHOPIFY_STORE_DOMAIN=kjrq9s-yp.myshopify.com
+     VITE_SHOPIFY_STOREFRONT_ACCESS_TOKEN=8fd74f31580d531ab2ef3aa832c11d2b
+     ```
+   - Make sure to add them for **Production**, **Preview**, and **Development** environments
+
+4. **Deploy**
+   - Click "Deploy"
+   - Your site will be live in minutes!
+
+5. **Custom Domain (Optional)**
+   - Go to Project Settings > Domains
+   - Add your custom domain
+   - Follow Vercel's DNS configuration instructions
+
+### Other Deployment Options
+
+- **Lovable**: Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+- **Netlify**: Similar process - import repo, add environment variables, deploy
 
 ## Can I connect a custom domain to my Lovable project?
 
