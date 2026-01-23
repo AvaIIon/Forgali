@@ -45,7 +45,19 @@ export const ShopifyCheckoutButton = ({ className, children }: ShopifyCheckoutBu
       }
     } catch (error) {
       console.error('Error creating Shopify checkout:', error);
-      alert('There was an error processing your checkout. Please make sure your products are synced with Shopify and try again.');
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+      
+      // Show more helpful error message
+      if (errorMessage.includes('401') || errorMessage.includes('Authentication')) {
+        alert('Shopify authentication failed. Please check your environment variables in Vercel:\n\n' +
+          '1. Go to your Vercel project settings\n' +
+          '2. Navigate to Environment Variables\n' +
+          '3. Ensure VITE_SHOPIFY_STORE_DOMAIN and VITE_SHOPIFY_STOREFRONT_ACCESS_TOKEN are set\n' +
+          '4. Redeploy your application\n\n' +
+          'Error details: ' + errorMessage);
+      } else {
+        alert('There was an error processing your checkout:\n\n' + errorMessage);
+      }
     } finally {
       setIsLoading(false);
     }

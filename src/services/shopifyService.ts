@@ -9,6 +9,16 @@ const API_VERSION = '2024-01';
 
 const SHOPIFY_API_URL = `https://${SHOPIFY_STORE_DOMAIN}/api/${API_VERSION}/graphql.json`;
 
+// Debug logging in development
+if (import.meta.env.DEV) {
+  console.log('Shopify Configuration:', {
+    storeDomain: SHOPIFY_STORE_DOMAIN ? `${SHOPIFY_STORE_DOMAIN.substring(0, 10)}...` : 'NOT SET',
+    hasToken: !!STOREFRONT_ACCESS_TOKEN,
+    tokenLength: STOREFRONT_ACCESS_TOKEN?.length || 0,
+    apiUrl: SHOPIFY_API_URL,
+  });
+}
+
 // GraphQL query to fetch products
 const PRODUCTS_QUERY = `
   query getProducts($first: Int!, $after: String) {
@@ -185,6 +195,36 @@ async function shopifyFetch<T>(query: string, variables?: Record<string, any>): 
     },
     body: JSON.stringify({ query, variables }),
   });
+
+  // Check HTTP status before parsing JSON
+  if (!response.ok) {
+    let errorMessage = `Shopify API Error: HTTP ${response.status}`;
+    
+    if (response.status === 401) {
+      errorMessage = 'Shopify API Authentication Failed (401). Please check:\n' +
+        '1. Your Storefront API access token is correct\n' +
+        '2. Environment variables are set in Vercel (VITE_SHOPIFY_STORE_DOMAIN and VITE_SHOPIFY_STOREFRONT_ACCESS_TOKEN)\n' +
+        '3. The token has the required scopes: unauthenticated_read_product_listings, unauthenticated_write_checkouts, unauthenticated_read_checkouts\n' +
+        '4. The store domain is correct (format: your-store.myshopify.com)';
+    } else if (response.status === 403) {
+      errorMessage = 'Shopify API Forbidden (403). The access token may not have the required permissions.';
+    } else if (response.status === 404) {
+      errorMessage = 'Shopify API Not Found (404). Check that your store domain is correct.';
+    }
+    
+    // Try to get error details from response body
+    try {
+      const errorData = await response.json();
+      if (errorData.errors && Array.isArray(errorData.errors)) {
+        errorMessage += '\n' + errorData.errors.map((e: any) => e.message || JSON.stringify(e)).join(', ');
+      }
+    } catch {
+      // If response isn't JSON, use status text
+      errorMessage += ` - ${response.statusText}`;
+    }
+    
+    throw new Error(errorMessage);
+  }
 
   const result: ShopifyResponse<T> = await response.json();
 
