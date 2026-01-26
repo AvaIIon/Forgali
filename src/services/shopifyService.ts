@@ -206,6 +206,13 @@ async function shopifyFetch<T>(query: string, variables?: Record<string, any>): 
         '2. Environment variables are set in Vercel (VITE_SHOPIFY_STORE_DOMAIN and VITE_SHOPIFY_STOREFRONT_ACCESS_TOKEN)\n' +
         '3. The token has the required scopes: unauthenticated_read_product_listings, unauthenticated_write_checkouts, unauthenticated_read_checkouts\n' +
         '4. The store domain is correct (format: your-store.myshopify.com)';
+    } else if (response.status === 402) {
+      errorMessage = 'Shopify Store Unavailable (402). Your Shopify store needs to be activated:\n' +
+        '1. Go to your Shopify Admin: https://' + SHOPIFY_STORE_DOMAIN + '/admin\n' +
+        '2. Complete your store setup if you see a setup wizard\n' +
+        '3. If your trial expired, choose a Shopify plan (Basic Shopify, Shopify, etc.)\n' +
+        '4. If your store is paused, reactivate it in Settings → Plan\n' +
+        '5. Once your store is active, try checkout again';
     } else if (response.status === 403) {
       errorMessage = 'Shopify API Forbidden (403). The access token may not have the required permissions.';
     } else if (response.status === 404) {

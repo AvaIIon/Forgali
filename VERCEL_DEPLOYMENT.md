@@ -1,6 +1,25 @@
-# Vercel Deployment Guide - Fixing 401 Shopify Errors
+# Vercel Deployment Guide - Fixing Shopify Errors
 
-## Common Issue: 401 Unauthorized Error
+## Common Issues
+
+### Issue 1: 402 Unavailable Shop Error
+
+If you're seeing `402` errors with message "Unavailable Shop", it means your Shopify store is not active. This usually happens when:
+- Your Shopify trial has expired
+- Your store is paused
+- Your store needs to be activated
+
+**How to Fix:**
+1. Go to your Shopify Admin: https://kjrq9s-yp.myshopify.com/admin
+2. If you see a setup wizard, complete it
+3. If your trial expired, you'll need to choose a Shopify plan:
+   - Go to Settings → Plan
+   - Choose a plan (Basic Shopify, Shopify, Advanced Shopify, etc.)
+   - Complete the payment setup
+4. If your store is paused, click "Reactivate store" in Settings → Plan
+5. Once your store is active, try checkout again
+
+### Issue 2: 401 Unauthorized Error
 
 If you're seeing `401` errors when trying to checkout, it means your Shopify credentials aren't configured correctly in Vercel.
 

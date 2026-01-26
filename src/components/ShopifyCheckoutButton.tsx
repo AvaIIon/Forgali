@@ -47,8 +47,15 @@ export const ShopifyCheckoutButton = ({ className, children }: ShopifyCheckoutBu
       console.error('Error creating Shopify checkout:', error);
       const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
       
-      // Show more helpful error message
-      if (errorMessage.includes('401') || errorMessage.includes('Authentication')) {
+      // Show more helpful error message based on error type
+      if (errorMessage.includes('402') || errorMessage.includes('Unavailable Shop')) {
+        alert('Your Shopify store is currently unavailable. Please:\n\n' +
+          '1. Go to your Shopify Admin and complete store setup\n' +
+          '2. If your trial expired, choose a Shopify plan\n' +
+          '3. If your store is paused, reactivate it\n' +
+          '4. Once active, try checkout again\n\n' +
+          'Error: ' + errorMessage);
+      } else if (errorMessage.includes('401') || errorMessage.includes('Authentication')) {
         alert('Shopify authentication failed. Please check your environment variables in Vercel:\n\n' +
           '1. Go to your Vercel project settings\n' +
           '2. Navigate to Environment Variables\n' +
