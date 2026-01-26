@@ -271,12 +271,6 @@ const ProductPage = () => {
               )}
             </div>
 
-            {/* Financing Options */}
-            <div className="bg-secondary/50 rounded-lg p-4 space-y-2">
-              <p className="text-sm text-muted-foreground">
-                Starting at $83/mo with <span className="font-semibold">Affirm</span>. Check your purchasing power.
-              </p>
-            </div>
 
             {/* Finish Selector */}
             {product.finishes && product.finishes.length > 0 && (
