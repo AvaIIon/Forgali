@@ -37,12 +37,12 @@ const ProductPage = () => {
     
     // Map finish names to common codes/patterns found in image URLs
     const finishCodeMap: Record<string, string[]> = {
-      'white': ['002', 'white', 'ws', 'w'],
-      'clay': ['151', 'clay', 'cs'],
-      'natural': ['natural', 'ns', 'n'],
-      'espresso': ['espresso', '182', 'e'],
-      'grey': ['grey', 'gray', 'g'],
-      'chestnut': ['chestnut', 'ch'],
+      'white': ['002', 'white', 'ws', 'w', 'wh'],
+      'clay': ['151', 'clay', 'cs', 'cl'],
+      'natural': ['natural', 'ns', 'n', 'nat'],
+      'espresso': ['espresso', '182', 'e', 'esp'],
+      'grey': ['grey', 'gray', 'g', 'gr', 'gy'],
+      'chestnut': ['chestnut', 'ch', 'chest', '8b4513'], // Added more patterns for chestnut
       'blue': ['blue', 'b'],
     };
     
@@ -56,14 +56,19 @@ const ProductPage = () => {
       
       // Strategy 1: Check for finish codes in filename (e.g., "18-801-002" or "18-801-151")
       for (const code of finishCodes) {
-        // Match pattern like "18-801-002" or "-002-" or "-002__"
-        if (imgPath.includes(`-${code}-`) || imgPath.includes(`-${code}__`) || imgPath.includes(`_${code}_`)) {
+        // Match pattern like "18-801-002" or "-002-" or "-002__" or "002" anywhere
+        if (imgPath.includes(`-${code}-`) || 
+            imgPath.includes(`-${code}__`) || 
+            imgPath.includes(`_${code}_`) ||
+            imgPath.includes(`-${code}.`) ||
+            imgPath.includes(`_${code}.`)) {
           return true;
         }
       }
       
       // Strategy 2: Check if finish name appears in URL (with variations)
-      if (imgLower.includes(finishLower.replace(/[^a-z0-9]/g, '')) || 
+      const finishNameClean = finishLower.replace(/[^a-z0-9]/g, '');
+      if (imgLower.includes(finishNameClean) || 
           imgLower.includes(finishLower.replace(/\s+/g, '-')) ||
           imgLower.includes(finishLower.replace(/\s+/g, '_'))) {
         return true;
@@ -73,14 +78,19 @@ const ProductPage = () => {
       const colorAbbr: Record<string, string[]> = {
         'white': ['ws', 'w', 'wh'],
         'clay': ['cs', 'cl'],
-        'natural': ['ns', 'nat'],
-        'espresso': ['esp'],
-        'grey': ['gr', 'gy'],
+        'natural': ['ns', 'nat', 'n'],
+        'espresso': ['esp', 'e'],
+        'grey': ['gr', 'gy', 'g'],
+        'chestnut': ['ch', 'chest', 'cs'], // Added chestnut abbreviations
       };
       
       const abbrs = colorAbbr[finishLower] || [];
       for (const abbr of abbrs) {
-        if (imgPath.includes(`_${abbr}_`) || imgPath.includes(`-${abbr}-`) || imgPath.includes(`${abbr}__`)) {
+        if (imgPath.includes(`_${abbr}_`) || 
+            imgPath.includes(`-${abbr}-`) || 
+            imgPath.includes(`${abbr}__`) ||
+            imgPath.includes(`-${abbr}.`) ||
+            imgPath.includes(`_${abbr}.`)) {
           return true;
         }
       }
@@ -99,10 +109,33 @@ const ProductPage = () => {
       const imagesPerFinish = Math.ceil(product.images.length / product.finishes.length);
       const startIndex = selectedFinish * imagesPerFinish;
       const endIndex = Math.min(startIndex + imagesPerFinish, product.images.length);
-      return product.images.slice(startIndex, endIndex);
+      const dividedImages = product.images.slice(startIndex, endIndex);
+      
+      // Only use divided images if we got at least one image
+      if (dividedImages.length > 0) {
+        return dividedImages;
+      }
     }
     
-    // Fallback: return all images
+    // Strategy 5: For products with 3 finishes (Natural, White, Chestnut), 
+    // try to intelligently group images - typically last third might be chestnut
+    if (product.finishes.length === 3 && 
+        product.finishes.includes('Natural') && 
+        product.finishes.includes('White') && 
+        product.finishes.includes('Chestnut') &&
+        product.images.length >= 3) {
+      const thirdSize = Math.floor(product.images.length / 3);
+      if (selectedFinish === 2) { // Chestnut is typically third (index 2)
+        // Return last third of images
+        return product.images.slice(thirdSize * 2);
+      } else if (selectedFinish === 0) { // Natural is first
+        return product.images.slice(0, thirdSize);
+      } else if (selectedFinish === 1) { // White is middle
+        return product.images.slice(thirdSize, thirdSize * 2);
+      }
+    }
+    
+    // Fallback: return all images if no strategy worked
     return product.images;
   };
   
