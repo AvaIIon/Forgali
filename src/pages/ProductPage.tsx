@@ -26,7 +26,7 @@ const ProductPage = () => {
     setImageErrors(prev => new Set([...prev, index]));
   };
   
-  // Get images for the selected finish (filter images that match the finish name in URL)
+  // Get images for the selected finish (filter images that match the finish)
   const getFinishImages = () => {
     if (!product || !product.finishes || product.finishes.length === 0) {
       return product.images || [product.image];
@@ -35,16 +35,75 @@ const ProductPage = () => {
     const selectedFinishName = product.finishes[selectedFinish];
     const finishLower = selectedFinishName.toLowerCase();
     
-    // Try to find images that match the finish (check if finish name appears in image URL)
+    // Map finish names to common codes/patterns found in image URLs
+    const finishCodeMap: Record<string, string[]> = {
+      'white': ['002', 'white', 'ws', 'w'],
+      'clay': ['151', 'clay', 'cs'],
+      'natural': ['natural', 'ns', 'n'],
+      'espresso': ['espresso', '182', 'e'],
+      'grey': ['grey', 'gray', 'g'],
+      'chestnut': ['chestnut', 'ch'],
+      'blue': ['blue', 'b'],
+    };
+    
+    // Get possible codes for the selected finish
+    const finishCodes = finishCodeMap[finishLower] || [finishLower];
+    
+    // Try multiple matching strategies
     const matchingImages = product.images.filter(img => {
       const imgLower = img.toLowerCase();
-      return imgLower.includes(finishLower.replace(/[^a-z0-9]/g, '')) || 
-             imgLower.includes(finishLower.replace(/\s+/g, '-')) ||
-             imgLower.includes(finishLower.replace(/\s+/g, '_'));
+      const imgPath = img.toLowerCase();
+      
+      // Strategy 1: Check for finish codes in filename (e.g., "18-801-002" or "18-801-151")
+      for (const code of finishCodes) {
+        // Match pattern like "18-801-002" or "-002-" or "-002__"
+        if (imgPath.includes(`-${code}-`) || imgPath.includes(`-${code}__`) || imgPath.includes(`_${code}_`)) {
+          return true;
+        }
+      }
+      
+      // Strategy 2: Check if finish name appears in URL (with variations)
+      if (imgLower.includes(finishLower.replace(/[^a-z0-9]/g, '')) || 
+          imgLower.includes(finishLower.replace(/\s+/g, '-')) ||
+          imgLower.includes(finishLower.replace(/\s+/g, '_'))) {
+        return true;
+      }
+      
+      // Strategy 3: Check for common color abbreviations
+      const colorAbbr: Record<string, string[]> = {
+        'white': ['ws', 'w', 'wh'],
+        'clay': ['cs', 'cl'],
+        'natural': ['ns', 'nat'],
+        'espresso': ['esp'],
+        'grey': ['gr', 'gy'],
+      };
+      
+      const abbrs = colorAbbr[finishLower] || [];
+      for (const abbr of abbrs) {
+        if (imgPath.includes(`_${abbr}_`) || imgPath.includes(`-${abbr}-`) || imgPath.includes(`${abbr}__`)) {
+          return true;
+        }
+      }
+      
+      return false;
     });
     
-    // If we found matching images, use those, otherwise use all images
-    return matchingImages.length > 0 ? matchingImages : product.images;
+    // If we found matching images, use those
+    if (matchingImages.length > 0) {
+      return matchingImages;
+    }
+    
+    // Strategy 4: If no matches, try to divide images evenly by finish count
+    // This assumes images are roughly grouped by finish in the array
+    if (product.finishes.length > 1 && product.images.length > 1) {
+      const imagesPerFinish = Math.ceil(product.images.length / product.finishes.length);
+      const startIndex = selectedFinish * imagesPerFinish;
+      const endIndex = Math.min(startIndex + imagesPerFinish, product.images.length);
+      return product.images.slice(startIndex, endIndex);
+    }
+    
+    // Fallback: return all images
+    return product.images;
   };
   
   const finishImages = getFinishImages();
@@ -214,10 +273,6 @@ const ProductPage = () => {
 
             {/* Financing Options */}
             <div className="bg-secondary/50 rounded-lg p-4 space-y-2">
-              <p className="text-sm">
-                <span className="font-semibold">4 interest-free payments</span> of ${(product.price / 4).toFixed(2)} with{" "}
-                <span className="text-[#5A31F4] font-semibold">Shop Pay</span>
-              </p>
               <p className="text-sm text-muted-foreground">
                 Starting at $83/mo with <span className="font-semibold">Affirm</span>. Check your purchasing power.
               </p>
