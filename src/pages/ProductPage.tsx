@@ -103,7 +103,34 @@ const ProductPage = () => {
       return matchingImages;
     }
     
-    // Strategy 4: If no matches, try to divide images evenly by finish count
+    // Strategy 4: For products with 3 finishes (Natural, White, Chestnut), 
+    // try to intelligently group images - prioritize this before generic division
+    if (product.finishes.length === 3 && 
+        product.finishes.includes('Natural') && 
+        product.finishes.includes('White') && 
+        product.finishes.includes('Chestnut') &&
+        product.images.length >= 3) {
+      const totalImages = product.images.length;
+      const thirdSize = Math.floor(totalImages / 3);
+      const remainder = totalImages % 3;
+      
+      // Distribute remainder images to first finishes
+      let naturalEnd = thirdSize + (remainder >= 1 ? 1 : 0);
+      let whiteStart = naturalEnd;
+      let whiteEnd = whiteStart + thirdSize + (remainder >= 2 ? 1 : 0);
+      let chestnutStart = whiteEnd;
+      
+      if (selectedFinish === 0) { // Natural is first
+        return product.images.slice(0, naturalEnd);
+      } else if (selectedFinish === 1) { // White is middle
+        return product.images.slice(whiteStart, whiteEnd);
+      } else if (selectedFinish === 2) { // Chestnut is third (index 2)
+        // Return remaining images for chestnut
+        return product.images.slice(chestnutStart);
+      }
+    }
+    
+    // Strategy 5: If no matches, try to divide images evenly by finish count
     // This assumes images are roughly grouped by finish in the array
     if (product.finishes.length > 1 && product.images.length > 1) {
       const imagesPerFinish = Math.ceil(product.images.length / product.finishes.length);
@@ -114,24 +141,6 @@ const ProductPage = () => {
       // Only use divided images if we got at least one image
       if (dividedImages.length > 0) {
         return dividedImages;
-      }
-    }
-    
-    // Strategy 5: For products with 3 finishes (Natural, White, Chestnut), 
-    // try to intelligently group images - typically last third might be chestnut
-    if (product.finishes.length === 3 && 
-        product.finishes.includes('Natural') && 
-        product.finishes.includes('White') && 
-        product.finishes.includes('Chestnut') &&
-        product.images.length >= 3) {
-      const thirdSize = Math.floor(product.images.length / 3);
-      if (selectedFinish === 2) { // Chestnut is typically third (index 2)
-        // Return last third of images
-        return product.images.slice(thirdSize * 2);
-      } else if (selectedFinish === 0) { // Natural is first
-        return product.images.slice(0, thirdSize);
-      } else if (selectedFinish === 1) { // White is middle
-        return product.images.slice(thirdSize, thirdSize * 2);
       }
     }
     
