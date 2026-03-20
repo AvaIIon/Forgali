@@ -98,8 +98,10 @@ const ProductPage = () => {
       return false;
     });
     
-    // If we found matching images, use those
-    if (matchingImages.length > 0) {
+    // If we found matching images, use those.
+    // If the match is extremely small (e.g., 1 image), fall back to grouping
+    // because many of the filenames don't contain finish codes reliably.
+    if (matchingImages.length >= 2) {
       return matchingImages;
     }
     
@@ -130,18 +132,24 @@ const ProductPage = () => {
       }
     }
     
-    // Strategy 5: If no matches, try to divide images evenly by finish count
-    // This assumes images are roughly grouped by finish in the array
+    // Strategy 5: If we still didn't get enough matches, distribute images by finish count.
+    // This handles cases like 10 images / 4 finishes where the last finish shouldn't end up with only 1 image.
     if (product.finishes.length > 1 && product.images.length > 1) {
-      const imagesPerFinish = Math.ceil(product.images.length / product.finishes.length);
-      const startIndex = selectedFinish * imagesPerFinish;
-      const endIndex = Math.min(startIndex + imagesPerFinish, product.images.length);
+      const finishesCount = product.finishes.length;
+      const totalImages = product.images.length;
+      const base = Math.floor(totalImages / finishesCount);
+      const remainder = totalImages % finishesCount;
+
+      // Even distribution with remainder:
+      // - first `remainder` finishes get (base + 1) images
+      // - remaining finishes get base images
+      const startIndex =
+        base * selectedFinish + Math.min(selectedFinish, remainder);
+      const size = base + (selectedFinish < remainder ? 1 : 0);
+      const endIndex = Math.min(startIndex + size, product.images.length);
+
       const dividedImages = product.images.slice(startIndex, endIndex);
-      
-      // Only use divided images if we got at least one image
-      if (dividedImages.length > 0) {
-        return dividedImages;
-      }
+      if (dividedImages.length > 0) return dividedImages;
     }
     
     // Fallback: return all images if no strategy worked
@@ -167,6 +175,7 @@ const ProductPage = () => {
   const handleFinishChange = (index: number) => {
     setSelectedFinish(index);
     setSelectedImage(0); // Reset to first image when finish changes
+    setImageErrors(new Set()); // Clear previous thumbnail failure state
   };
 
   const handleAddToCart = () => {
