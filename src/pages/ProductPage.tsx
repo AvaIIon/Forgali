@@ -28,132 +28,33 @@ const ProductPage = () => {
   
   // Get images for the selected finish (filter images that match the finish)
   const getFinishImages = () => {
-    if (!product || !product.finishes || product.finishes.length === 0) {
+    if (!product) return [];
+    if (!product.finishes || product.finishes.length === 0 || product.finishes.length === 1) {
       return product.images || [product.image];
     }
     
-    const selectedFinishName = product.finishes[selectedFinish];
-    const finishLower = selectedFinishName.toLowerCase();
+    // Primary strategy: Divide images evenly by finish count
+    // This is the most reliable approach since most image filenames don't have finish codes
+    const finishesCount = product.finishes.length;
+    const totalImages = product.images.length;
     
-    // Map finish names to common codes/patterns found in image URLs
-    const finishCodeMap: Record<string, string[]> = {
-      'white': ['002', 'white', 'ws', 'w', 'wh'],
-      'clay': ['151', 'clay', 'cs', 'cl'],
-      'natural': ['natural', 'ns', 'n', 'nat'],
-      'espresso': ['espresso', '182', 'e', 'esp'],
-      'grey': ['grey', 'gray', 'g', 'gr', 'gy'],
-      'chestnut': ['chestnut', 'ch', 'chest', '8b4513'], // Added more patterns for chestnut
-      'blue': ['blue', 'b'],
-    };
-    
-    // Get possible codes for the selected finish
-    const finishCodes = finishCodeMap[finishLower] || [finishLower];
-    
-    // Try multiple matching strategies
-    const matchingImages = product.images.filter(img => {
-      const imgLower = img.toLowerCase();
-      const imgPath = img.toLowerCase();
-      
-      // Strategy 1: Check for finish codes in filename (e.g., "18-801-002" or "18-801-151")
-      for (const code of finishCodes) {
-        // Match pattern like "18-801-002" or "-002-" or "-002__" or "002" anywhere
-        if (imgPath.includes(`-${code}-`) || 
-            imgPath.includes(`-${code}__`) || 
-            imgPath.includes(`_${code}_`) ||
-            imgPath.includes(`-${code}.`) ||
-            imgPath.includes(`_${code}.`)) {
-          return true;
-        }
-      }
-      
-      // Strategy 2: Check if finish name appears in URL (with variations)
-      const finishNameClean = finishLower.replace(/[^a-z0-9]/g, '');
-      if (imgLower.includes(finishNameClean) || 
-          imgLower.includes(finishLower.replace(/\s+/g, '-')) ||
-          imgLower.includes(finishLower.replace(/\s+/g, '_'))) {
-        return true;
-      }
-      
-      // Strategy 3: Check for common color abbreviations
-      const colorAbbr: Record<string, string[]> = {
-        'white': ['ws', 'w', 'wh'],
-        'clay': ['cs', 'cl'],
-        'natural': ['ns', 'nat', 'n'],
-        'espresso': ['esp', 'e'],
-        'grey': ['gr', 'gy', 'g'],
-        'chestnut': ['ch', 'chest', 'cs'], // Added chestnut abbreviations
-      };
-      
-      const abbrs = colorAbbr[finishLower] || [];
-      for (const abbr of abbrs) {
-        if (imgPath.includes(`_${abbr}_`) || 
-            imgPath.includes(`-${abbr}-`) || 
-            imgPath.includes(`${abbr}__`) ||
-            imgPath.includes(`-${abbr}.`) ||
-            imgPath.includes(`_${abbr}.`)) {
-          return true;
-        }
-      }
-      
-      return false;
-    });
-    
-    // If we found matching images, use those.
-    // If the match is extremely small (e.g., 1 image), fall back to grouping
-    // because many of the filenames don't contain finish codes reliably.
-    if (matchingImages.length >= 2) {
-      return matchingImages;
+    if (totalImages <= finishesCount) {
+      // If we have fewer images than finishes, just show what we have
+      return product.images;
     }
     
-    // Strategy 4: For products with 3 finishes (Natural, White, Chestnut), 
-    // try to intelligently group images - prioritize this before generic division
-    if (product.finishes.length === 3 && 
-        product.finishes.includes('Natural') && 
-        product.finishes.includes('White') && 
-        product.finishes.includes('Chestnut') &&
-        product.images.length >= 3) {
-      const totalImages = product.images.length;
-      const thirdSize = Math.floor(totalImages / 3);
-      const remainder = totalImages % 3;
-      
-      // Distribute remainder images to first finishes
-      let naturalEnd = thirdSize + (remainder >= 1 ? 1 : 0);
-      let whiteStart = naturalEnd;
-      let whiteEnd = whiteStart + thirdSize + (remainder >= 2 ? 1 : 0);
-      let chestnutStart = whiteEnd;
-      
-      if (selectedFinish === 0) { // Natural is first
-        return product.images.slice(0, naturalEnd);
-      } else if (selectedFinish === 1) { // White is middle
-        return product.images.slice(whiteStart, whiteEnd);
-      } else if (selectedFinish === 2) { // Chestnut is third (index 2)
-        // Return remaining images for chestnut
-        return product.images.slice(chestnutStart);
-      }
-    }
-    
-    // Strategy 5: If we still didn't get enough matches, distribute images by finish count.
-    // This handles cases like 10 images / 4 finishes where the last finish shouldn't end up with only 1 image.
-    if (product.finishes.length > 1 && product.images.length > 1) {
-      const finishesCount = product.finishes.length;
-      const totalImages = product.images.length;
-      const base = Math.floor(totalImages / finishesCount);
-      const remainder = totalImages % finishesCount;
+    const base = Math.floor(totalImages / finishesCount);
+    const remainder = totalImages % finishesCount;
 
-      // Even distribution with remainder:
-      // - first `remainder` finishes get (base + 1) images
-      // - remaining finishes get base images
-      const startIndex =
-        base * selectedFinish + Math.min(selectedFinish, remainder);
-      const size = base + (selectedFinish < remainder ? 1 : 0);
-      const endIndex = Math.min(startIndex + size, product.images.length);
+    // Even distribution with remainder:
+    // First `remainder` finishes get (base + 1) images
+    // Remaining finishes get base images
+    const startIndex = base * selectedFinish + Math.min(selectedFinish, remainder);
+    const size = base + (selectedFinish < remainder ? 1 : 0);
+    const endIndex = Math.min(startIndex + size, totalImages);
 
-      const dividedImages = product.images.slice(startIndex, endIndex);
-      if (dividedImages.length > 0) return dividedImages;
-    }
-    
-    // Fallback: return all images if no strategy worked
-    return product.images;
+    const dividedImages = product.images.slice(startIndex, endIndex);
+    return dividedImages.length > 0 ? dividedImages : product.images;
   };
   
   const finishImages = getFinishImages();
