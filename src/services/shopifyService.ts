@@ -610,21 +610,59 @@ export const getCategoryFromProduct = (product: ShopifyProduct): ProductCategory
   return 'single-beds';
 };
 
-// Helper to get subcategory from tags
+// Known finish/color values to extract from tags
+const FINISH_TAGS = ['white', 'natural', 'espresso', 'chestnut', 'grey', 'gray', 'pecan', 'walnut', 'driftwood', 'clay', 'blue'];
+
+// Helper to extract finishes from product tags
+export const getFinishesFromTags = (tags: string[]): string[] => {
+  const finishes: string[] = [];
+  const lowerTags = tags.map(t => t.toLowerCase());
+  
+  for (const finish of FINISH_TAGS) {
+    if (lowerTags.includes(finish)) {
+      finishes.push(finish.charAt(0).toUpperCase() + finish.slice(1));
+    }
+  }
+  
+  return finishes;
+};
+
+// Helper to get subcategory from tags (matches Shopify tag structure)
 export const getSubcategoryFromProduct = (product: ShopifyProduct): string => {
   const tags = product.tags.map(t => t.toLowerCase());
+  const tagStr = product.tags.join(' ').toLowerCase();
   
-  // Common subcategories
-  if (tags.includes('twin-over-twin')) return 'twin-over-twin';
-  if (tags.includes('twin-over-full')) return 'twin-over-full';
-  if (tags.includes('full-over-full')) return 'full-over-full';
-  if (tags.includes('l-shaped')) return 'l-shaped';
-  if (tags.includes('triple')) return 'triple';
-  if (tags.includes('with-stairs')) return 'with-stairs';
-  if (tags.includes('with-slide')) return 'with-slide';
-  if (tags.includes('high-loft')) return 'high-loft';
-  if (tags.includes('low-loft')) return 'low-loft';
-  if (tags.includes('mid-loft')) return 'mid-loft';
+  // Bunk bed subcategories
+  if (tags.some(t => t.includes('twin over twin') || t === 'twin over twin bunk bed')) return 'twin-over-twin';
+  if (tags.some(t => t.includes('twin over full'))) return 'twin-over-full';
+  if (tags.some(t => t.includes('full over full') || t === 'full over full bunk bed')) return 'full-over-full';
+  if (tags.some(t => t.includes('twin xl over queen'))) return 'twin-xl-over-queen';
+  if (tags.some(t => t.includes('l-shaped') || t.includes('corner loft bunk'))) return 'l-shaped';
+  if (tags.some(t => t.includes('trio') || t.includes('quad') || t.includes('triple'))) return 'multi-bunk';
+  if (tags.some(t => t.includes('low bunk'))) return 'low-bunk';
+  if (tagStr.includes('bunk bed with slide') || tagStr.includes('bunk beds with slides')) return 'with-slide';
+  if (tagStr.includes('bunk bed with stairs') || tagStr.includes('with stairs')) return 'with-stairs';
+  
+  // Loft bed subcategories
+  if (tags.some(t => t === 'low loft bed' || t.includes('low loft'))) return 'low-loft';
+  if (tags.some(t => t === 'mid loft bed' || t.includes('mid loft'))) return 'mid-loft';
+  if (tags.some(t => t === 'high loft bed' || t.includes('high loft') || t.includes('ultra high'))) return 'high-loft';
+  if (tags.some(t => t.includes('corner loft') && !t.includes('bunk'))) return 'corner-loft';
+  if (tagStr.includes('loft beds > play beds') || tagStr.includes('slide')) return 'loft-with-slide';
+  if (tags.some(t => t.includes('desk') || t.includes('all in one'))) return 'loft-with-desk';
+  
+  // Single bed subcategories
+  if (tags.some(t => t.includes('platform'))) return 'platform';
+  if (tags.some(t => t.includes('castle') || t.includes('house'))) return 'house-bed';
+  if (tags.some(t => t.includes('toddler') || t.includes('floor'))) return 'floor-bed';
+  if (tags.some(t => t.includes('traditional'))) return 'traditional';
+  if (tags.some(t => t.includes('trundle'))) return 'trundle-bed';
+  
+  // Accessories subcategories  
+  if (tags.some(t => t.includes('dresser') || t.includes('storage') || t.includes('drawer'))) return 'storage';
+  if (tags.some(t => t.includes('desk'))) return 'desks';
+  if (tags.some(t => t.includes('bookcase') || t.includes('shelf'))) return 'bookcases-shelves';
+  if (tags.some(t => t.includes('nightstand') || t.includes('night stand'))) return 'nightstands';
   
   return '';
 };
@@ -641,6 +679,7 @@ export interface ConvertedProduct {
   images: string[];
   category: ProductCategory;
   subcategory: string;
+  tags: string[];
   colors: string[];
   finishes: string[];
   badge?: "new" | "bestseller" | "sale";
@@ -673,27 +712,37 @@ export const convertShopifyProduct = (shopifyProduct: ShopifyProduct): Converted
     ? parseFloat(firstVariant.compareAtPrice.amount) 
     : undefined;
 
-  // Get all unique finish/color values from variants
-  const finishSet = new Set<string>();
+  // Extract finishes from tags (since products don't have variant options)
+  const finishesFromTags = getFinishesFromTags(shopifyProduct.tags);
+  
+  // Also try to get from variant options if they exist
+  const finishSet = new Set<string>(finishesFromTags);
   const colorSet = new Set<string>();
   
   variants.forEach(variant => {
     variant.selectedOptions.forEach(opt => {
       const name = opt.name.toLowerCase();
       if (name === 'finish' || name === 'wood finish' || name === 'color') {
-        finishSet.add(opt.value);
+        if (opt.value !== 'Default Title') {
+          finishSet.add(opt.value);
+        }
       }
-      if (name === 'color') {
+      if (name === 'color' && opt.value !== 'Default Title') {
         colorSet.add(opt.value);
       }
     });
   });
 
-  // Get options from product
-  const options = shopifyProduct.options?.map(opt => ({
+  // Build options - if products don't have variant options, create from tags
+  let options = shopifyProduct.options?.map(opt => ({
     name: opt.name,
     values: opt.values,
-  })) || [];
+  })).filter(opt => opt.name !== 'Title' || !opt.values.includes('Default Title')) || [];
+  
+  // If no finish option exists but we have finishes from tags, add it
+  if (finishSet.size > 0 && !options.some(o => o.name.toLowerCase() === 'finish' || o.name.toLowerCase() === 'color')) {
+    options = [{ name: 'Finish', values: Array.from(finishSet) }, ...options];
+  }
 
   // Convert variants with their images
   const convertedVariants = variants.map(v => ({
@@ -720,11 +769,12 @@ export const convertShopifyProduct = (shopifyProduct: ShopifyProduct): Converted
     images,
     category,
     subcategory,
+    tags: shopifyProduct.tags, // Include raw tags for filtering
     colors: Array.from(colorSet),
     finishes: Array.from(finishSet),
     badge: originalPrice ? "sale" as const : undefined,
-    rating: 4.5 + Math.random() * 0.5, // Random rating between 4.5-5.0
-    reviews: Math.floor(Math.random() * 200) + 50, // Random reviews 50-250
+    rating: 4.5 + Math.random() * 0.5,
+    reviews: Math.floor(Math.random() * 200) + 50,
     description: shopifyProduct.description,
     descriptionHtml: shopifyProduct.descriptionHtml,
     productUrl: `https://${SHOPIFY_STORE_DOMAIN}/products/${shopifyProduct.handle}`,

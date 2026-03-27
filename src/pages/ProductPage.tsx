@@ -24,14 +24,27 @@ const ProductPage = () => {
   const { addToCart } = useCart();
   const { toast } = useToast();
 
-  // Get the finish/color option if exists
+  // Get finishes - first check options, then fall back to finishes array from tags
   const finishOption = useMemo(() => {
-    if (!product?.options) return null;
-    return product.options.find(opt => 
-      opt.name.toLowerCase() === 'finish' || 
-      opt.name.toLowerCase() === 'color' ||
-      opt.name.toLowerCase() === 'wood finish'
+    if (!product) return null;
+    
+    // Try to find finish option
+    const opt = product.options?.find(o => 
+      o.name.toLowerCase() === 'finish' || 
+      o.name.toLowerCase() === 'color' ||
+      o.name.toLowerCase() === 'wood finish'
     );
+    
+    if (opt && opt.values.length > 0 && !opt.values.includes('Default Title')) {
+      return opt;
+    }
+    
+    // Fall back to finishes extracted from tags
+    if (product.finishes && product.finishes.length > 0) {
+      return { name: 'Finish', values: product.finishes };
+    }
+    
+    return null;
   }, [product]);
 
   const finishes = finishOption?.values || [];

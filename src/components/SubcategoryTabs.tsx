@@ -1,6 +1,6 @@
 import { Link, useParams, useSearchParams } from "react-router-dom";
 
-// Predefined subcategories per category
+// Predefined subcategories per category (matched to Shopify tags)
 const categorySubcategories: Record<string, Array<{ slug: string; name: string }>> = {
   'bunk-beds': [
     { slug: 'twin-over-twin', name: 'Twin Over Twin' },
@@ -10,6 +10,8 @@ const categorySubcategories: Record<string, Array<{ slug: string; name: string }
     { slug: 'l-shaped', name: 'L-Shaped' },
     { slug: 'multi-bunk', name: 'Quad & Triple' },
     { slug: 'low-bunk', name: 'Low Bunk' },
+    { slug: 'with-slide', name: 'With Slide' },
+    { slug: 'with-stairs', name: 'With Stairs' },
   ],
   'loft-beds': [
     { slug: 'low-loft', name: 'Low Loft' },
@@ -21,13 +23,13 @@ const categorySubcategories: Record<string, Array<{ slug: string; name: string }
   ],
   'single-beds': [
     { slug: 'platform', name: 'Platform' },
-    { slug: 'house-bed', name: 'House Beds' },
-    { slug: 'floor-bed', name: 'Floor Beds' },
+    { slug: 'house-bed', name: 'Castle & House' },
+    { slug: 'floor-bed', name: 'Toddler & Floor' },
     { slug: 'traditional', name: 'Traditional' },
     { slug: 'trundle-bed', name: 'Trundle' },
   ],
   'accessories': [
-    { slug: 'storage', name: 'Storage' },
+    { slug: 'storage', name: 'Dressers & Storage' },
     { slug: 'desks', name: 'Desks' },
     { slug: 'bookcases-shelves', name: 'Bookcases' },
     { slug: 'nightstands', name: 'Nightstands' },
