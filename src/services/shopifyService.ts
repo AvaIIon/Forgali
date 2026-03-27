@@ -5,7 +5,7 @@
 
 const SHOPIFY_STORE_DOMAIN = import.meta.env.VITE_SHOPIFY_STORE_DOMAIN;
 const STOREFRONT_ACCESS_TOKEN = import.meta.env.VITE_SHOPIFY_STOREFRONT_ACCESS_TOKEN;
-const API_VERSION = '2024-01';
+const API_VERSION = '2025-01';
 
 const SHOPIFY_API_URL = `https://${SHOPIFY_STORE_DOMAIN}/api/${API_VERSION}/graphql.json`;
 
@@ -337,7 +337,7 @@ async function shopifyFetch<T>(query: string, variables?: Record<string, any>): 
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'X-Shopify-Storefront-Access-Token': STOREFRONT_ACCESS_TOKEN,
+      'Shopify-Storefront-Private-Token': STOREFRONT_ACCESS_TOKEN,
     },
     body: JSON.stringify({ query, variables }),
   });
