@@ -1,4 +1,4 @@
-import { Heart } from "lucide-react";
+import { Heart, X } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import type { ConvertedProduct } from "@/services/shopifyService";
@@ -74,10 +74,20 @@ export const CategoryProductCard = ({ product }: CategoryProductCardProps) => {
         <img 
           src={imageSrc}
           alt={product.name}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+          className={`w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 ${
+            !product.availableForSale ? "opacity-60 blur-[1px]" : ""
+          }`}
           onError={handleImageError}
           loading="lazy"
         />
+        {/* Out of stock overlay */}
+        {!product.availableForSale && (
+          <div className="absolute inset-0 flex items-center justify-center bg-black/10 z-10">
+            <div className="bg-white/90 rounded-full p-3 shadow-lg">
+              <X className="w-8 h-8 text-gray-500" strokeWidth={2.5} />
+            </div>
+          </div>
+        )}
       </div>
       
       <h3 className="font-medium text-sm mb-2 line-clamp-2 group-hover:text-primary transition-colors">

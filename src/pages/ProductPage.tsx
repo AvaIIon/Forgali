@@ -2,7 +2,7 @@ import { useState, useMemo } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { Star, Check, Truck, Shield, CreditCard, Minus, Plus, Loader2 } from "lucide-react";
+import { Star, Check, Truck, Shield, CreditCard, Minus, Plus, Loader2, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { useCart } from "@/context/CartContext";
@@ -304,9 +304,20 @@ const ProductPage = () => {
               <Button 
                 onClick={handleAddToCart}
                 disabled={!product.availableForSale}
-                className="flex-1 bg-[#2D8B6F] hover:bg-[#247558] text-white py-6 text-lg font-semibold rounded-lg disabled:opacity-50"
+                className={`flex-1 py-6 text-lg font-semibold rounded-lg ${
+                  product.availableForSale 
+                    ? "bg-[#2D8B6F] hover:bg-[#247558] text-white" 
+                    : "bg-gray-200 text-gray-400 cursor-not-allowed backdrop-blur-sm"
+                }`}
               >
-                {product.availableForSale ? "Add to Cart" : "Out of Stock"}
+                {product.availableForSale ? (
+                  "Add to Cart"
+                ) : (
+                  <span className="flex items-center justify-center gap-2">
+                    <X className="w-5 h-5" />
+                    <span>Out of Stock</span>
+                  </span>
+                )}
               </Button>
             </div>
 
