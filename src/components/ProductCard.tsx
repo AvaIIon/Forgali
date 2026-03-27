@@ -1,6 +1,5 @@
 import { Star, Heart } from "lucide-react";
 import { useState } from "react";
-import { getProxiedImage } from "@/lib/imageProxy";
 
 interface ProductCardProps {
   name: string;
@@ -26,11 +25,11 @@ export const ProductCard = ({
   const fullStars = Math.floor(rating);
   const hasHalfStar = rating % 1 >= 0.5;
   const [imageError, setImageError] = useState(false);
-  const [imageSrc, setImageSrc] = useState(getProxiedImage(image));
+  const [imageSrc, setImageSrc] = useState(image);
   
   const handleImageError = () => {
     if (!imageError) {
-      setImageSrc(getProxiedImage('https://bedsmart.ca/wp-content/uploads/placeholder.jpg'));
+      setImageSrc('/placeholder.svg');
       setImageError(true);
     }
   };

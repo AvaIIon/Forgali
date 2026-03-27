@@ -24,9 +24,11 @@ export const ShopifyCheckoutButton = ({ className, children }: ShopifyCheckoutBu
       
       // Add all items to Shopify cart
       for (const item of items) {
-        // You'll need to map your product IDs to Shopify variant IDs
-        // The product should have a shopifyVariantId property when synced from Shopify
-        const variantId = (item.product as any).shopifyVariantId || item.product.id;
+        // Use the variant ID from the cart item (set when adding to cart)
+        // Fall back to first variant ID or product ID
+        const variantId = item.variantId || 
+          item.product.variants?.[0]?.id || 
+          item.product.id;
         
         try {
           cart = await addToShopifyCart(cart.id, variantId, item.quantity);

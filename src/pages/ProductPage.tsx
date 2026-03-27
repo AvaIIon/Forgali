@@ -1,19 +1,21 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { Star, Check, Truck, Shield, CreditCard, ChevronDown, ChevronUp, Minus, Plus } from "lucide-react";
-import { getProducts, getProductById, getRelatedProducts } from "@/data/products";
+import { Star, Check, Truck, Shield, CreditCard, Minus, Plus, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { useCart } from "@/context/CartContext";
 import { useToast } from "@/hooks/use-toast";
-import { getProxiedImage } from "@/lib/imageProxy";
+import { useShopifyProduct, useShopifyProducts, getRelatedProducts } from "@/hooks/useShopifyProducts";
+import { getVariantImages, getVariantIdForOptions, ConvertedProduct } from "@/services/shopifyService";
 
 const ProductPage = () => {
   const { id } = useParams<{ id: string }>();
-  const product = getProductById(id || "");
-  const relatedProducts = getRelatedProducts(product?.category || "bunk-beds", id || "");
+  
+  // Fetch product from Shopify (id can be either numeric ID or handle)
+  const { product, loading, error } = useShopifyProduct(id);
+  const { products: allProducts } = useShopifyProducts();
   
   const [selectedImage, setSelectedImage] = useState(0);
   const [selectedFinish, setSelectedFinish] = useState(0);
@@ -21,68 +23,69 @@ const ProductPage = () => {
   const [imageErrors, setImageErrors] = useState<Set<number>>(new Set());
   const { addToCart } = useCart();
   const { toast } = useToast();
+
+  // Get the finish/color option if exists
+  const finishOption = useMemo(() => {
+    if (!product?.options) return null;
+    return product.options.find(opt => 
+      opt.name.toLowerCase() === 'finish' || 
+      opt.name.toLowerCase() === 'color' ||
+      opt.name.toLowerCase() === 'wood finish'
+    );
+  }, [product]);
+
+  const finishes = finishOption?.values || [];
+  const selectedFinishName = finishes[selectedFinish] || '';
+
+  // Get images for the selected finish using variant images
+  const finishImages = useMemo(() => {
+    if (!product) return [];
+    
+    // If product has variant-specific images, use those
+    if (selectedFinishName && product.variants.length > 1) {
+      const variantImages = getVariantImages(product, selectedFinishName);
+      if (variantImages.length > 0) return variantImages;
+    }
+    
+    // Fallback to all product images
+    return product.images.length > 0 ? product.images : [product.image];
+  }, [product, selectedFinishName]);
+
+  // Get the selected variant ID for checkout
+  const selectedVariantId = useMemo(() => {
+    if (!product || !finishOption) {
+      return product?.variants[0]?.id;
+    }
+    return getVariantIdForOptions(product, { [finishOption.name]: selectedFinishName }) || product.variants[0]?.id;
+  }, [product, finishOption, selectedFinishName]);
+
+  // Get related products
+  const relatedProducts = useMemo(() => {
+    if (!product || allProducts.length === 0) return [];
+    return getRelatedProducts(allProducts, product, 4);
+  }, [product, allProducts]);
   
   const handleImageError = (index: number) => {
     setImageErrors(prev => new Set([...prev, index]));
   };
   
-  // Get images for the selected finish (filter images that match the finish)
-  const getFinishImages = () => {
-    if (!product) return [];
-    if (!product.finishes || product.finishes.length === 0 || product.finishes.length === 1) {
-      return product.images || [product.image];
-    }
-    
-    // Primary strategy: Divide images evenly by finish count
-    // This is the most reliable approach since most image filenames don't have finish codes
-    const finishesCount = product.finishes.length;
-    const totalImages = product.images.length;
-    
-    if (totalImages <= finishesCount) {
-      // If we have fewer images than finishes, just show what we have
-      return product.images;
-    }
-    
-    const base = Math.floor(totalImages / finishesCount);
-    const remainder = totalImages % finishesCount;
-
-    // Even distribution with remainder:
-    // First `remainder` finishes get (base + 1) images
-    // Remaining finishes get base images
-    const startIndex = base * selectedFinish + Math.min(selectedFinish, remainder);
-    const size = base + (selectedFinish < remainder ? 1 : 0);
-    const endIndex = Math.min(startIndex + size, totalImages);
-
-    const dividedImages = product.images.slice(startIndex, endIndex);
-    return dividedImages.length > 0 ? dividedImages : product.images;
-  };
-  
-  const finishImages = getFinishImages();
-  
   const getImageSrc = (index: number) => {
-    if (!product) return '';
-    let src = '';
-    const images = finishImages;
-    if (imageErrors.has(index) && images && images.length > index + 1) {
-      // Try next image in array
-      src = images[index + 1] || images[0] || product.image;
-    } else {
-      src = images[index] || images[0] || product.image;
+    if (!product || finishImages.length === 0) return '';
+    if (imageErrors.has(index) && finishImages.length > index + 1) {
+      return finishImages[index + 1] || finishImages[0] || product.image;
     }
-    return getProxiedImage(src);
+    return finishImages[index] || finishImages[0] || product.image;
   };
   
-  // Reset selected image when finish changes
   const handleFinishChange = (index: number) => {
     setSelectedFinish(index);
-    setSelectedImage(0); // Reset to first image when finish changes
-    setImageErrors(new Set()); // Clear previous thumbnail failure state
+    setSelectedImage(0);
+    setImageErrors(new Set());
   };
 
   const handleAddToCart = () => {
-    if (product) {
-      const finishName = product.finishes?.[selectedFinish];
-      addToCart(product, quantity, finishName);
+    if (product && selectedVariantId) {
+      addToCart(product, quantity, selectedFinishName, selectedVariantId);
       toast({
         title: "Added to cart!",
         description: `${product.name} has been added to your cart.`,
@@ -90,12 +93,32 @@ const ProductPage = () => {
     }
   };
 
-  if (!product) {
+  // Loading state
+  if (loading) {
     return (
       <div className="min-h-screen bg-background">
         <Header />
-        <div className="flex items-center justify-center py-32">
-          <p className="text-muted-foreground text-lg">Product not found</p>
+        <div className="flex flex-col items-center justify-center py-32 gap-4">
+          <Loader2 className="w-8 h-8 animate-spin text-[#4A647C]" />
+          <p className="text-muted-foreground">Loading product...</p>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
+  // Error or not found state
+  if (error || !product) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Header />
+        <div className="flex flex-col items-center justify-center py-32 gap-4">
+          <p className="text-muted-foreground text-lg">
+            {error || "Product not found"}
+          </p>
+          <Link to="/category/bunk-beds" className="text-[#4A647C] hover:underline">
+            Browse our products
+          </Link>
         </div>
         <Footer />
       </div>
@@ -121,9 +144,9 @@ const ProductPage = () => {
     "Barnwood Brown": "#8B7355",
     "White/Pecan": "#F5E6D3",
     "White/Walnut": "#E8DED0",
-    "Grey/Pink": "#7A9BA8",
+    "Grey/Pink": "#D4A5B9",
     "Blue/Grey": "#7A9BA8",
-    "Pink/Grey": "#7A9BA8",
+    "Pink/Grey": "#D4A5B9",
     "Purple/Grey": "#A89BC9",
   };
 
@@ -173,8 +196,8 @@ const ProductPage = () => {
                     }`}
                   >
                     <img 
-                      src={getProxiedImage(imageErrors.has(index) ? finishImages[index + 1] || finishImages[0] || product.image : img)} 
-                      alt={`${product.name} ${product.finishes?.[selectedFinish]} view ${index + 1}`} 
+                      src={imageErrors.has(index) ? finishImages[index + 1] || finishImages[0] || product.image : img} 
+                      alt={`${product.name} ${selectedFinishName} view ${index + 1}`} 
                       className="w-full h-full object-cover"
                       onError={() => handleImageError(index)}
                       loading="lazy"
@@ -197,7 +220,7 @@ const ProductPage = () => {
                   />
                 ))}
               </div>
-              <span className="text-sm font-medium">{product.rating}</span>
+              <span className="text-sm font-medium">{product.rating.toFixed(2)}</span>
               <span className="text-sm text-muted-foreground">({product.reviews} reviews)</span>
             </div>
 
@@ -223,16 +246,15 @@ const ProductPage = () => {
               )}
             </div>
 
-
             {/* Finish Selector */}
-            {product.finishes && product.finishes.length > 0 && (
+            {finishes.length > 0 && (
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
                   <span className="font-medium">Finish:</span>
-                  <span className="text-muted-foreground">{product.finishes[selectedFinish]}</span>
+                  <span className="text-muted-foreground">{selectedFinishName}</span>
                 </div>
                 <div className="flex flex-wrap gap-2">
-                  {product.finishes.map((finish, index) => (
+                  {finishes.map((finish, index) => (
                     <button
                       key={index}
                       onClick={() => handleFinishChange(index)}
@@ -246,11 +268,6 @@ const ProductPage = () => {
                     />
                   ))}
                 </div>
-                {finishImages.length < product.images.length && (
-                  <p className="text-xs text-muted-foreground">
-                    Showing {finishImages.length} of {product.images.length} images for {product.finishes[selectedFinish]}
-                  </p>
-                )}
               </div>
             )}
 
@@ -273,9 +290,10 @@ const ProductPage = () => {
               </div>
               <Button 
                 onClick={handleAddToCart}
-                className="flex-1 bg-[#2D8B6F] hover:bg-[#247558] text-white py-6 text-lg font-semibold rounded-lg"
+                disabled={!product.availableForSale}
+                className="flex-1 bg-[#2D8B6F] hover:bg-[#247558] text-white py-6 text-lg font-semibold rounded-lg disabled:opacity-50"
               >
-                Add to Cart
+                {product.availableForSale ? "Add to Cart" : "Out of Stock"}
               </Button>
             </div>
 
@@ -284,7 +302,7 @@ const ProductPage = () => {
               <Truck className="w-5 h-5 text-[#2D8B6F]" />
               <div>
                 <p className="font-medium text-[#2D8B6F]">Free Shipping</p>
-                <p className="text-sm text-muted-foreground">Arrives Jan 21 - Jan 24</p>
+                <p className="text-sm text-muted-foreground">Arrives in 5-10 business days</p>
               </div>
             </div>
 
@@ -315,6 +333,9 @@ const ProductPage = () => {
               <AccordionItem value="details">
                 <AccordionTrigger className="text-base font-semibold">Product Details</AccordionTrigger>
                 <AccordionContent className="space-y-4">
+                  {product.description && (
+                    <p className="text-sm text-muted-foreground">{product.description}</p>
+                  )}
                   <div className="grid grid-cols-2 gap-4">
                     <div className="bg-secondary/50 p-4 rounded-lg text-center">
                       <p className="text-2xl font-bold text-[#4A647C]">400 lbs</p>
@@ -389,15 +410,15 @@ const ProductPage = () => {
           <div className="max-w-7xl mx-auto px-4">
             <h2 className="text-2xl font-bold mb-8">You May Also Like</h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-              {relatedProducts.slice(0, 4).map((relatedProduct) => (
+              {relatedProducts.map((relatedProduct) => (
                 <Link 
                   key={relatedProduct.id} 
-                  to={`/product/${relatedProduct.id}`}
+                  to={`/product/${relatedProduct.handle}`}
                   className="group"
                 >
                   <div className="aspect-square rounded-lg overflow-hidden bg-[#f2f4f6] mb-3">
                     <img 
-                      src={getProxiedImage(relatedProduct.image)} 
+                      src={relatedProduct.image} 
                       alt={relatedProduct.name}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                       loading="lazy"

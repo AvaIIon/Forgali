@@ -1,59 +1,84 @@
 import { createContext, useContext, useState, ReactNode } from "react";
-import { Product } from "@/data/products";
-import { isShopifyConfigured } from "@/services/shopifyService";
+import { ConvertedProduct } from "@/services/shopifyService";
 
-interface CartItem {
-  product: Product;
+export interface CartItem {
+  product: ConvertedProduct;
   quantity: number;
   selectedFinish?: string;
+  variantId?: string; // Shopify variant ID for checkout
 }
 
 interface CartContextType {
   items: CartItem[];
-  addToCart: (product: Product, quantity?: number, selectedFinish?: string) => void;
-  removeFromCart: (productId: string) => void;
-  updateQuantity: (productId: string, quantity: number) => void;
+  addToCart: (product: ConvertedProduct, quantity?: number, selectedFinish?: string, variantId?: string) => void;
+  removeFromCart: (productId: string, variantId?: string) => void;
+  updateQuantity: (productId: string, quantity: number, variantId?: string) => void;
   clearCart: () => void;
   getTotalItems: () => number;
   getTotalPrice: () => number;
   isCartOpen: boolean;
   setIsCartOpen: (open: boolean) => void;
+  getItemKey: (item: CartItem) => string;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
+
+// Generate unique key for cart items (product + variant combination)
+const getItemKey = (item: CartItem): string => {
+  return item.variantId || `${item.product.id}-${item.selectedFinish || 'default'}`;
+};
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [items, setItems] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
 
-  const addToCart = (product: Product, quantity = 1, selectedFinish?: string) => {
+  const addToCart = (product: ConvertedProduct, quantity = 1, selectedFinish?: string, variantId?: string) => {
     setItems((prev) => {
-      const existingItem = prev.find((item) => item.product.id === product.id);
+      // Find existing item by variant ID or product ID + finish
+      const existingItem = prev.find((item) => {
+        if (variantId && item.variantId) {
+          return item.variantId === variantId;
+        }
+        return item.product.id === product.id && item.selectedFinish === selectedFinish;
+      });
+
       if (existingItem) {
-        return prev.map((item) =>
-          item.product.id === product.id
-            ? { ...item, quantity: item.quantity + quantity }
-            : item
-        );
+        return prev.map((item) => {
+          const isMatch = variantId && item.variantId 
+            ? item.variantId === variantId
+            : item.product.id === product.id && item.selectedFinish === selectedFinish;
+          
+          return isMatch ? { ...item, quantity: item.quantity + quantity } : item;
+        });
       }
-      return [...prev, { product, quantity, selectedFinish }];
+      
+      return [...prev, { product, quantity, selectedFinish, variantId }];
     });
     setIsCartOpen(true);
   };
 
-  const removeFromCart = (productId: string) => {
-    setItems((prev) => prev.filter((item) => item.product.id !== productId));
+  const removeFromCart = (productId: string, variantId?: string) => {
+    setItems((prev) => prev.filter((item) => {
+      if (variantId && item.variantId) {
+        return item.variantId !== variantId;
+      }
+      return item.product.id !== productId;
+    }));
   };
 
-  const updateQuantity = (productId: string, quantity: number) => {
+  const updateQuantity = (productId: string, quantity: number, variantId?: string) => {
     if (quantity <= 0) {
-      removeFromCart(productId);
+      removeFromCart(productId, variantId);
       return;
     }
     setItems((prev) =>
-      prev.map((item) =>
-        item.product.id === productId ? { ...item, quantity } : item
-      )
+      prev.map((item) => {
+        const isMatch = variantId && item.variantId 
+          ? item.variantId === variantId
+          : item.product.id === productId;
+        
+        return isMatch ? { ...item, quantity } : item;
+      })
     );
   };
 
@@ -81,6 +106,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         getTotalPrice,
         isCartOpen,
         setIsCartOpen,
+        getItemKey,
       }}
     >
       {children}

@@ -1,5 +1,38 @@
 import { Link, useParams, useSearchParams } from "react-router-dom";
-import { getSubcategories } from "@/data/products";
+
+// Predefined subcategories per category
+const categorySubcategories: Record<string, Array<{ slug: string; name: string }>> = {
+  'bunk-beds': [
+    { slug: 'twin-over-twin', name: 'Twin Over Twin' },
+    { slug: 'twin-over-full', name: 'Twin Over Full' },
+    { slug: 'full-over-full', name: 'Full Over Full' },
+    { slug: 'twin-xl-over-queen', name: 'Twin XL Over Queen' },
+    { slug: 'l-shaped', name: 'L-Shaped' },
+    { slug: 'multi-bunk', name: 'Quad & Triple' },
+    { slug: 'low-bunk', name: 'Low Bunk' },
+  ],
+  'loft-beds': [
+    { slug: 'low-loft', name: 'Low Loft' },
+    { slug: 'mid-loft', name: 'Mid Loft' },
+    { slug: 'high-loft', name: 'High Loft' },
+    { slug: 'loft-with-desk', name: 'With Desk' },
+    { slug: 'loft-with-slide', name: 'With Slide' },
+    { slug: 'corner-loft', name: 'Corner Loft' },
+  ],
+  'single-beds': [
+    { slug: 'platform', name: 'Platform' },
+    { slug: 'house-bed', name: 'House Beds' },
+    { slug: 'floor-bed', name: 'Floor Beds' },
+    { slug: 'traditional', name: 'Traditional' },
+    { slug: 'trundle-bed', name: 'Trundle' },
+  ],
+  'accessories': [
+    { slug: 'storage', name: 'Storage' },
+    { slug: 'desks', name: 'Desks' },
+    { slug: 'bookcases-shelves', name: 'Bookcases' },
+    { slug: 'nightstands', name: 'Nightstands' },
+  ],
+};
 
 export const SubcategoryTabs = () => {
   const { category } = useParams<{ category: string }>();
@@ -30,42 +63,7 @@ export const SubcategoryTabs = () => {
     );
   }
   
-  const subcategories = getSubcategories(category);
-  
-  // Map subcategory slugs to display names
-  const subcategoryNames: Record<string, string> = {
-    'twin-over-twin': 'Twin Over Twin',
-    'twin-over-full': 'Twin Over Full',
-    'full-over-full': 'Full Over Full',
-    'twin-xl-over-queen': 'Twin XL Over Queen',
-    'twin-xl-over-full': 'Twin XL Over Full',
-    'l-shaped': 'L-Shaped',
-    'multi-bunk': 'Quad & Triple',
-    'low-bunk': 'Low Bunk',
-    'other-bunk': 'Shop All',
-    'low-loft': 'Low Loft',
-    'high-loft': 'High Loft',
-    'mid-loft': 'Mid Loft',
-    'loft-with-desk': 'With Desk',
-    'loft-with-bookcase': 'With Bookcase',
-    'loft-with-slide': 'With Slide',
-    'corner-loft': 'Corner Loft',
-    'standard-loft': 'Shop All',
-    'platform': 'Platform',
-    'house-bed': 'House Beds',
-    'floor-bed': 'Floor Beds',
-    'traditional': 'Traditional',
-    'trundle-bed': 'Trundle',
-    'standard-single': 'Shop All',
-    'mattresses': 'Mattresses',
-    'safety-accessories': 'Safety',
-    'storage': 'Storage',
-    'desks': 'Desks',
-    'bookcases-shelves': 'Bookcases',
-    'nightstands': 'Nightstands',
-    'trundle-accessories': 'Trundle',
-    'other-accessories': 'Shop All',
-  };
+  const subcategories = categorySubcategories[category] || [];
   
   return (
     <div className="border-b border-border bg-background sticky top-0 z-10">
@@ -91,7 +89,7 @@ export const SubcategoryTabs = () => {
                   : 'bg-[#f2f4f6] text-foreground hover:bg-[#e8eaed]'
               }`}
             >
-              {subcategoryNames[sub.slug] || sub.name} ({sub.count})
+              {sub.name}
             </Link>
           ))}
         </div>

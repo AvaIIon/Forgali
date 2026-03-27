@@ -1,32 +1,51 @@
 import { Heart } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import type { Product } from "@/data/products";
-import { getProxiedImage } from "@/lib/imageProxy";
+import type { ConvertedProduct } from "@/services/shopifyService";
 
 interface CategoryProductCardProps {
-  product: Product;
+  product: ConvertedProduct;
 }
 
+// Finish name to color mapping
+const finishColors: Record<string, string> = {
+  "White": "#f2f4f6",
+  "Grey": "#808080",
+  "Natural": "#D4A574",
+  "Espresso": "#3C1414",
+  "Blue": "#4A647C",
+  "Pecan": "#C19A6B",
+  "Walnut": "#5C4033",
+  "Clay": "#C9B8A8",
+  "Chestnut": "#8B4513",
+  "Driftwood": "#B8A590",
+  "White Wash": "#F5F5F5",
+  "Barnwood Brown": "#8B7355",
+};
+
 export const CategoryProductCard = ({ product }: CategoryProductCardProps) => {
-  const displayColors = product.colors.slice(0, 4);
-  const remainingColors = product.colors.length - 4;
+  // Use finishes array for color swatches
+  const finishes = product.finishes || [];
+  const displayFinishes = finishes.slice(0, 4);
+  const remainingFinishes = finishes.length - 4;
+  
   const [imageError, setImageError] = useState(false);
-  const [imageSrc, setImageSrc] = useState(getProxiedImage(product.image));
+  const [imageSrc, setImageSrc] = useState(product.image);
 
   const handleImageError = () => {
     if (!imageError && product.images && product.images.length > 0 && product.images[0] !== product.image) {
-      // Try the first image from the images array
-      setImageSrc(getProxiedImage(product.images[0]));
+      setImageSrc(product.images[0]);
       setImageError(true);
     } else if (imageSrc && !imageSrc.includes('placeholder')) {
-      // Fallback to placeholder if all else fails
-      setImageSrc(getProxiedImage('https://bedsmart.ca/wp-content/uploads/placeholder.jpg'));
+      setImageSrc('/placeholder.svg');
     }
   };
 
+  // Use handle for the product link
+  const productUrl = `/product/${product.handle}`;
+
   return (
-    <Link to={`/product/${product.id}`} className="group block">
+    <Link to={productUrl} className="group block">
       <div className="relative aspect-square overflow-hidden rounded-lg mb-3 bg-secondary">
         {product.badge === "new" && (
           <span className="absolute top-3 left-3 bg-[#4A647C] text-white text-xs font-semibold px-3 py-1.5 rounded-full z-10">
@@ -65,19 +84,22 @@ export const CategoryProductCard = ({ product }: CategoryProductCardProps) => {
         {product.name}
       </h3>
       
-      {/* Color swatches */}
-      <div className="flex items-center gap-1.5 mb-2">
-        {displayColors.map((color, index) => (
-          <div
-            key={index}
-            className="w-6 h-6 rounded-full border border-border"
-            style={{ backgroundColor: color }}
-          />
-        ))}
-        {remainingColors > 0 && (
-          <span className="text-xs text-muted-foreground">+{remainingColors}</span>
-        )}
-      </div>
+      {/* Finish swatches */}
+      {displayFinishes.length > 0 && (
+        <div className="flex items-center gap-1.5 mb-2">
+          {displayFinishes.map((finish, index) => (
+            <div
+              key={index}
+              className="w-6 h-6 rounded-full border border-border"
+              style={{ backgroundColor: finishColors[finish] || "#CCCCCC" }}
+              title={finish}
+            />
+          ))}
+          {remainingFinishes > 0 && (
+            <span className="text-xs text-muted-foreground">+{remainingFinishes}</span>
+          )}
+        </div>
+      )}
       
       {/* Price */}
       <div className="flex items-center gap-2">

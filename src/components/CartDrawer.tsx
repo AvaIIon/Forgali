@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 
 export const CartDrawer = () => {
-  const { items, isCartOpen, setIsCartOpen, updateQuantity, removeFromCart, getTotalPrice } = useCart();
+  const { items, isCartOpen, setIsCartOpen, updateQuantity, removeFromCart, getTotalPrice, getItemKey } = useCart();
   const navigate = useNavigate();
 
   const handleCheckout = () => {
@@ -32,21 +32,9 @@ export const CartDrawer = () => {
             <>
               <div className="flex-1 overflow-y-auto py-4 space-y-4">
                 {items.map((item) => (
-                  <div key={item.product.id} className="flex gap-4 p-4 bg-secondary/30 rounded-lg">
+                  <div key={getItemKey(item)} className="flex gap-4 p-4 bg-secondary/30 rounded-lg">
                     <img
-                      src={(() => {
-                        const url = item.product.image;
-                        if (!url || !url.startsWith('http')) return url;
-                        if (import.meta.env.DEV) {
-                          try {
-                            const urlObj = new URL(url);
-                            return `/api/images${urlObj.pathname}${urlObj.search}`;
-                          } catch {
-                            return url;
-                          }
-                        }
-                        return url;
-                      })()}
+                      src={item.product.image}
                       alt={item.product.name}
                       className="w-20 h-20 object-cover rounded-lg"
                     />
@@ -60,20 +48,20 @@ export const CartDrawer = () => {
                       </p>
                       <div className="flex items-center gap-2 mt-2">
                         <button
-                          onClick={() => updateQuantity(item.product.id, item.quantity - 1)}
+                          onClick={() => updateQuantity(item.product.id, item.quantity - 1, item.variantId)}
                           className="p-1 hover:bg-secondary rounded"
                         >
                           <Minus className="w-4 h-4" />
                         </button>
                         <span className="w-8 text-center text-sm">{item.quantity}</span>
                         <button
-                          onClick={() => updateQuantity(item.product.id, item.quantity + 1)}
+                          onClick={() => updateQuantity(item.product.id, item.quantity + 1, item.variantId)}
                           className="p-1 hover:bg-secondary rounded"
                         >
                           <Plus className="w-4 h-4" />
                         </button>
                         <button
-                          onClick={() => removeFromCart(item.product.id)}
+                          onClick={() => removeFromCart(item.product.id, item.variantId)}
                           className="ml-auto p-1 hover:bg-destructive/10 text-destructive rounded"
                         >
                           <Trash2 className="w-4 h-4" />

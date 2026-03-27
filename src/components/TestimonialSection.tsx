@@ -1,25 +1,28 @@
-import { useEffect, useState } from "react";
+import { useMemo } from "react";
 import { Link } from "react-router-dom";
-import { Star } from "lucide-react";
-import { getProducts, Product } from "@/data/products";
-import { getProxiedImage } from "@/lib/imageProxy";
+import { Star, Loader2 } from "lucide-react";
+import { useShopifyProducts } from "@/hooks/useShopifyProducts";
 
 export const TestimonialSection = () => {
-  const [bestseller, setBestseller] = useState<Product | null>(null);
+  const { products, loading } = useShopifyProducts();
 
-  useEffect(() => {
-    const updateBestseller = () => {
-      const products = getProducts();
-      // Find a bestseller product, or use the highest rated one
-      const best = products.find(p => p.badge === "bestseller") || 
-                   products.sort((a, b) => (b.rating * b.reviews) - (a.rating * a.reviews))[0];
-      setBestseller(best || null);
-    };
-    
-    updateBestseller();
-    window.addEventListener("productsUpdated", updateBestseller);
-    return () => window.removeEventListener("productsUpdated", updateBestseller);
-  }, []);
+  // Find a bestseller product, or use the first product with highest rating
+  const bestseller = useMemo(() => {
+    if (products.length === 0) return null;
+    const best = products.find(p => p.badge === "bestseller") || 
+                 products.sort((a, b) => (b.rating * b.reviews) - (a.rating * a.reviews))[0];
+    return best || null;
+  }, [products]);
+
+  if (loading) {
+    return (
+      <section className="bg-[#f2f4f6] py-16 px-4">
+        <div className="max-w-6xl mx-auto flex items-center justify-center py-12">
+          <Loader2 className="w-6 h-6 animate-spin text-[#4A647C]" />
+        </div>
+      </section>
+    );
+  }
 
   if (!bestseller) return null;
 
@@ -54,7 +57,7 @@ export const TestimonialSection = () => {
                   <span className="text-muted-foreground line-through text-sm">${bestseller.originalPrice.toLocaleString()}</span>
                 )}
               </div>
-              <Link to={`/product/${bestseller.id}`}>
+              <Link to={`/product/${bestseller.handle}`}>
                 <button className="border border-foreground rounded-full px-6 py-2 text-sm font-medium hover:bg-foreground hover:text-background transition-colors">
                   shop now
                 </button>
@@ -65,7 +68,7 @@ export const TestimonialSection = () => {
           {/* Product image */}
           <div className="flex-1">
             <img 
-              src={getProxiedImage(bestseller.image)} 
+              src={bestseller.image} 
               alt={bestseller.name} 
               className="w-full h-auto rounded-lg"
             />
