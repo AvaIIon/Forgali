@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { Star, Loader2 } from "lucide-react";
 import { useShopifyProducts } from "@/hooks/useShopifyProducts";
+import { Button } from "@/components/ui/button";
 
 export const TestimonialSection = () => {
   const { products, loading } = useShopifyProducts();
@@ -57,11 +58,9 @@ export const TestimonialSection = () => {
                   <span className="text-muted-foreground line-through text-sm">${bestseller.originalPrice.toLocaleString()}</span>
                 )}
               </div>
-              <Link to={`/product/${bestseller.handle}`}>
-                <button className="border border-foreground rounded-full px-6 py-2 text-sm font-medium hover:bg-foreground hover:text-background transition-colors">
-                  shop now
-                </button>
-              </Link>
+              <Button variant="outline" size="sm" asChild className="rounded-full border-2 border-[#4A647C] text-[#4A647C] bg-background hover:bg-[#4A647C] hover:text-white">
+                <Link to={`/product/${bestseller.handle}`}>Shop now</Link>
+              </Button>
             </div>
           </div>
           
