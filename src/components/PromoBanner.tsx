@@ -30,7 +30,7 @@ export const PromoBanner = () => {
               </Button>
             </Link>
             <Link to="/category/bunk-beds">
-              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10">
+              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10 hover:text-white hover:border-white">
                 Shop Best Sellers
               </Button>
             </Link>
