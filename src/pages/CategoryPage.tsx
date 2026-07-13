@@ -3,6 +3,7 @@ import { useParams, useSearchParams } from "react-router-dom";
 import { Loader2 } from "lucide-react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { Seo } from "@/components/Seo";
 import { CategoryHeader } from "@/components/CategoryHeader";
 import { CategoryFilters, SortOption, FilterState } from "@/components/CategoryFilters";
 import { CategoryProductCard } from "@/components/CategoryProductCard";
@@ -31,6 +32,14 @@ const categoryInfoMap: Record<string, { title: string; description: string }> = 
   "accessories": {
     title: "Storage & Accessories",
     description: "Complete your room with our storage solutions and accessories. Dressers, shelving, and more."
+  },
+  "dining": {
+    title: "Dining",
+    description: "Solid wood dining tables, chairs, benches, and complete sets. Timeless craftsmanship for the heart of your home."
+  },
+  "living": {
+    title: "Living",
+    description: "Coffee tables, console and side tables, sideboards, TV stands, and shelving — solid wood pieces that bring warmth to every living space."
   }
 };
 
@@ -143,21 +152,36 @@ const CategoryPage = () => {
     const sorted = [...filteredProducts];
     switch (sortBy) {
       case 'price-low':
-        return sorted.sort((a, b) => a.price - b.price);
+        sorted.sort((a, b) => a.price - b.price);
+        break;
       case 'price-high':
-        return sorted.sort((a, b) => b.price - a.price);
+        sorted.sort((a, b) => b.price - a.price);
+        break;
       case 'highest-rated':
-        return sorted.sort((a, b) => b.rating - a.rating);
+        sorted.sort((a, b) => b.rating - a.rating);
+        break;
       case 'newest':
-        return sorted.reverse();
+        sorted.reverse();
+        break;
       case 'best-selling':
       default:
-        return sorted;
+        break;
     }
+    // Always push out-of-stock products to the end, preserving the chosen order
+    // within the in-stock and out-of-stock groups (Array.sort is stable).
+    sorted.sort((a, b) =>
+      a.availableForSale === b.availableForSale ? 0 : a.availableForSale ? -1 : 1
+    );
+    return sorted;
   }, [filteredProducts, sortBy]);
 
   return (
     <div className="min-h-screen bg-background">
+      <Seo
+        title={`${categoryInfo.title} | Forgali`}
+        description={categoryInfo.description}
+        path={`/category/${validCategory}`}
+      />
       <Header />
       <CategoryHeader title={categoryInfo.title} description={categoryInfo.description} />
       <SubcategoryTabs />

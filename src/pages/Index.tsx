@@ -6,10 +6,16 @@ import { ProductGrid } from "@/components/ProductGrid";
 import { Footer } from "@/components/Footer";
 import { FeaturedCategories } from "@/components/FeaturedCategories";
 import { PromoBanner } from "@/components/PromoBanner";
+import { Seo } from "@/components/Seo";
 
 const Index = () => {
   return (
     <div className="min-h-screen bg-background">
+      <Seo
+        title="Forgali — Solid Wood Furniture for Every Room"
+        description="Solid wood furniture families trust — kids' bunk and loft beds, dining tables and chairs, and living-room pieces. Free Canada-wide shipping."
+        path="/"
+      />
       <Header />
       <main>
         <Hero />

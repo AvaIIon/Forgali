@@ -6,8 +6,10 @@ import { useShopifyProducts } from "@/hooks/useShopifyProducts";
 export const ProductGrid = () => {
   const { products, loading } = useShopifyProducts();
 
-  // Get featured products for landing page - first 4 products or those with sale badge
+  // Get featured products for landing page - in-stock only, so we never spotlight
+  // an unbuyable "best seller" (dev change list item 9).
   const featuredProducts = products
+    .filter(p => p.availableForSale)
     .slice(0, 8)
     .map(p => ({
       id: p.id,
