@@ -30,7 +30,7 @@ export const Seo = ({
   noindex = false,
   jsonLd,
 }: SeoProps) => {
-  const url = `${SITE_URL}${path}`;
+  const url = `${SITE_URL}${path.startsWith("/") ? path : `/${path}`}`;
   const blocks = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
 
   return (
@@ -51,9 +51,11 @@ export const Seo = ({
       {description && <meta name="twitter:description" content={description} />}
       <meta name="twitter:image" content={image} />
 
+      {/* "<" is escaped so content containing "</script>" can never break out of
+          the tag if this app is ever SSR'd/prerendered. */}
       {blocks.map((block, i) => (
         <script key={i} type="application/ld+json">
-          {JSON.stringify(block)}
+          {JSON.stringify(block).replace(/</g, "\\u003c")}
         </script>
       ))}
     </Helmet>
