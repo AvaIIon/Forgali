@@ -75,8 +75,31 @@ const navItems = [
       { name: "Ladders", href: "/category/accessories" },
     ]
   },
-  { 
-    label: "Mattresses", 
+  {
+    label: "Dining",
+    href: "/category/dining",
+    subcategories: [
+      { name: "Dining Tables", href: "/category/dining" },
+      { name: "Dining Chairs", href: "/category/dining" },
+      { name: "Dining Benches", href: "/category/dining" },
+      { name: "Bar & Counter Chairs", href: "/category/dining" },
+      { name: "Dining Sets", href: "/category/dining" },
+    ]
+  },
+  {
+    label: "Living",
+    href: "/category/living",
+    subcategories: [
+      { name: "Coffee Tables", href: "/category/living" },
+      { name: "Console Tables", href: "/category/living" },
+      { name: "Side Tables", href: "/category/living" },
+      { name: "Sideboards", href: "/category/living" },
+      { name: "TV Stands", href: "/category/living" },
+      { name: "Shelves", href: "/category/living" },
+    ]
+  },
+  {
+    label: "Mattresses",
     href: "/category/mattresses",
     image: "https://bedsmart.ca/wp-content/uploads/2017/08/JESS_HYBRIDMATTRESS_DREAM_STAR_BEDDING_BEST_QUALITY_MATTRESS_CANADIAN_78a94e84-5481-4da1-a595-be181f65301f-1024x1024.jpg",
     subcategories: [
@@ -121,12 +144,16 @@ export const Header = () => {
           </div>
           
           {/* Logo - Center */}
-          <Link to="/" className="flex flex-col items-center justify-center">
-            <h1 className="text-3xl font-bold tracking-tight" style={{ fontFamily: 'serif' }}>
-              Forgali
-            </h1>
+          <Link to="/" className="flex flex-col items-center justify-center gap-1">
+            <img
+              src="/forgali-logo-dark.png"
+              alt="Forgali"
+              className="h-8 w-auto"
+              width={1172}
+              height={248}
+            />
             <p className="text-[10px] text-muted-foreground tracking-[0.2em]">
-              SOLID WOOD BEDS
+              SOLID WOOD FURNITURE
             </p>
           </Link>
           

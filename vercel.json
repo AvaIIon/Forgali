@@ -4,6 +4,21 @@
   "devCommand": "npm run dev",
   "installCommand": "npm install",
   "framework": "vite",
+  "redirects": [
+    { "source": "/contact-us", "destination": "/contact", "permanent": true },
+    { "source": "/contact-us/", "destination": "/contact", "permanent": true },
+    { "source": "/forgali-furniture-blog", "destination": "/", "permanent": true },
+    { "source": "/forgali-furniture-blog/:path*", "destination": "/", "permanent": true },
+    { "source": "/product/mariln", "destination": "/category/bunk-beds", "permanent": true },
+    { "source": "/index.php", "destination": "/", "permanent": true },
+    { "source": "/index.php/:path*", "destination": "/", "permanent": true },
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "forgali.com" }],
+      "destination": "https://www.forgali.com/:path*",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     {
       "source": "/(.*)",

@@ -5,6 +5,20 @@ export const Footer = () => {
   return (
     <footer className="bg-foreground text-background py-12 px-4">
       <div className="max-w-7xl mx-auto">
+        <div className="mb-8">
+          <Link to="/" className="inline-flex flex-col">
+            <img
+              src="/forgali-logo-light.png"
+              alt="Forgali"
+              className="h-8 w-auto"
+              width={1172}
+              height={248}
+            />
+            <span className="text-[10px] text-background/60 tracking-[0.2em] mt-1">
+              SOLID WOOD FURNITURE
+            </span>
+          </Link>
+        </div>
         <div className="grid grid-cols-4 gap-8 mb-8">
           <div>
             <h4 className="font-bold mb-4">Shop</h4>
@@ -12,6 +26,8 @@ export const Footer = () => {
               <li><Link to="/category/bunk-beds" className="hover:text-background">Bunk Beds</Link></li>
               <li><Link to="/category/loft-beds" className="hover:text-background">Loft Beds</Link></li>
               <li><Link to="/category/single-beds" className="hover:text-background">Single Beds</Link></li>
+              <li><Link to="/category/dining" className="hover:text-background">Dining</Link></li>
+              <li><Link to="/category/living" className="hover:text-background">Living</Link></li>
               <li><Link to="/category/accessories" className="hover:text-background">Accessories</Link></li>
               <li><Link to="/smart-deals" className="hover:text-background">Smart Deals</Link></li>
             </ul>

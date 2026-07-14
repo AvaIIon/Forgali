@@ -82,34 +82,38 @@ export const useShopifyProduct = (identifier: string | undefined) => {
     }
 
     const fetchProduct = async () => {
+      let paintedFromCache = false;
       try {
         setLoading(true);
         setError(null);
 
-        // First check cache by handle or id
+        // Use the cached list version for an instant first paint, but DON'T stop
+        // there: the list query (PRODUCTS_QUERY) fetches only images(first:20) and
+        // no variant SKUs, so the full gallery + specs only come from the by-handle
+        // query below. Paint cached, then upgrade to full detail.
         if (productsCache) {
-          const cached = productsCache.find(p => 
-            p.handle === identifier || 
+          const cached = productsCache.find(p =>
+            p.handle === identifier ||
             p.id === identifier ||
             p.shopifyId === identifier
           );
           if (cached) {
             setProduct(cached);
             setLoading(false);
-            return;
+            paintedFromCache = true;
           }
         }
 
-        // Fetch from API by handle
+        // Fetch from API by handle (full detail: sku, up to 100 images, specs)
         const shopifyProduct = await fetchShopifyProductByHandle(identifier);
         if (shopifyProduct) {
           const converted = convertShopifyProduct(shopifyProduct);
           setProduct(converted);
-        } else {
+        } else if (!paintedFromCache) {
           // If not found by handle, try loading all products and search
           const allProducts = await fetchAllShopifyProducts();
-          const found = allProducts.find(p => 
-            p.handle === identifier || 
+          const found = allProducts.find(p =>
+            p.handle === identifier ||
             p.id.includes(identifier)
           );
           if (found) {
@@ -121,7 +125,11 @@ export const useShopifyProduct = (identifier: string | undefined) => {
         }
       } catch (err) {
         console.error('Error fetching product:', err);
-        setError(err instanceof Error ? err.message : 'Failed to fetch product');
+        // Don't surface a hard error if we already painted a usable cached
+        // version — the detail upgrade failing shouldn't blank the page.
+        if (!paintedFromCache) {
+          setError(err instanceof Error ? err.message : 'Failed to fetch product');
+        }
       } finally {
         setLoading(false);
       }

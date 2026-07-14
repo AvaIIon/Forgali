@@ -17,11 +17,11 @@ export const PromoBanner = () => {
             Limited Time Offer
           </span>
           <h2 className="text-4xl md:text-5xl font-bold mt-4 leading-tight">
-            Up to 30% Off Select Beds
+            Up to 30% Off Select Furniture
           </h2>
           <p className="text-lg mt-4 text-white/90">
-            Make their room dreams come true with our solid wood beds. 
-            Quality craftsmanship that lasts for generations.
+            From bunk beds to dining tables — solid wood craftsmanship for every
+            room, built to last for generations.
           </p>
           <div className="flex flex-wrap gap-4 mt-6">
             <Button size="lg" asChild className="bg-[#f2f4f6] text-foreground hover:bg-[#e8eaed]">

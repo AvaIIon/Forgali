@@ -22,6 +22,16 @@ const categories = [
     href: "/category/accessories",
     image: "https://bedsmart.ca/wp-content/uploads/2025/11/200006-002__2.jpg",
   },
+  {
+    name: "Dining",
+    href: "/category/dining",
+    image: "https://cdn.shopify.com/s/files/1/0972/6492/6995/files/3400388400-155__1.jpg?v=1783608444",
+  },
+  {
+    name: "Living",
+    href: "/category/living",
+    image: "https://cdn.shopify.com/s/files/1/0972/6492/6995/files/2600567600-016__1.jpg?v=1783608423",
+  },
 ];
 
 export const FeaturedCategories = () => {

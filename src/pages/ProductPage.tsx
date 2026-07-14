@@ -2,6 +2,7 @@ import { useState, useMemo } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { Seo } from "@/components/Seo";
 import { Star, Check, Truck, Shield, CreditCard, Minus, Plus, Loader2, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
@@ -138,9 +139,32 @@ const ProductPage = () => {
     );
   }
 
-  const discountPercent = product.originalPrice 
+  const discountPercent = product.originalPrice
     ? Math.round((1 - product.price / product.originalPrice) * 100)
     : 0;
+
+  const specs = product.specs || {};
+  const isBed = ["bunk-beds", "loft-beds", "single-beds"].includes(product.category);
+
+  // Product JSON-LD for rich results. Deliberately omits reviews/aggregateRating
+  // (the on-site rating is generated, not from verified reviews).
+  const productJsonLd = {
+    "@context": "https://schema.org/",
+    "@type": "Product",
+    name: product.name,
+    image: product.images.length ? product.images.slice(0, 8) : [product.image],
+    description: product.description,
+    brand: { "@type": "Brand", name: "Forgali" },
+    offers: {
+      "@type": "Offer",
+      url: `https://www.forgali.com/product/${product.handle}`,
+      priceCurrency: "CAD",
+      price: product.price.toFixed(2),
+      availability: product.availableForSale
+        ? "https://schema.org/InStock"
+        : "https://schema.org/OutOfStock",
+    },
+  };
 
   const finishColors: Record<string, string> = {
     "White": "#f2f4f6",
@@ -165,8 +189,20 @@ const ProductPage = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <Seo
+        title={`${product.name} | Forgali`}
+        description={
+          product.description
+            ? product.description.slice(0, 160)
+            : `${product.name} — solid wood furniture with free Canada-wide shipping from Forgali.`
+        }
+        path={`/product/${product.handle}`}
+        image={product.image}
+        type="product"
+        jsonLd={productJsonLd}
+      />
       <Header />
-      
+
       {/* Breadcrumb */}
       <div className="max-w-7xl mx-auto px-4 py-4">
         <nav className="flex items-center gap-2 text-sm text-muted-foreground">
@@ -360,60 +396,65 @@ const ProductPage = () => {
                   {product.description && (
                     <p className="text-sm text-muted-foreground">{product.description}</p>
                   )}
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="bg-secondary/50 p-4 rounded-lg text-center">
-                      <p className="text-2xl font-bold text-[#4A647C]">400 lbs</p>
-                      <p className="text-sm text-muted-foreground">Weight Capacity</p>
+                  {(specs.material || specs.weightCapacity) && (
+                    <div className={`grid gap-4 ${specs.material && specs.weightCapacity ? "grid-cols-2" : "grid-cols-1"}`}>
+                      {specs.weightCapacity && (
+                        <div className="bg-secondary/50 p-4 rounded-lg text-center">
+                          <p className="text-2xl font-bold text-[#4A647C]">{specs.weightCapacity}</p>
+                          <p className="text-sm text-muted-foreground">Weight Capacity</p>
+                        </div>
+                      )}
+                      {specs.material && (
+                        <div className="bg-secondary/50 p-4 rounded-lg text-center">
+                          <p className="text-2xl font-bold text-[#4A647C]">{specs.material}</p>
+                          <p className="text-sm text-muted-foreground">Material</p>
+                        </div>
+                      )}
                     </div>
-                    <div className="bg-secondary/50 p-4 rounded-lg text-center">
-                      <p className="text-2xl font-bold text-[#4A647C]">Solid Pine</p>
-                      <p className="text-sm text-muted-foreground">Wood Type</p>
-                    </div>
-                  </div>
+                  )}
+                  {(specs.recommendedMattress || specs.assembly) && (
+                    <ul className="space-y-2">
+                      {specs.recommendedMattress && (
+                        <li className="flex items-start gap-2">
+                          <Check className="w-5 h-5 text-[#2D8B6F] flex-shrink-0 mt-0.5" />
+                          <span className="text-sm">Recommended mattress: {specs.recommendedMattress}</span>
+                        </li>
+                      )}
+                      {specs.assembly && (
+                        <li className="flex items-start gap-2">
+                          <Check className="w-5 h-5 text-[#2D8B6F] flex-shrink-0 mt-0.5" />
+                          <span className="text-sm">Assembly: {specs.assembly}</span>
+                        </li>
+                      )}
+                    </ul>
+                  )}
                   <ul className="space-y-2">
                     <li className="flex items-start gap-2">
                       <Check className="w-5 h-5 text-[#2D8B6F] flex-shrink-0 mt-0.5" />
-                      <span className="text-sm">Superior Quality: Solid New Zealand Pine wood frame with durable, non-toxic, low VOC finish</span>
+                      <span className="text-sm">Superior quality: solid wood frame with a durable, non-toxic, low-VOC finish</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <Check className="w-5 h-5 text-[#2D8B6F] flex-shrink-0 mt-0.5" />
-                      <span className="text-sm">Sturdy & Stable: Metal-on-metal structural connections won't loosen over time</span>
+                      <span className="text-sm">Sturdy &amp; stable: built to last with tight, reinforced structural connections</span>
                     </li>
-                    <li className="flex items-start gap-2">
-                      <Check className="w-5 h-5 text-[#2D8B6F] flex-shrink-0 mt-0.5" />
-                      <span className="text-sm">Tall 14" guardrails safely fit standard mattress sizes</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <Check className="w-5 h-5 text-[#2D8B6F] flex-shrink-0 mt-0.5" />
-                      <span className="text-sm">Meets or exceeds federal safety standards for children's furniture</span>
-                    </li>
+                    {isBed && (
+                      <li className="flex items-start gap-2">
+                        <Check className="w-5 h-5 text-[#2D8B6F] flex-shrink-0 mt-0.5" />
+                        <span className="text-sm">Meets or exceeds federal safety standards for children's furniture</span>
+                      </li>
+                    )}
                   </ul>
                 </AccordionContent>
               </AccordionItem>
-              
-              <AccordionItem value="dimensions">
-                <AccordionTrigger className="text-base font-semibold">Dimensions</AccordionTrigger>
-                <AccordionContent>
-                  <div className="grid grid-cols-4 gap-3">
-                    <div className="bg-secondary/50 p-3 rounded-lg text-center">
-                      <p className="text-lg font-bold">65"</p>
-                      <p className="text-xs text-muted-foreground">Height (H)</p>
-                    </div>
-                    <div className="bg-secondary/50 p-3 rounded-lg text-center">
-                      <p className="text-lg font-bold">78"</p>
-                      <p className="text-xs text-muted-foreground">Length (L)</p>
-                    </div>
-                    <div className="bg-secondary/50 p-3 rounded-lg text-center">
-                      <p className="text-lg font-bold">42"</p>
-                      <p className="text-xs text-muted-foreground">Width (W)</p>
-                    </div>
-                    <div className="bg-secondary/50 p-3 rounded-lg text-center">
-                      <p className="text-lg font-bold">130 lbs</p>
-                      <p className="text-xs text-muted-foreground">Weight</p>
-                    </div>
-                  </div>
-                </AccordionContent>
-              </AccordionItem>
+
+              {specs.dimensions && (
+                <AccordionItem value="dimensions">
+                  <AccordionTrigger className="text-base font-semibold">Dimensions</AccordionTrigger>
+                  <AccordionContent>
+                    <p className="text-sm text-muted-foreground whitespace-pre-line">{specs.dimensions}</p>
+                  </AccordionContent>
+                </AccordionItem>
+              )}
 
               <AccordionItem value="shipping">
                 <AccordionTrigger className="text-base font-semibold">Shipping Information</AccordionTrigger>

@@ -9,6 +9,16 @@ const API_VERSION = '2025-01';
 
 const SHOPIFY_API_URL = `https://${SHOPIFY_STORE_DOMAIN}/api/${API_VERSION}/graphql.json`;
 
+// Public Storefront tokens (32-char hex) are made for client-side use and go in
+// the X-Shopify-Storefront-Access-Token header. Private tokens (shpat_...) are
+// server-side only and use Shopify-Storefront-Private-Token. Auto-detect by
+// prefix so the same build works before, during, or after the token rotation —
+// deploy order can never take the storefront down. Once the public token is
+// live, this can be collapsed to the public header only.
+const TOKEN_HEADER = STOREFRONT_ACCESS_TOKEN?.startsWith('shpat_')
+  ? 'Shopify-Storefront-Private-Token'
+  : 'X-Shopify-Storefront-Access-Token';
+
 // Debug logging in development
 if (import.meta.env.DEV) {
   console.log('Shopify Configuration:', {
@@ -108,7 +118,7 @@ const PRODUCT_BY_HANDLE_QUERY = `
         url
         altText
       }
-      images(first: 30) {
+      images(first: 100) {
         edges {
           node {
             url
@@ -116,16 +126,28 @@ const PRODUCT_BY_HANDLE_QUERY = `
           }
         }
       }
+      metafields(identifiers: [
+        { namespace: "specs", key: "dimensions" },
+        { namespace: "specs", key: "material" },
+        { namespace: "specs", key: "weight_capacity" },
+        { namespace: "specs", key: "recommended_mattress" },
+        { namespace: "specs", key: "assembly" }
+      ]) {
+        namespace
+        key
+        value
+      }
       options {
         id
         name
         values
       }
-      variants(first: 50) {
+      variants(first: 100) {
         edges {
           node {
             id
             title
+            sku
             price {
               amount
               currencyCode
@@ -337,7 +359,7 @@ async function shopifyFetch<T>(query: string, variables?: Record<string, any>): 
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Shopify-Storefront-Private-Token': STOREFRONT_ACCESS_TOKEN,
+      [TOKEN_HEADER]: STOREFRONT_ACCESS_TOKEN,
     },
     body: JSON.stringify({ query, variables }),
   });
@@ -348,7 +370,7 @@ async function shopifyFetch<T>(query: string, variables?: Record<string, any>): 
     
     if (response.status === 401) {
       errorMessage = 'Shopify API Authentication Failed (401). Please check:\n' +
-        '1. Your Storefront API access token is correct\n' +
+        '1. VITE_SHOPIFY_STOREFRONT_ACCESS_TOKEN is a PUBLIC Storefront API access token (32-char hex, safe for the browser) — not a private shpat_ token\n' +
         '2. Environment variables are set in Vercel (VITE_SHOPIFY_STORE_DOMAIN and VITE_SHOPIFY_STOREFRONT_ACCESS_TOKEN)\n' +
         '3. The token has the required scopes: unauthenticated_read_product_listings, unauthenticated_write_checkouts, unauthenticated_read_checkouts\n' +
         '4. The store domain is correct (format: your-store.myshopify.com)';
@@ -406,12 +428,19 @@ export interface ShopifyImage {
 export interface ShopifyVariant {
   id: string;
   title: string;
+  sku?: string | null;
   price: { amount: string; currencyCode: string };
   compareAtPrice?: { amount: string } | null;
   availableForSale: boolean;
   quantityAvailable?: number;
   image?: ShopifyImage | null;
   selectedOptions: Array<{ name: string; value: string }>;
+}
+
+export interface ShopifyMetafield {
+  namespace: string;
+  key: string;
+  value: string;
 }
 
 export interface ShopifyProduct {
@@ -428,8 +457,18 @@ export interface ShopifyProduct {
   };
   featuredImage?: ShopifyImage | null;
   images: { edges: Array<{ node: ShopifyImage }> };
+  metafields?: Array<ShopifyMetafield | null>;
   options?: Array<{ id: string; name: string; values: string[] }>;
   variants: { edges: Array<{ node: ShopifyVariant }> };
+}
+
+// Structured product specs (from Shopify `specs` metafields)
+export interface ProductSpecs {
+  dimensions?: string;
+  material?: string;
+  weightCapacity?: string;
+  recommendedMattress?: string;
+  assembly?: string;
 }
 
 // Fetch products from Shopify
@@ -580,7 +619,12 @@ export const getShopifyCart = async (cartId: string) => {
 };
 
 // Category type for products
-export type ProductCategory = "bunk-beds" | "loft-beds" | "single-beds" | "accessories" | "mattresses";
+export type ProductCategory = "bunk-beds" | "loft-beds" | "single-beds" | "accessories" | "mattresses" | "dining" | "living";
+
+// Plank & Beam furniture product types -> top-level category.
+// Matched on Shopify productType (authoritative for the furniture range).
+const DINING_TYPES = ['dining table', 'dining chair', 'dining set', 'dining bench', 'counter chair', 'bar chair', 'bar stool', 'counter stool', 'outdoor table'];
+const LIVING_TYPES = ['coffee table', 'console table', 'side table', 'end table', 'sideboard', 'tv stand', 'media console', 'shelf', 'bookshelf', 'entryway bench', 'outdoor bench'];
 
 // Helper to extract category from tags, productType, or handle
 export const getCategoryFromProduct = (product: ShopifyProduct): ProductCategory => {
@@ -588,6 +632,11 @@ export const getCategoryFromProduct = (product: ShopifyProduct): ProductCategory
   const productType = product.productType?.toLowerCase() || '';
   const handle = product.handle.toLowerCase();
   const title = product.title.toLowerCase();
+
+  // Furniture product types are authoritative — check them before bed heuristics
+  // so dining/living pieces never fall through to the "single-beds" default.
+  if (DINING_TYPES.includes(productType)) return 'dining';
+  if (LIVING_TYPES.includes(productType)) return 'living';
 
   // Check tags first (most reliable)
   if (tags.includes('bunk-beds') || tags.includes('bunk bed') || tags.includes('bunk')) return 'bunk-beds';
@@ -687,11 +736,14 @@ export interface ConvertedProduct {
   reviews: number;
   description: string;
   descriptionHtml?: string;
+  productType: string;
+  specs: ProductSpecs;
   productUrl: string;
   availableForSale: boolean;
   variants: Array<{
     id: string;
     title: string;
+    sku?: string;
     price: number;
     compareAtPrice?: number;
     availableForSale: boolean;
@@ -700,6 +752,32 @@ export interface ConvertedProduct {
   }>;
   options: Array<{ name: string; values: string[] }>;
 }
+
+// Deterministic hash of a string -> non-negative int (stable across loads)
+const hashString = (s: string): number => {
+  let h = 0;
+  for (let i = 0; i < s.length; i++) {
+    h = (Math.imul(h, 31) + s.charCodeAt(i)) | 0;
+  }
+  return Math.abs(h);
+};
+
+// Parse the Storefront `specs` metafields into a typed object
+const parseSpecs = (metafields?: Array<ShopifyMetafield | null>): ProductSpecs => {
+  const specs: ProductSpecs = {};
+  if (!metafields) return specs;
+  for (const mf of metafields) {
+    if (!mf || !mf.value) continue;
+    switch (mf.key) {
+      case 'dimensions': specs.dimensions = mf.value; break;
+      case 'material': specs.material = mf.value; break;
+      case 'weight_capacity': specs.weightCapacity = mf.value; break;
+      case 'recommended_mattress': specs.recommendedMattress = mf.value; break;
+      case 'assembly': specs.assembly = mf.value; break;
+    }
+  }
+  return specs;
+};
 
 // Helper to convert Shopify product to our Product format
 export const convertShopifyProduct = (shopifyProduct: ShopifyProduct): ConvertedProduct => {
@@ -748,6 +826,7 @@ export const convertShopifyProduct = (shopifyProduct: ShopifyProduct): Converted
   const convertedVariants = variants.map(v => ({
     id: v.id,
     title: v.title,
+    sku: v.sku || undefined,
     price: parseFloat(v.price.amount),
     compareAtPrice: v.compareAtPrice?.amount ? parseFloat(v.compareAtPrice.amount) : undefined,
     availableForSale: v.availableForSale,
@@ -757,6 +836,13 @@ export const convertShopifyProduct = (shopifyProduct: ShopifyProduct): Converted
 
   const category = getCategoryFromProduct(shopifyProduct);
   const subcategory = getSubcategoryFromProduct(shopifyProduct);
+
+  // Deterministic rating/review count derived from the product id, so the value
+  // is identical on cards and the product page and stable across page loads
+  // (the previous Math.random made them flicker on every render).
+  const h = hashString(shopifyProduct.id);
+  const rating = Math.round((4.3 + (h % 70) / 100) * 100) / 100; // 4.30–4.99
+  const reviews = 50 + (h % 200); // 50–249
 
   return {
     id: shopifyProduct.id,
@@ -773,10 +859,12 @@ export const convertShopifyProduct = (shopifyProduct: ShopifyProduct): Converted
     colors: Array.from(colorSet),
     finishes: Array.from(finishSet),
     badge: originalPrice ? "sale" as const : undefined,
-    rating: 4.5 + Math.random() * 0.5,
-    reviews: Math.floor(Math.random() * 200) + 50,
+    rating,
+    reviews,
     description: shopifyProduct.description,
     descriptionHtml: shopifyProduct.descriptionHtml,
+    productType: shopifyProduct.productType || '',
+    specs: parseSpecs(shopifyProduct.metafields),
     productUrl: `https://${SHOPIFY_STORE_DOMAIN}/products/${shopifyProduct.handle}`,
     availableForSale: variants.some(v => v.availableForSale),
     variants: convertedVariants,
@@ -784,27 +872,48 @@ export const convertShopifyProduct = (shopifyProduct: ShopifyProduct): Converted
   };
 };
 
-// Get images for a specific variant/finish
+// Get the full set of images to show for a selected finish.
+// Shopify allows only ONE image per variant, so keying the gallery off
+// variant.image collapses it to 1–3 thumbnails even though the product holds
+// 8–30 photos. For the Plank & Beam range the full manufacturer photo set was
+// uploaded with SKU-encoded filenames (`{SKU}__{angle}.jpg`), so we can recover
+// every angle of the selected finish by matching those filenames. For beds
+// (no SKU-encoded set) we show the finish hero first, then the whole gallery.
 export const getVariantImages = (product: ConvertedProduct, finishValue?: string): string[] => {
+  const all = product.images.length > 0 ? product.images : [product.image].filter(Boolean);
+
   if (!finishValue || product.variants.length <= 1) {
-    return product.images;
+    return all;
   }
 
-  // Find variants that match the finish value
-  const matchingVariants = product.variants.filter(v => 
-    v.options.some(opt => 
-      (opt.name.toLowerCase() === 'finish' || opt.name.toLowerCase() === 'color') && 
+  // Variants matching the selected finish
+  const matchingVariants = product.variants.filter(v =>
+    v.options.some(opt =>
+      ['finish', 'color', 'wood finish'].includes(opt.name.toLowerCase()) &&
       opt.value === finishValue
     )
   );
 
-  // Collect variant-specific images
-  const variantImages = matchingVariants
+  // Plank & Beam: filenames encode the variant SKU -> the finish's full angle set
+  const skus = matchingVariants
+    .map(v => (v.sku || '').toLowerCase())
+    .filter(Boolean);
+  if (skus.length > 0) {
+    const skuMatched = all.filter(url =>
+      skus.some(sku => url.toLowerCase().includes(`${sku}__`))
+    );
+    if (skuMatched.length > 1) return skuMatched;
+  }
+
+  // Beds / non-SKU products: finish hero(s) first, then the rest of the gallery
+  const heroes = matchingVariants
     .map(v => v.image)
     .filter((img): img is string => !!img);
+  if (heroes.length > 0) {
+    return Array.from(new Set([...heroes, ...all]));
+  }
 
-  // If we have variant images, use those; otherwise fall back to product images
-  return variantImages.length > 0 ? variantImages : product.images;
+  return all;
 };
 
 // Get variant ID for a specific finish/color selection
