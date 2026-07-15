@@ -34,6 +34,21 @@ const categorySubcategories: Record<string, Array<{ slug: string; name: string }
     { slug: 'bookcases-shelves', name: 'Bookcases' },
     { slug: 'nightstands', name: 'Nightstands' },
   ],
+  'dining': [
+    { slug: 'dining-tables', name: 'Dining Tables' },
+    { slug: 'dining-chairs', name: 'Dining Chairs' },
+    { slug: 'dining-benches', name: 'Benches' },
+    { slug: 'bar-counter-chairs', name: 'Bar & Counter Chairs' },
+    { slug: 'dining-sets', name: 'Dining Sets' },
+  ],
+  'living': [
+    { slug: 'coffee-tables', name: 'Coffee Tables' },
+    { slug: 'console-tables', name: 'Console Tables' },
+    { slug: 'side-tables', name: 'Side Tables' },
+    { slug: 'sideboards', name: 'Sideboards' },
+    { slug: 'tv-stands', name: 'TV Stands' },
+    { slug: 'shelves', name: 'Shelves' },
+  ],
 };
 
 export const SubcategoryTabs = () => {

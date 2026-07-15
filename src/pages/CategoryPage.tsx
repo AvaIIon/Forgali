@@ -79,15 +79,39 @@ const subcategoryTagPatterns: Record<string, string[]> = {
   'nightstands': ['nightstand', 'night stand'],
 };
 
-// Check if product matches a subcategory based on tags
+// Furniture subcategories match on Shopify productType (authoritative for the
+// Plank & Beam range) — tag patterns above are for the bed categories.
+const subcategoryTypePatterns: Record<string, string[]> = {
+  // Dining
+  'dining-tables': ['dining table', 'outdoor table'],
+  'dining-chairs': ['dining chair'],
+  'dining-benches': ['dining bench', 'outdoor bench'],
+  'bar-counter-chairs': ['counter chair', 'bar chair', 'counter stool', 'bar stool'],
+  'dining-sets': ['dining set'],
+  // Living
+  'coffee-tables': ['coffee table'],
+  'console-tables': ['console table'],
+  'side-tables': ['side table', 'end table'],
+  'sideboards': ['sideboard'],
+  'tv-stands': ['tv stand', 'media console'],
+  'shelves': ['shelf', 'bookshelf'],
+  'entryway': ['entryway bench'],
+};
+
+// Check if product matches a subcategory based on productType or tags
 const productMatchesSubcategory = (product: ConvertedProduct, subcategory: string): boolean => {
+  const typePatterns = subcategoryTypePatterns[subcategory];
+  if (typePatterns) {
+    return typePatterns.includes((product.productType || '').toLowerCase());
+  }
+
   const patterns = subcategoryTagPatterns[subcategory];
   if (!patterns) return product.subcategory === subcategory;
-  
+
   const productTagsLower = product.tags.map(t => t.toLowerCase());
   const productTagStr = productTagsLower.join(' ');
-  
-  return patterns.some(pattern => 
+
+  return patterns.some(pattern =>
     productTagsLower.some(tag => tag.includes(pattern)) ||
     productTagStr.includes(pattern)
   );

@@ -30,11 +30,11 @@ const navItems = [
     href: "/category/dining",
     image: "https://cdn.shopify.com/s/files/1/0972/6492/6995/files/3400388400-155__1.jpg?v=1783608444",
     subcategories: [
-      { name: "Dining Tables", href: "/category/dining" },
-      { name: "Dining Chairs", href: "/category/dining" },
-      { name: "Dining Benches", href: "/category/dining" },
-      { name: "Bar & Counter Chairs", href: "/category/dining" },
-      { name: "Dining Sets", href: "/category/dining" },
+      { name: "Dining Tables", href: "/category/dining?subcategory=dining-tables" },
+      { name: "Dining Chairs", href: "/category/dining?subcategory=dining-chairs" },
+      { name: "Dining Benches", href: "/category/dining?subcategory=dining-benches" },
+      { name: "Bar & Counter Chairs", href: "/category/dining?subcategory=bar-counter-chairs" },
+      { name: "Dining Sets", href: "/category/dining?subcategory=dining-sets" },
     ]
   },
   {
@@ -42,12 +42,12 @@ const navItems = [
     href: "/category/living",
     image: "https://cdn.shopify.com/s/files/1/0972/6492/6995/files/2600567600-016__1.jpg?v=1783608423",
     subcategories: [
-      { name: "Coffee Tables", href: "/category/living" },
-      { name: "Console Tables", href: "/category/living" },
-      { name: "Side Tables", href: "/category/living" },
-      { name: "Sideboards", href: "/category/living" },
-      { name: "TV Stands", href: "/category/living" },
-      { name: "Shelves", href: "/category/living" },
+      { name: "Coffee Tables", href: "/category/living?subcategory=coffee-tables" },
+      { name: "Console Tables", href: "/category/living?subcategory=console-tables" },
+      { name: "Side Tables", href: "/category/living?subcategory=side-tables" },
+      { name: "Sideboards", href: "/category/living?subcategory=sideboards" },
+      { name: "TV Stands", href: "/category/living?subcategory=tv-stands" },
+      { name: "Shelves", href: "/category/living?subcategory=shelves" },
     ]
   },
   {
