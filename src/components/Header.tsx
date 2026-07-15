@@ -25,59 +25,10 @@ import { useNavigate } from "react-router-dom";
 import { getProxiedImage } from "@/lib/imageProxy";
 
 const navItems = [
-  { 
-    label: "Bunk Beds", 
-    href: "/category/bunk-beds",
-    image: "https://bedsmart.ca/wp-content/uploads/2022/06/2875.jpg",
-    subcategories: [
-      { name: "Twin Over Twin Bunk Beds", href: "/category/bunk-beds" },
-      { name: "Twin Over Full Bunk Beds", href: "/category/bunk-beds" },
-      { name: "Full Over Full Bunk Beds", href: "/category/bunk-beds" },
-      { name: "L-Shaped Bunk Beds", href: "/category/bunk-beds" },
-      { name: "Triple Bunk Beds", href: "/category/bunk-beds" },
-      { name: "Bunk Beds with Stairs", href: "/category/bunk-beds" },
-      { name: "Bunk Beds with Slide", href: "/category/bunk-beds" },
-    ]
-  },
-  { 
-    label: "Loft Beds", 
-    href: "/category/loft-beds",
-    image: "https://bedsmart.ca/wp-content/uploads/2024/05/uber-slam-ns__5-1024x1024.jpg",
-    subcategories: [
-      { name: "Low Loft Beds", href: "/category/loft-beds" },
-      { name: "Mid Loft Beds", href: "/category/loft-beds" },
-      { name: "High Loft Beds", href: "/category/loft-beds" },
-      { name: "Loft Beds with Desk", href: "/category/loft-beds" },
-      { name: "Loft Beds with Storage", href: "/category/loft-beds" },
-    ]
-  },
-  { 
-    label: "Single Beds", 
-    href: "/category/single-beds",
-    image: "https://bedsmart.ca/wp-content/uploads/2016/11/2075_20001__3_900x.webp",
-    subcategories: [
-      { name: "Twin Beds", href: "/category/single-beds" },
-      { name: "Full Beds", href: "/category/single-beds" },
-      { name: "Platform Beds", href: "/category/single-beds" },
-      { name: "Beds with Storage", href: "/category/single-beds" },
-      { name: "Trundle Beds", href: "/category/single-beds" },
-    ]
-  },
-  { 
-    label: "Storage & Accessories", 
-    href: "/category/accessories",
-    image: "https://bedsmart.ca/wp-content/uploads/2025/11/200006-002__2.jpg",
-    subcategories: [
-      { name: "Under Bed Storage", href: "/category/accessories" },
-      { name: "Bed Curtains", href: "/category/accessories" },
-      { name: "Slides", href: "/category/accessories" },
-      { name: "Guardrails", href: "/category/accessories" },
-      { name: "Ladders", href: "/category/accessories" },
-    ]
-  },
   {
     label: "Dining",
     href: "/category/dining",
+    image: "https://cdn.shopify.com/s/files/1/0972/6492/6995/files/3400388400-155__1.jpg?v=1783608444",
     subcategories: [
       { name: "Dining Tables", href: "/category/dining" },
       { name: "Dining Chairs", href: "/category/dining" },
@@ -89,6 +40,7 @@ const navItems = [
   {
     label: "Living",
     href: "/category/living",
+    image: "https://cdn.shopify.com/s/files/1/0972/6492/6995/files/2600567600-016__1.jpg?v=1783608423",
     subcategories: [
       { name: "Coffee Tables", href: "/category/living" },
       { name: "Console Tables", href: "/category/living" },
@@ -99,13 +51,28 @@ const navItems = [
     ]
   },
   {
-    label: "Mattresses",
-    href: "/category/mattresses",
-    image: "https://bedsmart.ca/wp-content/uploads/2017/08/JESS_HYBRIDMATTRESS_DREAM_STAR_BEDDING_BEST_QUALITY_MATTRESS_CANADIAN_78a94e84-5481-4da1-a595-be181f65301f-1024x1024.jpg",
+    label: "Bedroom",
+    href: "/category/bedroom",
+    image: "https://bedsmart.ca/wp-content/uploads/2022/06/2875.jpg",
     subcategories: [
-      { name: "Twin Mattresses", href: "/category/mattresses" },
-      { name: "Full Mattresses", href: "/category/mattresses" },
-      { name: "Queen Mattresses", href: "/category/mattresses" },
+      { name: "Bunk Beds", href: "/category/bunk-beds" },
+      { name: "Loft Beds", href: "/category/loft-beds" },
+      { name: "Single Beds", href: "/category/single-beds" },
+      { name: "Beds with Slide", href: "/category/bunk-beds?subcategory=with-slide" },
+      { name: "Beds with Stairs", href: "/category/bunk-beds?subcategory=with-stairs" },
+      { name: "Toddler & Floor Beds", href: "/category/single-beds?subcategory=floor-bed" },
+    ]
+  },
+  {
+    label: "Storage & Accessories",
+    href: "/category/accessories",
+    image: "https://bedsmart.ca/wp-content/uploads/2025/11/200006-002__2.jpg",
+    subcategories: [
+      { name: "Mattresses", href: "/category/mattresses" },
+      { name: "Dressers & Storage", href: "/category/accessories?subcategory=storage" },
+      { name: "Nightstands", href: "/category/accessories?subcategory=nightstands" },
+      { name: "Desks", href: "/category/accessories?subcategory=desks" },
+      { name: "Bookcases & Shelves", href: "/category/accessories?subcategory=bookcases-shelves" },
     ]
   },
   { label: "Smart Deals", href: "/smart-deals", highlight: true },

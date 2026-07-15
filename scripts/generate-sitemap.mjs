@@ -12,6 +12,7 @@ import { dirname, join } from "node:path";
 const SITE = "https://www.forgali.com";
 const STATIC_ROUTES = [
   ["/", "1.0"],
+  ["/category/bedroom", "0.8"],
   ["/category/bunk-beds", "0.8"],
   ["/category/loft-beds", "0.8"],
   ["/category/single-beds", "0.8"],

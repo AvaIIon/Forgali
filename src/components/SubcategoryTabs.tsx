@@ -40,9 +40,42 @@ export const SubcategoryTabs = () => {
   const { category } = useParams<{ category: string }>();
   const [searchParams] = useSearchParams();
   const selectedSubcategory = searchParams.get('subcategory');
-  
+
   if (!category) return null;
-  
+
+  // "bedroom" aggregates the bed categories — its tabs link to real category
+  // pages instead of ?subcategory filters.
+  if (category === 'bedroom') {
+    const bedCategories = [
+      { href: '/category/bunk-beds', name: 'Bunk Beds' },
+      { href: '/category/loft-beds', name: 'Loft Beds' },
+      { href: '/category/single-beds', name: 'Single Beds' },
+    ];
+    return (
+      <div className="border-b border-border bg-background sticky top-0 z-10">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="flex gap-2 overflow-x-auto py-4 scrollbar-hide">
+            <Link
+              to="/category/bedroom"
+              className="px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors bg-[#4A647C] text-white"
+            >
+              Shop All Bedroom
+            </Link>
+            {bedCategories.map((sub) => (
+              <Link
+                key={sub.href}
+                to={sub.href}
+                className="px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors bg-[#f2f4f6] text-foreground hover:bg-[#e8eaed]"
+              >
+                {sub.name}
+              </Link>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   // Special handling for mattresses
   if (category === 'mattresses') {
     return (

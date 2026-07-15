@@ -33,6 +33,10 @@ const categoryInfoMap: Record<string, { title: string; description: string }> = 
     title: "Storage & Accessories",
     description: "Complete your room with our storage solutions and accessories. Dressers, shelving, and more."
   },
+  "bedroom": {
+    title: "Bedroom",
+    description: "Solid wood beds for every sleeper — bunk beds, loft beds, and single beds built to last from childhood through the teenage years."
+  },
   "dining": {
     title: "Dining",
     description: "Solid wood dining tables, chairs, benches, and complete sets. Timeless craftsmanship for the heart of your home."

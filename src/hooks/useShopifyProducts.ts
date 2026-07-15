@@ -141,12 +141,18 @@ export const useShopifyProduct = (identifier: string | undefined) => {
   return { product, loading, error };
 };
 
+// "bedroom" is an aggregate storefront category spanning the bed categories
+const BEDROOM_CATEGORIES: ProductCategory[] = ["bunk-beds", "loft-beds", "single-beds"];
+
 // Hook for fetching products by category
-export const useShopifyProductsByCategory = (category: ProductCategory | undefined) => {
+export const useShopifyProductsByCategory = (category: ProductCategory | "bedroom" | undefined) => {
   const { products, loading, error } = useShopifyProducts();
 
   const filteredProducts = useMemo(() => {
     if (!category) return products;
+    if (category === "bedroom") {
+      return products.filter(p => BEDROOM_CATEGORIES.includes(p.category));
+    }
     return products.filter(p => p.category === category);
   }, [products, category]);
 

@@ -2,26 +2,11 @@ import { Heart, X } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import type { ConvertedProduct } from "@/services/shopifyService";
+import { getFinishColor } from "@/lib/finishColors";
 
 interface CategoryProductCardProps {
   product: ConvertedProduct;
 }
-
-// Finish name to color mapping
-const finishColors: Record<string, string> = {
-  "White": "#f2f4f6",
-  "Grey": "#808080",
-  "Natural": "#D4A574",
-  "Espresso": "#3C1414",
-  "Blue": "#4A647C",
-  "Pecan": "#C19A6B",
-  "Walnut": "#5C4033",
-  "Clay": "#C9B8A8",
-  "Chestnut": "#8B4513",
-  "Driftwood": "#B8A590",
-  "White Wash": "#F5F5F5",
-  "Barnwood Brown": "#8B7355",
-};
 
 export const CategoryProductCard = ({ product }: CategoryProductCardProps) => {
   // Use finishes array for color swatches
@@ -101,7 +86,7 @@ export const CategoryProductCard = ({ product }: CategoryProductCardProps) => {
             <div
               key={index}
               className="w-6 h-6 rounded-full border border-border"
-              style={{ backgroundColor: finishColors[finish] || "#CCCCCC" }}
+              style={{ backgroundColor: getFinishColor(finish) }}
               title={finish}
             />
           ))}

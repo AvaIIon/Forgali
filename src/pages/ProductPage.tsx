@@ -10,6 +10,7 @@ import { useCart } from "@/context/CartContext";
 import { useToast } from "@/hooks/use-toast";
 import { useShopifyProduct, useShopifyProducts, getRelatedProducts } from "@/hooks/useShopifyProducts";
 import { getVariantImages, getVariantIdForOptions, ConvertedProduct } from "@/services/shopifyService";
+import { getFinishColor } from "@/lib/finishColors";
 
 const ProductPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -166,27 +167,6 @@ const ProductPage = () => {
     },
   };
 
-  const finishColors: Record<string, string> = {
-    "White": "#f2f4f6",
-    "Grey": "#808080",
-    "Natural": "#D4A574",
-    "Espresso": "#3C1414",
-    "Blue": "#4A647C",
-    "Pecan": "#C19A6B",
-    "Walnut": "#5C4033",
-    "Clay": "#C9B8A8",
-    "Chestnut": "#8B4513",
-    "Driftwood": "#B8A590",
-    "White Wash": "#F5F5F5",
-    "Barnwood Brown": "#8B7355",
-    "White/Pecan": "#F5E6D3",
-    "White/Walnut": "#E8DED0",
-    "Grey/Pink": "#D4A5B9",
-    "Blue/Grey": "#7A9BA8",
-    "Pink/Grey": "#D4A5B9",
-    "Purple/Grey": "#A89BC9",
-  };
-
   return (
     <div className="min-h-screen bg-background">
       <Seo
@@ -312,7 +292,7 @@ const ProductPage = () => {
                           ? "border-[#4A647C] ring-2 ring-[#4A647C] ring-offset-2" 
                           : "border-border hover:border-muted-foreground"
                       }`}
-                      style={{ backgroundColor: finishColors[finish] || "#CCCCCC" }}
+                      style={{ backgroundColor: getFinishColor(finish) }}
                       title={finish}
                     />
                   ))}
