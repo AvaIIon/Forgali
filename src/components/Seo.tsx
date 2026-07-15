@@ -34,7 +34,10 @@ export const Seo = ({
   const blocks = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
 
   return (
-    <Helmet>
+    // defer={false} applies head changes synchronously. The default defers via
+    // requestAnimationFrame, which never fires in backgrounded/throttled tabs —
+    // title/meta/JSON-LD silently never render there.
+    <Helmet defer={false}>
       <title>{title}</title>
       {description && <meta name="description" content={description} />}
       <link rel="canonical" href={url} />
