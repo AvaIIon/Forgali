@@ -3,7 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Seo } from "@/components/Seo";
-import { Star, Check, Truck, Shield, CreditCard, Minus, Plus, Loader2, X } from "lucide-react";
+import { Star, Check, Truck, Shield, CreditCard, Minus, Plus, Loader2, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { useCart } from "@/context/CartContext";
@@ -203,14 +203,35 @@ const ProductPage = () => {
           {/* Image Gallery */}
           <div className="space-y-4">
             {/* Main Image */}
-            <div className="aspect-square rounded-lg overflow-hidden bg-secondary">
-              <img 
-                src={getImageSrc(selectedImage)} 
+            <div className="relative aspect-square rounded-lg overflow-hidden bg-secondary group">
+              <img
+                src={getImageSrc(selectedImage)}
                 alt={product.name}
                 className="w-full h-full object-cover"
                 onError={() => handleImageError(selectedImage)}
                 loading="eager"
               />
+              {finishImages.length > 1 && (
+                <>
+                  <button
+                    aria-label="Previous image"
+                    onClick={() => setSelectedImage((selectedImage - 1 + finishImages.length) % finishImages.length)}
+                    className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/90 shadow-md flex items-center justify-center hover:bg-white transition-colors"
+                  >
+                    <ChevronLeft className="w-5 h-5 text-foreground" />
+                  </button>
+                  <button
+                    aria-label="Next image"
+                    onClick={() => setSelectedImage((selectedImage + 1) % finishImages.length)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/90 shadow-md flex items-center justify-center hover:bg-white transition-colors"
+                  >
+                    <ChevronRight className="w-5 h-5 text-foreground" />
+                  </button>
+                  <span className="absolute bottom-3 right-3 bg-black/50 text-white text-xs font-medium px-2.5 py-1 rounded-full">
+                    {selectedImage + 1} / {finishImages.length}
+                  </span>
+                </>
+              )}
             </div>
             
             {/* Thumbnail Gallery */}
