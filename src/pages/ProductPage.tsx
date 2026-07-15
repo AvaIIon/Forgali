@@ -215,14 +215,14 @@ const ProductPage = () => {
                 <>
                   <button
                     aria-label="Previous image"
-                    onClick={() => setSelectedImage((selectedImage - 1 + finishImages.length) % finishImages.length)}
+                    onClick={() => setSelectedImage(i => (i - 1 + finishImages.length) % finishImages.length)}
                     className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/90 shadow-md flex items-center justify-center hover:bg-white transition-colors"
                   >
                     <ChevronLeft className="w-5 h-5 text-foreground" />
                   </button>
                   <button
                     aria-label="Next image"
-                    onClick={() => setSelectedImage((selectedImage + 1) % finishImages.length)}
+                    onClick={() => setSelectedImage(i => (i + 1) % finishImages.length)}
                     className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/90 shadow-md flex items-center justify-center hover:bg-white transition-colors"
                   >
                     <ChevronRight className="w-5 h-5 text-foreground" />
