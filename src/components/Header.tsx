@@ -78,6 +78,10 @@ const navItems = [
   { label: "Smart Deals", href: "/smart-deals", highlight: true },
 ];
 
+const dropdownNavLabels = navItems.filter((i) => i.subcategories).map((i) => i.label);
+const firstDropdownLabel = dropdownNavLabels[0];
+const lastDropdownLabel = dropdownNavLabels[dropdownNavLabels.length - 1];
+
 export const Header = () => {
   const { getTotalItems, setIsCartOpen } = useCart();
   const { isAuthenticated, logout } = useAdmin();
@@ -191,18 +195,30 @@ export const Header = () => {
           <NavigationMenu className="max-w-none justify-center">
             <NavigationMenuList className="gap-1">
               {navItems.map((item) => (
-                <NavigationMenuItem key={item.label}>
+                <NavigationMenuItem key={item.label} className="relative">
                   {item.subcategories ? (
                     <>
-                      <NavigationMenuTrigger 
+                      <NavigationMenuTrigger
                         className={`text-sm whitespace-nowrap bg-transparent hover:bg-transparent data-[state=open]:bg-transparent ${
                           item.highlight ? 'text-primary font-medium' : ''
                         }`}
                       >
                         {item.label}
                       </NavigationMenuTrigger>
-                      <NavigationMenuContent>
-                        <div className="w-[600px] p-6 bg-background border border-border shadow-lg">
+                      {/* Anchored under this item (margin-based, not translate —
+                          transforms get clobbered by the open/close animation
+                          keyframes). Edge items align to their own edge so the
+                          600px panel can't clip the viewport at narrower widths. */}
+                      <NavigationMenuContent
+                        className={`md:top-full md:mt-1.5 ${
+                          item.label === firstDropdownLabel
+                            ? "md:left-0"
+                            : item.label === lastDropdownLabel
+                              ? "md:left-auto md:right-0"
+                              : "md:left-1/2 md:-ml-[300px]"
+                        }`}
+                      >
+                        <div className="w-[600px] max-w-[92vw] p-6 bg-background border border-border rounded-lg shadow-lg">
                           <div className="grid grid-cols-2 gap-8">
                             {/* Subcategories */}
                             <div className="space-y-4">
