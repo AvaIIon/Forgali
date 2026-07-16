@@ -1,9 +1,10 @@
 import { useRef, useState } from "react";
-import { Search, User, ShoppingCart, ChevronDown } from "lucide-react";
+import { Search, User, ShoppingCart } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Link } from "react-router-dom";
 import { useCart } from "@/context/CartContext";
 import { useAdmin } from "@/context/AdminContext";
+import { useCustomer } from "@/context/CustomerContext";
 import LoginDialog from "@/components/LoginDialog";
 import {
   NavigationMenu,
@@ -81,6 +82,7 @@ const navItems = [
 export const Header = () => {
   const { getTotalItems, setIsCartOpen } = useCart();
   const { isAuthenticated, logout } = useAdmin();
+  const { customer, logout: customerLogout } = useCustomer();
   const [isLoginDialogOpen, setIsLoginDialogOpen] = useState(false);
 
   // The shared dropdown viewport glides under whichever trigger is active:
@@ -147,10 +149,10 @@ export const Header = () => {
           <div className="flex items-center gap-6 justify-end">
             <div className="flex items-center gap-2 text-sm">
               <span className="text-muted-foreground">Country:</span>
+              {/* CAD-only store: static chip, not a selector */}
               <div className="flex items-center gap-1">
                 <span className="text-lg">🇨🇦</span>
                 <span>CAD</span>
-                <ChevronDown className="w-4 h-4" />
               </div>
             </div>
             {isAuthenticated ? (
@@ -175,6 +177,27 @@ export const Header = () => {
                   <DropdownMenuItem onClick={handleLogout} className="cursor-pointer">
                     <LogOut className="w-4 h-4 mr-2" />
                     Logout
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : customer ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <button className="flex items-center justify-center w-10 h-10 rounded-full bg-muted hover:bg-muted/70 transition-colors text-sm font-semibold text-[#4A647C]">
+                    {(customer.firstName?.[0] || customer.email[0]).toUpperCase()}
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-56">
+                  <div className="px-2 py-1.5 text-sm">
+                    <div className="font-medium">
+                      {customer.firstName ? `${customer.firstName} ${customer.lastName ?? ""}`.trim() : "Your Account"}
+                    </div>
+                    <div className="text-xs text-muted-foreground truncate">{customer.email}</div>
+                  </div>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={customerLogout} className="cursor-pointer">
+                    <LogOut className="w-4 h-4 mr-2" />
+                    Sign Out
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -256,19 +279,24 @@ export const Header = () => {
                                 Shop All {item.label} →
                               </Link>
                             </div>
-                            {/* Featured Image */}
+                            {/* Featured Image — links to the category like everything else in the panel */}
                             {item.image && (
-                              <div className="relative rounded-lg overflow-hidden">
-                                <img 
-                                  src={getProxiedImage(item.image)}
-                                  alt={`Shop ${item.label}`}
-                                  className="w-full h-full object-cover"
-                                />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                                <div className="absolute bottom-4 left-4 text-white">
-                                  <p className="font-semibold">Shop {item.label}</p>
-                                </div>
-                              </div>
+                              <NavigationMenuLink asChild>
+                                <Link
+                                  to={item.href}
+                                  className="relative block rounded-lg overflow-hidden group"
+                                >
+                                  <img
+                                    src={getProxiedImage(item.image)}
+                                    alt={`Shop ${item.label}`}
+                                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                                  />
+                                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                                  <div className="absolute bottom-4 left-4 text-white">
+                                    <p className="font-semibold group-hover:underline">Shop {item.label} →</p>
+                                  </div>
+                                </Link>
+                              </NavigationMenuLink>
                             )}
                           </div>
                         </div>

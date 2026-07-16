@@ -25,6 +25,9 @@ const STATIC_ROUTES = [
   ["/contact", "0.6"],
   ["/faqs", "0.6"],
   ["/warranty", "0.6"],
+  ["/shipping", "0.6"],
+  ["/returns", "0.6"],
+  ["/assembly", "0.6"],
   ["/safety-standards", "0.6"],
 ];
 

@@ -930,3 +930,91 @@ export const getVariantIdForOptions = (
   );
   return variant?.id;
 };
+
+// ---------------------------------------------------------------------------
+// Customer accounts (classic Shopify customer API via the Storefront token)
+// ---------------------------------------------------------------------------
+
+export interface ShopifyCustomer {
+  firstName: string | null;
+  lastName: string | null;
+  email: string;
+}
+
+type CustomerUserError = { message: string };
+
+export const customerRegister = async (input: {
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+}): Promise<{ ok: true } | { ok: false; message: string }> => {
+  const data = await shopifyFetch<{
+    customerCreate: { customer: { id: string } | null; customerUserErrors: CustomerUserError[] };
+  }>(
+    `mutation($input: CustomerCreateInput!) {
+      customerCreate(input: $input) {
+        customer { id }
+        customerUserErrors { message }
+      }
+    }`,
+    { input }
+  );
+  const errs = data.customerCreate.customerUserErrors;
+  if (errs?.length) return { ok: false, message: errs.map(e => e.message).join(' ') };
+  return { ok: true };
+};
+
+export const customerLogin = async (
+  email: string,
+  password: string
+): Promise<{ ok: true; token: string; expiresAt: string } | { ok: false; message: string }> => {
+  const data = await shopifyFetch<{
+    customerAccessTokenCreate: {
+      customerAccessToken: { accessToken: string; expiresAt: string } | null;
+      customerUserErrors: CustomerUserError[];
+    };
+  }>(
+    `mutation($input: CustomerAccessTokenCreateInput!) {
+      customerAccessTokenCreate(input: $input) {
+        customerAccessToken { accessToken expiresAt }
+        customerUserErrors { message }
+      }
+    }`,
+    { input: { email, password } }
+  );
+  const t = data.customerAccessTokenCreate.customerAccessToken;
+  if (!t) {
+    const msg =
+      data.customerAccessTokenCreate.customerUserErrors?.map(e => e.message).join(' ') ||
+      'Incorrect email or password.';
+    return { ok: false, message: msg };
+  }
+  return { ok: true, token: t.accessToken, expiresAt: t.expiresAt };
+};
+
+export const customerFetch = async (token: string): Promise<ShopifyCustomer | null> => {
+  const data = await shopifyFetch<{ customer: ShopifyCustomer | null }>(
+    `query($token: String!) {
+      customer(customerAccessToken: $token) { firstName lastName email }
+    }`,
+    { token }
+  );
+  return data.customer;
+};
+
+export const customerLogout = async (token: string): Promise<void> => {
+  try {
+    await shopifyFetch(
+      `mutation($token: String!) {
+        customerAccessTokenDelete(customerAccessToken: $token) {
+          deletedAccessToken
+          userErrors { message }
+        }
+      }`,
+      { token }
+    );
+  } catch {
+    // best-effort: local sign-out proceeds regardless
+  }
+};

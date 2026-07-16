@@ -38,9 +38,9 @@ export const Footer = () => {
             <ul className="space-y-2 text-sm text-background/70">
               <li><Link to="/contact" className="hover:text-background">Contact Us</Link></li>
               <li><Link to="/faqs" className="hover:text-background">FAQs</Link></li>
-              <li><a href="#" className="hover:text-background">Shipping Info</a></li>
-              <li><a href="#" className="hover:text-background">Returns</a></li>
-              <li><a href="#" className="hover:text-background">Assembly Guide</a></li>
+              <li><Link to="/shipping" className="hover:text-background">Shipping Info</Link></li>
+              <li><Link to="/returns" className="hover:text-background">Returns</Link></li>
+              <li><Link to="/assembly" className="hover:text-background">Assembly Guide</Link></li>
             </ul>
           </div>
           
@@ -50,7 +50,6 @@ export const Footer = () => {
               <li><Link to="/about" className="hover:text-background">About Forgali</Link></li>
               <li><Link to="/warranty" className="hover:text-background">Warranty</Link></li>
               <li><Link to="/safety-standards" className="hover:text-background">Safety Standards</Link></li>
-              <li><a href="#" className="hover:text-background">Blog</a></li>
             </ul>
           </div>
           

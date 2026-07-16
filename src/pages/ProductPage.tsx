@@ -462,7 +462,13 @@ const ProductPage = () => {
                 <AccordionContent className="space-y-3">
                   <p className="text-sm">Free Canada-Wide Shipping on all orders!</p>
                   <p className="text-sm">Standard delivery: 5-10 business days</p>
-                  <p className="text-sm">Ships in 2 boxes for easier handling and delivery.</p>
+                  <p className="text-sm">
+                    <Link to="/shipping" className="text-primary hover:underline">Shipping details</Link>
+                    {" · "}
+                    <Link to="/returns" className="text-primary hover:underline">30-day returns</Link>
+                    {" · "}
+                    <Link to="/assembly" className="text-primary hover:underline">Assembly guide</Link>
+                  </p>
                 </AccordionContent>
               </AccordionItem>
             </Accordion>

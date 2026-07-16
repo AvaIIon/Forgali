@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { CartProvider } from "@/context/CartContext";
 import { ShopifyCartProvider } from "@/context/ShopifyCartContext";
 import { AdminProvider } from "@/context/AdminContext";
+import { CustomerProvider } from "@/context/CustomerContext";
 import { isShopifyConfigured } from "@/services/shopifyService";
 import { CartDrawer } from "@/components/CartDrawer";
 import ProtectedRoute from "@/components/admin/ProtectedRoute";
@@ -20,6 +21,9 @@ import ContactPage from "./pages/ContactPage";
 import FAQsPage from "./pages/FAQsPage";
 import AboutPage from "./pages/AboutPage";
 import WarrantyPage from "./pages/WarrantyPage";
+import ShippingPage from "./pages/ShippingPage";
+import ReturnsPage from "./pages/ReturnsPage";
+import AssemblyPage from "./pages/AssemblyPage";
 import SafetyStandardsPage from "./pages/SafetyStandardsPage";
 import AdminLogin from "./pages/admin/AdminLogin";
 import AdminDashboard from "./pages/admin/AdminDashboard";
@@ -44,6 +48,9 @@ const App = () => {
         <Route path="/faqs" element={<FAQsPage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/warranty" element={<WarrantyPage />} />
+        <Route path="/shipping" element={<ShippingPage />} />
+        <Route path="/returns" element={<ReturnsPage />} />
+        <Route path="/assembly" element={<AssemblyPage />} />
         <Route path="/safety-standards" element={<SafetyStandardsPage />} />
         
         {/* Admin Routes */}
@@ -84,6 +91,7 @@ const App = () => {
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <AdminProvider>
+        <CustomerProvider>
           {isShopifyConfigured() ? (
             <ShopifyCartProvider>
               <CartProvider>
@@ -95,6 +103,7 @@ const App = () => {
               {appContent}
             </CartProvider>
           )}
+        </CustomerProvider>
         </AdminProvider>
       </BrowserRouter>
     </QueryClientProvider>
