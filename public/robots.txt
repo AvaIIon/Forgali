@@ -1,16 +1,7 @@
-User-agent: Googlebot
-Allow: /
-
-User-agent: Bingbot
-Allow: /
-
-User-agent: Twitterbot
-Allow: /
-
-User-agent: facebookexternalhit
-Allow: /
-
+# /checkout is deliberately NOT disallowed: it carries a meta noindex, which
+# crawlers can only see if they're allowed to fetch the page.
 User-agent: *
 Allow: /
+Disallow: /admin
 
 Sitemap: https://www.forgali.com/sitemap.xml

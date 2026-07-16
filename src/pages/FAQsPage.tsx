@@ -1,6 +1,7 @@
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Seo } from "@/components/Seo";
 
 const FAQsPage = () => {
   const faqs = [
@@ -10,7 +11,7 @@ const FAQsPage = () => {
     },
     {
       question: "How long does shipping take?",
-      answer: "We offer free Canada-wide shipping on all orders. Standard delivery takes 5-10 business days. Express shipping options are available at checkout."
+      answer: "We offer free Canada-wide shipping on all orders. Standard delivery takes 5-10 business days."
     },
     {
       question: "Is assembly required?",
@@ -40,8 +41,22 @@ const FAQsPage = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <Seo
+        title="FAQs – Shipping, Assembly, Returns & Warranty | Forgali"
+        description="Answers to common questions about Forgali furniture: materials, shipping times, assembly, returns, warranty coverage, and child safety."
+        path="/faqs"
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: faqs.map((faq) => ({
+            "@type": "Question",
+            name: faq.question,
+            acceptedAnswer: { "@type": "Answer", text: faq.answer },
+          })),
+        }}
+      />
       <Header />
-      
+
       <div className="bg-gradient-to-b from-[#f2f4f6] to-white py-12 px-4">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">

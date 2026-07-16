@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Lock, CreditCard, Truck, ChevronLeft } from "lucide-react";
+import { Seo } from "@/components/Seo";
 import { ShopifyCheckoutButton } from "@/components/ShopifyCheckoutButton";
 import { isShopifyConfigured } from "@/services/shopifyService";
 
@@ -23,6 +24,7 @@ const CheckoutPage = () => {
   if (items.length === 0) {
     return (
       <div className="min-h-screen bg-background">
+        <Seo title="Checkout | Forgali" path="/checkout" noindex />
         <Header />
         <div className="max-w-4xl mx-auto px-4 py-16 text-center">
           <h1 className="text-2xl font-bold mb-4">Your cart is empty</h1>
@@ -38,6 +40,7 @@ const CheckoutPage = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <Seo title="Checkout | Forgali" path="/checkout" noindex />
       <Header />
       
       {/* Checkout Header */}

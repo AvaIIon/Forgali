@@ -1,10 +1,16 @@
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Mail, Phone, Clock, MapPin } from "lucide-react";
+import { Seo } from "@/components/Seo";
 
 const ContactPage = () => {
   return (
     <div className="min-h-screen bg-background">
+      <Seo
+        title="Contact Forgali – Support for Orders & Delivery"
+        description="Questions about an order, shipping, or finding the right bed? Reach the Forgali team by phone or email — we respond within 24 hours."
+        path="/contact"
+      />
       <Header />
       
       <div className="bg-gradient-to-b from-[#f2f4f6] to-white py-12 px-4">

@@ -12,7 +12,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <meta name="description" content="Forgali — solid wood furniture for every room. Kids' beds, dining tables, and living-room pieces built to last. Free Canada-wide shipping." />
+    <!-- No static meta description: every route sets its own via <Seo> (react-helmet-async).
+         A static one here DUPLICATES rather than gets replaced — JS-rendering crawlers then
+         see two description tags and may pick the generic one. The static og:/twitter tags
+         below stay as the fallback for non-JS social scrapers until SSR/prerender lands. -->
     <meta name="author" content="Forgali" />
 
     <meta property="og:title" content="Forgali — Solid Wood Furniture for Every Room" />

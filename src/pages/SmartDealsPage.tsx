@@ -4,6 +4,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { CategoryProductCard } from "@/components/CategoryProductCard";
 import { useShopifyProducts } from "@/hooks/useShopifyProducts";
+import { Seo } from "@/components/Seo";
 
 const SmartDealsPage = () => {
   const { products: allProducts, loading, error } = useShopifyProducts();
@@ -24,6 +25,11 @@ const SmartDealsPage = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <Seo
+        title="Smart Deals – Solid Wood Furniture on Sale | Forgali"
+        description="Save on solid wood bunk beds, loft beds, and furniture for every room. Current markdowns with free Canada-wide shipping."
+        path="/smart-deals"
+      />
       <Header />
       
       <div className="bg-gradient-to-b from-[#f2f4f6] to-white py-12 px-4">

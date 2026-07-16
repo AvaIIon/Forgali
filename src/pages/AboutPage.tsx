@@ -1,9 +1,15 @@
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { Seo } from "@/components/Seo";
 
 const AboutPage = () => {
   return (
     <div className="min-h-screen bg-background">
+      <Seo
+        title="About Forgali – Solid Wood Furniture for Every Room"
+        description="Learn about Forgali — a Canadian store for solid wood kids' beds, dining, and living furniture built to last. Free Canada-wide shipping."
+        path="/about"
+      />
       <Header />
       
       <div className="bg-gradient-to-b from-[#f2f4f6] to-white py-12 px-4">

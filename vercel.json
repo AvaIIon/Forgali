@@ -10,6 +10,8 @@
     { "source": "/forgali-furniture-blog", "destination": "/", "permanent": true },
     { "source": "/forgali-furniture-blog/:path*", "destination": "/", "permanent": true },
     { "source": "/product/mariln", "destination": "/category/bunk-beds", "permanent": true },
+    { "source": "/bedsmart-kids-furniture", "destination": "/category/bedroom", "permanent": true },
+    { "source": "/bedsmart-kids-furniture/:path*", "destination": "/category/bedroom", "permanent": true },
     { "source": "/index.php", "destination": "/", "permanent": true },
     { "source": "/index.php/:path*", "destination": "/", "permanent": true },
     {
