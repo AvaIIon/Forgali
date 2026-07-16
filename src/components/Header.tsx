@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Search, User, ShoppingCart, ChevronDown } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Link } from "react-router-dom";
@@ -78,14 +78,29 @@ const navItems = [
   { label: "Smart Deals", href: "/smart-deals", highlight: true },
 ];
 
-const dropdownNavLabels = navItems.filter((i) => i.subcategories).map((i) => i.label);
-const firstDropdownLabel = dropdownNavLabels[0];
-const lastDropdownLabel = dropdownNavLabels[dropdownNavLabels.length - 1];
-
 export const Header = () => {
   const { getTotalItems, setIsCartOpen } = useCart();
   const { isAuthenticated, logout } = useAdmin();
   const [isLoginDialogOpen, setIsLoginDialogOpen] = useState(false);
+
+  // The shared dropdown viewport glides under whichever trigger is active:
+  // on item change we measure that trigger and position the panel's center on
+  // it, clamped 16px inside the window so edge items never clip off-screen.
+  const menuRef = useRef<HTMLElement | null>(null);
+  const triggerRefs = useRef<Record<string, HTMLButtonElement | null>>({});
+  const [dropdownLeft, setDropdownLeft] = useState(0);
+  const handleNavValueChange = (value: string) => {
+    const trigger = value ? triggerRefs.current[value] : null;
+    const root = menuRef.current;
+    if (!trigger || !root) return;
+    const t = trigger.getBoundingClientRect();
+    const rootRect = root.getBoundingClientRect();
+    const panelW = Math.min(600, window.innerWidth * 0.92);
+    const minLeft = 16 - rootRect.left;
+    const maxLeft = window.innerWidth - 16 - panelW - rootRect.left;
+    const centered = t.left - rootRect.left + t.width / 2 - panelW / 2;
+    setDropdownLeft(Math.round(Math.max(minLeft, Math.min(centered, maxLeft))));
+  };
   const totalItems = getTotalItems();
   const navigate = useNavigate();
 
@@ -192,33 +207,28 @@ export const Header = () => {
       {/* Navigation */}
       <nav className="border-b border-border">
         <div className="max-w-7xl mx-auto px-4">
-          <NavigationMenu className="max-w-none justify-center">
+          <NavigationMenu
+            ref={menuRef}
+            className="max-w-none justify-center"
+            onValueChange={handleNavValueChange}
+            style={{ "--nav-viewport-left": `${dropdownLeft}px` } as React.CSSProperties}
+          >
             <NavigationMenuList className="gap-1">
               {navItems.map((item) => (
-                <NavigationMenuItem key={item.label} className="relative">
+                <NavigationMenuItem key={item.label} value={item.label}>
                   {item.subcategories ? (
                     <>
                       <NavigationMenuTrigger
+                        ref={(el) => { triggerRefs.current[item.label] = el; }}
                         className={`text-sm whitespace-nowrap bg-transparent hover:bg-transparent data-[state=open]:bg-transparent ${
                           item.highlight ? 'text-primary font-medium' : ''
                         }`}
                       >
                         {item.label}
                       </NavigationMenuTrigger>
-                      {/* Anchored under this item (margin-based, not translate —
-                          transforms get clobbered by the open/close animation
-                          keyframes). Edge items align to their own edge so the
-                          600px panel can't clip the viewport at narrower widths. */}
-                      <NavigationMenuContent
-                        className={`md:top-full md:mt-1.5 ${
-                          item.label === firstDropdownLabel
-                            ? "md:left-0"
-                            : item.label === lastDropdownLabel
-                              ? "md:left-auto md:right-0"
-                              : "md:left-1/2 md:-ml-[300px]"
-                        }`}
-                      >
-                        <div className="w-[600px] max-w-[92vw] p-6 bg-background border border-border rounded-lg shadow-lg">
+                      <NavigationMenuContent>
+                        {/* border/shadow/rounding come from the shared viewport */}
+                        <div className="w-[600px] max-w-[92vw] p-6 bg-background">
                           <div className="grid grid-cols-2 gap-8">
                             {/* Subcategories */}
                             <div className="space-y-4">

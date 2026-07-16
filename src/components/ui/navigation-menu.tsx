@@ -15,10 +15,11 @@ const NavigationMenu = React.forwardRef<
     {...props}
   >
     {children}
-    {/* No shared <NavigationMenuViewport />: with it, Radix portals every dropdown
-        into ONE panel anchored to the menu root, so the flyout opens far from the
-        item that triggered it. Without it, each Content renders inside its own
-        NavigationMenuItem (make the item `relative` and position Content there). */}
+    {/* One shared viewport so switching items morphs/crossfades a single panel
+        (no close-reopen blink). It follows the active trigger via the
+        --nav-viewport-left var, which the consumer sets from onValueChange —
+        without that var it falls back to the menu's left edge. */}
+    <NavigationMenuViewport />
   </NavigationMenuPrimitive.Root>
 ));
 NavigationMenu.displayName = NavigationMenuPrimitive.Root.displayName;
@@ -66,11 +67,12 @@ const NavigationMenuContent = React.forwardRef<
   <NavigationMenuPrimitive.Content
     ref={ref}
     className={cn(
-      // Fade only — the big slide-in-from-*-52 animations were designed for the
-      // shared-viewport morph and look broken on per-item dropdowns. No transform
-      // animations either: tailwindcss-animate keyframes overwrite `transform` at
-      // frame 0, which would visually yank a translate-centered panel.
-      "left-0 top-0 w-full data-[motion^=from-]:animate-in data-[motion^=to-]:animate-out data-[motion^=from-]:fade-in data-[motion^=to-]:fade-out md:absolute md:w-auto",
+      // Inside the shared viewport: crossfade with a short directional slide
+      // when hopping between items. The ENTERING content stays in normal flow
+      // so the viewport sizes to it naturally (Radix's measured --viewport-w/h
+      // vars proved unreliable here); only the LEAVING content goes absolute
+      // so the two don't stack during the crossfade.
+      "data-[motion^=from-]:animate-in data-[motion^=to-]:animate-out data-[motion^=from-]:fade-in data-[motion^=to-]:fade-out data-[motion=from-end]:slide-in-from-right-12 data-[motion=from-start]:slide-in-from-left-12 data-[motion=to-end]:slide-out-to-right-12 data-[motion=to-start]:slide-out-to-left-12 data-[motion^=to-]:absolute data-[motion^=to-]:left-0 data-[motion^=to-]:top-0",
       className,
     )}
     {...props}
@@ -84,10 +86,17 @@ const NavigationMenuViewport = React.forwardRef<
   React.ElementRef<typeof NavigationMenuPrimitive.Viewport>,
   React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Viewport>
 >(({ className, ...props }, ref) => (
-  <div className={cn("absolute left-0 top-full flex justify-center z-50")}>
+  // Follows the active trigger: the consumer computes a clamped left offset and
+  // sets --nav-viewport-left on the menu root; the transition makes the panel
+  // GLIDE between items instead of jumping. Inline style (not a Tailwind
+  // arbitrary class) so the var lookup can't be lost in CSS generation.
+  <div
+    className="absolute top-full z-50"
+    style={{ left: "var(--nav-viewport-left, 0px)", transition: "left 300ms cubic-bezier(0.22, 1, 0.36, 1)" }}
+  >
     <NavigationMenuPrimitive.Viewport
       className={cn(
-        "origin-top-center relative mt-1.5 h-[var(--radix-navigation-menu-viewport-height)] w-full overflow-hidden rounded-md border bg-popover text-popover-foreground shadow-lg data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-90 md:w-[var(--radix-navigation-menu-viewport-width)]",
+        "origin-top-center relative mt-1.5 w-max overflow-hidden rounded-lg border bg-popover text-popover-foreground shadow-lg data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out data-[state=closed]:zoom-out-95 data-[state=open]:fade-in data-[state=open]:zoom-in-95",
         className,
       )}
       ref={ref}
