@@ -76,6 +76,11 @@ async function main() {
     .map((p) => {
       const v = p.variants.nodes[0];
       const price = `${Number(v.price.amount).toFixed(2)} ${v.price.currencyCode}`;
+      // Brand must match what the landing page shows: titles that name the
+      // manufacturer keep it; de-branded titles sell under the store brand.
+      const brand = /plank\+beam/i.test(p.title) ? "Plank & Beam"
+        : /maxtrix/i.test(p.title) ? "Maxtrix"
+        : "Forgali";
       return `  <item>
     <g:id>${esc(p.handle)}</g:id>
     <g:title>${esc(p.title)}</g:title>
@@ -85,7 +90,7 @@ async function main() {
     <g:price>${price}</g:price>
     <g:availability>${v.availableForSale ? "in stock" : "out of stock"}</g:availability>
     <g:condition>new</g:condition>
-    <g:brand>Forgali</g:brand>
+    <g:brand>${esc(brand)}</g:brand>
     <g:identifier_exists>false</g:identifier_exists>
     <g:product_type>${esc(p.productType || "Furniture")}</g:product_type>
     <g:shipping>
