@@ -115,37 +115,18 @@ const CheckoutPage = () => {
 
             <Separator />
 
-            {/* Payment */}
-            <div className="space-y-4">
+            {/* Payment happens on Shopify's PCI-compliant hosted checkout —
+                collecting card digits here in dead inputs just made shoppers
+                type everything twice (and looked like a card-harvesting form). */}
+            <div className="space-y-2">
               <h2 className="text-lg font-semibold flex items-center gap-2">
                 <CreditCard className="w-5 h-5" />
                 Payment
               </h2>
-              <div className="p-4 border border-border rounded-lg bg-secondary/30">
-                <div className="space-y-3">
-                  <div>
-                    <Label htmlFor="cardNumber">Card Number</Label>
-                    <Input id="cardNumber" placeholder="1234 5678 9012 3456" className="mt-1" />
-                  </div>
-                  <div className="grid grid-cols-2 gap-3">
-                    <div>
-                      <Label htmlFor="expiry">Expiry Date</Label>
-                      <Input id="expiry" placeholder="MM/YY" className="mt-1" />
-                    </div>
-                    <div>
-                      <Label htmlFor="cvv">CVV</Label>
-                      <Input id="cvv" placeholder="123" className="mt-1" />
-                    </div>
-                  </div>
-                  <div>
-                    <Label htmlFor="nameOnCard">Name on Card</Label>
-                    <Input id="nameOnCard" placeholder="John Doe" className="mt-1" />
-                  </div>
-                </div>
-              </div>
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <Lock className="w-4 h-4" />
-                Your payment information is secure and encrypted
+                You'll enter payment on the next step — our secure, encrypted checkout
+                (credit card, Apple Pay, Google Pay).
               </div>
             </div>
 
