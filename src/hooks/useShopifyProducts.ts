@@ -159,20 +159,36 @@ export const useShopifyProductsByCategory = (category: ProductCategory | "bedroo
   return { products: filteredProducts, loading, error };
 };
 
-// Hook for search functionality
+// Hook for search functionality. Every word in the query must match somewhere
+// in the product ("white bunk bed" is an AND of terms, not one literal string);
+// results rank name matches above description/tag matches, in-stock first.
 export const useShopifyProductSearch = (query: string) => {
   const { products, loading, error } = useShopifyProducts();
 
   const searchResults = useMemo(() => {
-    if (!query.trim()) return [];
-    
-    const lowerQuery = query.toLowerCase();
-    return products.filter(p => 
-      p.name.toLowerCase().includes(lowerQuery) ||
-      p.description?.toLowerCase().includes(lowerQuery) ||
-      p.category.includes(lowerQuery) ||
-      p.subcategory.includes(lowerQuery)
-    );
+    const terms = query.toLowerCase().split(/\s+/).filter(Boolean);
+    if (terms.length === 0) return [];
+
+    const scored: Array<{ product: ConvertedProduct; score: number }> = [];
+    for (const p of products) {
+      const name = p.name.toLowerCase();
+      const haystack = [
+        name,
+        p.description?.toLowerCase() ?? '',
+        p.category,
+        p.subcategory,
+        p.productType.toLowerCase(),
+        ...p.tags.map(t => t.toLowerCase()),
+        ...p.finishes.map(f => f.toLowerCase()),
+      ].join(' ');
+
+      if (!terms.every(term => haystack.includes(term))) continue;
+
+      const nameHits = terms.filter(term => name.includes(term)).length;
+      scored.push({ product: p, score: nameHits * 2 + (p.availableForSale ? 1 : 0) });
+    }
+
+    return scored.sort((a, b) => b.score - a.score).map(s => s.product);
   }, [products, query]);
 
   return { results: searchResults, loading, error };

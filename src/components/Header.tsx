@@ -105,6 +105,13 @@ export const Header = () => {
   };
   const totalItems = getTotalItems();
   const navigate = useNavigate();
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const q = searchQuery.trim();
+    if (q) navigate(`/search?q=${encodeURIComponent(q)}`);
+  };
 
   const handleLogout = () => {
     logout();
@@ -125,14 +132,16 @@ export const Header = () => {
       <div className="border-b border-border">
         <div className="max-w-7xl mx-auto px-4 py-4 grid grid-cols-3 items-center">
           {/* Search - Left */}
-          <div className="relative max-w-sm">
+          <form onSubmit={handleSearchSubmit} className="relative max-w-sm" role="search">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-            <Input 
-              type="text" 
-              placeholder="Search our store" 
+            <Input
+              type="search"
+              placeholder="Search our store"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-10 bg-background border-border rounded-full h-10"
             />
-          </div>
+          </form>
           
           {/* Logo - Center */}
           <Link to="/" className="flex flex-col items-center justify-center gap-1">

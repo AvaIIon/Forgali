@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { Loader2 } from "lucide-react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -26,6 +26,7 @@ const discountPct = (p: { price: number; originalPrice?: number }) =>
 
 const SmartDealsPage = () => {
   const { products: allProducts, loading, error } = useShopifyProducts();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const sections = useMemo(() => {
     const onSale = allProducts.filter(p => p.originalPrice && p.originalPrice > p.price);
@@ -42,6 +43,22 @@ const SmartDealsPage = () => {
   }, [allProducts]);
 
   const totalDeals = sections.reduce((n, s) => n + s.products.length, 0);
+
+  // Chips are filter tabs, not anchor jumps: picking a room swaps the content
+  // in place (?room=dining), so there's no scroll-back-up to switch rooms.
+  const roomParam = searchParams.get("room");
+  const activeRoom = sections.some(s => s.id === roomParam) ? roomParam : null;
+  const visibleSections = activeRoom ? sections.filter(s => s.id === activeRoom) : sections;
+  const selectRoom = (id: string | null) => {
+    setSearchParams(id ? { room: id } : {}, { replace: false });
+  };
+
+  const chipClass = (active: boolean) =>
+    `inline-flex items-center gap-1.5 rounded-full border px-4 py-2 text-sm font-medium transition-colors ${
+      active
+        ? "border-primary bg-primary text-primary-foreground"
+        : "border-border bg-background hover:border-[#4A647C] hover:text-[#4A647C]"
+    }`;
 
   return (
     <div className="min-h-screen bg-background">
@@ -82,24 +99,33 @@ const SmartDealsPage = () => {
 
           {!loading && !error && sections.length > 0 && (
             <>
-              {/* Quick jump to each room's deals */}
+              {/* Room filter tabs */}
               {sections.length > 1 && (
                 <div className="flex flex-wrap justify-center gap-2 mb-10">
+                  <button type="button" onClick={() => selectRoom(null)} className={chipClass(activeRoom === null)}>
+                    All Deals
+                    <span className={`text-xs ${activeRoom === null ? "text-primary-foreground/70" : "text-muted-foreground"}`}>
+                      ({totalDeals})
+                    </span>
+                  </button>
                   {sections.map(section => (
-                    <a
+                    <button
                       key={section.id}
-                      href={`#deals-${section.id}`}
-                      className="inline-flex items-center gap-1.5 rounded-full border border-border bg-background px-4 py-2 text-sm font-medium hover:border-[#4A647C] hover:text-[#4A647C] transition-colors"
+                      type="button"
+                      onClick={() => selectRoom(section.id)}
+                      className={chipClass(activeRoom === section.id)}
                     >
                       {section.label}
-                      <span className="text-xs text-muted-foreground">({section.products.length})</span>
-                    </a>
+                      <span className={`text-xs ${activeRoom === section.id ? "text-primary-foreground/70" : "text-muted-foreground"}`}>
+                        ({section.products.length})
+                      </span>
+                    </button>
                   ))}
                 </div>
               )}
 
               <div className="space-y-14">
-                {sections.map(section => (
+                {visibleSections.map(section => (
                   <div key={section.id} id={`deals-${section.id}`} className="scroll-mt-24">
                     <div className="flex flex-wrap items-baseline justify-between gap-2 mb-6 border-b border-border pb-3">
                       <h2 className="text-2xl font-bold text-foreground">
