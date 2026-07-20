@@ -10,6 +10,7 @@ import { AdminProvider } from "@/context/AdminContext";
 import { CustomerProvider } from "@/context/CustomerContext";
 import { isShopifyConfigured } from "@/services/shopifyService";
 import { CartDrawer } from "@/components/CartDrawer";
+import { ScrollToTop } from "@/components/ScrollToTop";
 import ProtectedRoute from "@/components/admin/ProtectedRoute";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
@@ -92,6 +93,7 @@ const App = () => {
     <HelmetProvider>
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
+        <ScrollToTop />
         <AdminProvider>
         <CustomerProvider>
           {isShopifyConfigured() ? (
