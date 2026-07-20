@@ -24,22 +24,39 @@ const DEAL_SECTIONS: { id: string; label: string; href: string; categories: Prod
 const discountPct = (p: { price: number; originalPrice?: number }) =>
   p.originalPrice ? ((p.originalPrice - p.price) / p.originalPrice) * 100 : 0;
 
+// How many products each room shows in the "All Deals" overview
+const CURATED_LIMIT = 8;
+
+const shuffled = <T,>(arr: T[]): T[] => {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+};
+
 const SmartDealsPage = () => {
   const { products: allProducts, loading, error } = useShopifyProducts();
   const [searchParams, setSearchParams] = useSearchParams();
 
   const sections = useMemo(() => {
     const onSale = allProducts.filter(p => p.originalPrice && p.originalPrice > p.price);
-    return DEAL_SECTIONS.map(section => ({
-      ...section,
-      products: onSale
+    return DEAL_SECTIONS.map(section => {
+      const products = onSale
         .filter(p => section.categories.includes(p.category))
         // In-stock deals first (matching category pages), best discount first within each group
         .sort((a, b) => {
           if (a.availableForSale !== b.availableForSale) return a.availableForSale ? -1 : 1;
           return discountPct(b) - discountPct(a);
-        }),
-    })).filter(section => section.products.length > 0);
+        });
+      // "All Deals" shows a random curation per room, reshuffled each visit
+      // (in-stock first so a sold-out item never bumps a sellable one).
+      const curated = shuffled(products)
+        .sort((a, b) => (a.availableForSale === b.availableForSale ? 0 : a.availableForSale ? -1 : 1))
+        .slice(0, CURATED_LIMIT);
+      return { ...section, products, curated };
+    }).filter(section => section.products.length > 0);
   }, [allProducts]);
 
   const totalDeals = sections.reduce((n, s) => n + s.products.length, 0);
@@ -125,29 +142,44 @@ const SmartDealsPage = () => {
               )}
 
               <div className="space-y-14">
-                {visibleSections.map(section => (
-                  <div key={section.id} id={`deals-${section.id}`} className="scroll-mt-24">
-                    <div className="flex flex-wrap items-baseline justify-between gap-2 mb-6 border-b border-border pb-3">
-                      <h2 className="text-2xl font-bold text-foreground">
-                        {section.label}
-                        <span className="ml-2 text-sm font-normal text-muted-foreground">
-                          {section.products.length} {section.products.length === 1 ? "deal" : "deals"}
-                        </span>
-                      </h2>
-                      <Link
-                        to={section.href}
-                        className="text-sm font-medium text-primary hover:underline whitespace-nowrap"
-                      >
-                        Shop all {section.label} →
-                      </Link>
+                {visibleSections.map(section => {
+                  // Overview shows the random curation; a room tab shows everything
+                  const items = activeRoom ? section.products : section.curated;
+                  const hasMore = !activeRoom && section.products.length > items.length;
+                  return (
+                    <div key={section.id} id={`deals-${section.id}`} className="scroll-mt-24">
+                      <div className="flex flex-wrap items-baseline justify-between gap-2 mb-6 border-b border-border pb-3">
+                        <h2 className="text-2xl font-bold text-foreground">
+                          {section.label}
+                          <span className="ml-2 text-sm font-normal text-muted-foreground">
+                            {section.products.length} {section.products.length === 1 ? "deal" : "deals"}
+                          </span>
+                        </h2>
+                        {hasMore ? (
+                          <button
+                            type="button"
+                            onClick={() => selectRoom(section.id)}
+                            className="text-sm font-medium text-primary hover:underline whitespace-nowrap"
+                          >
+                            See all {section.products.length} {section.label} deals →
+                          </button>
+                        ) : (
+                          <Link
+                            to={section.href}
+                            className="text-sm font-medium text-primary hover:underline whitespace-nowrap"
+                          >
+                            Shop all {section.label} →
+                          </Link>
+                        )}
+                      </div>
+                      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                        {items.map(product => (
+                          <CategoryProductCard key={product.id} product={product} />
+                        ))}
+                      </div>
                     </div>
-                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                      {section.products.map(product => (
-                        <CategoryProductCard key={product.id} product={product} />
-                      ))}
-                    </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </>
           )}
