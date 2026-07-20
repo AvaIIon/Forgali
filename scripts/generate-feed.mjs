@@ -72,6 +72,10 @@ async function main() {
   if (!products.length) return;
 
   const items = products
+    // checkout-test-item is a $2 payment-path fixture. It is currently excluded only
+    // incidentally (no featured image) — name it explicitly so adding an image can
+    // never push a test product into Merchant Center.
+    .filter((p) => p.handle !== "checkout-test-item")
     .filter((p) => p.featuredImage && p.variants.nodes.length)
     .map((p) => {
       const v = p.variants.nodes[0];

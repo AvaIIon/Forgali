@@ -4,26 +4,2665 @@
   "devCommand": "npm run dev",
   "installCommand": "npm install",
   "framework": "vite",
+  "trailingSlash": false,
   "redirects": [
-    { "source": "/contact-us", "destination": "/contact", "permanent": true },
-    { "source": "/contact-us/", "destination": "/contact", "permanent": true },
-    { "source": "/forgali-furniture-blog", "destination": "/", "permanent": true },
-    { "source": "/forgali-furniture-blog/:path*", "destination": "/", "permanent": true },
-    { "source": "/product/mariln", "destination": "/category/bunk-beds", "permanent": true },
-    { "source": "/bedsmart-kids-furniture", "destination": "/category/bedroom", "permanent": true },
-    { "source": "/bedsmart-kids-furniture/:path*", "destination": "/category/bedroom", "permanent": true },
-    { "source": "/index.php", "destination": "/", "permanent": true },
-    { "source": "/index.php/:path*", "destination": "/", "permanent": true },
+    {
+      "source": "/contact-us",
+      "destination": "/contact",
+      "permanent": true
+    },
+    {
+      "source": "/contact-us/",
+      "destination": "/contact",
+      "permanent": true
+    },
+    {
+      "source": "/forgali-furniture-blog",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/forgali-furniture-blog/:path*",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/product/mariln",
+      "destination": "/category/bunk-beds",
+      "permanent": true
+    },
+    {
+      "source": "/bedsmart-kids-furniture",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/bedsmart-kids-furniture/:path*",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/index.php",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/Kitchen.htm",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/Nuforgali",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/Nuforgali/concord.htm",
+      "destination": "/contact",
+      "permanent": true
+    },
+    {
+      "source": "/Nuforgali/contactus.htm",
+      "destination": "/contact",
+      "permanent": true
+    },
+    {
+      "source": "/Nuforgali/diningsets.htm",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/Nuforgali/index.htm",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/Nuforgali/mississauga.htm",
+      "destination": "/contact",
+      "permanent": true
+    },
+    {
+      "source": "/Nuforgali/toronto.htm",
+      "destination": "/contact",
+      "permanent": true
+    },
+    {
+      "source": "/about-us.html",
+      "destination": "/about",
+      "permanent": true
+    },
+    {
+      "source": "/accent-furniture-cube.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/accent-furniture-demilune-glass.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/accent-furniture-metro.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/accent-furniture-noguchi.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/accent-furniture-tranquil-tables.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/accent-furniture.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/accent-furniture12.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/accent-furniture13.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/accent-furniture15.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/accent-furniture3.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/accent-furniture6.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/accent-furniture7.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/accent-furniture8.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/accent-furniture9.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/accent-tables",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/bar-stools.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/bed.htm",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/bedlg.htm",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/bedlg1.htm",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/bedlg2.htm",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/bedlg3.htm",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/bedlg4.htm",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/bedroom-furniture-brooklyn.html",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/bedroom-furniture-contempo.html",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/bedroom-furniture-demilune.html",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/bedroom-furniture-georgetown.html",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/bedroom-furniture-hudsonvalley.html",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/bedroom-furniture-shaker.html",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/bedroom-furniture-trad-CanadianaClassic.html",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/bedroom-furniture-trad-florentino.html",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/bedroom-furniture-trad-phillipe.html",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/bedroom-furniture-tranquil.html",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/bedroom-furniture-victoriafalls.html",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/bedroom-furniture.html",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/bedroom-furnituretranquil.html",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/bedrooms",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/beds.htm",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/bedsets.htm",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/bedsets01.htm",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/bedsets02.htm",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/bedsets03.htm",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/benches.htm",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/brooklyn-bedroom-collection.html",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/canadian-classics.html",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/casual-dining-campo.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/casual-dining-leanza.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/casual-dining-madrid.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/casual-dining-nadia.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/casual-dining-passion.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/casual-dining-polo.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/casual-dining-prestige.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/casual-dining-verde.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/casual-dining.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/chairs-bar-stools.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/chairs-metro/1.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/chairs.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/clearance.html",
+      "destination": "/smart-deals",
+      "permanent": true
+    },
+    {
+      "source": "/coffee.htm",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/coffeea.htm",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/coffeeb.htm",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/coffeelg.htm",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/coffeelg1.htm",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/coffeelg2.htm",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/coffeelg3.htm",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/coffeelg4.htm",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/coffeelg5.htm",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/coffeelga.htm",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/coffeelga1.htm",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/coffeelga2.htm",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/coffeelga3.htm",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/coffeelga4.htm",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/coffeelga5.htm",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/coffeelgb.htm",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/coffeelgb1.htm",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/coffeelgb2.htm",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/coffeelgb3.htm",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/coffeelgb4.htm",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/concord.htm",
+      "destination": "/contact",
+      "permanent": true
+    },
+    {
+      "source": "/contact-us-concord.html",
+      "destination": "/contact",
+      "permanent": true
+    },
+    {
+      "source": "/contact-us-mississauga.html",
+      "destination": "/contact",
+      "permanent": true
+    },
+    {
+      "source": "/contact-us.aspx",
+      "destination": "/contact",
+      "permanent": true
+    },
+    {
+      "source": "/contact.htm",
+      "destination": "/contact",
+      "permanent": true
+    },
+    {
+      "source": "/contactus.htm",
+      "destination": "/contact",
+      "permanent": true
+    },
+    {
+      "source": "/contempo-bedroom.html",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/contempo4.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/danish.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/demi-lune-bedroom-collection.html",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/din.htm",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/dina.htm",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/dining-room-furnitur-florentino.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/dining-room-furniture",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/dining-room-furniture-danish.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/dining-room-furniture-demilune.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/dining-room-furniture-georgetown.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/dining-room-furniture-phillipe.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/dining-room-furniture-shaker.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/dining-room-furniture-tranquil.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/dining-room-furniture-tuscany.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/dining-room-furniture-victoriafalls.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/dining-room-furniture.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/diningsets.htm",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/diningsets01.htm",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/diningsets02.htm",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/diningsets03.htm",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/diningsets04.htm",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/diningsets05.htm",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/dinlg.htm",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/dinlg1.htm",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/dinlg2.htm",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/dinlg3.htm",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/dinlg4.htm",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/dinlga.htm",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/dinlga1.htm",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/dinlga2.htm",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/dinlga3.htm",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/dinlga4.htm",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/entertainment-furniture.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/entertainment-furniture/212.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/florentino-bedroom-collection.html",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/florentino.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/frame_03.htm",
+      "destination": "/contact",
+      "permanent": true
+    },
+    {
+      "source": "/georgetown-bedroom-collection.html",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/georgetown-single-pedestal-table.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/georgrtown48.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/hdtv-Florentino.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/hdtv-art-deco.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/hdtv-contempo-hdtv-console-whutch.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/hdtv-contempo-hdtv-console.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/hdtv-contempo-options.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/hdtv-contempo.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/hdtv-georgetown.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/hdtv-hudson-valley-hdtv-unit-2.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/hdtv-hudson-valley-hdtv-unit-3.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/hdtv-hudson-valley-hdtv-unit.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/hdtv-hudson-valley.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/hdtv-marsden.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/hdtv-marsten.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/hdtv-phillipe-hdtv-unit-with-bi-fold-doors.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/hdtv-phillipe.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/hdtv.htm",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/hdtv.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/httpwww.forgali.comcontempo60.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/httpwww.forgali.comcontempo72.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/httpwww.forgali.comcontempo84.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/httpwww.forgali.comhdtv-art-deco48.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/httpwww.forgali.comhdtv-art-deco94.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/httpwww.forgali.comhdtv-florentino48.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/httpwww.forgali.comhdtv-florentino60.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/httpwww.forgali.comhdtv-florentino74.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/httpwwwoforgali.comhdtv-art-deco60.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/hudson-valley-bedroom-collection.html",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/hudson-valley-bedroom-collection/212.html",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/index.html",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/index1.htm",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/index2.htm",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/index5.html",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/index6.htm",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/index7.htm",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/ironbeds.htm",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/kitchen-sets-Campo.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/kitchen-sets-Leanza.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/kitchen-sets-Madrid.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/kitchen-sets-Nadia.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/kitchen-sets-Passion.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/kitchen-sets-Polo.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/kitchen-sets-Prestige.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/kitchen-sets.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/kitchen01.htm",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/kitchen02.htm",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/kitchen03.htm",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/kitchen04.htm",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/kitchen05.htm",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/liv.htm",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/living-furniture.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/living-room-furniture",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/living-room-furniture.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/marsden.html",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/metal-bar-stools-artec.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/metal-bar-stools-tropea.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/metal-bar-stools.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/mississauga.htm",
+      "destination": "/contact",
+      "permanent": true
+    },
+    {
+      "source": "/new/about-us.html",
+      "destination": "/about",
+      "permanent": true
+    },
+    {
+      "source": "/new/accent-furniture.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/new/accent-furniture1.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/new/accent-furniture2.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/new/accent-furniture3.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/new/accent-furniture4.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/new/accent-furniture5.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/new/accent-furniture6.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/new/accent-furniture7.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/new/accent-furniture8.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/new/accent-furniture9.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/new/accent-furniture10.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/new/accent-furniture11.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/new/accent-furniture12.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/new/accent-furniture13.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/new/accent-furniture14.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/new/accent-furniture15.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/new/bar-stools.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/new/bar-stools-wood.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/new/bar-stools-metal.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/new/bedroom-furniture.html",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/new/bedroom-furniture-brooklyn.html",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/new/bedroom-furniture-contempo.html",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/new/bedroom-furniture-demilune.html",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/new/bedroom-furniture-georgetown.html",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/new/bedroom-furniture-hudsonvalley.html",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/new/bedroom-furniture-shaker.html",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/new/bedroom-furniture-trad-CanadianaClassic.html",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/new/bedroom-furniture-trad-florentino.html",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/new/bedroom-furniture-trad-phillipe.html",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/new/bedroom-furniture-tranquil.html",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/new/bedroom-furniture-victoriafalls.html",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/new/bedroom-furnituretranquil.html",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/new/chairluna.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/new/chairs-bar-stools.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/new/chairs.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/new/chairs8129.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/new/chairs8137.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/new/chairs8162.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/new/chairsanabella.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/new/chairsaster.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/new/chairsbordeaux.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/new/chairscaressa.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/new/chairscube.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/new/chairsdiamond.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/new/chairsdomo.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/new/chairsgabriella.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/new/chairslulu.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/new/chairsmatine.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/new/chairsmerrick.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/new/chairsmetro.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/new/chairsparis.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/new/chairspetra.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/new/chairsprince.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/new/chairsretorno.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/new/chairsscala.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/new/chairsvenizia.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/new/chairsvictoria.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/new/contact-us-concord.html",
+      "destination": "/contact",
+      "permanent": true
+    },
+    {
+      "source": "/new/contact-us-mississauga.html",
+      "destination": "/contact",
+      "permanent": true
+    },
+    {
+      "source": "/new/contact-us.aspx",
+      "destination": "/contact",
+      "permanent": true
+    },
+    {
+      "source": "/new/contempo4.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/new/dining-room-furnitur-florentino.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/new/dining-room-furniture-danish.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/new/dining-room-furniture-demilune.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/new/dining-room-furniture-georgetown.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/new/dining-room-furniture-phillipe.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/new/dining-room-furniture-shaker.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/new/dining-room-furniture-tranquil.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/new/dining-room-furniture-tuscany.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/new/dining-room-furniture-victoriafalls.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/new/dining-room-furniture.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/new/hdtv-Florentino.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/new/hdtv-art-deco.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/new/hdtv-hudson-valley.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/new/hdtv-marsten.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/new/hdtv-phillipe.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/new/hdtv.htm",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/new/kitchen-sets-Campo.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/new/kitchen-sets-Leanza.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/new/kitchen-sets-Madrid.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/new/kitchen-sets-Nadia.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/new/kitchen-sets-Passion.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/new/kitchen-sets-Polo.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/new/kitchen-sets-Prestige.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/new/kitchen-sets-Verde.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/new/kitchen-sets.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/new/special7.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/new/specials-glasgowserver.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/new/specials-metro.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/new/specials-nugochi.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/new/specials.html",
+      "destination": "/smart-deals",
+      "permanent": true
+    },
+    {
+      "source": "/occasional-furniture.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/parsonchair.htm",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/parsonlg.htm",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/parsonlg1.htm",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/parsonlg2.htm",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/parsonlg3.htm",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/parsonlg4.htm",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/pecials-furniture.html",
+      "destination": "/smart-deals",
+      "permanent": true
+    },
+    {
+      "source": "/phillipe-bedroom.html",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/promotions-domo-parson-chair.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/promotions-noguchi-coffee-table.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/shaker-bedroom-collection.html",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/special7.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/specials-glasgowserver.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/specials-metro.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/specials-nugochi.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/specials.html",
+      "destination": "/smart-deals",
+      "permanent": true
+    },
+    {
+      "source": "/specials9.html",
+      "destination": "/smart-deals",
+      "permanent": true
+    },
+    {
+      "source": "/stool.htm",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/stool01.htm",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/stool02.htm",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/stool03.htm",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/stool04.htm",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/stool05.htm",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/stool06.htm",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/stool07.htm",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/stool08.htm",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/stool09.htm",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/stools.htm",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/table2.htm",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/table3.htm",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/table4.htm",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/tables.htm",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/toronto.htm",
+      "destination": "/contact",
+      "permanent": true
+    },
+    {
+      "source": "/tranquil-bedroom-collection.html",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/tranquil-dining-room.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/tuscany.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/victoria-falls-bedroom.html",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/victoria-falls-harvest-table.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/wood-bar-stools-aria.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/wood-bar-stools-bab.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/wood-bar-stools-backless.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/wood-bar-stools-camden.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/wood-bar-stools-crystal.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/wood-bar-stools-epoca.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/wood-bar-stools-holly.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/wood-bar-stools-napoleon.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/wood-bar-stools-nice.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/wood-bar-stools-parson.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/wood-bar-stools-stefano.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/wood-bar-stools-x-back.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/wood-bar-stools.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/wood-bar-stools/213.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/about-us",
+      "destination": "/about",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/about-us.html",
+      "destination": "/about",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/accent-furniture-cube.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/accent-furniture-demilune-glass.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/accent-furniture-metro.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/accent-furniture-noguchi.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/accent-furniture-tranquil-tables.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/accent-furniture.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/bar-stools.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/bedroom-furniture.html",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/bedrooms",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/bedrooms/23-beds",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/bedrooms/27-dressers-chests",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/bedrooms/46-bedroom-sets",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/bedrooms/item/120-baxter-dresser",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/bedrooms/item/122-baxter-hiboy",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/bedrooms/item/123-baxter-condo-bed",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/bedrooms/item/125-contempo-lingerie-chest",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/bedrooms/item/127-contempo-dresser",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/bedrooms/item/138-manchester",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/bedrooms/item/139-tristan",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/bedrooms/item/140-boston",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/bedrooms/item/141-nicole",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/bedrooms/item/142-kingston",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/bedrooms/item/143-heslop",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/bedrooms/item/144-christina",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/bedrooms/item/145-zara",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/bedrooms/item/162-edmund",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/bedrooms/item/163-casa",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/bedrooms/item/164-edmund",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/bedrooms/item/173-jade",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/bedrooms/item/174-tanana",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/bedrooms/item/175-konrad",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/bedrooms/item/176-casa-white",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/bedrooms/item/230-gastown-bed",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/bedrooms/item/231-gastown-condo-bed",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/bedrooms/item/234-gastown-gentleman-s-chest",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/bedrooms/item/235-gastown-hiboy",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/bedrooms/item/236-union-station-bed",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/bedrooms/item/238-union-station-hiboy",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/bedrooms/item/239-brooklyn-bed",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/bedrooms/item/240-brooklyn-dresser",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/bedrooms/item/26-nightstands/162-edmund",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/bedrooms/item/26-nightstands/163-casa",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/bedrooms/item/26-nightstands/173-jade",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/bedrooms/item/26-nightstands/174-tanana",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/bedrooms/item/26-nightstands/175-konrad",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/bedrooms/item/26-nightstands/176-casa-white",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/bedrooms/item/274-classic",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/bedrooms/item/275-sydenham",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/bedrooms/item/81-anastasia",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/bedrooms/item/82-baxter",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/bedrooms/item/89-brooklyn-poster-bed",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/bedrooms/item/93-stockholm",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/bedrooms/item/94-stockholm-dresser",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/bedrooms/item/95-stockholm-lingerie-chest",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/buy-at-our-store",
+      "destination": "/faqs",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/buy-at-our-store/139-shipping",
+      "destination": "/shipping",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/casual-dining-campo.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/casual-dining-leanza.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/casual-dining-madrid.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/casual-dining-nadia.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/casual-dining-passion.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/casual-dining-polo.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/casual-dining-prestige.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/casual-dining-verde.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/chairs.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/contact",
+      "destination": "/contact",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/contact-us.html",
+      "destination": "/contact",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/danish.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/dining-room-furniture.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/florentino-bedroom-collection.html",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/florentino.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/georgetown-single-pedestal-table.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/hdtv-art-deco.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/hdtv-contempo.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/hdtv-georgetown.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/hdtv-hudson-valley.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/hdtv-marsden.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/hdtv-phillipe-hdtv-unit-with-bi-fold-doors.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/hdtv-phillipe.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/hdtv.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/living-room-furniture.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/living-rooms/item/184-coen-side-table",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/living-rooms/item/185-triad-end-table",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/living-rooms/item/186-langley-console-table",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/living-rooms/item/187-asia-console-table",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/living-rooms/item/188-carole-console-table",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/living-rooms/item/189-carole-gold-console-table",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/living-rooms/item/190-live-edge-console-table",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/living-rooms/item/191-angelo-console-table",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/living-rooms/item/214-yorkshire-sofa-table",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/living-rooms/item/215-demi-lune-sofa-table",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/living-rooms/item/216-rectangle-demi-lune-sofa-table",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/living-rooms/item/217-shaker-sofa-table",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/living-rooms/item/218-florentino-sofa-table",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/living-rooms/item/219-contempo-sofa-table",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/living-rooms/item/220-shaker-coffee-table",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/living-rooms/item/221-shaker-chair-side-table",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/living-rooms/item/223-florentino-coffee-table",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/living-rooms/item/224-georgetown-coffee-table",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/living-rooms/item/225-rectangle-coffee-table",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/living-rooms/item/226-georgetown-end-table",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/living-rooms/item/227-demi-lune-coffee-table",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/living-rooms/item/228-demi-lune-side-table",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/living-rooms/item/229-demi-lune-glass-side-table",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/metal-bar-stools.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/on-sale",
+      "destination": "/smart-deals",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/on-sale/44-floor-model-sale",
+      "destination": "/smart-deals",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/on-sale/45-special-offers",
+      "destination": "/smart-deals",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/on-sale/floor-model-sale",
+      "destination": "/smart-deals",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/on-sale/special-offers",
+      "destination": "/smart-deals",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/products/bedrooms",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/products/dining-rooms",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/products/dining-rooms/19-tables",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/products/dining-rooms/22-benches",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/products/dining-rooms/30-chairs",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/products/dining-rooms/32-stools",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/products/dining-rooms/item/101-turnbuckle-bench",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/products/dining-rooms/item/114-martini-grande-chair",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/products/dining-rooms/item/115-ritorno-chair",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/products/dining-rooms/item/116-contempo-table",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/products/dining-rooms/item/117-contempo-harvest-table",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/products/dining-rooms/item/118-contempo-bench",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/products/dining-rooms/item/146-s-q",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/products/dining-rooms/item/147-camelback-chair",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/products/dining-rooms/item/148-martini",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/products/dining-rooms/item/149-siena",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/products/dining-rooms/item/150-mavis",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/products/dining-rooms/item/151-ada",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/products/dining-rooms/item/152-cardashian",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/products/dining-rooms/item/154-amelia",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/products/dining-rooms/item/155-sabrina-blue",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/products/dining-rooms/item/156-sabrina-grey",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/products/dining-rooms/item/157-camila",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/products/dining-rooms/item/158-club",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/products/dining-rooms/item/160-malabar",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/products/dining-rooms/item/165-jade",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/products/dining-rooms/item/192-grey-vintage-counter-stool",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/products/dining-rooms/item/193-cream-vintage-counter-stool",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/products/dining-rooms/item/194-grey-vintage-swivel-counter-stool",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/products/dining-rooms/item/195-cream-vintage-swivel-counter-stool",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/products/dining-rooms/item/196-marlin-counter-stool",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/products/dining-rooms/item/197-leighland-counter-stool",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/products/dining-rooms/item/198-boone-counter-stool",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/products/dining-rooms/item/199-jagger-dining-table",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/products/dining-rooms/item/200-langley-dining-table",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/products/dining-rooms/item/201-madero-dining-table",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/products/dining-rooms/item/202-falon-dining-table",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/products/dining-rooms/item/203-ezra-dining-table",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/products/dining-rooms/item/204-blaze-round-dining-table",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/products/dining-rooms/item/205-round-stocholm-dining-table",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/products/dining-rooms/item/206-gastown-table",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/products/dining-rooms/item/207-gastown-bench",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/products/dining-rooms/item/21-sideboard/165-jade",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/products/dining-rooms/item/21-sideboard/210-stockholm",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/products/dining-rooms/item/210-stockholm",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/products/dining-rooms/item/211-brooklyn-bench",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/products/dining-rooms/item/212-brooklyn-table",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/products/dining-rooms/item/79-baxter",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/products/dining-rooms/item/80-baxter",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/products/dining-rooms/item/83-turnbuckle",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/products/dining-rooms/item/86-florence-round",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/products/dining-rooms/item/96-georgetown",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/products/dining-rooms/item/97-florence-table",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/products/dining-rooms/item/98-georgetown-round",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/promotions-domo-parson-chair.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/promotions-noguchi-coffee-table.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/tranquil-bedroom-collection.html",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/tranquil-dining-room.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/tuscany.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/victoria-falls-harvest-table.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/wood-bar-stools.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/contact-us/:path*",
+      "destination": "/contact",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/contact-us/:path*",
+      "destination": "/contact",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/accessories/:path*",
+      "destination": "/category/accessories",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/bedrooms/item/23-beds/:path*",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/products/occasional-tables/:path*",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/bedrooms/item/27-dressers-chests/:path*",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/products/dining-rooms/item/19-tables/:path*",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/products/dining-rooms/item/30-chairs/:path*",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/products/dining-rooms/item/32-stools/:path*",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/index.php/products/dining-rooms/item/22-benches/:path*",
+      "destination": "/category/dining",
+      "permanent": true
+    },
     {
       "source": "/:path*",
-      "has": [{ "type": "host", "value": "forgali.com" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "forgali.com"
+        }
+      ],
       "destination": "https://www.forgali.com/:path*",
       "permanent": true
     }
   ],
   "rewrites": [
     {
-      "source": "/(.*)",
+      "source": "/category/:path*",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/product/:path*",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/admin/:path*",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/(checkout|smart-deals|search|contact|faqs|about|warranty|shipping|returns|assembly|safety-standards)",
       "destination": "/index.html"
     }
   ],

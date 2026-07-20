@@ -31,6 +31,12 @@ const STATIC_ROUTES = [
   ["/safety-standards", "0.6"],
 ];
 
+// Handles that exist in Shopify but must never be advertised to search engines
+// (internal test products, staging fixtures). Keep this list short and explain each.
+const EXCLUDED_HANDLES = new Set([
+  "checkout-test-item", // $2 fixture used to prove the payment path; not a real product
+]);
+
 const domain = process.env.VITE_SHOPIFY_STORE_DOMAIN;
 const token = process.env.VITE_SHOPIFY_STOREFRONT_ACCESS_TOKEN;
 const API_VERSION = "2025-01";
@@ -60,7 +66,10 @@ async function fetchHandles() {
     const json = await res.json();
     const data = json?.data?.products;
     if (!data) break;
-    for (const e of data.edges) if (e?.node?.handle) handles.push(e.node.handle);
+    for (const e of data.edges) {
+      const handle = e?.node?.handle;
+      if (handle && !EXCLUDED_HANDLES.has(handle)) handles.push(handle);
+    }
     if (data.pageInfo?.hasNextPage) cursor = data.pageInfo.endCursor;
     else break;
   }
