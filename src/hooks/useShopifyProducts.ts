@@ -12,6 +12,9 @@ import {
 let productsCache: ConvertedProduct[] | null = null;
 let productsCacheTimestamp: number = 0;
 const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
+// Shared in-flight fetch so concurrent mounts (several homepage sections use
+// this hook) join one catalog request instead of each firing their own.
+let productsInflight: Promise<ConvertedProduct[]> | null = null;
 
 // Hook for fetching all products
 export const useShopifyProducts = () => {
@@ -37,15 +40,22 @@ export const useShopifyProducts = () => {
     try {
       setLoading(true);
       setError(null);
-      
-      const shopifyProducts = await fetchAllShopifyProducts();
-      const converted = shopifyProducts.map(convertShopifyProduct);
-      
-      // Update cache
-      productsCache = converted;
-      productsCacheTimestamp = now;
-      
-      setProducts(converted);
+
+      if (forceRefresh || !productsInflight) {
+        productsInflight = fetchAllShopifyProducts()
+          .then((shopifyProducts) => {
+            const converted = shopifyProducts.map(convertShopifyProduct);
+            // Update cache
+            productsCache = converted;
+            productsCacheTimestamp = Date.now();
+            return converted;
+          })
+          .finally(() => {
+            productsInflight = null;
+          });
+      }
+
+      setProducts(await productsInflight);
     } catch (err) {
       console.error('Error fetching Shopify products:', err);
       setError(err instanceof Error ? err.message : 'Failed to fetch products');

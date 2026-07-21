@@ -5,6 +5,7 @@ import { BedsSection } from "@/components/BedsSection";
 import { ProductGrid } from "@/components/ProductGrid";
 import { Footer } from "@/components/Footer";
 import { FeaturedCategories } from "@/components/FeaturedCategories";
+import { ShopTheLook } from "@/components/ShopTheLook";
 import { PromoBanner } from "@/components/PromoBanner";
 import { GuaranteeStrip } from "@/components/GuaranteeStrip";
 import { Seo } from "@/components/Seo";
@@ -22,6 +23,7 @@ const Index = () => {
         <Hero />
         <GuaranteeStrip />
         <FeaturedCategories />
+        <ShopTheLook />
         <PromoBanner />
         <TestimonialSection />
         <BedsSection />
