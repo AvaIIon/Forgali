@@ -67,7 +67,7 @@ export const SubcategoryTabs = () => {
       { href: '/category/single-beds', name: 'Single Beds' },
     ];
     return (
-      <div className="border-b border-border bg-background sticky top-0 z-10">
+      <div className="border-b border-border bg-background sticky top-0 z-30">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex gap-2 overflow-x-auto py-4 scrollbar-hide">
             <Link
@@ -116,7 +116,7 @@ export const SubcategoryTabs = () => {
   const subcategories = categorySubcategories[category] || [];
   
   return (
-    <div className="border-b border-border bg-background sticky top-0 z-10">
+    <div className="border-b border-border bg-background sticky top-0 z-30">
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex gap-2 overflow-x-auto py-4 scrollbar-hide">
           <Link

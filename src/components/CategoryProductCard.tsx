@@ -31,7 +31,9 @@ export const CategoryProductCard = ({ product }: CategoryProductCardProps) => {
 
   return (
     <Link to={productUrl} className="group block">
-      <div className="relative aspect-square overflow-hidden rounded-lg mb-3 bg-secondary">
+      {/* isolate: keep the badge/heart z-indexes scoped to this card so they
+          can't paint over page chrome like the sticky subcategory bar */}
+      <div className="relative isolate aspect-square overflow-hidden rounded-lg mb-3 bg-secondary">
         {product.badge === "new" && (
           <span className="absolute top-3 left-3 bg-[#4A647C] text-white text-xs font-semibold px-3 py-1.5 rounded-full z-10">
             NEW
