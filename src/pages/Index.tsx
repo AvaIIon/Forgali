@@ -1,7 +1,7 @@
 import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
 import { TestimonialSection } from "@/components/TestimonialSection";
-import { BedsSection } from "@/components/BedsSection";
+import { BrandStatement } from "@/components/BrandStatement";
 import { ProductGrid } from "@/components/ProductGrid";
 import { Footer } from "@/components/Footer";
 import { FeaturedCategories } from "@/components/FeaturedCategories";
@@ -26,7 +26,7 @@ const Index = () => {
         <ShopTheLook />
         <PromoBanner />
         <TestimonialSection />
-        <BedsSection />
+        <BrandStatement />
         <ProductGrid />
       </main>
       <Footer />
