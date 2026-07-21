@@ -10,10 +10,10 @@ export const PromoBanner = () => {
         alt="Sale Banner"
         className="absolute inset-0 w-full h-full object-cover"
       />
-      <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/55 to-transparent" />
       <div className="relative h-full max-w-7xl mx-auto px-4 flex items-center">
-        <div className="max-w-lg text-white">
-          <span className="text-sm font-semibold uppercase tracking-wider text-primary bg-white/90 px-3 py-1 rounded-full">
+        <div className="max-w-lg text-white [text-shadow:0_2px_12px_rgba(0,0,0,0.55)]">
+          <span className="text-sm font-semibold uppercase tracking-wider text-primary bg-white/90 px-3 py-1 rounded-full [text-shadow:none]">
             Limited Time Offer
           </span>
           <h2 className="text-4xl md:text-5xl font-bold mt-4 leading-tight">
