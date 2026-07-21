@@ -55,11 +55,13 @@ export const Footer = () => {
           
           <div>
             <h4 className="font-bold mb-4">Follow Us</h4>
+            {/* Static brand marks — no profile URLs exist yet, so don't make
+                them look clickable (trust-eroding dead links) */}
             <div className="flex gap-4">
-              <Facebook className="w-5 h-5 text-background/70 hover:text-background cursor-pointer" />
-              <Instagram className="w-5 h-5 text-background/70 hover:text-background cursor-pointer" />
-              <Twitter className="w-5 h-5 text-background/70 hover:text-background cursor-pointer" />
-              <Youtube className="w-5 h-5 text-background/70 hover:text-background cursor-pointer" />
+              <Facebook className="w-5 h-5 text-background/70" />
+              <Instagram className="w-5 h-5 text-background/70" />
+              <Twitter className="w-5 h-5 text-background/70" />
+              <Youtube className="w-5 h-5 text-background/70" />
             </div>
           </div>
         </div>

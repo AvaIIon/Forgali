@@ -122,9 +122,10 @@ export const Header = () => {
     <header className="w-full">
       {/* Top banner */}
       <div className="bg-primary text-primary-foreground text-center py-2.5 text-sm font-medium px-4">
-        Free Canada-Wide Shipping on All Orders!
-        <span className="hidden sm:inline">
-          {" "}· Code <span className="font-bold tracking-wide">WELCOME10</span> — 10% off Dining &amp; Living
+        <span className="whitespace-nowrap">Free Canada-Wide Shipping</span>
+        {" · "}
+        <span className="whitespace-nowrap">
+          Code <span className="font-bold tracking-wide">WELCOME10</span> — 10% off Dining &amp; Living
         </span>
       </div>
       

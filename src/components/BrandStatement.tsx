@@ -18,11 +18,16 @@ export const BrandStatement = () => {
             shouldn&rsquo;t feel out of reach, so ours are designed smart, priced
             fair, and made to last.
           </p>
-          <Link to="/about">
-            <button className="rounded-full bg-[#4A647C] px-8 py-3 text-sm font-medium text-white transition-colors hover:bg-[#3A5066]">
-              Learn More
-            </button>
-          </Link>
+          <div className="flex flex-col items-center gap-3 md:items-start">
+            <Link to="/category/dining">
+              <button className="rounded-full bg-[#4A647C] px-8 py-3 text-sm font-medium text-white transition-colors hover:bg-[#3A5066]">
+                Shop the Collection
+              </button>
+            </Link>
+            <Link to="/about" className="text-sm font-medium text-muted-foreground hover:text-[#4A647C] hover:underline">
+              Learn more about Forgali →
+            </Link>
+          </div>
         </div>
         <div className="aspect-[4/3] overflow-hidden rounded-2xl bg-[#f2f4f6]">
           <img

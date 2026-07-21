@@ -23,18 +23,9 @@ export const PromoBanner = () => {
             From bunk beds to dining tables — solid wood craftsmanship for every
             room, built to last for generations.
           </p>
-          <div className="flex flex-wrap gap-4 mt-6">
+          <div className="mt-6">
             <Button size="lg" asChild className="bg-[#f2f4f6] text-foreground hover:bg-[#e8eaed]">
               <Link to="/smart-deals">Shop Sale</Link>
-            </Button>
-            {/* Transparent fill so white label is not hidden on white outline default bg */}
-            <Button
-              size="lg"
-              variant="outline"
-              asChild
-              className="border-2 border-white bg-transparent text-white shadow-none hover:bg-white/15 hover:text-white hover:border-white focus-visible:ring-white/50"
-            >
-              <Link to="/category/bunk-beds">Shop Best Sellers</Link>
             </Button>
           </div>
         </div>

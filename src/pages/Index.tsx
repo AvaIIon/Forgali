@@ -1,6 +1,5 @@
 import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
-import { TestimonialSection } from "@/components/TestimonialSection";
 import { BrandStatement } from "@/components/BrandStatement";
 import { ProductGrid } from "@/components/ProductGrid";
 import { Footer } from "@/components/Footer";
@@ -24,9 +23,10 @@ const Index = () => {
         <GuaranteeStrip />
         <FeaturedCategories />
         <ShopTheLook />
-        <PromoBanner />
-        <TestimonialSection />
+        {/* Brand block separates the two full-bleed image sections and tells
+            the "why solid wood / priced fair" story before the hard sell */}
         <BrandStatement />
+        <PromoBanner />
         <ProductGrid />
       </main>
       <Footer />

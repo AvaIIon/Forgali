@@ -75,7 +75,9 @@ const HotspotPopover = ({
       <button
         aria-label={`Shop ${title}`}
         style={{ top: coords.top, left: coords.left }}
-        className="absolute flex h-7 w-7 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white text-[13px] font-semibold text-foreground shadow-md ring-2 ring-black/5 transition-all duration-200 hover:scale-110 data-[state=open]:bg-[#4A647C] data-[state=open]:text-white"
+        // after:-inset-2.5 expands the tap target to ~48px (mobile guideline)
+        // while the visible dot stays 28px
+        className="absolute flex h-7 w-7 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white text-[13px] font-semibold text-foreground shadow-md ring-2 ring-black/5 transition-all duration-200 after:absolute after:-inset-2.5 after:rounded-full after:content-[''] hover:scale-110 data-[state=open]:bg-[#4A647C] data-[state=open]:text-white"
       >
         {spot.number}
       </button>
