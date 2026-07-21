@@ -30,3 +30,6 @@ dist-ssr
 *.xlsx
 *.xls
 PR_DESCRIPTION.md
+
+# Local Claude Code tooling
+.claude/
