@@ -171,7 +171,7 @@ const CheckoutPage = () => {
                       )}
                     </div>
                     <p className="font-medium">
-                      ${(item.product.price * item.quantity).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                      ${((item.unitPrice ?? item.product.price) * item.quantity).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                     </p>
                   </div>
                 ))}

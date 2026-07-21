@@ -1,4 +1,4 @@
-import { Minus, Plus, Trash2 } from "lucide-react";
+import { ChevronRight, Minus, Plus, Trash2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "@/context/CartContext";
 import { Button } from "@/components/ui/button";
@@ -11,6 +11,20 @@ export const CartDrawer = () => {
   const handleCheckout = () => {
     setIsCartOpen(false);
     navigate("/checkout");
+  };
+
+  // "Complete the room" cross-sells: curated related products of what's in
+  // the cart (custom.related_products), minus anything already added.
+  const inCart = new Set(items.map(i => i.product.handle));
+  const crossSells = items
+    .flatMap(i => i.product.relatedProducts ?? [])
+    .filter(r => r.availableForSale && r.image && !inCart.has(r.handle))
+    .filter((r, idx, arr) => arr.findIndex(x => x.handle === r.handle) === idx)
+    .slice(0, 3);
+
+  const goToProduct = (handle: string) => {
+    setIsCartOpen(false);
+    navigate(`/product/${handle}`);
   };
 
   return (
@@ -44,7 +58,7 @@ export const CartDrawer = () => {
                         <p className="text-xs text-muted-foreground mt-1">Finish: {item.selectedFinish}</p>
                       )}
                       <p className="text-[#2D8B6F] font-bold mt-1">
-                        ${item.product.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                        ${(item.unitPrice ?? item.product.price).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                       </p>
                       <div className="flex items-center gap-2 mt-2">
                         <button
@@ -70,8 +84,40 @@ export const CartDrawer = () => {
                     </div>
                   </div>
                 ))}
+
+                {/* Inside the scroll region so it can never push Checkout
+                    below the fold on short viewports */}
+                {crossSells.length > 0 && (
+                  <div className="border-t border-border pt-3">
+                    <h4 className="text-sm font-semibold mb-2">Complete the room</h4>
+                    <div className="space-y-1">
+                      {crossSells.map(ref => (
+                        <button
+                          key={ref.handle}
+                          type="button"
+                          onClick={() => goToProduct(ref.handle)}
+                          className="flex w-full items-center gap-3 rounded-lg p-2 text-left hover:bg-secondary/50 transition-colors"
+                        >
+                          <img
+                            src={ref.image}
+                            alt={ref.title}
+                            className="h-12 w-12 shrink-0 rounded object-cover bg-[#f2f4f6]"
+                            loading="lazy"
+                          />
+                          <span className="min-w-0 flex-1">
+                            <span className="block truncate text-sm">{ref.title}</span>
+                            <span className="text-sm font-semibold text-[#4A647C]">
+                              {ref.fromPrice ? "From " : ""}${ref.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                            </span>
+                          </span>
+                          <ChevronRight className="h-4 w-4 shrink-0 text-muted-foreground" />
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
-              
+
               <div className="border-t border-border pt-4 pb-6 space-y-4">
                 <div className="flex justify-between items-center">
                   <span className="font-medium">Subtotal</span>

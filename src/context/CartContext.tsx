@@ -8,6 +8,9 @@ export interface CartItem {
   quantity: number;
   selectedFinish?: string;
   variantId?: string; // Shopify variant ID for checkout
+  // Price of the ADDED variant — product.price is the first variant's price,
+  // which can be a different (cheaper) variant than the one being bought.
+  unitPrice?: number;
 }
 
 interface CartContextType {
@@ -32,12 +35,19 @@ const getItemKey = (item: CartItem): string => {
 
 // Rehydrate the cart from localStorage so it survives page reloads, closed
 // tabs, and return visits (furniture shoppers deliberate across sessions).
+// Stored shape is versioned ({ v, items }) so future schema changes can
+// invalidate stale snapshots; a bare array is the pre-version legacy shape.
+const CART_SCHEMA_VERSION = 2;
 const loadStoredCart = (): CartItem[] => {
   if (typeof window === "undefined") return [];
   try {
     const raw = window.localStorage.getItem(CART_STORAGE_KEY);
     const parsed = raw ? JSON.parse(raw) : null;
-    return Array.isArray(parsed) ? parsed : [];
+    if (Array.isArray(parsed)) return parsed; // legacy unversioned shape
+    if (parsed && parsed.v === CART_SCHEMA_VERSION && Array.isArray(parsed.items)) {
+      return parsed.items;
+    }
+    return [];
   } catch {
     return [];
   }
@@ -51,13 +61,21 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     if (typeof window === "undefined") return;
     try {
-      window.localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(items));
+      window.localStorage.setItem(
+        CART_STORAGE_KEY,
+        JSON.stringify({ v: CART_SCHEMA_VERSION, items })
+      );
     } catch {
       /* storage unavailable — cart still works in-memory this session */
     }
   }, [items]);
 
   const addToCart = (product: ConvertedProduct, quantity = 1, selectedFinish?: string, variantId?: string) => {
+    // Price the line from the variant actually being added, not the product's
+    // first-variant price (they differ across finishes/set sizes).
+    const unitPrice =
+      (variantId && product.variants.find(v => v.id === variantId)?.price) ||
+      product.price;
     setItems((prev) => {
       // Find existing item by variant ID or product ID + finish
       const existingItem = prev.find((item) => {
@@ -77,7 +95,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         });
       }
       
-      return [...prev, { product, quantity, selectedFinish, variantId }];
+      return [...prev, { product, quantity, selectedFinish, variantId, unitPrice }];
     });
     setIsCartOpen(true);
   };
@@ -116,7 +134,10 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const getTotalPrice = () => {
-    return items.reduce((total, item) => total + item.product.price * item.quantity, 0);
+    return items.reduce(
+      (total, item) => total + (item.unitPrice ?? item.product.price) * item.quantity,
+      0
+    );
   };
 
   return (

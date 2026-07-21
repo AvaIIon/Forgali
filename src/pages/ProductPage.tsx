@@ -79,6 +79,12 @@ const ProductPage = () => {
     if (!product || allProducts.length === 0) return [];
     return getRelatedProducts(allProducts, product, 4);
   }, [product, allProducts]);
+
+  // Curated same-style cross-sells (custom.related_products metafield);
+  // when present these replace the generic category-based fallback below
+  const completeTheRoom = (product?.relatedProducts ?? []).filter(
+    r => r.availableForSale && r.image
+  );
   
   const handleImageError = (index: number) => {
     setImageErrors(prev => new Set([...prev, index]));
@@ -140,8 +146,19 @@ const ProductPage = () => {
     );
   }
 
-  const discountPercent = product.originalPrice
-    ? Math.round((1 - product.price / product.originalPrice) * 100)
+  // Price of the variant the shopper actually selected — product.price is the
+  // FIRST variant's price, which can differ by hundreds of dollars from the
+  // selected finish (checkout charges the real variant, so displays must too).
+  const selectedVariant = selectedVariantId
+    ? product.variants.find(v => v.id === selectedVariantId)
+    : undefined;
+  const displayPrice = selectedVariant?.price ?? product.price;
+  const displayCompareAt = selectedVariant
+    ? selectedVariant.compareAtPrice
+    : product.originalPrice;
+
+  const discountPercent = displayCompareAt && displayCompareAt > displayPrice
+    ? Math.round((1 - displayPrice / displayCompareAt) * 100)
     : 0;
 
   const specs = product.specs || {};
@@ -279,15 +296,15 @@ const ProductPage = () => {
               {product.name}
             </h1>
 
-            {/* Price Section */}
+            {/* Price Section (selected variant's real price) */}
             <div className="flex items-center gap-3 flex-wrap">
               <span className="text-3xl font-bold text-[#2D8B6F]">
-                ${product.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                ${displayPrice.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
               </span>
-              {product.originalPrice && (
+              {displayCompareAt && displayCompareAt > displayPrice && (
                 <>
                   <span className="text-xl text-muted-foreground line-through">
-                    ${product.originalPrice.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                    ${displayCompareAt.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                   </span>
                   <span className="bg-primary text-primary-foreground text-sm font-semibold px-3 py-1 rounded-full">
                     {discountPercent}% OFF
@@ -476,8 +493,48 @@ const ProductPage = () => {
         </div>
       </div>
 
-      {/* Related Products */}
-      {relatedProducts.length > 0 && (
+      {/* Complete the Room — curated same-style pieces (bed↔dresser↔
+          nightstand, table↔chairs↔console per family) */}
+      {completeTheRoom.length > 0 && (
+        <section className="py-12">
+          <div className="max-w-7xl mx-auto px-4">
+            <h2 className="text-2xl font-bold mb-2">Complete the Room</h2>
+            <p className="text-muted-foreground text-sm mb-8">
+              Pieces from the same family, made to match.
+            </p>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+              {completeTheRoom.slice(0, 4).map((ref) => (
+                <Link key={ref.handle} to={`/product/${ref.handle}`} className="group">
+                  <div className="aspect-square rounded-lg overflow-hidden bg-[#f2f4f6] mb-3">
+                    <img
+                      src={ref.image}
+                      alt={ref.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      loading="lazy"
+                    />
+                  </div>
+                  <h3 className="font-medium text-sm line-clamp-2 group-hover:text-[#4A647C] transition-colors">
+                    {ref.title}
+                  </h3>
+                  <div className="flex items-center gap-2 mt-1">
+                    <p className="text-[#2D8B6F] font-bold">
+                      {ref.fromPrice ? "From " : ""}${ref.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                    </p>
+                    {ref.compareAtPrice && (
+                      <p className="text-muted-foreground line-through text-sm">
+                        ${ref.compareAtPrice.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                      </p>
+                    )}
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Related Products (generic category fallback when no curation exists) */}
+      {completeTheRoom.length === 0 && relatedProducts.length > 0 && (
         <section className="bg-secondary/30 py-12">
           <div className="max-w-7xl mx-auto px-4">
             <h2 className="text-2xl font-bold mb-8">You May Also Like</h2>

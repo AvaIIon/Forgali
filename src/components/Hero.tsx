@@ -1,20 +1,23 @@
 import { Link } from "react-router-dom";
-import { getProxiedImage } from "@/lib/imageProxy";
+import heroDining from "@/assets/hero-dining.jpg";
+import heroDiningMobile from "@/assets/shop-the-look-dining-mobile.jpg";
 
-// Using a high-quality bunk bed image from the product catalog
-const heroImage = "https://bedsmart.ca/wp-content/uploads/2024/09/cool_20ws__4.jpg";
-
+// Plank+Beam Lido dining room — the same signature room the Shop the Look
+// section makes shoppable further down the page.
 export const Hero = () => {
   return (
     <section className="relative w-full h-[600px] md:h-[700px] overflow-hidden">
-      <img
-        src={getProxiedImage(heroImage)}
-        alt="Premium Solid Wood Bunk Beds"
-        className="w-full h-full object-cover"
-        // LCP image: hint the browser to fetch it first. Set via ref because
-        // React 18 doesn't recognize the fetchPriority prop.
-        ref={(el) => el?.setAttribute("fetchpriority", "high")}
-      />
+      <picture>
+        <source media="(max-width: 767px)" srcSet={heroDiningMobile} />
+        <img
+          src={heroDining}
+          alt="Solid wood dining room with Plank+Beam oval table and upholstered chairs"
+          className="w-full h-full object-cover"
+          // LCP image: hint the browser to fetch it first. Set via ref because
+          // React 18 doesn't recognize the fetchPriority prop.
+          ref={(el) => el?.setAttribute("fetchpriority", "high")}
+        />
+      </picture>
       <div className="absolute inset-0 bg-gradient-to-r from-black/50 to-transparent" />
       <div className="absolute bottom-16 left-8 md:left-16 max-w-xl">
         <span className="inline-block bg-primary text-primary-foreground text-xs font-semibold px-3 py-1 rounded mb-2">

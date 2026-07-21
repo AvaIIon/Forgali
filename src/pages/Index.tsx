@@ -7,6 +7,7 @@ import { FeaturedCategories } from "@/components/FeaturedCategories";
 import { ShopTheLook } from "@/components/ShopTheLook";
 import { PromoBanner } from "@/components/PromoBanner";
 import { GuaranteeStrip } from "@/components/GuaranteeStrip";
+import { EmailCaptureBand } from "@/components/EmailCaptureBand";
 import { Seo } from "@/components/Seo";
 
 const Index = () => {
@@ -28,6 +29,7 @@ const Index = () => {
         <BrandStatement />
         <PromoBanner />
         <ProductGrid />
+        <EmailCaptureBand />
       </main>
       <Footer />
     </div>

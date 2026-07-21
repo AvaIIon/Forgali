@@ -137,6 +137,23 @@ const PRODUCT_BY_HANDLE_QUERY = `
         key
         value
       }
+      relatedProducts: metafield(namespace: "custom", key: "related_products") {
+        references(first: 8) {
+          nodes {
+            ... on Product {
+              handle
+              title
+              availableForSale
+              featuredImage { url }
+              priceRange {
+                minVariantPrice { amount }
+                maxVariantPrice { amount }
+              }
+              compareAtPriceRange { minVariantPrice { amount } }
+            }
+          }
+        }
+      }
       options {
         id
         name
@@ -443,6 +460,32 @@ export interface ShopifyMetafield {
   value: string;
 }
 
+// Node shape of the custom.related_products metafield references
+export interface ShopifyRelatedProductNode {
+  handle?: string;
+  title?: string;
+  availableForSale?: boolean;
+  featuredImage?: { url: string } | null;
+  priceRange?: {
+    minVariantPrice: { amount: string };
+    maxVariantPrice?: { amount: string };
+  };
+  compareAtPriceRange?: { minVariantPrice: { amount: string } } | null;
+}
+
+// Lightweight cross-sell reference ("Complete the Room")
+export interface RelatedProductRef {
+  handle: string;
+  title: string;
+  image: string;
+  price: number;
+  compareAtPrice?: number;
+  availableForSale: boolean;
+  // true when the product has multiple price points (sets, sizes) and the
+  // shown price is the cheapest — display as "From $X"
+  fromPrice: boolean;
+}
+
 export interface ShopifyProduct {
   id: string;
   title: string;
@@ -458,6 +501,7 @@ export interface ShopifyProduct {
   featuredImage?: ShopifyImage | null;
   images: { edges: Array<{ node: ShopifyImage }> };
   metafields?: Array<ShopifyMetafield | null>;
+  relatedProducts?: { references?: { nodes: ShopifyRelatedProductNode[] } | null } | null;
   options?: Array<{ id: string; name: string; values: string[] }>;
   variants: { edges: Array<{ node: ShopifyVariant }> };
 }
@@ -544,6 +588,36 @@ export const createShopifyCart = async () => {
     throw new Error(data.cartCreate.userErrors.map(e => e.message).join(', '));
   }
 
+  return data.cartCreate.cart;
+};
+
+// Create a cart with ALL lines in one atomic call (per-line sequential adds
+// could silently drop items and check out a subset). totalQuantity lets the
+// caller verify nothing was dropped before redirecting to checkout.
+export const createShopifyCartWithLines = async (
+  lines: Array<{ merchandiseId: string; quantity: number }>
+) => {
+  const data = await shopifyFetch<{
+    cartCreate: {
+      cart: { id: string; checkoutUrl: string; totalQuantity: number } | null;
+      userErrors: Array<{ field: string[] | null; message: string }>;
+    };
+  }>(
+    `mutation cartCreateWithLines($input: CartInput!) {
+      cartCreate(input: $input) {
+        cart { id checkoutUrl totalQuantity }
+        userErrors { field message }
+      }
+    }`,
+    { input: { lines } }
+  );
+
+  if (data.cartCreate.userErrors.length > 0) {
+    throw new Error(data.cartCreate.userErrors.map(e => e.message).join(', '));
+  }
+  if (!data.cartCreate.cart) {
+    throw new Error('Cart could not be created');
+  }
   return data.cartCreate.cart;
 };
 
@@ -751,6 +825,9 @@ export interface ConvertedProduct {
     options: Array<{ name: string; value: string }>;
   }>;
   options: Array<{ name: string; values: string[] }>;
+  // Curated same-style cross-sells from custom.related_products (by-handle
+  // query only — list-query products won't have this)
+  relatedProducts?: RelatedProductRef[];
 }
 
 // Deterministic hash of a string -> non-negative int (stable across loads)
@@ -837,6 +914,32 @@ export const convertShopifyProduct = (shopifyProduct: ShopifyProduct): Converted
   const category = getCategoryFromProduct(shopifyProduct);
   const subcategory = getSubcategoryFromProduct(shopifyProduct);
 
+  // Map curated cross-sell references (custom.related_products metafield)
+  const relatedProducts: RelatedProductRef[] | undefined =
+    shopifyProduct.relatedProducts?.references?.nodes
+      ?.filter((n): n is Required<Pick<ShopifyRelatedProductNode, 'handle' | 'title'>> & ShopifyRelatedProductNode =>
+        Boolean(n?.handle && n?.title))
+      .map(n => {
+        const refPrice = parseFloat(n.priceRange?.minVariantPrice.amount || '0');
+        const refMax = parseFloat(n.priceRange?.maxVariantPrice?.amount || '0');
+        // Pair min price with MIN compareAt — pairing with max would strike
+        // through another variant's higher compare-at and overstate the
+        // discount (deceptive-pricing exposure). Min-with-min can only
+        // understate.
+        const refCompare = n.compareAtPriceRange?.minVariantPrice.amount
+          ? parseFloat(n.compareAtPriceRange.minVariantPrice.amount)
+          : undefined;
+        return {
+          handle: n.handle,
+          title: n.title,
+          image: n.featuredImage?.url || '',
+          price: refPrice,
+          compareAtPrice: refCompare && refCompare > refPrice ? refCompare : undefined,
+          availableForSale: n.availableForSale ?? true,
+          fromPrice: refMax > refPrice,
+        };
+      });
+
   // Deterministic rating/review count derived from the product id, so the value
   // is identical on cards and the product page and stable across page loads
   // (the previous Math.random made them flicker on every render).
@@ -869,6 +972,7 @@ export const convertShopifyProduct = (shopifyProduct: ShopifyProduct): Converted
     availableForSale: variants.some(v => v.availableForSale),
     variants: convertedVariants,
     options,
+    relatedProducts: relatedProducts?.length ? relatedProducts : undefined,
   };
 };
 
@@ -963,6 +1067,46 @@ export const customerRegister = async (input: {
   const errs = data.customerCreate.customerUserErrors;
   if (errs?.length) return { ok: false, message: errs.map(e => e.message).join(' ') };
   return { ok: true };
+};
+
+// Newsletter signup (WELCOME10 capture). The Storefront API has no
+// email-only subscribe, so this creates a customer with acceptsMarketing=true
+// and a strong random password — the standard headless pattern; the customer
+// can claim the account later via password reset. An already-registered email
+// is reported as alreadySubscribed, not an error.
+export const subscribeEmail = async (
+  email: string
+): Promise<{ ok: true; alreadySubscribed: boolean } | { ok: false; message: string }> => {
+  // Shopify caps customer passwords at 40 characters
+  const bytes = new Uint8Array(16);
+  crypto.getRandomValues(bytes);
+  const password = 'Fg9!' + Array.from(bytes, b => b.toString(16).padStart(2, '0')).join('');
+  const data = await shopifyFetch<{
+    customerCreate: {
+      customer: { id: string } | null;
+      customerUserErrors: Array<{ code: string | null; message: string }>;
+    };
+  }>(
+    `mutation($input: CustomerCreateInput!) {
+      customerCreate(input: $input) {
+        customer { id }
+        customerUserErrors { code message }
+      }
+    }`,
+    { input: { email, password, acceptsMarketing: true } }
+  );
+  const errs = data.customerCreate.customerUserErrors;
+  if (errs?.length) {
+    const taken = errs.some(
+      e => e.code === 'TAKEN' || /taken|already/i.test(e.message)
+    );
+    if (taken) return { ok: true, alreadySubscribed: true };
+    return { ok: false, message: errs.map(e => e.message).join(' ') };
+  }
+  if (!data.customerCreate.customer) {
+    return { ok: false, message: 'Signup did not complete — please try again.' };
+  }
+  return { ok: true, alreadySubscribed: false };
 };
 
 export const customerLogin = async (

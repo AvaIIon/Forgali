@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/context/CartContext";
-import { createShopifyCart, addToShopifyCart } from "@/services/shopifyService";
+import { createShopifyCartWithLines } from "@/services/shopifyService";
 import { useState } from "react";
 
 interface ShopifyCheckoutButtonProps {
@@ -17,31 +17,33 @@ export const ShopifyCheckoutButton = ({ className, children }: ShopifyCheckoutBu
 
     try {
       setIsLoading(true);
-      
-      // Create a new cart
-      let cart = await createShopifyCart();
-      let checkoutUrl = cart.checkoutUrl;
-      
-      // Add all items to Shopify cart
-      for (const item of items) {
-        // Use the variant ID from the cart item (set when adding to cart)
-        // Fall back to first variant ID or product ID
-        const variantId = item.variantId || 
-          item.product.variants?.[0]?.id || 
-          item.product.id;
-        
-        try {
-          cart = await addToShopifyCart(cart.id, variantId, item.quantity);
-          checkoutUrl = cart.checkoutUrl;
-        } catch (error) {
-          console.error(`Error adding ${item.product.name} to cart:`, error);
-          // Continue with other items
+
+      // Build every line up front — a cart item with no resolvable variant id
+      // must block checkout, not silently vanish from the order.
+      const lines = items.map(item => {
+        const variantId = item.variantId || item.product.variants?.[0]?.id;
+        if (!variantId) {
+          throw new Error(
+            `"${item.product.name}" can't be checked out — please remove it from your cart and add it again.`
+          );
         }
+        return { merchandiseId: variantId, quantity: item.quantity };
+      });
+
+      // One atomic cartCreate with all lines (sequential per-line adds could
+      // drop an item and check out a subset without the customer noticing).
+      const cart = await createShopifyCartWithLines(lines);
+
+      const expectedQuantity = items.reduce((n, i) => n + i.quantity, 0);
+      if (cart.totalQuantity !== expectedQuantity) {
+        throw new Error(
+          'Some items in your cart are no longer available. Please review your cart and try again.'
+        );
       }
-      
+
       // Redirect to Shopify checkout
-      if (checkoutUrl) {
-        window.location.href = checkoutUrl;
+      if (cart.checkoutUrl) {
+        window.location.href = cart.checkoutUrl;
       } else {
         throw new Error('No checkout URL available');
       }
