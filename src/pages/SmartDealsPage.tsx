@@ -8,17 +8,12 @@ import { useShopifyProducts } from "@/hooks/useShopifyProducts";
 import { Seo } from "@/components/Seo";
 import type { ProductCategory } from "@/services/shopifyService";
 
-// Section order mirrors the top nav: Dining · Living · Bedroom · Storage & Accessories.
+// Section order mirrors the top nav. Storage & Accessories is deliberately
+// excluded from Smart Deals (owner call, Jul 21).
 const DEAL_SECTIONS: { id: string; label: string; href: string; categories: ProductCategory[] }[] = [
   { id: "dining", label: "Dining", href: "/category/dining", categories: ["dining"] },
   { id: "living", label: "Living", href: "/category/living", categories: ["living"] },
   { id: "bedroom", label: "Bedroom", href: "/category/bedroom", categories: ["bunk-beds", "loft-beds", "single-beds"] },
-  {
-    id: "storage-accessories",
-    label: "Storage & Accessories",
-    href: "/category/accessories",
-    categories: ["accessories", "mattresses"],
-  },
 ];
 
 const discountPct = (p: { price: number; originalPrice?: number }) =>
@@ -92,7 +87,7 @@ const SmartDealsPage = () => {
             Smart Deals
           </h1>
           <p className="text-muted-foreground text-base md:text-lg max-w-2xl mx-auto">
-            Save on solid wood furniture for every room — dining, living, bedroom, and storage.
+            Save on solid wood furniture for every room — dining, living, and bedroom.
             Limited-time markdowns with free Canada-wide shipping.
           </p>
         </div>
