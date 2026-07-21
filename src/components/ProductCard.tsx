@@ -79,10 +79,10 @@ export const ProductCard = ({
       </div>
       
       <div className="flex items-center gap-2">
-        <span className="text-primary font-bold">${price.toLocaleString()}</span>
+        <span className="text-primary font-bold">${price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
         {originalPrice && (
           <span className="text-muted-foreground line-through text-sm">
-            ${originalPrice.toLocaleString()}
+            ${originalPrice.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
           </span>
         )}
       </div>

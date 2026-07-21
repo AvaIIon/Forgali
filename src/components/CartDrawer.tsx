@@ -44,7 +44,7 @@ export const CartDrawer = () => {
                         <p className="text-xs text-muted-foreground mt-1">Finish: {item.selectedFinish}</p>
                       )}
                       <p className="text-[#2D8B6F] font-bold mt-1">
-                        ${item.product.price.toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                        ${item.product.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                       </p>
                       <div className="flex items-center gap-2 mt-2">
                         <button
@@ -76,7 +76,7 @@ export const CartDrawer = () => {
                 <div className="flex justify-between items-center">
                   <span className="font-medium">Subtotal</span>
                   <span className="text-xl font-bold">
-                    ${getTotalPrice().toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                    ${getTotalPrice().toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                   </span>
                 </div>
                 <p className="text-sm text-muted-foreground">Shipping calculated at checkout</p>

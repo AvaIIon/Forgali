@@ -78,7 +78,7 @@ export const ShopifyCheckoutButton = ({ className, children }: ShopifyCheckoutBu
       disabled={isLoading || items.length === 0}
       className={className}
     >
-      {isLoading ? 'Processing...' : (children || `Checkout with Shopify - $${getTotalPrice().toLocaleString(undefined, { minimumFractionDigits: 2 })}`)}
+      {isLoading ? 'Processing...' : (children || `Checkout with Shopify - $${getTotalPrice().toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`)}
     </Button>
   );
 };

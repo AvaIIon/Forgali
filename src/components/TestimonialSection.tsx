@@ -53,9 +53,9 @@ export const TestimonialSection = () => {
                 {bestseller.name}
               </p>
               <div className="flex items-center gap-3 mb-4">
-                <span className="text-[#4A647C] font-bold">${bestseller.price.toLocaleString()}</span>
+                <span className="text-[#4A647C] font-bold">${bestseller.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
                 {bestseller.originalPrice && (
-                  <span className="text-muted-foreground line-through text-sm">${bestseller.originalPrice.toLocaleString()}</span>
+                  <span className="text-muted-foreground line-through text-sm">${bestseller.originalPrice.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
                 )}
               </div>
               <Button variant="outline" size="sm" asChild className="rounded-full border-2 border-[#4A647C] text-[#4A647C] bg-background hover:bg-[#4A647C] hover:text-white">

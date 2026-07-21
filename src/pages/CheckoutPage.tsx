@@ -140,7 +140,7 @@ const CheckoutPage = () => {
                   clearCart();
                 }}
               >
-                Complete Order - ${total.toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                Complete Order - ${total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
               </Button>
             )}
           </div>
@@ -171,7 +171,7 @@ const CheckoutPage = () => {
                       )}
                     </div>
                     <p className="font-medium">
-                      ${(item.product.price * item.quantity).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                      ${(item.product.price * item.quantity).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                     </p>
                   </div>
                 ))}
@@ -183,7 +183,7 @@ const CheckoutPage = () => {
               <div className="space-y-3">
                 <div className="flex justify-between text-sm">
                   <span>Subtotal</span>
-                  <span>${subtotal.toLocaleString(undefined, { minimumFractionDigits: 2 })}</span>
+                  <span>${subtotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
                 </div>
                 <div className="flex justify-between text-sm">
                   <span className="flex items-center gap-2">
@@ -194,12 +194,12 @@ const CheckoutPage = () => {
                 </div>
                 <div className="flex justify-between text-sm">
                   <span>Tax (13%)</span>
-                  <span>${tax.toLocaleString(undefined, { minimumFractionDigits: 2 })}</span>
+                  <span>${tax.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
                 </div>
                 <Separator />
                 <div className="flex justify-between text-lg font-bold">
                   <span>Total</span>
-                  <span>${total.toLocaleString(undefined, { minimumFractionDigits: 2 })}</span>
+                  <span>${total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
                 </div>
               </div>
 

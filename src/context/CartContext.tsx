@@ -1,5 +1,7 @@
-import { createContext, useContext, useState, ReactNode } from "react";
+import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import { ConvertedProduct } from "@/services/shopifyService";
+
+const CART_STORAGE_KEY = "forgali_cart";
 
 export interface CartItem {
   product: ConvertedProduct;
@@ -28,9 +30,32 @@ const getItemKey = (item: CartItem): string => {
   return item.variantId || `${item.product.id}-${item.selectedFinish || 'default'}`;
 };
 
+// Rehydrate the cart from localStorage so it survives page reloads, closed
+// tabs, and return visits (furniture shoppers deliberate across sessions).
+const loadStoredCart = (): CartItem[] => {
+  if (typeof window === "undefined") return [];
+  try {
+    const raw = window.localStorage.getItem(CART_STORAGE_KEY);
+    const parsed = raw ? JSON.parse(raw) : null;
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+};
+
 export const CartProvider = ({ children }: { children: ReactNode }) => {
-  const [items, setItems] = useState<CartItem[]>([]);
+  const [items, setItems] = useState<CartItem[]>(loadStoredCart);
   const [isCartOpen, setIsCartOpen] = useState(false);
+
+  // Persist on every change; ignore quota / private-mode write failures.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    try {
+      window.localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(items));
+    } catch {
+      /* storage unavailable — cart still works in-memory this session */
+    }
+  }, [items]);
 
   const addToCart = (product: ConvertedProduct, quantity = 1, selectedFinish?: string, variantId?: string) => {
     setItems((prev) => {
