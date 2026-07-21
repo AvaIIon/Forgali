@@ -1,27 +1,10 @@
 import { Link } from "react-router-dom";
 import { getProxiedImage } from "@/lib/imageProxy";
 
+// Mirrors the top-nav category structure: Dining · Living · Bedroom ·
+// Storage & Accessories. Bedroom is the aggregate category (bunk/loft/single
+// have tabs on its category page).
 const categories = [
-  {
-    name: "Bunk Beds",
-    href: "/category/bunk-beds",
-    image: "https://bedsmart.ca/wp-content/uploads/2024/09/cool_20ws__4.jpg",
-  },
-  {
-    name: "Loft Beds",
-    href: "/category/loft-beds",
-    image: "https://bedsmart.ca/wp-content/uploads/2025/01/loft-with-desk.jpg",
-  },
-  {
-    name: "Single Beds",
-    href: "/category/single-beds",
-    image: "https://bedsmart.ca/wp-content/uploads/2016/11/2075_20001__3_900x.webp",
-  },
-  {
-    name: "Storage & Accessories",
-    href: "/category/accessories",
-    image: "https://bedsmart.ca/wp-content/uploads/2025/11/200006-002__2.jpg",
-  },
   {
     name: "Dining",
     href: "/category/dining",
@@ -31,6 +14,16 @@ const categories = [
     name: "Living",
     href: "/category/living",
     image: "https://cdn.shopify.com/s/files/1/0972/6492/6995/files/2600567600-016__1.jpg?v=1783608423",
+  },
+  {
+    name: "Bedroom",
+    href: "/category/bedroom",
+    image: "https://bedsmart.ca/wp-content/uploads/2024/09/cool_20ws__4.jpg",
+  },
+  {
+    name: "Storage & Accessories",
+    href: "/category/accessories",
+    image: "https://bedsmart.ca/wp-content/uploads/2025/11/200006-002__2.jpg",
   },
 ];
 
