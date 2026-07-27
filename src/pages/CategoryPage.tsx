@@ -11,6 +11,7 @@ import { SubcategoryTabs } from "@/components/SubcategoryTabs";
 import { useShopifyProductsByCategory } from "@/hooks/useShopifyProducts";
 import { ProductCategory } from "@/services/shopifyService";
 import { productMatchesSubcategory } from "@/lib/subcategories";
+import { getBedSeo } from "@/lib/categorySeo";
 
 // Category info for headers
 const categoryInfoMap: Record<string, { title: string; description: string }> = {
@@ -161,15 +162,28 @@ const CategoryPage = () => {
     );
   }
 
+  // Rich per-page SEO (targets the exact Search Console queries) with a
+  // graceful fall back to the generic category info. Subcategory views get
+  // their OWN title/H1/copy + a self-canonical URL so "low loft bed",
+  // "mid loft bed", "high loft beds" etc. each rank on their own term.
+  const bedSeo = getBedSeo(validCategory, subcategory);
+  const seoTitle = bedSeo?.seoTitle ?? `${categoryInfo.title} | Forgali`;
+  const seoDescription = bedSeo?.seoDescription ?? categoryInfo.description;
+  const headerH1 = bedSeo?.h1 ?? categoryInfo.title;
+  const headerLead = bedSeo?.lead ?? categoryInfo.description;
+  const seoPath = subcategory
+    ? `/category/${validCategory}?subcategory=${subcategory}`
+    : `/category/${validCategory}`;
+
   return (
     <div className="min-h-screen bg-background">
       <Seo
-        title={`${categoryInfo.title} | Forgali`}
-        description={categoryInfo.description}
-        path={`/category/${validCategory}`}
+        title={seoTitle}
+        description={seoDescription}
+        path={seoPath}
       />
       <Header />
-      <CategoryHeader title={categoryInfo.title} description={categoryInfo.description} />
+      <CategoryHeader title={headerH1} description={headerLead} />
       <SubcategoryTabs products={allCategoryProducts} />
       <CategoryFilters
         filters={filters}
@@ -215,7 +229,24 @@ const CategoryPage = () => {
           )}
         </div>
       </section>
-      
+
+      {/* Buying-guide copy below the grid (keeps the product grid above the
+          fold while giving the page real, indexable content for its term) */}
+      {bedSeo?.intro && (
+        <section className="border-t border-border bg-secondary/20 py-12 px-4">
+          <div className="max-w-3xl mx-auto">
+            <h2 className="text-2xl font-bold mb-4 text-[#3D5A6C]">
+              About {headerH1}
+            </h2>
+            {bedSeo.intro.split("\n\n").map((para, i) => (
+              <p key={i} className="text-muted-foreground leading-relaxed mb-4 last:mb-0">
+                {para}
+              </p>
+            ))}
+          </div>
+        </section>
+      )}
+
       <Footer />
     </div>
   );
