@@ -1,14 +1,31 @@
+import { useState } from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { Mail, Phone, Clock, MapPin } from "lucide-react";
+import { Mail, Clock, MapPin } from "lucide-react";
 import { Seo } from "@/components/Seo";
 
 const ContactPage = () => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+
+  // No backend endpoint exists, so the form composes an email in the visitor's
+  // mail client rather than silently discarding the message on a native submit
+  // (which just reloaded the SPA).
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const subject = encodeURIComponent(`Website enquiry from ${name || "a customer"}`);
+    const body = encodeURIComponent(
+      `Name: ${name}\nEmail: ${email}\n\n${message}`
+    );
+    window.location.href = `mailto:support@forgali.com?subject=${subject}&body=${body}`;
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <Seo
         title="Contact Forgali – Support for Orders & Delivery"
-        description="Questions about an order, shipping, or finding the right bed? Reach the Forgali team by phone or email — we respond within 24 hours."
+        description="Questions about an order, shipping, or finding the right bed? Email the Forgali team — we respond within 24 hours."
         path="/contact"
       />
       <Header />
@@ -26,28 +43,21 @@ const ContactPage = () => {
       
       <section className="py-16 px-4">
         <div className="max-w-4xl mx-auto">
-          <div className="grid md:grid-cols-2 gap-8 mb-12">
-            <div className="bg-[#f2f4f6] rounded-lg p-6">
-              <Phone className="w-8 h-8 text-[#4A647C] mb-4" />
-              <h3 className="font-bold text-lg mb-2">Phone</h3>
-              <p className="text-muted-foreground">1-800-FORGALI</p>
-              <p className="text-sm text-muted-foreground mt-2">Mon-Fri, 9 AM - 5 PM EST</p>
-            </div>
-            
+          <div className="grid md:grid-cols-3 gap-8 mb-12">
             <div className="bg-[#f2f4f6] rounded-lg p-6">
               <Mail className="w-8 h-8 text-[#4A647C] mb-4" />
               <h3 className="font-bold text-lg mb-2">Email</h3>
-              <p className="text-muted-foreground">support@forgali.com</p>
+              <a href="mailto:support@forgali.com" className="text-primary hover:underline">support@forgali.com</a>
               <p className="text-sm text-muted-foreground mt-2">We'll respond within 24 hours</p>
             </div>
-            
+
             <div className="bg-[#f2f4f6] rounded-lg p-6">
               <Clock className="w-8 h-8 text-[#4A647C] mb-4" />
-              <h3 className="font-bold text-lg mb-2">Business Hours</h3>
+              <h3 className="font-bold text-lg mb-2">Support Hours</h3>
               <p className="text-muted-foreground">Monday - Friday</p>
               <p className="text-muted-foreground">9:00 AM - 5:00 PM EST</p>
             </div>
-            
+
             <div className="bg-[#f2f4f6] rounded-lg p-6">
               <MapPin className="w-8 h-8 text-[#4A647C] mb-4" />
               <h3 className="font-bold text-lg mb-2">Location</h3>
@@ -55,25 +65,29 @@ const ContactPage = () => {
               <p className="text-sm text-muted-foreground mt-2">Free shipping nationwide</p>
             </div>
           </div>
-          
+
           <div className="bg-background border border-border rounded-lg p-8">
             <h2 className="text-2xl font-bold mb-6">Send us a message</h2>
-            <form className="space-y-4">
+            <form className="space-y-4" onSubmit={handleSubmit}>
               <div>
-                <label className="block text-sm font-medium mb-2">Name</label>
-                <input type="text" className="w-full px-4 py-2 border border-border rounded-lg" />
+                <label htmlFor="contact-name" className="block text-sm font-medium mb-2">Name</label>
+                <input id="contact-name" type="text" required value={name} onChange={(e) => setName(e.target.value)} className="w-full px-4 py-2 border border-border rounded-lg" />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-2">Email</label>
-                <input type="email" className="w-full px-4 py-2 border border-border rounded-lg" />
+                <label htmlFor="contact-email" className="block text-sm font-medium mb-2">Email</label>
+                <input id="contact-email" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} className="w-full px-4 py-2 border border-border rounded-lg" />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-2">Message</label>
-                <textarea rows={5} className="w-full px-4 py-2 border border-border rounded-lg" />
+                <label htmlFor="contact-message" className="block text-sm font-medium mb-2">Message</label>
+                <textarea id="contact-message" rows={5} required value={message} onChange={(e) => setMessage(e.target.value)} className="w-full px-4 py-2 border border-border rounded-lg" />
               </div>
-              <button className="bg-[#4A647C] text-white px-8 py-3 rounded-lg font-medium hover:bg-[#3A5066] transition-colors">
+              <button type="submit" className="bg-[#4A647C] text-white px-8 py-3 rounded-lg font-medium hover:bg-[#3A5066] transition-colors">
                 Send Message
               </button>
+              <p className="text-xs text-muted-foreground">
+                This opens your email app with the message ready to send. Prefer to write us directly?
+                Email <a href="mailto:support@forgali.com" className="text-primary hover:underline">support@forgali.com</a>.
+              </p>
             </form>
           </div>
         </div>

@@ -135,13 +135,25 @@ export const ShopTheLook = () => {
 
   const resolved = HOTSPOTS.map((spot) => {
     const live = getProductByHandle(products, spot.handle);
-    return {
-      spot,
-      title: live?.name ?? spot.title,
-      price: live?.price ?? spot.price,
-      originalPrice: live?.originalPrice ?? spot.originalPrice,
-      image: live?.image || spot.image,
-    };
+    // Resolve as a UNIT: once live data has loaded it wins for EVERY field,
+    // including its absences. Field-by-field nullish fallback would re-apply
+    // the hardcoded compare-at after a sale ends (live.originalPrice
+    // undefined), showing a strikethrough that no longer exists.
+    return live
+      ? {
+          spot,
+          title: live.name,
+          price: live.price,
+          originalPrice: live.originalPrice,
+          image: live.image || spot.image,
+        }
+      : {
+          spot,
+          title: spot.title,
+          price: spot.price,
+          originalPrice: spot.originalPrice,
+          image: spot.image,
+        };
   });
 
   const lookTotal = resolved.reduce((sum, r) => sum + r.price, 0);

@@ -9,7 +9,9 @@ import { Button } from "@/components/ui/button";
 import { ConvertedProduct } from "@/services/shopifyService";
 import { useMemo } from "react";
 
-export type SortOption = 'best-selling' | 'newest' | 'price-low' | 'price-high' | 'highest-rated';
+// "Newest" (reversed API order, not recency) and "Highest Rated" (fabricated
+// ratings) were removed; "Featured" is honest catalog order.
+export type SortOption = 'featured' | 'price-low' | 'price-high';
 export type FilterState = {
   priceRange?: string;
   finish?: string;
@@ -22,6 +24,7 @@ interface CategoryFiltersProps {
   sortBy: SortOption;
   onSortChange: (sort: SortOption) => void;
   products: ConvertedProduct[];
+  category?: string;
 }
 
 const priceRanges = [
@@ -32,21 +35,23 @@ const priceRanges = [
 ];
 
 const bedSizes = ['Twin', 'Full', 'Queen', 'Twin XL'];
+// Bed Size only makes sense where products HAVE bed sizes — on Dining/Living
+// it guaranteed an empty result for any selection.
+const BED_SIZE_CATEGORIES = new Set(['bunk-beds', 'loft-beds', 'single-beds', 'bedroom', 'mattresses']);
 
 const sortOptions: { value: SortOption; label: string }[] = [
-  { value: 'best-selling', label: 'Best Selling' },
-  { value: 'newest', label: 'Newest' },
+  { value: 'featured', label: 'Featured' },
   { value: 'price-low', label: 'Price: Low to High' },
   { value: 'price-high', label: 'Price: High to Low' },
-  { value: 'highest-rated', label: 'Highest Rated' },
 ];
 
-export const CategoryFilters = ({ 
-  filters, 
-  onFilterChange, 
-  sortBy, 
+export const CategoryFilters = ({
+  filters,
+  onFilterChange,
+  sortBy,
   onSortChange,
-  products 
+  products,
+  category,
 }: CategoryFiltersProps) => {
   
   // Get unique finishes from products
@@ -105,6 +110,7 @@ export const CategoryFilters = ({
         </DropdownMenu>
 
         {/* Bed Size Filter */}
+        {(!category || BED_SIZE_CATEGORIES.has(category)) && (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button 
@@ -117,7 +123,7 @@ export const CategoryFilters = ({
           </DropdownMenuTrigger>
           <DropdownMenuContent align="start">
             {bedSizes.map((size) => (
-              <DropdownMenuItem 
+              <DropdownMenuItem
                 key={size}
                 onClick={() => handleBedSizeChange(size)}
                 className={filters.bedSize === size ? 'bg-[#4A647C]/10' : ''}
@@ -127,6 +133,7 @@ export const CategoryFilters = ({
             ))}
           </DropdownMenuContent>
         </DropdownMenu>
+        )}
 
         {/* Finish Filter */}
         {availableFinishes.length > 0 && (

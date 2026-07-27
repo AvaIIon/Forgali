@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { useCart } from "@/context/CartContext";
+import { useCart, CHECKOUT_CART_KEY } from "@/context/CartContext";
 import { createShopifyCartWithLines } from "@/services/shopifyService";
 import { useState } from "react";
 
@@ -13,7 +13,12 @@ export const ShopifyCheckoutButton = ({ className, children }: ShopifyCheckoutBu
   const [isLoading, setIsLoading] = useState(false);
 
   const handleShopifyCheckout = async () => {
-    if (items.length === 0) return;
+    if (items.length === 0 || isLoading) return;
+
+    if (items.some(i => i.unavailable)) {
+      alert("An item in your cart is no longer available. Please remove it and try again.");
+      return;
+    }
 
     try {
       setIsLoading(true);
@@ -43,33 +48,32 @@ export const ShopifyCheckoutButton = ({ className, children }: ShopifyCheckoutBu
 
       // Redirect to Shopify checkout
       if (cart.checkoutUrl) {
+        // Remember the cart id: next visit we ask Shopify whether it
+        // completed, and clear the local cart if the customer paid.
+        try {
+          window.localStorage.setItem(CHECKOUT_CART_KEY, cart.id);
+        } catch {
+          /* storage unavailable — checkout still proceeds */
+        }
         window.location.href = cart.checkoutUrl;
-      } else {
-        throw new Error('No checkout URL available');
+        // Deliberately stay in the loading state: re-enabling the button
+        // during the redirect invites a second cart creation.
+        return;
       }
+      throw new Error('Checkout could not be started. Please try again.');
     } catch (error) {
       console.error('Error creating Shopify checkout:', error);
-      const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
-      
-      // Show more helpful error message based on error type
-      if (errorMessage.includes('402') || errorMessage.includes('Unavailable Shop')) {
-        alert('Your Shopify store is currently unavailable. Please:\n\n' +
-          '1. Go to your Shopify Admin and complete store setup\n' +
-          '2. If your trial expired, choose a Shopify plan\n' +
-          '3. If your store is paused, reactivate it\n' +
-          '4. Once active, try checkout again\n\n' +
-          'Error: ' + errorMessage);
-      } else if (errorMessage.includes('401') || errorMessage.includes('Authentication')) {
-        alert('Shopify authentication failed. Please check your environment variables in Vercel:\n\n' +
-          '1. Go to your Vercel project settings\n' +
-          '2. Navigate to Environment Variables\n' +
-          '3. Ensure VITE_SHOPIFY_STORE_DOMAIN and VITE_SHOPIFY_STOREFRONT_ACCESS_TOKEN are set\n' +
-          '4. Redeploy your application\n\n' +
-          'Error details: ' + errorMessage);
+      const errorMessage = error instanceof Error ? error.message : '';
+      // User-facing copy only — configuration detail belongs in the console,
+      // not in a shopper's alert box.
+      if (/no longer available|can't be checked out/.test(errorMessage)) {
+        alert(errorMessage);
       } else {
-        alert('There was an error processing your checkout:\n\n' + errorMessage);
+        alert(
+          "We couldn't start the secure checkout. Please try again in a moment — " +
+          "if it keeps happening, email support@forgali.com and we'll take care of you."
+        );
       }
-    } finally {
       setIsLoading(false);
     }
   };

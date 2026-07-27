@@ -1,57 +1,15 @@
 import { Link, useParams, useSearchParams } from "react-router-dom";
+import { ConvertedProduct } from "@/services/shopifyService";
+import { categorySubcategories, productMatchesSubcategory } from "@/lib/subcategories";
 
-// Predefined subcategories per category (matched to Shopify tags)
-const categorySubcategories: Record<string, Array<{ slug: string; name: string }>> = {
-  'bunk-beds': [
-    { slug: 'twin-over-twin', name: 'Twin Over Twin' },
-    { slug: 'twin-over-full', name: 'Twin Over Full' },
-    { slug: 'full-over-full', name: 'Full Over Full' },
-    { slug: 'twin-xl-over-queen', name: 'Twin XL Over Queen' },
-    { slug: 'l-shaped', name: 'L-Shaped' },
-    { slug: 'multi-bunk', name: 'Quad & Triple' },
-    { slug: 'low-bunk', name: 'Low Bunk' },
-    { slug: 'with-slide', name: 'With Slide' },
-    { slug: 'with-stairs', name: 'With Stairs' },
-  ],
-  'loft-beds': [
-    { slug: 'low-loft', name: 'Low Loft' },
-    { slug: 'mid-loft', name: 'Mid Loft' },
-    { slug: 'high-loft', name: 'High Loft' },
-    { slug: 'loft-with-desk', name: 'With Desk' },
-    { slug: 'loft-with-slide', name: 'With Slide' },
-    { slug: 'corner-loft', name: 'Corner Loft' },
-  ],
-  'single-beds': [
-    { slug: 'platform', name: 'Platform' },
-    { slug: 'house-bed', name: 'Castle & House' },
-    { slug: 'floor-bed', name: 'Toddler & Floor' },
-    { slug: 'traditional', name: 'Traditional' },
-    { slug: 'trundle-bed', name: 'Trundle' },
-  ],
-  'accessories': [
-    { slug: 'storage', name: 'Dressers & Storage' },
-    { slug: 'desks', name: 'Desks' },
-    { slug: 'bookcases-shelves', name: 'Bookcases' },
-    { slug: 'nightstands', name: 'Nightstands' },
-  ],
-  'dining': [
-    { slug: 'dining-tables', name: 'Dining Tables' },
-    { slug: 'dining-chairs', name: 'Dining Chairs' },
-    { slug: 'dining-benches', name: 'Benches' },
-    { slug: 'bar-counter-chairs', name: 'Bar & Counter Chairs' },
-    { slug: 'dining-sets', name: 'Dining Sets' },
-  ],
-  'living': [
-    { slug: 'coffee-tables', name: 'Coffee Tables' },
-    { slug: 'console-tables', name: 'Console Tables' },
-    { slug: 'side-tables', name: 'Side Tables' },
-    { slug: 'sideboards', name: 'Sideboards' },
-    { slug: 'tv-stands', name: 'TV Stands' },
-    { slug: 'shelves', name: 'Shelves' },
-  ],
-};
+interface SubcategoryTabsProps {
+  // When provided, tabs matching zero products are hidden — several matchers
+  // used to render permanently-empty tabs ("Quad & Triple", bunk "With Slide")
+  // that stranded shoppers on "No products found".
+  products?: ConvertedProduct[];
+}
 
-export const SubcategoryTabs = () => {
+export const SubcategoryTabs = ({ products }: SubcategoryTabsProps) => {
   const { category } = useParams<{ category: string }>();
   const [searchParams] = useSearchParams();
   const selectedSubcategory = searchParams.get('subcategory');
@@ -113,8 +71,10 @@ export const SubcategoryTabs = () => {
     );
   }
   
-  const subcategories = categorySubcategories[category] || [];
-  
+  const subcategories = (categorySubcategories[category] || []).filter(sub =>
+    !products || products.length === 0 || products.some(p => productMatchesSubcategory(p, sub.slug))
+  );
+
   return (
     <div className="border-b border-border bg-background sticky top-0 z-30">
       <div className="max-w-7xl mx-auto px-4">

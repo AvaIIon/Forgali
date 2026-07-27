@@ -1,30 +1,12 @@
 import { Link } from "react-router-dom";
 import { Loader2 } from "lucide-react";
 import { ProductCard } from "./ProductCard";
-import { useShopifyProducts } from "@/hooks/useShopifyProducts";
+import { useFeaturedProducts } from "@/hooks/useShopifyProducts";
 
 export const ProductGrid = () => {
-  const { products, loading } = useShopifyProducts();
-
-  // Best Sellers close for the landing page — in-stock only, so we never
-  // spotlight an unbuyable "best seller" (dev change list item 9). Sort a COPY
-  // ([...products]) — the old TestimonialSection sorted the shared cache in
-  // place, which made two homepage sections show the same product.
-  const featuredProducts = [...products]
-    .filter(p => p.availableForSale)
-    .sort((a, b) => b.rating * b.reviews - a.rating * a.reviews)
-    .slice(0, 8)
-    .map(p => ({
-      id: p.id,
-      handle: p.handle,
-      name: p.name,
-      rating: p.rating,
-      reviews: p.reviews,
-      price: p.price,
-      originalPrice: p.originalPrice,
-      savings: p.originalPrice ? Math.round(p.originalPrice - p.price) : 0,
-      image: p.image,
-    }));
+  // Shopify's real BEST_SELLING ordering (in-stock only). The old grid ranked
+  // by fabricated hash-derived ratings under a "Best Sellers" heading.
+  const { products, loading, error } = useFeaturedProducts(8);
 
   if (loading) {
     return (
@@ -36,19 +18,43 @@ export const ProductGrid = () => {
     );
   }
 
+  if (error || products.length === 0) {
+    // Never render the heading over an empty grid — offer a way forward.
+    return (
+      <section className="py-16 px-4">
+        <div className="max-w-7xl mx-auto text-center space-y-3">
+          <h2 className="text-3xl font-bold">Featured Furniture</h2>
+          <p className="text-muted-foreground">
+            We couldn't load products right now.{" "}
+            <Link to="/category/dining" className="text-primary hover:underline">
+              Browse the Dining collection
+            </Link>{" "}
+            instead.
+          </p>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className="py-16 px-4">
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-wrap items-baseline justify-between gap-2 mb-10">
-          <h2 className="text-3xl font-bold">Best Sellers</h2>
+          <h2 className="text-3xl font-bold">Featured Furniture</h2>
           <Link to="/category/dining" className="text-sm font-medium text-primary hover:underline whitespace-nowrap">
             Shop All →
           </Link>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-          {featuredProducts.map((product) => (
+          {products.map((product) => (
             <Link key={product.id} to={`/product/${product.handle}`}>
-              <ProductCard {...product} />
+              <ProductCard
+                name={product.name}
+                price={product.price}
+                originalPrice={product.originalPrice}
+                fromPrice={product.fromPrice}
+                image={product.image}
+              />
             </Link>
           ))}
         </div>

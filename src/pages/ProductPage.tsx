@@ -3,116 +3,23 @@ import { useParams, Link } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Seo } from "@/components/Seo";
-import { Star, Check, Truck, Shield, CreditCard, Minus, Plus, Loader2, X, ChevronLeft, ChevronRight } from "lucide-react";
+import { Check, Truck, Shield, Lock, Minus, Plus, Loader2, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { useCart } from "@/context/CartContext";
 import { useToast } from "@/hooks/use-toast";
 import { useShopifyProduct, useShopifyProducts, getRelatedProducts } from "@/hooks/useShopifyProducts";
-import { getVariantImages, getVariantIdForOptions, ConvertedProduct } from "@/services/shopifyService";
+import { getVariantImages, ConvertedProduct } from "@/services/shopifyService";
 import { getFinishColor } from "@/lib/finishColors";
+
+const MAX_QUANTITY = 10;
+
+const FINISH_OPTION_NAMES = ["finish", "color", "wood finish"];
+const isFinishLike = (name: string) => FINISH_OPTION_NAMES.includes(name.toLowerCase());
 
 const ProductPage = () => {
   const { id } = useParams<{ id: string }>();
-  
-  // Fetch product from Shopify (id can be either numeric ID or handle)
-  const { product, loading, error } = useShopifyProduct(id);
-  const { products: allProducts } = useShopifyProducts();
-  
-  const [selectedImage, setSelectedImage] = useState(0);
-  const [selectedFinish, setSelectedFinish] = useState(0);
-  const [quantity, setQuantity] = useState(1);
-  const [imageErrors, setImageErrors] = useState<Set<number>>(new Set());
-  const { addToCart } = useCart();
-  const { toast } = useToast();
-
-  // Get finishes - first check options, then fall back to finishes array from tags
-  const finishOption = useMemo(() => {
-    if (!product) return null;
-    
-    // Try to find finish option
-    const opt = product.options?.find(o => 
-      o.name.toLowerCase() === 'finish' || 
-      o.name.toLowerCase() === 'color' ||
-      o.name.toLowerCase() === 'wood finish'
-    );
-    
-    if (opt && opt.values.length > 0 && !opt.values.includes('Default Title')) {
-      return opt;
-    }
-    
-    // Fall back to finishes extracted from tags
-    if (product.finishes && product.finishes.length > 0) {
-      return { name: 'Finish', values: product.finishes };
-    }
-    
-    return null;
-  }, [product]);
-
-  const finishes = finishOption?.values || [];
-  const selectedFinishName = finishes[selectedFinish] || '';
-
-  // Get images for the selected finish using variant images
-  const finishImages = useMemo(() => {
-    if (!product) return [];
-    
-    // If product has variant-specific images, use those
-    if (selectedFinishName && product.variants.length > 1) {
-      const variantImages = getVariantImages(product, selectedFinishName);
-      if (variantImages.length > 0) return variantImages;
-    }
-    
-    // Fallback to all product images
-    return product.images.length > 0 ? product.images : [product.image];
-  }, [product, selectedFinishName]);
-
-  // Get the selected variant ID for checkout
-  const selectedVariantId = useMemo(() => {
-    if (!product || !finishOption) {
-      return product?.variants[0]?.id;
-    }
-    return getVariantIdForOptions(product, { [finishOption.name]: selectedFinishName }) || product.variants[0]?.id;
-  }, [product, finishOption, selectedFinishName]);
-
-  // Get related products
-  const relatedProducts = useMemo(() => {
-    if (!product || allProducts.length === 0) return [];
-    return getRelatedProducts(allProducts, product, 4);
-  }, [product, allProducts]);
-
-  // Curated same-style cross-sells (custom.related_products metafield);
-  // when present these replace the generic category-based fallback below
-  const completeTheRoom = (product?.relatedProducts ?? []).filter(
-    r => r.availableForSale && r.image
-  );
-  
-  const handleImageError = (index: number) => {
-    setImageErrors(prev => new Set([...prev, index]));
-  };
-  
-  const getImageSrc = (index: number) => {
-    if (!product || finishImages.length === 0) return '';
-    if (imageErrors.has(index) && finishImages.length > index + 1) {
-      return finishImages[index + 1] || finishImages[0] || product.image;
-    }
-    return finishImages[index] || finishImages[0] || product.image;
-  };
-  
-  const handleFinishChange = (index: number) => {
-    setSelectedFinish(index);
-    setSelectedImage(0);
-    setImageErrors(new Set());
-  };
-
-  const handleAddToCart = () => {
-    if (product && selectedVariantId) {
-      addToCart(product, quantity, selectedFinishName, selectedVariantId);
-      toast({
-        title: "Added to cart!",
-        description: `${product.name} has been added to your cart.`,
-      });
-    }
-  };
+  const { product, loading, error, detailLoaded, notFound } = useShopifyProduct(id);
 
   // Loading state
   if (loading) {
@@ -128,34 +35,164 @@ const ProductPage = () => {
     );
   }
 
-  // Error or not found state
+  // Error or not found state. The Seo noindex matters: dead product URLs
+  // otherwise serve a 200 shell that keeps the PREVIOUS route's title,
+  // canonical, and product JSON-LD — indexable ghost pages.
   if (error || !product) {
     return (
       <div className="min-h-screen bg-background">
+        <Seo
+          title={notFound ? "Product Not Found | Forgali" : "Something Went Wrong | Forgali"}
+          description="This product could not be found."
+          path={`/product/${id ?? ""}`}
+          noindex
+        />
         <Header />
-        <div className="flex flex-col items-center justify-center py-32 gap-4">
-          <p className="text-muted-foreground text-lg">
-            {error || "Product not found"}
+        <div className="flex flex-col items-center justify-center py-32 gap-4 px-4 text-center">
+          <h1 className="text-2xl font-bold">
+            {notFound ? "We couldn't find that product" : "Something went wrong"}
+          </h1>
+          <p className="text-muted-foreground text-lg max-w-md">
+            {notFound
+              ? "It may have been renamed or is no longer available — but the rest of the collection is right here."
+              : "Please try again in a moment."}
           </p>
-          <Link to="/category/bunk-beds" className="text-[#4A647C] hover:underline">
-            Browse our products
-          </Link>
+          <div className="flex gap-4 flex-wrap justify-center">
+            <Link to="/category/dining" className="text-[#4A647C] hover:underline">
+              Shop Dining
+            </Link>
+            <Link to="/category/living" className="text-[#4A647C] hover:underline">
+              Shop Living
+            </Link>
+            <Link to="/category/bedroom" className="text-[#4A647C] hover:underline">
+              Shop Bedroom
+            </Link>
+          </div>
         </div>
         <Footer />
       </div>
     );
   }
 
-  // Price of the variant the shopper actually selected — product.price is the
-  // FIRST variant's price, which can differ by hundreds of dollars from the
-  // selected finish (checkout charges the real variant, so displays must too).
-  const selectedVariant = selectedVariantId
-    ? product.variants.find(v => v.id === selectedVariantId)
-    : undefined;
-  const displayPrice = selectedVariant?.price ?? product.price;
-  const displayCompareAt = selectedVariant
-    ? selectedVariant.compareAtPrice
-    : product.originalPrice;
+  // Keyed by product id so ALL local state (quantity, selections, image index,
+  // image errors) resets when navigating between products — reused state let a
+  // stale quantity of 3 carry over onto the next PDP.
+  return <ProductView key={product.id} product={product} detailLoaded={detailLoaded} />;
+};
+
+const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; detailLoaded: boolean }) => {
+  const { products: allProducts } = useShopifyProducts();
+  const { addToCart } = useCart();
+  const { toast } = useToast();
+
+  const [selectedImage, setSelectedImage] = useState(0);
+  const [quantity, setQuantity] = useState(1);
+  const [imageErrors, setImageErrors] = useState<Set<number>>(new Set());
+
+  // Every real product option gets a selector (finish swatches, size/quantity/
+  // feature pills). The old page recognized only a "finish" axis and silently
+  // added variants[0] for anything else — 42 products' variants were
+  // unreachable and could ship the wrong item.
+  const options = useMemo(
+    () => (product.options ?? []).filter(o => o.values.length > 0 && !o.values.includes("Default Title")),
+    [product]
+  );
+
+  const [selections, setSelections] = useState<Record<string, string>>(() => {
+    const first = product.variants.find(v => v.availableForSale) ?? product.variants[0];
+    const init: Record<string, string> = {};
+    first?.options.forEach(o => {
+      if (o.value !== "Default Title") init[o.name] = o.value;
+    });
+    return init;
+  });
+
+  const variantMatches = (variant: ConvertedProduct["variants"][number], sel: Record<string, string>) =>
+    Object.entries(sel).every(([name, value]) =>
+      variant.options.some(o => o.name === name && o.value === value)
+    );
+
+  const resolvedVariant = useMemo(() => {
+    if (options.length === 0) return product.variants[0];
+    return product.variants.find(v => variantMatches(v, selections));
+  }, [product, options, selections]);
+
+  // Selecting a value keeps the other axes when that combination exists;
+  // otherwise snap to the first variant carrying the clicked value so the
+  // selection always lands on a real, purchasable variant.
+  const handleSelect = (optionName: string, value: string) => {
+    const next = { ...selections, [optionName]: value };
+    if (!product.variants.some(v => variantMatches(v, next))) {
+      const carrier = product.variants.find(v =>
+        v.options.some(o => o.name === optionName && o.value === value)
+      );
+      if (carrier) {
+        const snapped: Record<string, string> = {};
+        carrier.options.forEach(o => {
+          if (o.value !== "Default Title") snapped[o.name] = o.value;
+        });
+        setSelections(snapped);
+      } else {
+        setSelections(next);
+      }
+    } else {
+      setSelections(next);
+    }
+    if (isFinishLike(optionName)) {
+      setSelectedImage(0);
+      setImageErrors(new Set());
+    }
+  };
+
+  const finishAxis = options.find(o => isFinishLike(o.name));
+  const selectedFinishName = finishAxis ? selections[finishAxis.name] ?? "" : "";
+
+  // Gallery for the selected finish; the resolved variant's SKU picks the
+  // cleanest angle set when filenames are SKU-encoded (Plank & Beam)
+  const finishImages = useMemo(() => {
+    if (!product) return [];
+    const imgs = getVariantImages(product, selectedFinishName || undefined, resolvedVariant?.sku);
+    return imgs.length > 0 ? imgs : [product.image];
+  }, [product, selectedFinishName, resolvedVariant]);
+
+  // Generic same-category fallback ("You May Also Like")
+  const relatedProducts = useMemo(() => {
+    if (!product || allProducts.length === 0) return [];
+    return getRelatedProducts(allProducts, product, 4);
+  }, [product, allProducts]);
+
+  // Curated same-style cross-sells (custom.related_products metafield);
+  // when present these replace the generic category-based fallback below
+  const completeTheRoom = (product?.relatedProducts ?? []).filter(
+    r => r.availableForSale && r.image
+  );
+
+  const handleImageError = (index: number) => {
+    setImageErrors(prev => new Set([...prev, index]));
+  };
+
+  const getImageSrc = (index: number) => {
+    if (!product || finishImages.length === 0) return "";
+    if (imageErrors.has(index) && finishImages.length > index + 1) {
+      return finishImages[index + 1] || finishImages[0] || product.image;
+    }
+    return finishImages[index] || finishImages[0] || product.image;
+  };
+
+  const canPurchase = !!resolvedVariant && resolvedVariant.availableForSale;
+
+  const handleAddToCart = () => {
+    if (product && resolvedVariant && canPurchase) {
+      addToCart(product, quantity, selectedFinishName || undefined, resolvedVariant.id);
+      toast({
+        title: "Added to cart!",
+        description: `${product.name} has been added to your cart.`,
+      });
+    }
+  };
+
+  const displayPrice = resolvedVariant?.price ?? product.price;
+  const displayCompareAt = resolvedVariant ? resolvedVariant.compareAtPrice : product.originalPrice;
 
   const discountPercent = displayCompareAt && displayCompareAt > displayPrice
     ? Math.round((1 - displayPrice / displayCompareAt) * 100)
@@ -163,9 +200,10 @@ const ProductPage = () => {
 
   const specs = product.specs || {};
   const isBed = ["bunk-beds", "loft-beds", "single-beds"].includes(product.category);
+  const isMattress = product.category === "mattresses";
 
-  // Product JSON-LD for rich results. Deliberately omits reviews/aggregateRating
-  // (the on-site rating is generated, not from verified reviews).
+  // Product JSON-LD for rich results (no reviews/aggregateRating — the site
+  // has no review system).
   const productJsonLd = {
     "@context": "https://schema.org/",
     "@type": "Product",
@@ -216,7 +254,7 @@ const ProductPage = () => {
       {/* Main Product Section */}
       <div className="max-w-7xl mx-auto px-4 pb-16">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          
+
           {/* Image Gallery */}
           <div className="space-y-4">
             {/* Main Image */}
@@ -250,7 +288,7 @@ const ProductPage = () => {
                 </>
               )}
             </div>
-            
+
             {/* Thumbnail Gallery */}
             {finishImages.length > 1 && (
               <div className="flex gap-3 overflow-x-auto pb-2">
@@ -258,13 +296,14 @@ const ProductPage = () => {
                   <button
                     key={index}
                     onClick={() => setSelectedImage(index)}
+                    aria-label={`View image ${index + 1} of ${finishImages.length}`}
                     className={`flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 transition-colors ${
                       selectedImage === index ? "border-[#4A647C]" : "border-transparent"
                     }`}
                   >
-                    <img 
-                      src={imageErrors.has(index) ? finishImages[index + 1] || finishImages[0] || product.image : img} 
-                      alt={`${product.name} ${selectedFinishName} view ${index + 1}`} 
+                    <img
+                      src={imageErrors.has(index) ? finishImages[index + 1] || finishImages[0] || product.image : img}
+                      alt={`${product.name} ${selectedFinishName} view ${index + 1}`}
                       className="w-full h-full object-cover"
                       onError={() => handleImageError(index)}
                       loading="lazy"
@@ -277,20 +316,6 @@ const ProductPage = () => {
 
           {/* Product Info */}
           <div className="space-y-6">
-            {/* Rating */}
-            <div className="flex items-center gap-2">
-              <div className="flex items-center gap-1">
-                {[...Array(5)].map((_, i) => (
-                  <Star 
-                    key={i} 
-                    className={`w-4 h-4 ${i < Math.floor(product.rating) ? "fill-yellow-400 text-yellow-400" : "fill-gray-200 text-gray-200"}`}
-                  />
-                ))}
-              </div>
-              <span className="text-sm font-medium">{product.rating.toFixed(2)}</span>
-              <span className="text-sm text-muted-foreground">({product.reviews} reviews)</span>
-            </div>
-
             {/* Title */}
             <h1 className="text-2xl md:text-3xl font-bold text-foreground leading-tight">
               {product.name}
@@ -313,63 +338,96 @@ const ProductPage = () => {
               )}
             </div>
 
-            {/* Finish Selector */}
-            {finishes.length > 0 && (
-              <div className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="font-medium">Finish:</span>
-                  <span className="text-muted-foreground">{selectedFinishName}</span>
+            {/* Option Selectors — one per real variant axis */}
+            {options.map(option => {
+              const selectedValue = selections[option.name];
+              if (isFinishLike(option.name)) {
+                return (
+                  <div key={option.name} className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <span className="font-medium">{option.name}:</span>
+                      <span className="text-muted-foreground">{selectedValue}</span>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      {option.values.map(value => (
+                        <button
+                          key={value}
+                          onClick={() => handleSelect(option.name, value)}
+                          aria-label={`${option.name}: ${value}`}
+                          aria-pressed={selectedValue === value}
+                          className={`w-10 h-10 rounded-full border-2 transition-all ${
+                            selectedValue === value
+                              ? "border-[#4A647C] ring-2 ring-[#4A647C] ring-offset-2"
+                              : "border-border hover:border-muted-foreground"
+                          }`}
+                          style={{ backgroundColor: getFinishColor(value) }}
+                          title={value}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                );
+              }
+              return (
+                <div key={option.name} className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="font-medium">{option.name}:</span>
+                    <span className="text-muted-foreground">{selectedValue}</span>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {option.values.map(value => (
+                      <button
+                        key={value}
+                        onClick={() => handleSelect(option.name, value)}
+                        aria-pressed={selectedValue === value}
+                        className={`px-4 py-2 rounded-lg border text-sm font-medium transition-colors ${
+                          selectedValue === value
+                            ? "border-[#4A647C] bg-[#4A647C] text-white"
+                            : "border-border hover:border-muted-foreground"
+                        }`}
+                      >
+                        {value}
+                      </button>
+                    ))}
+                  </div>
                 </div>
-                <div className="flex flex-wrap gap-2">
-                  {finishes.map((finish, index) => (
-                    <button
-                      key={index}
-                      onClick={() => handleFinishChange(index)}
-                      className={`w-10 h-10 rounded-full border-2 transition-all ${
-                        selectedFinish === index 
-                          ? "border-[#4A647C] ring-2 ring-[#4A647C] ring-offset-2" 
-                          : "border-border hover:border-muted-foreground"
-                      }`}
-                      style={{ backgroundColor: getFinishColor(finish) }}
-                      title={finish}
-                    />
-                  ))}
-                </div>
-              </div>
-            )}
+              );
+            })}
 
             {/* Quantity & Add to Cart */}
             <div className="flex items-center gap-4">
               <div className="flex items-center border border-border rounded-lg">
-                <button 
+                <button
                   onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                  aria-label="Decrease quantity"
                   className="p-3 hover:bg-secondary transition-colors"
                 >
                   <Minus className="w-4 h-4" />
                 </button>
-                <span className="px-6 py-3 font-medium">{quantity}</span>
-                <button 
-                  onClick={() => setQuantity(quantity + 1)}
+                <span className="px-6 py-3 font-medium" aria-live="polite">{quantity}</span>
+                <button
+                  onClick={() => setQuantity(Math.min(MAX_QUANTITY, quantity + 1))}
+                  aria-label="Increase quantity"
                   className="p-3 hover:bg-secondary transition-colors"
                 >
                   <Plus className="w-4 h-4" />
                 </button>
               </div>
-              <Button 
+              <Button
                 onClick={handleAddToCart}
-                disabled={!product.availableForSale}
+                disabled={!canPurchase}
                 className={`flex-1 py-6 text-lg font-semibold rounded-lg ${
-                  product.availableForSale 
-                    ? "bg-[#2D8B6F] hover:bg-[#247558] text-white" 
+                  canPurchase
+                    ? "bg-[#2D8B6F] hover:bg-[#247558] text-white"
                     : "bg-gray-200 text-gray-400 cursor-not-allowed backdrop-blur-sm"
                 }`}
               >
-                {product.availableForSale ? (
+                {canPurchase ? (
                   "Add to Cart"
                 ) : (
                   <span className="flex items-center justify-center gap-2">
                     <X className="w-5 h-5" />
-                    <span>Out of Stock</span>
+                    <span>{resolvedVariant ? "Out of Stock" : "Unavailable"}</span>
                   </span>
                 )}
               </Button>
@@ -396,13 +454,13 @@ const ProductPage = () => {
                 <div className="w-12 h-12 mx-auto bg-secondary rounded-full flex items-center justify-center">
                   <Shield className="w-6 h-6 text-[#4A647C]" />
                 </div>
-                <p className="text-xs font-medium">100% Solid Wood</p>
+                <p className="text-xs font-medium">{isMattress ? "30-Day Returns" : "100% Solid Wood"}</p>
               </div>
               <div className="text-center space-y-2">
                 <div className="w-12 h-12 mx-auto bg-secondary rounded-full flex items-center justify-center">
-                  <CreditCard className="w-6 h-6 text-[#4A647C]" />
+                  <Lock className="w-6 h-6 text-[#4A647C]" />
                 </div>
-                <p className="text-xs font-medium">Easy Financing</p>
+                <p className="text-xs font-medium">Secure Checkout</p>
               </div>
             </div>
 
@@ -447,10 +505,12 @@ const ProductPage = () => {
                     </ul>
                   )}
                   <ul className="space-y-2">
-                    <li className="flex items-start gap-2">
-                      <Check className="w-5 h-5 text-[#2D8B6F] flex-shrink-0 mt-0.5" />
-                      <span className="text-sm">Superior quality: solid wood frame with a durable, non-toxic, low-VOC finish</span>
-                    </li>
+                    {!isMattress && (
+                      <li className="flex items-start gap-2">
+                        <Check className="w-5 h-5 text-[#2D8B6F] flex-shrink-0 mt-0.5" />
+                        <span className="text-sm">Superior quality: solid wood frame with a durable, low-VOC finish</span>
+                      </li>
+                    )}
                     <li className="flex items-start gap-2">
                       <Check className="w-5 h-5 text-[#2D8B6F] flex-shrink-0 mt-0.5" />
                       <span className="text-sm">Sturdy &amp; stable: built to last with tight, reinforced structural connections</span>
@@ -458,7 +518,7 @@ const ProductPage = () => {
                     {isBed && (
                       <li className="flex items-start gap-2">
                         <Check className="w-5 h-5 text-[#2D8B6F] flex-shrink-0 mt-0.5" />
-                        <span className="text-sm">Meets or exceeds federal safety standards for children's furniture</span>
+                        <span className="text-sm">Manufacturer-tested to applicable children's furniture safety standards</span>
                       </li>
                     )}
                   </ul>
@@ -533,21 +593,23 @@ const ProductPage = () => {
         </section>
       )}
 
-      {/* Related Products (generic category fallback when no curation exists) */}
-      {completeTheRoom.length === 0 && relatedProducts.length > 0 && (
+      {/* Related Products (generic category fallback). Waits for the detail
+          fetch — rendering it early flashed this section, then swapped it for
+          Complete the Room once the metafield arrived. */}
+      {detailLoaded && completeTheRoom.length === 0 && relatedProducts.length > 0 && (
         <section className="bg-secondary/30 py-12">
           <div className="max-w-7xl mx-auto px-4">
             <h2 className="text-2xl font-bold mb-8">You May Also Like</h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
               {relatedProducts.map((relatedProduct) => (
-                <Link 
-                  key={relatedProduct.id} 
+                <Link
+                  key={relatedProduct.id}
                   to={`/product/${relatedProduct.handle}`}
                   className="group"
                 >
                   <div className="aspect-square rounded-lg overflow-hidden bg-[#f2f4f6] mb-3">
-                    <img 
-                      src={relatedProduct.image} 
+                    <img
+                      src={relatedProduct.image}
                       alt={relatedProduct.name}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                       loading="lazy"
@@ -557,7 +619,7 @@ const ProductPage = () => {
                     {relatedProduct.name}
                   </h3>
                   <p className="text-[#2D8B6F] font-bold mt-1">
-                    ${relatedProduct.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                    {relatedProduct.fromPrice ? "From " : ""}${relatedProduct.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                   </p>
                 </Link>
               ))}

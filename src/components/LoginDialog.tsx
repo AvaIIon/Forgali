@@ -1,6 +1,4 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useAdmin } from "@/context/AdminContext";
 import { useCustomer } from "@/context/CustomerContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -28,9 +26,7 @@ const LoginDialog = ({ open, onOpenChange }: LoginDialogProps) => {
   const [lastName, setLastName] = useState("");
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
-  const { login: adminLogin } = useAdmin();
   const { login, register } = useCustomer();
-  const navigate = useNavigate();
 
   const reset = () => {
     setError("");
@@ -51,12 +47,6 @@ const LoginDialog = ({ open, onOpenChange }: LoginDialogProps) => {
     setError("");
     if (!email || !password) {
       setError("Please enter both email and password.");
-      return;
-    }
-    // store-admin backdoor keeps working from the same form
-    if (adminLogin(email, password)) {
-      handleClose(false);
-      navigate("/admin/dashboard");
       return;
     }
     setBusy(true);

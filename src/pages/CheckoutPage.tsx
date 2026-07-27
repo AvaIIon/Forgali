@@ -1,25 +1,27 @@
-import { useState } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { useCart } from "@/context/CartContext";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { Lock, CreditCard, Truck, ChevronLeft } from "lucide-react";
+import { Lock, Truck, ChevronLeft, AlertTriangle } from "lucide-react";
 import { Seo } from "@/components/Seo";
 import { ShopifyCheckoutButton } from "@/components/ShopifyCheckoutButton";
 import { isShopifyConfigured } from "@/services/shopifyService";
 
 const CheckoutPage = () => {
-  const { items, getTotalPrice, clearCart } = useCart();
-  const [step, setStep] = useState<"info" | "shipping" | "payment">("info");
+  const { items, getTotalPrice, removeFromCart, getItemKey, refreshCartLines } = useCart();
+
+  // Revalidate persisted lines against Shopify the moment the shopper reaches
+  // checkout — prices may have changed since add time, and deleted variants
+  // must be flagged here, not discovered as an opaque failure at handoff.
+  useEffect(() => {
+    refreshCartLines();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const subtotal = getTotalPrice();
-  const shipping = 0; // Free shipping
-  const tax = subtotal * 0.13; // 13% tax
-  const total = subtotal + shipping + tax;
 
   if (items.length === 0) {
     return (
@@ -42,7 +44,7 @@ const CheckoutPage = () => {
     <div className="min-h-screen bg-background">
       <Seo title="Checkout | Forgali" path="/checkout" noindex />
       <Header />
-      
+
       {/* Checkout Header */}
       <div className="border-b border-border">
         <div className="max-w-7xl mx-auto px-4 py-4">
@@ -55,93 +57,41 @@ const CheckoutPage = () => {
 
       <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          {/* Left - Form */}
+          {/* Left - handoff explainer. Contact, shipping address, and payment
+              are all collected on Shopify's PCI-compliant hosted checkout —
+              duplicate fields here collected data that went nowhere and made
+              shoppers type everything twice. */}
           <div className="space-y-8">
             <h1 className="text-3xl font-bold">Checkout</h1>
-            
-            {/* Contact Information */}
+
             <div className="space-y-4">
-              <h2 className="text-lg font-semibold">Contact Information</h2>
-              <div className="space-y-3">
-                <div>
-                  <Label htmlFor="email">Email</Label>
-                  <Input id="email" type="email" placeholder="your@email.com" className="mt-1" />
-                </div>
-                <div>
-                  <Label htmlFor="phone">Phone</Label>
-                  <Input id="phone" type="tel" placeholder="(123) 456-7890" className="mt-1" />
-                </div>
-              </div>
-            </div>
-
-            <Separator />
-
-            {/* Shipping Address */}
-            <div className="space-y-4">
-              <h2 className="text-lg font-semibold">Shipping Address</h2>
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <Label htmlFor="firstName">First Name</Label>
-                  <Input id="firstName" placeholder="John" className="mt-1" />
-                </div>
-                <div>
-                  <Label htmlFor="lastName">Last Name</Label>
-                  <Input id="lastName" placeholder="Doe" className="mt-1" />
-                </div>
-              </div>
-              <div>
-                <Label htmlFor="address">Address</Label>
-                <Input id="address" placeholder="123 Main Street" className="mt-1" />
-              </div>
-              <div>
-                <Label htmlFor="apartment">Apartment, suite, etc. (optional)</Label>
-                <Input id="apartment" placeholder="Apt 4B" className="mt-1" />
-              </div>
-              <div className="grid grid-cols-3 gap-3">
-                <div>
-                  <Label htmlFor="city">City</Label>
-                  <Input id="city" placeholder="Toronto" className="mt-1" />
-                </div>
-                <div>
-                  <Label htmlFor="province">Province</Label>
-                  <Input id="province" placeholder="Ontario" className="mt-1" />
-                </div>
-                <div>
-                  <Label htmlFor="postalCode">Postal Code</Label>
-                  <Input id="postalCode" placeholder="M5V 2H1" className="mt-1" />
-                </div>
-              </div>
-            </div>
-
-            <Separator />
-
-            {/* Payment happens on Shopify's PCI-compliant hosted checkout —
-                collecting card digits here in dead inputs just made shoppers
-                type everything twice (and looked like a card-harvesting form). */}
-            <div className="space-y-2">
-              <h2 className="text-lg font-semibold flex items-center gap-2">
-                <CreditCard className="w-5 h-5" />
-                Payment
-              </h2>
+              <h2 className="text-lg font-semibold">How it works</h2>
+              <ol className="space-y-3 text-sm text-muted-foreground list-decimal list-inside">
+                <li>Review your order summary on this page.</li>
+                <li>Continue to our secure checkout to enter your contact details and shipping address.</li>
+                <li>Pay by credit card, Apple Pay, or Google Pay — taxes are calculated there from your address.</li>
+              </ol>
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <Lock className="w-4 h-4" />
-                You'll enter payment on the next step — our secure, encrypted checkout
-                (credit card, Apple Pay, Google Pay).
+                Payments are processed on our encrypted, PCI-compliant checkout.
               </div>
             </div>
 
             {isShopifyConfigured() ? (
-              <ShopifyCheckoutButton className="w-full bg-[#4A647C] hover:bg-[#3A5066] text-white py-6 text-lg font-semibold" />
+              <ShopifyCheckoutButton className="w-full bg-[#4A647C] hover:bg-[#3A5066] text-white py-6 text-lg font-semibold">
+                Continue to Secure Checkout
+              </ShopifyCheckoutButton>
             ) : (
-              <Button 
-                className="w-full bg-[#4A647C] hover:bg-[#3A5066] text-white py-6 text-lg font-semibold"
-                onClick={() => {
-                  alert("Order placed successfully! Thank you for your purchase.");
-                  clearCart();
-                }}
-              >
-                Complete Order - ${total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-              </Button>
+              <div className="space-y-3">
+                <Button disabled className="w-full py-6 text-lg font-semibold">
+                  Checkout temporarily unavailable
+                </Button>
+                <p className="text-sm text-muted-foreground">
+                  We can't start the secure checkout right now. Please try again shortly, or
+                  email <a href="mailto:support@forgali.com" className="underline">support@forgali.com</a> and
+                  we'll complete your order by email. Your cart is saved.
+                </p>
+              </div>
             )}
           </div>
 
@@ -149,32 +99,49 @@ const CheckoutPage = () => {
           <div className="lg:pl-8 lg:border-l border-border">
             <div className="sticky top-8 space-y-6">
               <h2 className="text-lg font-semibold">Order Summary</h2>
-              
+
               {/* Items */}
               <div className="space-y-4 max-h-96 overflow-y-auto">
-                {items.map((item) => (
-                  <div key={item.product.id} className="flex gap-4">
-                    <div className="relative">
-                      <img
-                        src={item.product.image}
-                        alt={item.product.name}
-                        className="w-16 h-16 object-cover rounded-lg"
-                      />
-                      <span className="absolute -top-2 -right-2 w-5 h-5 bg-primary text-primary-foreground text-xs rounded-full flex items-center justify-center">
-                        {item.quantity}
-                      </span>
+                {items.map((item) => {
+                  const lineImage =
+                    item.product.variants.find(v => v.id === item.variantId)?.image ||
+                    item.product.image;
+                  return (
+                    <div key={getItemKey(item)} className="flex gap-4">
+                      <div className="relative">
+                        <img
+                          src={lineImage}
+                          alt={item.product.name}
+                          className="w-16 h-16 object-cover rounded-lg"
+                        />
+                        <span className="absolute -top-2 -right-2 w-5 h-5 bg-primary text-primary-foreground text-xs rounded-full flex items-center justify-center">
+                          {item.quantity}
+                        </span>
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h4 className="font-medium text-sm line-clamp-2">{item.product.name}</h4>
+                        {item.selectedFinish && (
+                          <p className="text-xs text-muted-foreground">{item.selectedFinish}</p>
+                        )}
+                        {item.unavailable && (
+                          <p className="text-xs text-destructive flex items-center gap-1 mt-1">
+                            <AlertTriangle className="w-3 h-3" />
+                            No longer available —{" "}
+                            <button
+                              className="underline"
+                              onClick={() => removeFromCart(item.product.id, item.variantId)}
+                            >
+                              remove
+                            </button>
+                          </p>
+                        )}
+                      </div>
+                      <p className="font-medium">
+                        ${((item.unitPrice ?? item.product.price) * item.quantity).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                      </p>
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <h4 className="font-medium text-sm line-clamp-2">{item.product.name}</h4>
-                      {item.selectedFinish && (
-                        <p className="text-xs text-muted-foreground">{item.selectedFinish}</p>
-                      )}
-                    </div>
-                    <p className="font-medium">
-                      ${((item.unitPrice ?? item.product.price) * item.quantity).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                    </p>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
 
               <Separator />
@@ -193,13 +160,13 @@ const CheckoutPage = () => {
                   <span className="text-[#2D8B6F] font-medium">FREE</span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span>Tax (13%)</span>
-                  <span>${tax.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+                  <span>Tax</span>
+                  <span className="text-muted-foreground">Calculated at checkout</span>
                 </div>
                 <Separator />
                 <div className="flex justify-between text-lg font-bold">
-                  <span>Total</span>
-                  <span>${total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+                  <span>Total before tax</span>
+                  <span>${subtotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
                 </div>
               </div>
 

@@ -76,7 +76,7 @@ const SmartDealsPage = () => {
     <div className="min-h-screen bg-background">
       <Seo
         title="Smart Deals – Solid Wood Furniture on Sale | Forgali"
-        description="Save on solid wood bunk beds, loft beds, and furniture for every room. Current markdowns with free Canada-wide shipping."
+        description="Save on solid wood bunk beds, loft beds, and furniture for every room. Sale prices with free Canada-wide shipping."
         path="/smart-deals"
       />
       <Header />
@@ -88,7 +88,7 @@ const SmartDealsPage = () => {
           </h1>
           <p className="text-muted-foreground text-base md:text-lg max-w-2xl mx-auto">
             Save on solid wood furniture for every room — dining, living, and bedroom.
-            Limited-time markdowns with free Canada-wide shipping.
+            Sale prices with free Canada-wide shipping.
           </p>
         </div>
       </div>

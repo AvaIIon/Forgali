@@ -18,7 +18,7 @@ const AboutPage = () => {
             About Forgali
           </h1>
           <p className="text-muted-foreground text-base md:text-lg max-w-2xl mx-auto">
-            Crafting quality solid wood beds for families across Canada.
+            Bringing quality solid wood furniture to families across Canada.
           </p>
         </div>
       </div>
@@ -28,24 +28,25 @@ const AboutPage = () => {
           <div className="prose max-w-none">
             <h2 className="text-2xl font-bold mb-4">Our Story</h2>
             <p className="text-muted-foreground leading-relaxed mb-4">
-              Forgali was founded with a simple mission: to create beautiful, durable, and safe solid wood beds that families can trust. 
-              We believe that every child deserves a quality bed that will last through years of play, rest, and growth.
+              Forgali was founded with a simple mission: to bring beautiful, durable, and safe solid wood furniture
+              to families across Canada. We believe every home deserves quality pieces that last through years of
+              everyday life.
             </p>
-            
+
             <h2 className="text-2xl font-bold mb-4 mt-8">Our Commitment</h2>
             <p className="text-muted-foreground leading-relaxed mb-4">
-              We are committed to using only the finest materials and craftsmanship. Every bed is designed with safety, durability, 
-              and style in mind. Our products meet or exceed all Canadian safety standards, and we stand behind every piece we create.
+              We carefully select solid wood furniture built for durability, safety, and style. The children's beds
+              we carry are manufactured and tested to applicable children's furniture safety standards, and we stand
+              behind every piece we sell.
             </p>
-            
+
             <h2 className="text-2xl font-bold mb-4 mt-8">Why Choose Forgali</h2>
             <ul className="list-disc list-inside text-muted-foreground space-y-2">
-              <li>Premium solid wood construction built to last</li>
-              <li>Non-toxic, child-safe finishes</li>
+              <li>Solid wood construction built to last</li>
+              <li>Durable, low-VOC finishes</li>
               <li>Free Canada-wide shipping</li>
-              <li>Comprehensive warranty coverage</li>
-              <li>Expert customer support</li>
-              <li>Sustainable and responsibly sourced materials</li>
+              <li>Warranty coverage on manufacturing defects</li>
+              <li>Responsive Canadian customer support</li>
             </ul>
           </div>
         </div>

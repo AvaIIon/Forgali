@@ -19,7 +19,7 @@ export const Footer = () => {
             </span>
           </Link>
         </div>
-        <div className="grid grid-cols-4 gap-8 mb-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
           <div>
             <h4 className="font-bold mb-4">Shop</h4>
             <ul className="space-y-2 text-sm text-background/70">
@@ -67,6 +67,11 @@ export const Footer = () => {
         </div>
         
         <div className="border-t border-background/20 pt-8 text-center text-sm text-background/50 space-y-2">
+          <div className="flex flex-wrap justify-center gap-x-4 gap-y-1">
+            <Link to="/privacy" className="hover:text-background">Privacy Policy</Link>
+            <span aria-hidden>·</span>
+            <Link to="/terms" className="hover:text-background">Terms of Service</Link>
+          </div>
           <p>© 2026 Forgali. All rights reserved.</p>
           <p>Powered by Avallon</p>
         </div>

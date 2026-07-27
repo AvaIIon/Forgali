@@ -8,7 +8,7 @@ const SafetyStandardsPage = () => {
     <div className="min-h-screen bg-background">
       <Seo
         title="Bunk & Loft Bed Safety Standards | Forgali"
-        description="How Forgali beds address Health Canada guidance: guardrails, non-toxic finishes, and structural integrity — plus safety tips for parents."
+        description="How Forgali beds address Health Canada guidance: guardrails, low-VOC finishes, and structural integrity — plus safety tips for parents."
         path="/safety-standards"
       />
       <Header />
@@ -32,47 +32,47 @@ const SafetyStandardsPage = () => {
               <h2 className="text-2xl font-bold">Certifications & Compliance</h2>
             </div>
             <p className="text-muted-foreground leading-relaxed mb-6">
-              All Forgali products meet or exceed Canadian safety standards and regulations. We are committed to providing 
-              the safest possible products for your family.
+              The children's beds we carry are manufactured and tested to applicable children's furniture
+              safety standards. We're committed to offering safe, well-built products for your family.
             </p>
-            
+
             <div className="space-y-4">
               <div className="flex items-start gap-3">
                 <CheckCircle className="w-5 h-5 text-[#4A647C] mt-0.5 flex-shrink-0" />
                 <div>
-                  <h3 className="font-semibold mb-1">Health Canada Compliant</h3>
+                  <h3 className="font-semibold mb-1">Built to Health Canada Guidance</h3>
                   <p className="text-sm text-muted-foreground">
-                    All products meet Health Canada safety requirements for children's furniture.
+                    Our children's beds are designed to align with Health Canada guidance for children's furniture.
                   </p>
                 </div>
               </div>
-              
+
               <div className="flex items-start gap-3">
                 <CheckCircle className="w-5 h-5 text-[#4A647C] mt-0.5 flex-shrink-0" />
                 <div>
-                  <h3 className="font-semibold mb-1">Non-Toxic Finishes</h3>
+                  <h3 className="font-semibold mb-1">Low-VOC Finishes</h3>
                   <p className="text-sm text-muted-foreground">
-                    All finishes are water-based and free from harmful chemicals, safe for children and the environment.
+                    Beds are finished with durable, low-VOC finishes.
                   </p>
                 </div>
               </div>
-              
+
               <div className="flex items-start gap-3">
                 <CheckCircle className="w-5 h-5 text-[#4A647C] mt-0.5 flex-shrink-0" />
                 <div>
                   <h3 className="font-semibold mb-1">Structural Integrity</h3>
                   <p className="text-sm text-muted-foreground">
-                    All beds are tested for weight capacity and structural stability to ensure long-term safety.
+                    Beds are tested for weight capacity and structural stability to support long-term use.
                   </p>
                 </div>
               </div>
-              
+
               <div className="flex items-start gap-3">
                 <CheckCircle className="w-5 h-5 text-[#4A647C] mt-0.5 flex-shrink-0" />
                 <div>
-                  <h3 className="font-semibold mb-1">Guardrail Standards</h3>
+                  <h3 className="font-semibold mb-1">Guardrails on Elevated Beds</h3>
                   <p className="text-sm text-muted-foreground">
-                    All elevated beds include guardrails that meet or exceed safety spacing requirements.
+                    Elevated beds include guardrails designed to meet standard safety spacing requirements.
                   </p>
                 </div>
               </div>

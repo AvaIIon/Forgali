@@ -1,4 +1,4 @@
-import { Heart, X } from "lucide-react";
+import { X } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import type { ConvertedProduct } from "@/services/shopifyService";
@@ -49,16 +49,7 @@ export const CategoryProductCard = ({ product }: CategoryProductCardProps) => {
             SALE
           </span>
         )}
-        <button 
-          className="absolute top-3 right-3 w-8 h-8 rounded-full bg-[#f2f4f6] shadow-md flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-10"
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-          }}
-        >
-          <Heart className="w-4 h-4 text-foreground" />
-        </button>
-        <img 
+        <img
           src={imageSrc}
           alt={product.name}
           className={`w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 ${
@@ -98,10 +89,14 @@ export const CategoryProductCard = ({ product }: CategoryProductCardProps) => {
         </div>
       )}
       
-      {/* Price */}
+      {/* Price — cheapest variant; "From" when the product spans price points.
+          Strikethrough only when the pairing is unambiguous (single price
+          point), never borrowed from a different variant. */}
       <div className="flex items-center gap-2">
-        <span className="text-primary font-bold">${product.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
-        {product.originalPrice && (
+        <span className="text-primary font-bold">
+          {product.fromPrice ? "From " : ""}${product.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+        </span>
+        {product.originalPrice && !product.fromPrice && (
           <span className="text-muted-foreground line-through text-sm">
             ${product.originalPrice.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
           </span>

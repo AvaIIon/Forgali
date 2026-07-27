@@ -1,9 +1,8 @@
 import { useRef, useState } from "react";
-import { Search, User, ShoppingCart } from "lucide-react";
+import { Search, User, ShoppingCart, Menu, ChevronDown, LogOut } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "@/context/CartContext";
-import { useAdmin } from "@/context/AdminContext";
 import { useCustomer } from "@/context/CustomerContext";
 import LoginDialog from "@/components/LoginDialog";
 import {
@@ -21,10 +20,23 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { LogOut } from "lucide-react";
-import { useNavigate } from "react-router-dom";
-import { getProxiedImage } from "@/lib/imageProxy";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+  SheetClose,
+} from "@/components/ui/sheet";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
 
+// Category imagery is served from Forgali's own Shopify CDN — the previous
+// bedsmart.ca hotlinks (via a free no-SLA proxy) coupled the storefront to the
+// sister brand and leaked "max-and-lily" in the network tab.
 const navItems = [
   {
     label: "Dining",
@@ -54,12 +66,12 @@ const navItems = [
   {
     label: "Bedroom",
     href: "/category/bedroom",
-    image: "https://bedsmart.ca/wp-content/uploads/2022/06/2875.jpg",
+    image: "https://cdn.shopify.com/s/files/1/0972/6492/6995/files/84b8c31b-max-and-lily-twin-over-twin-bunk-bed-with-trundle-in-white.jpg?v=1773961862",
     subcategories: [
       { name: "Bunk Beds", href: "/category/bunk-beds" },
       { name: "Loft Beds", href: "/category/loft-beds" },
       { name: "Single Beds", href: "/category/single-beds" },
-      { name: "Beds with Slide", href: "/category/bunk-beds?subcategory=with-slide" },
+      { name: "Beds with Slide", href: "/category/loft-beds?subcategory=loft-with-slide" },
       { name: "Beds with Stairs", href: "/category/bunk-beds?subcategory=with-stairs" },
       { name: "Toddler & Floor Beds", href: "/category/single-beds?subcategory=floor-bed" },
     ]
@@ -67,7 +79,7 @@ const navItems = [
   {
     label: "Storage & Accessories",
     href: "/category/accessories",
-    image: "https://bedsmart.ca/wp-content/uploads/2025/11/200006-002__2.jpg",
+    image: "https://cdn.shopify.com/s/files/1/0972/6492/6995/files/99a332ac-solid-wood-max-and-lily-6-drawer-dresser-in-white-finish.jpg?v=1773961846",
     subcategories: [
       { name: "Mattresses", href: "/category/mattresses" },
       { name: "Dressers & Storage", href: "/category/accessories?subcategory=storage" },
@@ -81,9 +93,9 @@ const navItems = [
 
 export const Header = () => {
   const { getTotalItems, setIsCartOpen } = useCart();
-  const { isAuthenticated, logout } = useAdmin();
   const { customer, logout: customerLogout } = useCustomer();
   const [isLoginDialogOpen, setIsLoginDialogOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   // The shared dropdown viewport glides under whichever trigger is active:
   // on item change we measure that trigger and position the panel's center on
@@ -110,57 +122,134 @@ export const Header = () => {
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const q = searchQuery.trim();
-    if (q) navigate(`/search?q=${encodeURIComponent(q)}`);
-  };
-
-  const handleLogout = () => {
-    logout();
-    navigate("/");
+    if (q) {
+      setMobileOpen(false);
+      navigate(`/search?q=${encodeURIComponent(q)}`);
+    }
   };
 
   return (
     <header className="w-full">
       {/* Top banner */}
-      <div className="bg-primary text-primary-foreground text-center py-2.5 text-sm font-medium px-4">
+      <div className="bg-primary text-primary-foreground text-center py-2.5 text-xs sm:text-sm font-medium px-4">
         <span className="whitespace-nowrap">Free Canada-Wide Shipping</span>
         {" · "}
         <span className="whitespace-nowrap">
           Code <span className="font-bold tracking-wide">WELCOME10</span> — 10% off Dining &amp; Living
         </span>
       </div>
-      
+
       {/* Main header */}
       <div className="border-b border-border">
-        <div className="max-w-7xl mx-auto px-4 py-4 grid grid-cols-3 items-center">
-          {/* Search - Left */}
-          <form onSubmit={handleSearchSubmit} className="relative max-w-sm" role="search">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-            <Input
-              type="search"
-              placeholder="Search our store"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10 bg-background border-border rounded-full h-10"
-            />
-          </form>
-          
+        <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between gap-3">
+          {/* Left: mobile menu button + desktop search */}
+          <div className="flex items-center gap-2 flex-1 min-w-0">
+            {/* Mobile menu */}
+            <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
+              <SheetTrigger asChild>
+                <button
+                  className="md:hidden flex items-center justify-center w-10 h-10 rounded-full hover:bg-muted transition-colors"
+                  aria-label="Open menu"
+                >
+                  <Menu className="w-5 h-5" />
+                </button>
+              </SheetTrigger>
+              <SheetContent side="left" className="w-[300px] sm:w-[360px] overflow-y-auto bg-background">
+                <SheetHeader>
+                  <SheetTitle className="text-left">Menu</SheetTitle>
+                </SheetHeader>
+                <form onSubmit={handleSearchSubmit} className="relative mt-4" role="search">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                  <Input
+                    type="search"
+                    placeholder="Search our store"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="pl-10 bg-background border-border rounded-full h-10"
+                    aria-label="Search our store"
+                  />
+                </form>
+                <nav className="mt-4 flex flex-col gap-1">
+                  {navItems.map((item) =>
+                    item.subcategories ? (
+                      <Collapsible key={item.label}>
+                        <div className="flex items-center">
+                          <SheetClose asChild>
+                            <Link
+                              to={item.href}
+                              className="flex-1 py-3 text-sm font-medium hover:text-primary transition-colors"
+                            >
+                              {item.label}
+                            </Link>
+                          </SheetClose>
+                          <CollapsibleTrigger
+                            className="p-3 text-muted-foreground"
+                            aria-label={`Expand ${item.label}`}
+                          >
+                            <ChevronDown className="w-4 h-4 transition-transform [[data-state=open]_&]:rotate-180" />
+                          </CollapsibleTrigger>
+                        </div>
+                        <CollapsibleContent className="pl-4 pb-2">
+                          {item.subcategories.map((sub) => (
+                            <SheetClose asChild key={sub.name}>
+                              <Link
+                                to={sub.href}
+                                className="block py-2 text-sm text-muted-foreground hover:text-primary transition-colors"
+                              >
+                                {sub.name}
+                              </Link>
+                            </SheetClose>
+                          ))}
+                        </CollapsibleContent>
+                      </Collapsible>
+                    ) : (
+                      <SheetClose asChild key={item.label}>
+                        <Link
+                          to={item.href}
+                          className={`py-3 text-sm font-medium hover:text-primary transition-colors ${
+                            item.highlight ? "text-primary" : ""
+                          }`}
+                        >
+                          {item.label}
+                        </Link>
+                      </SheetClose>
+                    )
+                  )}
+                </nav>
+              </SheetContent>
+            </Sheet>
+
+            {/* Desktop search */}
+            <form onSubmit={handleSearchSubmit} className="relative w-full max-w-sm hidden md:block" role="search">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+              <Input
+                type="search"
+                placeholder="Search our store"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-10 bg-background border-border rounded-full h-10"
+                aria-label="Search our store"
+              />
+            </form>
+          </div>
+
           {/* Logo - Center */}
-          <Link to="/" className="flex flex-col items-center justify-center gap-1">
+          <Link to="/" className="flex flex-col items-center justify-center gap-1 shrink-0" aria-label="Forgali home">
             <img
               src="/forgali-logo-dark.png"
               alt="Forgali"
-              className="h-8 w-auto"
+              className="h-7 sm:h-8 w-auto"
               width={1172}
               height={248}
             />
-            <p className="text-[10px] text-muted-foreground tracking-[0.2em]">
+            <p className="hidden sm:block text-[10px] text-muted-foreground tracking-[0.2em]">
               SOLID WOOD FURNITURE
             </p>
           </Link>
-          
+
           {/* Right side */}
-          <div className="flex items-center gap-6 justify-end">
-            <div className="flex items-center gap-2 text-sm">
+          <div className="flex items-center gap-3 sm:gap-6 justify-end flex-1 min-w-0">
+            <div className="hidden lg:flex items-center gap-2 text-sm">
               <span className="text-muted-foreground">Country:</span>
               {/* CAD-only store: static chip, not a selector */}
               <div className="flex items-center gap-1">
@@ -168,35 +257,13 @@ export const Header = () => {
                 <span>CAD</span>
               </div>
             </div>
-            {isAuthenticated ? (
+            {customer ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <button className="flex items-center justify-center w-10 h-10 rounded-full hover:bg-muted transition-colors">
-                    <User className="w-5 h-5 text-foreground cursor-pointer" />
-                  </button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-48">
-                  <div className="px-2 py-1.5 text-sm">
-                    <div className="font-medium">Admin</div>
-                    <div className="text-xs text-muted-foreground">Logged in</div>
-                  </div>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem asChild>
-                    <Link to="/admin/dashboard" className="cursor-pointer">
-                      Admin Dashboard
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={handleLogout} className="cursor-pointer">
-                    <LogOut className="w-4 h-4 mr-2" />
-                    Logout
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            ) : customer ? (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <button className="flex items-center justify-center w-10 h-10 rounded-full bg-muted hover:bg-muted/70 transition-colors text-sm font-semibold text-[#4A647C]">
+                  <button
+                    className="flex items-center justify-center w-10 h-10 rounded-full bg-muted hover:bg-muted/70 transition-colors text-sm font-semibold text-[#4A647C]"
+                    aria-label="Your account"
+                  >
                     {(customer.firstName?.[0] || customer.email[0]).toUpperCase()}
                   </button>
                 </DropdownMenuTrigger>
@@ -218,13 +285,15 @@ export const Header = () => {
               <button
                 onClick={() => setIsLoginDialogOpen(true)}
                 className="flex items-center justify-center w-10 h-10 rounded-full hover:bg-muted transition-colors"
+                aria-label="Sign in to your account"
               >
                 <User className="w-5 h-5 text-foreground cursor-pointer" />
               </button>
             )}
-            <button 
-              onClick={() => setIsCartOpen(true)} 
+            <button
+              onClick={() => setIsCartOpen(true)}
               className="relative"
+              aria-label={`Open cart${totalItems > 0 ? `, ${totalItems} item${totalItems === 1 ? "" : "s"}` : ""}`}
             >
               <ShoppingCart className="w-5 h-5 text-foreground cursor-pointer" />
               {totalItems > 0 && (
@@ -236,12 +305,12 @@ export const Header = () => {
           </div>
         </div>
       </div>
-      
+
       {/* Login Dialog */}
       <LoginDialog open={isLoginDialogOpen} onOpenChange={setIsLoginDialogOpen} />
-      
-      {/* Navigation */}
-      <nav className="border-b border-border">
+
+      {/* Desktop navigation (hidden on mobile — the hamburger Sheet covers it) */}
+      <nav className="border-b border-border hidden md:block">
         <div className="max-w-7xl mx-auto px-4">
           <NavigationMenu
             ref={menuRef}
@@ -275,7 +344,7 @@ export const Header = () => {
                                 {item.subcategories.map((sub) => (
                                   <li key={sub.name}>
                                     <NavigationMenuLink asChild>
-                                      <Link 
+                                      <Link
                                         to={sub.href}
                                         className="block text-sm py-1 hover:text-primary transition-colors"
                                       >
@@ -285,8 +354,8 @@ export const Header = () => {
                                   </li>
                                 ))}
                               </ul>
-                              <Link 
-                                to={item.href} 
+                              <Link
+                                to={item.href}
                                 className="inline-block text-sm font-medium text-primary hover:underline mt-2"
                               >
                                 Shop All {item.label} →
@@ -300,7 +369,7 @@ export const Header = () => {
                                   className="relative block rounded-lg overflow-hidden group"
                                 >
                                   <img
-                                    src={getProxiedImage(item.image)}
+                                    src={item.image}
                                     alt={`Shop ${item.label}`}
                                     className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                                   />
@@ -316,7 +385,7 @@ export const Header = () => {
                       </NavigationMenuContent>
                     </>
                   ) : (
-                    <Link 
+                    <Link
                       to={item.href}
                       className={`flex items-center gap-1 px-4 py-2 text-sm whitespace-nowrap transition-colors text-foreground hover:text-primary
                         ${item.highlight ? 'text-primary font-medium' : ''}

@@ -1,12 +1,20 @@
-import { ChevronRight, Minus, Plus, Trash2 } from "lucide-react";
+import { AlertTriangle, ChevronRight, Minus, Plus, Trash2 } from "lucide-react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "@/context/CartContext";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 
 export const CartDrawer = () => {
-  const { items, isCartOpen, setIsCartOpen, updateQuantity, removeFromCart, getTotalPrice, getItemKey } = useCart();
+  const { items, isCartOpen, setIsCartOpen, updateQuantity, removeFromCart, getTotalPrice, getItemKey, refreshCartLines } = useCart();
   const navigate = useNavigate();
+
+  // Refresh live prices/availability whenever the drawer opens — persisted
+  // lines can be weeks old and checkout charges the live price.
+  useEffect(() => {
+    if (isCartOpen) refreshCartLines();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isCartOpen]);
 
   const handleCheckout = () => {
     setIsCartOpen(false);
@@ -48,7 +56,7 @@ export const CartDrawer = () => {
                 {items.map((item) => (
                   <div key={getItemKey(item)} className="flex gap-4 p-4 bg-secondary/30 rounded-lg">
                     <img
-                      src={item.product.image}
+                      src={item.product.variants.find(v => v.id === item.variantId)?.image || item.product.image}
                       alt={item.product.name}
                       className="w-20 h-20 object-cover rounded-lg"
                     />
@@ -57,12 +65,20 @@ export const CartDrawer = () => {
                       {item.selectedFinish && (
                         <p className="text-xs text-muted-foreground mt-1">Finish: {item.selectedFinish}</p>
                       )}
-                      <p className="text-[#2D8B6F] font-bold mt-1">
-                        ${(item.unitPrice ?? item.product.price).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                      </p>
+                      {item.unavailable ? (
+                        <p className="text-xs text-destructive flex items-center gap-1 mt-1">
+                          <AlertTriangle className="w-3 h-3" />
+                          No longer available — please remove
+                        </p>
+                      ) : (
+                        <p className="text-[#2D8B6F] font-bold mt-1">
+                          ${(item.unitPrice ?? item.product.price).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                        </p>
+                      )}
                       <div className="flex items-center gap-2 mt-2">
                         <button
                           onClick={() => updateQuantity(item.product.id, item.quantity - 1, item.variantId)}
+                          aria-label={`Decrease quantity of ${item.product.name}`}
                           className="p-1 hover:bg-secondary rounded"
                         >
                           <Minus className="w-4 h-4" />
@@ -70,12 +86,14 @@ export const CartDrawer = () => {
                         <span className="w-8 text-center text-sm">{item.quantity}</span>
                         <button
                           onClick={() => updateQuantity(item.product.id, item.quantity + 1, item.variantId)}
+                          aria-label={`Increase quantity of ${item.product.name}`}
                           className="p-1 hover:bg-secondary rounded"
                         >
                           <Plus className="w-4 h-4" />
                         </button>
                         <button
                           onClick={() => removeFromCart(item.product.id, item.variantId)}
+                          aria-label={`Remove ${item.product.name} from cart`}
                           className="ml-auto p-1 hover:bg-destructive/10 text-destructive rounded"
                         >
                           <Trash2 className="w-4 h-4" />
@@ -125,7 +143,7 @@ export const CartDrawer = () => {
                     ${getTotalPrice().toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                   </span>
                 </div>
-                <p className="text-sm text-muted-foreground">Shipping calculated at checkout</p>
+                <p className="text-sm text-muted-foreground">Free shipping · taxes calculated at checkout</p>
                 <Button 
                   onClick={handleCheckout}
                   className="w-full bg-[#2D8B6F] hover:bg-[#247558] text-white py-6 text-lg font-semibold"

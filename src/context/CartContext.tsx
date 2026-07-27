@@ -1,16 +1,24 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from "react";
-import { ConvertedProduct } from "@/services/shopifyService";
+import { createContext, useContext, useState, useEffect, useCallback, useRef, ReactNode } from "react";
+import { ConvertedProduct, fetchVariantStates, fetchCartStatus, isShopifyConfigured } from "@/services/shopifyService";
 
 const CART_STORAGE_KEY = "forgali_cart";
+// Cart id recorded at checkout handoff; on the next visit we ask Shopify
+// whether that cart completed — the only signal the SPA gets that the
+// customer actually paid — and clear the local cart so they can't
+// accidentally re-order everything.
+export const CHECKOUT_CART_KEY = "forgali_checkout_cart_id";
 
 export interface CartItem {
   product: ConvertedProduct;
   quantity: number;
   selectedFinish?: string;
-  variantId?: string; // Shopify variant ID for checkout
-  // Price of the ADDED variant — product.price is the first variant's price,
-  // which can be a different (cheaper) variant than the one being bought.
-  unitPrice?: number;
+  variantId: string; // Shopify variant ID for checkout
+  // Price of the ADDED variant — product.price is the cheapest variant's
+  // price, which can differ from the one being bought.
+  unitPrice: number;
+  // Set by revalidation when Shopify reports the variant gone/unsellable;
+  // the drawer flags the line and checkout blocks until it is removed.
+  unavailable?: boolean;
 }
 
 interface CartContextType {
@@ -24,6 +32,8 @@ interface CartContextType {
   isCartOpen: boolean;
   setIsCartOpen: (open: boolean) => void;
   getItemKey: (item: CartItem) => string;
+  // Refresh price/availability of every line from Shopify (one batched query)
+  refreshCartLines: () => Promise<void>;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -35,19 +45,39 @@ const getItemKey = (item: CartItem): string => {
 
 // Rehydrate the cart from localStorage so it survives page reloads, closed
 // tabs, and return visits (furniture shoppers deliberate across sessions).
-// Stored shape is versioned ({ v, items }) so future schema changes can
-// invalidate stale snapshots; a bare array is the pre-version legacy shape.
-const CART_SCHEMA_VERSION = 2;
+// Stored shape is versioned ({ v, items }); every line is shape-validated —
+// one malformed persisted item used to white-screen the whole app, and lines
+// without a variantId could check out the wrong finish.
+const CART_SCHEMA_VERSION = 3;
+const isValidStoredItem = (it: unknown): it is CartItem => {
+  if (!it || typeof it !== "object") return false;
+  const item = it as Record<string, unknown>;
+  const product = item.product as Record<string, unknown> | undefined;
+  return (
+    !!product &&
+    typeof product.id === "string" &&
+    typeof product.name === "string" &&
+    typeof product.handle === "string" &&
+    typeof item.quantity === "number" &&
+    Number.isFinite(item.quantity) &&
+    item.quantity >= 1 &&
+    typeof item.variantId === "string" &&
+    item.variantId.length > 0 &&
+    typeof item.unitPrice === "number" &&
+    Number.isFinite(item.unitPrice)
+  );
+};
 const loadStoredCart = (): CartItem[] => {
   if (typeof window === "undefined") return [];
   try {
     const raw = window.localStorage.getItem(CART_STORAGE_KEY);
     const parsed = raw ? JSON.parse(raw) : null;
-    if (Array.isArray(parsed)) return parsed; // legacy unversioned shape
-    if (parsed && parsed.v === CART_SCHEMA_VERSION && Array.isArray(parsed.items)) {
-      return parsed.items;
-    }
-    return [];
+    const candidate = Array.isArray(parsed)
+      ? parsed // legacy unversioned shape
+      : parsed && typeof parsed.v === "number" && Array.isArray(parsed.items)
+        ? parsed.items
+        : [];
+    return candidate.filter(isValidStoredItem);
   } catch {
     return [];
   }
@@ -56,6 +86,7 @@ const loadStoredCart = (): CartItem[] => {
 export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [items, setItems] = useState<CartItem[]>(loadStoredCart);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const refreshInFlight = useRef(false);
 
   // Persist on every change; ignore quota / private-mode write failures.
   useEffect(() => {
@@ -70,39 +101,54 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [items]);
 
+  // If a checkout was handed off last visit, ask Shopify whether that cart
+  // completed; a completed cart means the customer paid, so the local cart
+  // must not offer the same items for re-purchase.
+  useEffect(() => {
+    if (typeof window === "undefined" || !isShopifyConfigured()) return;
+    const cartId = window.localStorage.getItem(CHECKOUT_CART_KEY);
+    if (!cartId) return;
+    fetchCartStatus(cartId)
+      .then(status => {
+        if (status === "completed") {
+          setItems([]);
+          window.localStorage.removeItem(CHECKOUT_CART_KEY);
+        }
+      })
+      .catch(() => {
+        /* network hiccup — keep the key, retry next load */
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const addToCart = (product: ConvertedProduct, quantity = 1, selectedFinish?: string, variantId?: string) => {
     // Price the line from the variant actually being added, not the product's
-    // first-variant price (they differ across finishes/set sizes).
+    // headline price (they differ across finishes/set sizes).
+    const resolvedVariantId = variantId || product.variants?.[0]?.id;
+    if (!resolvedVariantId) return; // nothing purchasable to add
     const unitPrice =
-      (variantId && product.variants.find(v => v.id === variantId)?.price) ||
-      product.price;
+      product.variants.find(v => v.id === resolvedVariantId)?.price ?? product.price;
     setItems((prev) => {
-      // Find existing item by variant ID or product ID + finish
-      const existingItem = prev.find((item) => {
-        if (variantId && item.variantId) {
-          return item.variantId === variantId;
-        }
-        return item.product.id === product.id && item.selectedFinish === selectedFinish;
-      });
+      const existingItem = prev.find((item) => item.variantId === resolvedVariantId);
 
       if (existingItem) {
-        return prev.map((item) => {
-          const isMatch = variantId && item.variantId 
-            ? item.variantId === variantId
-            : item.product.id === product.id && item.selectedFinish === selectedFinish;
-          
-          return isMatch ? { ...item, quantity: item.quantity + quantity } : item;
-        });
+        return prev.map((item) =>
+          item.variantId === resolvedVariantId
+            // refresh unitPrice too — re-adding after a price change must not
+            // keep charging the display at the stale price
+            ? { ...item, quantity: item.quantity + quantity, unitPrice, unavailable: undefined }
+            : item
+        );
       }
-      
-      return [...prev, { product, quantity, selectedFinish, variantId, unitPrice }];
+
+      return [...prev, { product, quantity, selectedFinish, variantId: resolvedVariantId, unitPrice }];
     });
     setIsCartOpen(true);
   };
 
   const removeFromCart = (productId: string, variantId?: string) => {
     setItems((prev) => prev.filter((item) => {
-      if (variantId && item.variantId) {
+      if (variantId) {
         return item.variantId !== variantId;
       }
       return item.product.id !== productId;
@@ -116,10 +162,10 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     }
     setItems((prev) =>
       prev.map((item) => {
-        const isMatch = variantId && item.variantId 
+        const isMatch = variantId
           ? item.variantId === variantId
           : item.product.id === productId;
-        
+
         return isMatch ? { ...item, quantity } : item;
       })
     );
@@ -128,6 +174,34 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   const clearCart = () => {
     setItems([]);
   };
+
+  // One batched Storefront query refreshes every line's live price and
+  // availability — persisted carts can be weeks old, and the hosted checkout
+  // always charges the LIVE price, so the displayed totals must match it.
+  const refreshCartLines = useCallback(async () => {
+    if (refreshInFlight.current || !isShopifyConfigured()) return;
+    const ids = items.map(i => i.variantId);
+    if (ids.length === 0) return;
+    refreshInFlight.current = true;
+    try {
+      const states = await fetchVariantStates(ids);
+      setItems(prev =>
+        prev.map(item => {
+          const live = states.get(item.variantId);
+          if (!live) return { ...item, unavailable: true };
+          if (live.price !== item.unitPrice || item.unavailable !== !live.availableForSale) {
+            return { ...item, unitPrice: live.price, unavailable: live.availableForSale ? undefined : true };
+          }
+          return item;
+        })
+      );
+    } catch {
+      /* revalidation is best-effort; stale display beats a broken drawer */
+    } finally {
+      refreshInFlight.current = false;
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [items]);
 
   const getTotalItems = () => {
     return items.reduce((total, item) => total + item.quantity, 0);
@@ -153,6 +227,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         isCartOpen,
         setIsCartOpen,
         getItemKey,
+        refreshCartLines,
       }}
     >
       {children}

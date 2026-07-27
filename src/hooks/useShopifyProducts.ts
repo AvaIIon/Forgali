@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback, useMemo } from 'react';
 import {
   fetchAllShopifyProducts,
   fetchShopifyProductByHandle,
+  fetchBestSellingProducts,
   convertShopifyProduct,
   isShopifyConfigured,
   ConvertedProduct,
@@ -78,6 +79,10 @@ export const useShopifyProduct = (identifier: string | undefined) => {
   const [product, setProduct] = useState<ConvertedProduct | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  // true once the by-handle detail fetch has settled — cross-sell sections
+  // must wait for it, or the generic fallback flashes before the curated one
+  const [detailLoaded, setDetailLoaded] = useState(false);
+  const [notFound, setNotFound] = useState(false);
 
   useEffect(() => {
     if (!identifier) {
@@ -91,14 +96,21 @@ export const useShopifyProduct = (identifier: string | undefined) => {
       return;
     }
 
+    // Cancellation guard: without it, fast navigation between products lets a
+    // slow earlier response overwrite the newer product (rendering — and
+    // adding to cart — the WRONG product).
+    let cancelled = false;
+
     const fetchProduct = async () => {
       let paintedFromCache = false;
       try {
         setLoading(true);
         setError(null);
+        setNotFound(false);
+        setDetailLoaded(false);
 
         // Use the cached list version for an instant first paint, but DON'T stop
-        // there: the list query (PRODUCTS_QUERY) fetches only images(first:20) and
+        // there: the list query (PRODUCTS_QUERY) fetches fewer images and
         // no variant SKUs, so the full gallery + specs only come from the by-handle
         // query below. Paint cached, then upgrade to full detail.
         if (productsCache) {
@@ -107,48 +119,106 @@ export const useShopifyProduct = (identifier: string | undefined) => {
             p.id === identifier ||
             p.shopifyId === identifier
           );
-          if (cached) {
+          if (cached && !cancelled) {
             setProduct(cached);
             setLoading(false);
             paintedFromCache = true;
           }
         }
 
-        // Fetch from API by handle (full detail: sku, up to 100 images, specs)
+        // Fetch from API by handle (full detail: sku, up to 250 images, specs)
         const shopifyProduct = await fetchShopifyProductByHandle(identifier);
+        if (cancelled) return;
         if (shopifyProduct) {
-          const converted = convertShopifyProduct(shopifyProduct);
-          setProduct(converted);
-        } else if (!paintedFromCache) {
+          setProduct(convertShopifyProduct(shopifyProduct));
+          setDetailLoaded(true);
+        } else if (paintedFromCache) {
+          // Cached paint exists but the handle no longer resolves — treat the
+          // cache as stale and show not-found rather than a ghost product.
+          setProduct(null);
+          setNotFound(true);
+          setError('Product not found');
+        } else {
           // If not found by handle, try loading all products and search
           const allProducts = await fetchAllShopifyProducts();
+          if (cancelled) return;
           const found = allProducts.find(p =>
             p.handle === identifier ||
             p.id.includes(identifier)
           );
           if (found) {
-            const converted = convertShopifyProduct(found);
-            setProduct(converted);
+            setProduct(convertShopifyProduct(found));
+            setDetailLoaded(true);
           } else {
+            setNotFound(true);
             setError('Product not found');
           }
         }
       } catch (err) {
+        if (cancelled) return;
         console.error('Error fetching product:', err);
         // Don't surface a hard error if we already painted a usable cached
         // version — the detail upgrade failing shouldn't blank the page.
         if (!paintedFromCache) {
           setError(err instanceof Error ? err.message : 'Failed to fetch product');
+        } else {
+          setDetailLoaded(true); // cached paint is final for this visit
         }
       } finally {
-        setLoading(false);
+        if (!cancelled) setLoading(false);
       }
     };
 
     fetchProduct();
+    return () => {
+      cancelled = true;
+    };
   }, [identifier]);
 
-  return { product, loading, error };
+  return { product, loading, error, detailLoaded, notFound };
+};
+
+// Homepage featured grid — Shopify's real BEST_SELLING ordering, replacing the
+// old fabricated rating-based "Best Sellers" ranking.
+let featuredCache: ConvertedProduct[] | null = null;
+export const useFeaturedProducts = (count: number = 8) => {
+  const [products, setProducts] = useState<ConvertedProduct[]>(featuredCache ?? []);
+  const [loading, setLoading] = useState(!featuredCache);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (featuredCache) return;
+    if (!isShopifyConfigured()) {
+      setError('Shopify is not configured');
+      setLoading(false);
+      return;
+    }
+    let cancelled = false;
+    fetchBestSellingProducts(Math.max(count * 2, 12))
+      .then(nodes => {
+        if (cancelled) return;
+        featuredCache = nodes.map(convertShopifyProduct);
+        setProducts(featuredCache);
+      })
+      .catch(err => {
+        if (cancelled) return;
+        console.error('Error fetching featured products:', err);
+        setError(err instanceof Error ? err.message : 'Failed to fetch products');
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [count]);
+
+  const featured = useMemo(
+    () => products.filter(p => p.availableForSale && p.image).slice(0, count),
+    [products, count]
+  );
+
+  return { products: featured, loading, error };
 };
 
 // "bedroom" is an aggregate storefront category spanning the bed categories

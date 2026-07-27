@@ -40,13 +40,15 @@ export const Seo = ({
     <Helmet defer={false}>
       <title>{title}</title>
       {description && <meta name="description" content={description} />}
-      <link rel="canonical" href={url} />
+      {/* A noindex page must NOT emit a self-canonical or og:url — pointing an
+          unknown/404 URL at itself as canonical is a contradictory signal. */}
+      {!noindex && <link rel="canonical" href={url} />}
       {noindex && <meta name="robots" content="noindex, follow" />}
 
       <meta property="og:title" content={title} />
       {description && <meta property="og:description" content={description} />}
       <meta property="og:type" content={type} />
-      <meta property="og:url" content={url} />
+      {!noindex && <meta property="og:url" content={url} />}
       <meta property="og:image" content={image} />
 
       <meta name="twitter:card" content="summary_large_image" />

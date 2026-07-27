@@ -7,7 +7,7 @@ const FAQsPage = () => {
   const faqs = [
     {
       question: "What materials are used in Forgali beds?",
-      answer: "All Forgali beds are made from premium solid wood, ensuring durability and longevity. We use sustainably sourced materials and non-toxic finishes safe for children."
+      answer: "Our beds are made from solid wood for durability and longevity, finished with durable, low-VOC finishes."
     },
     {
       question: "How long does shipping take?",
@@ -19,19 +19,19 @@ const FAQsPage = () => {
     },
     {
       question: "What is your return policy?",
-      answer: "We offer a 30-day return policy for unused items in original packaging. Custom or personalized items are not eligible for return. Please contact us for return authorization."
+      answer: "We accept returns of new, unused, unassembled items within 30 days of delivery. Return shipping is the customer's responsibility and a restocking fee of up to 20% may apply. If an item arrives damaged, defective, or incorrect, we cover return shipping and waive the restocking fee. See our Returns page for full details and how to request a return authorization."
     },
     {
       question: "Do you offer warranties?",
-      answer: "Yes, all Forgali beds come with a comprehensive warranty covering manufacturing defects. Please see our Warranty page for full details."
+      answer: "Yes, our beds come with a warranty covering manufacturing defects. Please see our Warranty page for full details."
     },
     {
       question: "Can I customize my bed?",
-      answer: "Many of our beds are available in multiple finishes and colors. Contact us to discuss custom options for your specific needs."
+      answer: "Many of our beds are available in multiple finishes and colors. Contact us to discuss the options available for your specific needs."
     },
     {
       question: "Are the beds safe for children?",
-      answer: "Absolutely. All our beds meet or exceed Canadian safety standards. We use non-toxic finishes and ensure all designs prioritize child safety."
+      answer: "Our children's beds are manufactured and tested to applicable children's furniture safety standards, with low-VOC finishes and designs that prioritize child safety."
     },
     {
       question: "What if I need replacement parts?",

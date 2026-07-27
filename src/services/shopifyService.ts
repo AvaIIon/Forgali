@@ -50,6 +50,10 @@ const PRODUCTS_QUERY = `
               amount
               currencyCode
             }
+            maxVariantPrice {
+              amount
+              currencyCode
+            }
           }
           featuredImage {
             url
@@ -118,7 +122,7 @@ const PRODUCT_BY_HANDLE_QUERY = `
         url
         altText
       }
-      images(first: 100) {
+      images(first: 250) {
         edges {
           node {
             url
@@ -515,8 +519,9 @@ export interface ProductSpecs {
   assembly?: string;
 }
 
-// Fetch products from Shopify
-export const fetchShopifyProducts = async (first: number = 50, after?: string) => {
+// Fetch products from Shopify (250 = Storefront API page-size max; the whole
+// 300+ product catalog loads in 2 round trips instead of 7)
+export const fetchShopifyProducts = async (first: number = 250, after?: string) => {
   const data = await shopifyFetch<{
     products: {
       pageInfo: { hasNextPage: boolean; endCursor: string };
@@ -534,13 +539,26 @@ export const fetchAllShopifyProducts = async (): Promise<ShopifyProduct[]> => {
   let cursor: string | undefined;
 
   while (hasNextPage) {
-    const result = await fetchShopifyProducts(50, cursor);
+    const result = await fetchShopifyProducts(250, cursor);
     allProducts.push(...result.edges.map(edge => edge.node));
     hasNextPage = result.pageInfo.hasNextPage;
     cursor = result.pageInfo.endCursor;
   }
 
   return allProducts;
+};
+
+// Shopify's real sales-ranked ordering for the homepage "Featured" grid —
+// replaces the old fabricated rating*reviews ranking.
+const BEST_SELLING_QUERY = PRODUCTS_QUERY
+  .replace('query getProducts($first: Int!, $after: String) {', 'query getBestSelling($first: Int!) {')
+  .replace('products(first: $first, after: $after) {', 'products(first: $first, sortKey: BEST_SELLING) {');
+
+export const fetchBestSellingProducts = async (first: number = 12): Promise<ShopifyProduct[]> => {
+  const data = await shopifyFetch<{
+    products: { edges: Array<{ node: ShopifyProduct }> };
+  }>(BEST_SELLING_QUERY, { first });
+  return data.products.edges.map(e => e.node);
 };
 
 // Fetch a single product by handle
@@ -700,36 +718,52 @@ export type ProductCategory = "bunk-beds" | "loft-beds" | "single-beds" | "acces
 const DINING_TYPES = ['dining table', 'dining chair', 'dining set', 'dining bench', 'counter chair', 'bar chair', 'bar stool', 'counter stool', 'outdoor table'];
 const LIVING_TYPES = ['coffee table', 'console table', 'side table', 'end table', 'sideboard', 'tv stand', 'media console', 'shelf', 'bookshelf', 'entryway bench', 'outdoor bench'];
 
-// Helper to extract category from tags, productType, or handle
+// Helper to extract category from tags, productType, or handle.
+// Live Shopify tags are hierarchical ("Bunk Beds > Twin Over Twin",
+// "Accessories > DESKS & CHAIRS"), so matching must be by containment, never
+// exact tag equality — and bed signals must win over accessory words like
+// "storage" so a "platform bed with storage drawers" never leaves the bed
+// categories.
 export const getCategoryFromProduct = (product: ShopifyProduct): ProductCategory => {
-  const tags = product.tags.map(t => t.toLowerCase());
   const productType = product.productType?.toLowerCase() || '';
   const handle = product.handle.toLowerCase();
   const title = product.title.toLowerCase();
+  const tagText = product.tags.join(' | ').toLowerCase();
+  const text = `${productType} ${title} ${handle}`;
 
   // Furniture product types are authoritative — check them before bed heuristics
   // so dining/living pieces never fall through to the "single-beds" default.
   if (DINING_TYPES.includes(productType)) return 'dining';
   if (LIVING_TYPES.includes(productType)) return 'living';
 
-  // Check tags first (most reliable)
-  if (tags.includes('bunk-beds') || tags.includes('bunk bed') || tags.includes('bunk')) return 'bunk-beds';
-  if (tags.includes('loft-beds') || tags.includes('loft bed') || tags.includes('loft')) return 'loft-beds';
-  if (tags.includes('single-beds') || tags.includes('single bed') || tags.includes('platform')) return 'single-beds';
-  if (tags.includes('mattresses') || tags.includes('mattress')) return 'mattresses';
-  if (tags.includes('accessories') || tags.includes('storage') || tags.includes('dresser')) return 'accessories';
+  // Beds first. Bunk beats loft for hybrids (corner/L-shaped loft-bunks and
+  // low bunks carry both words; the nav places them under bunk beds).
+  const isBunk = tagText.includes('bunk') || text.includes('bunk');
+  const isLoft = tagText.includes('loft') || text.includes('loft');
+  if (isBunk) return 'bunk-beds';
+  if (isLoft) return 'loft-beds';
 
-  // Check product type
-  if (productType.includes('bunk')) return 'bunk-beds';
-  if (productType.includes('loft')) return 'loft-beds';
-  if (productType.includes('mattress')) return 'mattresses';
+  if (productType.includes('mattress') || tagText.includes('mattress') || text.includes('mattress')) {
+    return 'mattresses';
+  }
 
-  // Check handle and title
-  if (handle.includes('bunk') || title.includes('bunk')) return 'bunk-beds';
-  if (handle.includes('loft') || title.includes('loft')) return 'loft-beds';
-  if (handle.includes('mattress') || title.includes('mattress')) return 'mattresses';
-  if (handle.includes('dresser') || handle.includes('storage') || title.includes('dresser')) return 'accessories';
+  // Non-bed accessories (desks, dressers, bookcases, nightstands, storage).
+  // Anything whose type/title/handle says "bed" stays a bed below.
+  const accessoryWords = ['dresser', 'desk', 'bookcase', 'shelf', 'shelves', 'nightstand', 'storage', 'drawer'];
+  if (
+    productType === 'accessory' ||
+    productType.includes('dresser') ||
+    (accessoryWords.some(w => text.includes(w)) && !text.includes('bed'))
+  ) {
+    return 'accessories';
+  }
 
+  if (text.includes('bed') || tagText.includes('single beds') || tagText.includes('platform')) {
+    return 'single-beds';
+  }
+  if (tagText.includes('accessor') || tagText.includes('dresser') || tagText.includes('storage')) {
+    return 'accessories';
+  }
   return 'single-beds';
 };
 
@@ -806,8 +840,9 @@ export interface ConvertedProduct {
   colors: string[];
   finishes: string[];
   badge?: "new" | "bestseller" | "sale";
-  rating: number;
-  reviews: number;
+  // true when variants span multiple price points and `price` is the cheapest
+  // — cards should render "From $X"
+  fromPrice: boolean;
   description: string;
   descriptionHtml?: string;
   productType: string;
@@ -830,15 +865,6 @@ export interface ConvertedProduct {
   relatedProducts?: RelatedProductRef[];
 }
 
-// Deterministic hash of a string -> non-negative int (stable across loads)
-const hashString = (s: string): number => {
-  let h = 0;
-  for (let i = 0; i < s.length; i++) {
-    h = (Math.imul(h, 31) + s.charCodeAt(i)) | 0;
-  }
-  return Math.abs(h);
-};
-
 // Parse the Storefront `specs` metafields into a typed object
 const parseSpecs = (metafields?: Array<ShopifyMetafield | null>): ProductSpecs => {
   const specs: ProductSpecs = {};
@@ -860,20 +886,36 @@ const parseSpecs = (metafields?: Array<ShopifyMetafield | null>): ProductSpecs =
 export const convertShopifyProduct = (shopifyProduct: ShopifyProduct): ConvertedProduct => {
   const images = shopifyProduct.images.edges.map(edge => edge.node.url);
   const variants = shopifyProduct.variants.edges.map(edge => edge.node);
-  const firstVariant = variants[0];
-  
-  const price = parseFloat(firstVariant?.price.amount || shopifyProduct.priceRange.minVariantPrice.amount);
-  const originalPrice = firstVariant?.compareAtPrice?.amount 
-    ? parseFloat(firstVariant.compareAtPrice.amount) 
-    : undefined;
 
-  // Extract finishes from tags (since products don't have variant options)
-  const finishesFromTags = getFinishesFromTags(shopifyProduct.tags);
-  
-  // Also try to get from variant options if they exist
-  const finishSet = new Set<string>(finishesFromTags);
+  // Card price = the CHEAPEST variant (price sorts, "Under $X" filters, and
+  // card displays must all agree with what a shopper can actually pay; the
+  // first variant can cost 47% more than the cheapest). compareAt is paired
+  // from the SAME variant so a strikethrough is never borrowed from a
+  // different price point.
+  const minVariant = variants.reduce<ShopifyVariant | undefined>((min, v) => {
+    if (!v.price?.amount) return min;
+    if (!min || parseFloat(v.price.amount) < parseFloat(min.price.amount)) return v;
+    return min;
+  }, undefined);
+  const price = parseFloat(
+    minVariant?.price.amount || shopifyProduct.priceRange.minVariantPrice.amount
+  );
+  const maxVariantPrice = variants.reduce(
+    (max, v) => Math.max(max, parseFloat(v.price?.amount || '0')),
+    parseFloat(shopifyProduct.priceRange.maxVariantPrice?.amount || '0')
+  );
+  const fromPrice = maxVariantPrice > price;
+  const minCompareAt = minVariant?.compareAtPrice?.amount
+    ? parseFloat(minVariant.compareAtPrice.amount)
+    : undefined;
+  const originalPrice = minCompareAt && minCompareAt > price ? minCompareAt : undefined;
+
+  // Finishes from tags (search/filter metadata only — NOT a variant selector;
+  // painting tag-derived swatches used to create phantom options that mapped
+  // to no variant)
+  const finishSet = new Set<string>(getFinishesFromTags(shopifyProduct.tags));
   const colorSet = new Set<string>();
-  
+
   variants.forEach(variant => {
     variant.selectedOptions.forEach(opt => {
       const name = opt.name.toLowerCase();
@@ -888,16 +930,11 @@ export const convertShopifyProduct = (shopifyProduct: ShopifyProduct): Converted
     });
   });
 
-  // Build options - if products don't have variant options, create from tags
-  let options = shopifyProduct.options?.map(opt => ({
+  // Real variant options only (drop the Default Title placeholder axis)
+  const options = shopifyProduct.options?.map(opt => ({
     name: opt.name,
     values: opt.values,
   })).filter(opt => opt.name !== 'Title' || !opt.values.includes('Default Title')) || [];
-  
-  // If no finish option exists but we have finishes from tags, add it
-  if (finishSet.size > 0 && !options.some(o => o.name.toLowerCase() === 'finish' || o.name.toLowerCase() === 'color')) {
-    options = [{ name: 'Finish', values: Array.from(finishSet) }, ...options];
-  }
 
   // Convert variants with their images
   const convertedVariants = variants.map(v => ({
@@ -922,11 +959,12 @@ export const convertShopifyProduct = (shopifyProduct: ShopifyProduct): Converted
       .map(n => {
         const refPrice = parseFloat(n.priceRange?.minVariantPrice.amount || '0');
         const refMax = parseFloat(n.priceRange?.maxVariantPrice?.amount || '0');
-        // Pair min price with MIN compareAt — pairing with max would strike
-        // through another variant's higher compare-at and overstate the
-        // discount (deceptive-pricing exposure). Min-with-min can only
-        // understate.
-        const refCompare = n.compareAtPriceRange?.minVariantPrice.amount
+        const refFromPrice = refMax > refPrice;
+        // The ranges are aggregates across variants, so min price and min
+        // compareAt can come from DIFFERENT variants — only show a
+        // strikethrough when the product has a single price point, where the
+        // pairing is unambiguous.
+        const refCompare = !refFromPrice && n.compareAtPriceRange?.minVariantPrice.amount
           ? parseFloat(n.compareAtPriceRange.minVariantPrice.amount)
           : undefined;
         return {
@@ -936,16 +974,9 @@ export const convertShopifyProduct = (shopifyProduct: ShopifyProduct): Converted
           price: refPrice,
           compareAtPrice: refCompare && refCompare > refPrice ? refCompare : undefined,
           availableForSale: n.availableForSale ?? true,
-          fromPrice: refMax > refPrice,
+          fromPrice: refFromPrice,
         };
       });
-
-  // Deterministic rating/review count derived from the product id, so the value
-  // is identical on cards and the product page and stable across page loads
-  // (the previous Math.random made them flicker on every render).
-  const h = hashString(shopifyProduct.id);
-  const rating = Math.round((4.3 + (h % 70) / 100) * 100) / 100; // 4.30–4.99
-  const reviews = 50 + (h % 200); // 50–249
 
   return {
     id: shopifyProduct.id,
@@ -962,8 +993,7 @@ export const convertShopifyProduct = (shopifyProduct: ShopifyProduct): Converted
     colors: Array.from(colorSet),
     finishes: Array.from(finishSet),
     badge: originalPrice ? "sale" as const : undefined,
-    rating,
-    reviews,
+    fromPrice,
     description: shopifyProduct.description,
     descriptionHtml: shopifyProduct.descriptionHtml,
     productType: shopifyProduct.productType || '',
@@ -983,11 +1013,39 @@ export const convertShopifyProduct = (shopifyProduct: ShopifyProduct): Converted
 // uploaded with SKU-encoded filenames (`{SKU}__{angle}.jpg`), so we can recover
 // every angle of the selected finish by matching those filenames. For beds
 // (no SKU-encoded set) we show the finish hero first, then the whole gallery.
-export const getVariantImages = (product: ConvertedProduct, finishValue?: string): string[] => {
+// P&B photo sets were uploaded once per quantity-tier SKU (Individual /
+// Set-of-2 / Set-of-4 share identical angle photos under different SKU
+// prefixes), so a finish-wide SKU union returns each angle 2-3x. Dedupe by
+// the __{angle} filename suffix, keeping first occurrence order.
+const dedupeByAngle = (urls: string[]): string[] => {
+  const seen = new Set<string>();
+  const out: string[] = [];
+  for (const url of urls) {
+    const m = url.toLowerCase().match(/__([^/?]+)/);
+    const key = m ? m[1] : url;
+    if (!seen.has(key)) {
+      seen.add(key);
+      out.push(url);
+    }
+  }
+  return out;
+};
+
+export const getVariantImages = (
+  product: ConvertedProduct,
+  finishValue?: string,
+  preferredSku?: string
+): string[] => {
   const all = product.images.length > 0 ? product.images : [product.image].filter(Boolean);
 
   if (!finishValue || product.variants.length <= 1) {
-    return all;
+    return dedupeByAngle(all);
+  }
+
+  // The selected variant's own SKU is the cleanest angle set when it exists
+  if (preferredSku) {
+    const own = all.filter(url => url.toLowerCase().includes(`${preferredSku.toLowerCase()}__`));
+    if (own.length > 1) return dedupeByAngle(own);
   }
 
   // Variants matching the selected finish
@@ -1006,7 +1064,7 @@ export const getVariantImages = (product: ConvertedProduct, finishValue?: string
     const skuMatched = all.filter(url =>
       skus.some(sku => url.toLowerCase().includes(`${sku}__`))
     );
-    if (skuMatched.length > 1) return skuMatched;
+    if (skuMatched.length > 1) return dedupeByAngle(skuMatched);
   }
 
   // Beds / non-SKU products: finish hero(s) first, then the rest of the gallery
@@ -1017,7 +1075,56 @@ export const getVariantImages = (product: ConvertedProduct, finishValue?: string
     return Array.from(new Set([...heroes, ...all]));
   }
 
-  return all;
+  return dedupeByAngle(all);
+};
+
+// Live price/availability for a set of variant ids in ONE request — used to
+// revalidate persisted cart lines (prices frozen at add time can drift from
+// what the hosted checkout will actually charge, and variants can be deleted).
+export const fetchVariantStates = async (
+  variantIds: string[]
+): Promise<Map<string, { price: number; availableForSale: boolean; title: string }>> => {
+  const out = new Map<string, { price: number; availableForSale: boolean; title: string }>();
+  if (variantIds.length === 0) return out;
+  const data = await shopifyFetch<{
+    nodes: Array<
+      | { id: string; price: { amount: string }; availableForSale: boolean; product: { title: string } }
+      | null
+    >;
+  }>(
+    `query variantStates($ids: [ID!]!) {
+      nodes(ids: $ids) {
+        ... on ProductVariant {
+          id
+          availableForSale
+          price { amount }
+          product { title }
+        }
+      }
+    }`,
+    { ids: variantIds }
+  );
+  for (const node of data.nodes) {
+    if (node && 'price' in node && node.price) {
+      out.set(node.id, {
+        price: parseFloat(node.price.amount),
+        availableForSale: node.availableForSale,
+        title: node.product?.title ?? '',
+      });
+    }
+  }
+  return out;
+};
+
+// Query a cart by id; Shopify returns null once the cart's checkout has been
+// completed — which is the only signal a headless SPA gets that the customer
+// actually paid.
+export const fetchCartStatus = async (cartId: string): Promise<'open' | 'completed'> => {
+  const data = await shopifyFetch<{ cart: { id: string } | null }>(
+    `query cartStatus($id: ID!) { cart(id: $id) { id } }`,
+    { id: cartId }
+  );
+  return data.cart ? 'open' : 'completed';
 };
 
 // Get variant ID for a specific finish/color selection

@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { useParams, useSearchParams } from "react-router-dom";
+import { Link, useParams, useSearchParams } from "react-router-dom";
 import { Loader2 } from "lucide-react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -9,7 +9,8 @@ import { CategoryFilters, SortOption, FilterState } from "@/components/CategoryF
 import { CategoryProductCard } from "@/components/CategoryProductCard";
 import { SubcategoryTabs } from "@/components/SubcategoryTabs";
 import { useShopifyProductsByCategory } from "@/hooks/useShopifyProducts";
-import { ProductCategory, ConvertedProduct } from "@/services/shopifyService";
+import { ProductCategory } from "@/services/shopifyService";
+import { productMatchesSubcategory } from "@/lib/subcategories";
 
 // Category info for headers
 const categoryInfoMap: Record<string, { title: string; description: string }> = {
@@ -47,88 +48,20 @@ const categoryInfoMap: Record<string, { title: string; description: string }> = 
   }
 };
 
-// Subcategory to tag matching patterns
-const subcategoryTagPatterns: Record<string, string[]> = {
-  // Bunk beds
-  'twin-over-twin': ['twin over twin', 'twin over twin bunk'],
-  'twin-over-full': ['twin over full'],
-  'full-over-full': ['full over full'],
-  'twin-xl-over-queen': ['twin xl over queen'],
-  'l-shaped': ['l-shaped', 'corner loft bunk'],
-  'multi-bunk': ['trio', 'quad', 'triple'],
-  'low-bunk': ['low bunk'],
-  'with-slide': ['slide', 'with slide', 'bunk bed with slide'],
-  'with-stairs': ['stairs', 'with stairs', 'bunk bed with stairs'],
-  // Loft beds  
-  'low-loft': ['low loft'],
-  'mid-loft': ['mid loft'],
-  'high-loft': ['high loft', 'ultra high'],
-  'loft-with-desk': ['desk', 'all in one'],
-  'loft-with-slide': ['slide', 'play bed'],
-  'corner-loft': ['corner loft'],
-  // Single beds
-  'platform': ['platform'],
-  'house-bed': ['castle', 'house'],
-  'floor-bed': ['toddler', 'floor'],
-  'traditional': ['traditional'],
-  'trundle-bed': ['trundle'],
-  // Accessories
-  'storage': ['dresser', 'storage', 'drawer'],
-  'desks': ['desk'],
-  'bookcases-shelves': ['bookcase', 'shelf'],
-  'nightstands': ['nightstand', 'night stand'],
-};
-
-// Furniture subcategories match on Shopify productType (authoritative for the
-// Plank & Beam range) — tag patterns above are for the bed categories.
-const subcategoryTypePatterns: Record<string, string[]> = {
-  // Dining
-  'dining-tables': ['dining table', 'outdoor table'],
-  'dining-chairs': ['dining chair'],
-  'dining-benches': ['dining bench', 'outdoor bench'],
-  'bar-counter-chairs': ['counter chair', 'bar chair', 'counter stool', 'bar stool'],
-  'dining-sets': ['dining set'],
-  // Living
-  'coffee-tables': ['coffee table'],
-  'console-tables': ['console table'],
-  'side-tables': ['side table', 'end table'],
-  'sideboards': ['sideboard'],
-  'tv-stands': ['tv stand', 'media console'],
-  'shelves': ['shelf', 'bookshelf'],
-  'entryway': ['entryway bench'],
-};
-
-// Check if product matches a subcategory based on productType or tags
-const productMatchesSubcategory = (product: ConvertedProduct, subcategory: string): boolean => {
-  const typePatterns = subcategoryTypePatterns[subcategory];
-  if (typePatterns) {
-    return typePatterns.includes((product.productType || '').toLowerCase());
-  }
-
-  const patterns = subcategoryTagPatterns[subcategory];
-  if (!patterns) return product.subcategory === subcategory;
-
-  const productTagsLower = product.tags.map(t => t.toLowerCase());
-  const productTagStr = productTagsLower.join(' ');
-
-  return patterns.some(pattern =>
-    productTagsLower.some(tag => tag.includes(pattern)) ||
-    productTagStr.includes(pattern)
-  );
-};
-
 const CategoryPage = () => {
   const { category } = useParams<{ category: string }>();
   const [searchParams] = useSearchParams();
   const subcategory = searchParams.get('subcategory');
-  
+
   // Filter and sort state
-  const [sortBy, setSortBy] = useState<SortOption>('best-selling');
+  const [sortBy, setSortBy] = useState<SortOption>('featured');
   const [filters, setFilters] = useState<FilterState>({});
-  
-  // Validate category
-  const validCategory = (category as ProductCategory) || "bunk-beds";
-  const categoryInfo = categoryInfoMap[validCategory] || categoryInfoMap["bunk-beds"];
+
+  // Unknown categories must 404, not impersonate Bunk Beds — the old fallback
+  // gave every /category/<junk> URL a 200 with a self-canonical, an
+  // unbounded indexable duplicate surface.
+  const categoryInfo = category ? categoryInfoMap[category] : undefined;
+  const validCategory = category as ProductCategory;
   
   // Fetch products from Shopify
   const { products: allCategoryProducts, loading, error } = useShopifyProductsByCategory(validCategory);
@@ -163,19 +96,25 @@ const CategoryPage = () => {
       );
     }
     
-    // Filter by bed size
+    // Filter by bed size. "Twin" must not substring-match "Twin XL" —
+    // word-boundary check with an XL exclusion.
     if (filters.bedSize) {
       const sizeLower = filters.bedSize.toLowerCase();
-      result = result.filter(p => 
-        p.tags.some(t => t.toLowerCase().includes(sizeLower)) ||
-        p.name.toLowerCase().includes(sizeLower)
+      const sizeMatches = (text: string) => {
+        if (sizeLower === 'twin') return /\btwin\b(?!\s*xl)/.test(text);
+        return text.includes(sizeLower);
+      };
+      result = result.filter(p =>
+        p.tags.some(t => sizeMatches(t.toLowerCase())) ||
+        sizeMatches(p.name.toLowerCase())
       );
     }
-    
+
     return result;
   }, [allCategoryProducts, subcategory, filters]);
-  
-  // Sort products
+
+  // Sort products. "Highest Rated" (fabricated ratings) and "Newest" (was
+  // just reversed API order, not recency) are gone.
   const products = useMemo(() => {
     const sorted = [...filteredProducts];
     switch (sortBy) {
@@ -185,13 +124,7 @@ const CategoryPage = () => {
       case 'price-high':
         sorted.sort((a, b) => b.price - a.price);
         break;
-      case 'highest-rated':
-        sorted.sort((a, b) => b.rating - a.rating);
-        break;
-      case 'newest':
-        sorted.reverse();
-        break;
-      case 'best-selling':
+      case 'featured':
       default:
         break;
     }
@@ -203,6 +136,31 @@ const CategoryPage = () => {
     return sorted;
   }, [filteredProducts, sortBy]);
 
+  // Unknown category → real 404 content with noindex (after all hooks).
+  if (!categoryInfo) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Seo
+          title="Category Not Found | Forgali"
+          description="This category could not be found."
+          path={`/category/${category ?? ""}`}
+          noindex
+        />
+        <Header />
+        <div className="flex flex-col items-center justify-center py-32 gap-4 px-4 text-center">
+          <h1 className="text-2xl font-bold">We couldn't find that category</h1>
+          <div className="flex gap-4 flex-wrap justify-center">
+            <Link to="/category/dining" className="text-[#4A647C] hover:underline">Dining</Link>
+            <Link to="/category/living" className="text-[#4A647C] hover:underline">Living</Link>
+            <Link to="/category/bedroom" className="text-[#4A647C] hover:underline">Bedroom</Link>
+            <Link to="/category/accessories" className="text-[#4A647C] hover:underline">Storage &amp; Accessories</Link>
+          </div>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-background">
       <Seo
@@ -212,13 +170,14 @@ const CategoryPage = () => {
       />
       <Header />
       <CategoryHeader title={categoryInfo.title} description={categoryInfo.description} />
-      <SubcategoryTabs />
-      <CategoryFilters 
-        filters={filters} 
+      <SubcategoryTabs products={allCategoryProducts} />
+      <CategoryFilters
+        filters={filters}
         onFilterChange={setFilters}
         sortBy={sortBy}
         onSortChange={setSortBy}
         products={allCategoryProducts}
+        category={validCategory}
       />
       
       <section className="py-8 px-4">

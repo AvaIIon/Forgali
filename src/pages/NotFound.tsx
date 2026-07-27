@@ -1,24 +1,36 @@
-import { useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
 import { Seo } from "@/components/Seo";
+import { Button } from "@/components/ui/button";
 
 const NotFound = () => {
   const location = useLocation();
 
-  useEffect(() => {
-    console.error("404 Error: User attempted to access non-existent route:", location.pathname);
-  }, [location.pathname]);
-
   return (
-    <div className="flex min-h-screen items-center justify-center bg-muted">
-      <Seo title="Page not found | Forgali" path={location.pathname} noindex />
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">404</h1>
-        <p className="mb-4 text-xl text-muted-foreground">Oops! Page not found</p>
-        <a href="/" className="text-primary underline hover:text-primary/90">
-          Return to Home
-        </a>
-      </div>
+    <div className="min-h-screen bg-background flex flex-col">
+      <Seo title="Page Not Found | Forgali" path={location.pathname} noindex />
+      <Header />
+      <main className="flex-1 flex flex-col items-center justify-center py-24 px-4 text-center">
+        <p className="text-6xl font-bold text-[#4A647C]">404</p>
+        <h1 className="mt-4 text-2xl font-bold">We couldn't find that page</h1>
+        <p className="mt-2 text-muted-foreground max-w-md">
+          The link may be broken or the page may have moved — but there's plenty more to explore.
+        </p>
+        <div className="mt-8 flex flex-wrap gap-3 justify-center">
+          <Button asChild>
+            {/* client-side nav (not a full reload) so the SPA state survives */}
+            <Link to="/">Back to Home</Link>
+          </Button>
+          <Button asChild variant="outline">
+            <Link to="/category/dining">Shop Dining</Link>
+          </Button>
+          <Button asChild variant="outline">
+            <Link to="/category/bedroom">Shop Bedroom</Link>
+          </Button>
+        </div>
+      </main>
+      <Footer />
     </div>
   );
 };

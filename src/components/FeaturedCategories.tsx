@@ -1,9 +1,8 @@
 import { Link } from "react-router-dom";
-import { getProxiedImage } from "@/lib/imageProxy";
 
 // Mirrors the top-nav category structure: Dining · Living · Bedroom ·
 // Storage & Accessories. Bedroom is the aggregate category (bunk/loft/single
-// have tabs on its category page).
+// have tabs on its category page). All imagery on Forgali's own Shopify CDN.
 const categories = [
   {
     name: "Dining",
@@ -18,12 +17,12 @@ const categories = [
   {
     name: "Bedroom",
     href: "/category/bedroom",
-    image: "https://bedsmart.ca/wp-content/uploads/2024/09/cool_20ws__4.jpg",
+    image: "https://cdn.shopify.com/s/files/1/0972/6492/6995/files/84b8c31b-max-and-lily-twin-over-twin-bunk-bed-with-trundle-in-white.jpg?v=1773961862",
   },
   {
     name: "Storage & Accessories",
     href: "/category/accessories",
-    image: "https://bedsmart.ca/wp-content/uploads/2025/11/200006-002__2.jpg",
+    image: "https://cdn.shopify.com/s/files/1/0972/6492/6995/files/99a332ac-solid-wood-max-and-lily-6-drawer-dresser-in-white-finish.jpg?v=1773961846",
   },
 ];
 
@@ -40,8 +39,8 @@ export const FeaturedCategories = () => {
               className="group"
             >
               <div className="relative aspect-square rounded-2xl overflow-hidden bg-[#f2f4f6]">
-                <img 
-                  src={getProxiedImage(category.image)} 
+                <img
+                  src={category.image}
                   alt={category.name}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
