@@ -9,15 +9,20 @@ const API_VERSION = '2025-01';
 
 const SHOPIFY_API_URL = `https://${SHOPIFY_STORE_DOMAIN}/api/${API_VERSION}/graphql.json`;
 
-// Public Storefront tokens (32-char hex) are made for client-side use and go in
-// the X-Shopify-Storefront-Access-Token header. Private tokens (shpat_...) are
-// server-side only and use Shopify-Storefront-Private-Token. Auto-detect by
-// prefix so the same build works before, during, or after the token rotation —
-// deploy order can never take the storefront down. Once the public token is
-// live, this can be collapsed to the public header only.
-const TOKEN_HEADER = STOREFRONT_ACCESS_TOKEN?.startsWith('shpat_')
-  ? 'Shopify-Storefront-Private-Token'
-  : 'X-Shopify-Storefront-Access-Token';
+// The client bundle ships whatever token is here to every visitor, so it MUST
+// be a PUBLIC Storefront access token (32-char hex, made for client-side use)
+// sent in the X-Shopify-Storefront-Access-Token header. We deliberately no
+// longer support the private-token (shpat_...) header: a private token in the
+// browser is a credential leak (and triggers Google Ads "compromised site"
+// flags). If a shpat_ value is ever configured it will 401 loudly rather than
+// silently ship — the correct fix is to set a PUBLIC token, never to re-add the
+// private header. See PR / Shopify admin → Apps → Storefront API.
+const TOKEN_HEADER = 'X-Shopify-Storefront-Access-Token';
+if (import.meta.env.DEV && STOREFRONT_ACCESS_TOKEN?.startsWith('shpat_')) {
+  console.error(
+    '[shopify] VITE_SHOPIFY_STOREFRONT_ACCESS_TOKEN is a PRIVATE (shpat_) token — it must NOT ship to the browser. Set a PUBLIC Storefront access token instead.'
+  );
+}
 
 // Debug logging in development
 if (import.meta.env.DEV) {
