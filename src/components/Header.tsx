@@ -130,12 +130,15 @@ export const Header = () => {
 
   return (
     <header className="w-full">
-      {/* Top banner */}
+      {/* Top banner — lead with the universal risk-reversal (applies to the
+          bed traffic that actually lands here), then the Dining/Living code. */}
       <div className="bg-primary text-primary-foreground text-center py-2.5 text-xs sm:text-sm font-medium px-4">
         <span className="whitespace-nowrap">Free Canada-Wide Shipping</span>
         {" · "}
+        <span className="whitespace-nowrap">30-Day Returns</span>
+        {" · "}
         <span className="whitespace-nowrap">
-          Code <span className="font-bold tracking-wide">WELCOME10</span> — 10% off Dining &amp; Living
+          <span className="font-bold tracking-wide">WELCOME10</span> — 10% off Dining &amp; Living
         </span>
       </div>
 

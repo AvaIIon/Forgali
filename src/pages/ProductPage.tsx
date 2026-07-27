@@ -3,7 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Seo } from "@/components/Seo";
-import { Check, Truck, Shield, Lock, Minus, Plus, Loader2, X, ChevronLeft, ChevronRight } from "lucide-react";
+import { Check, Truck, Shield, Lock, RotateCcw, Minus, Plus, Loader2, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { useCart } from "@/context/CartContext";
@@ -449,12 +449,27 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
               </Button>
             </div>
 
-            {/* Shipping Info */}
-            <div className="flex items-center gap-3 p-4 bg-[#E8F5E9] rounded-lg">
-              <Truck className="w-5 h-5 text-[#2D8B6F]" />
-              <div>
-                <p className="font-medium text-[#2D8B6F]">Free Shipping</p>
-                <p className="text-sm text-muted-foreground">Arrives in 5-10 business days</p>
+            {/* Shipping + risk-reversal, right at the decision point — the
+                thing furniture shoppers hesitate on. All claims true (returns
+                are 30-day but not free, so we don't say "free returns"). */}
+            <div className="space-y-2.5 p-4 bg-[#E8F5E9] rounded-lg">
+              <div className="flex items-center gap-3">
+                <Truck className="w-5 h-5 text-[#2D8B6F] shrink-0" />
+                <div>
+                  <p className="font-medium text-[#2D8B6F]">Free Canada-Wide Shipping</p>
+                  <p className="text-sm text-muted-foreground">Arrives in 5-10 business days</p>
+                </div>
+              </div>
+              <div className="flex flex-wrap gap-x-4 gap-y-1 pt-1 text-sm text-[#2D8B6F]/90 border-t border-[#2D8B6F]/15">
+                <span className="flex items-center gap-1.5 pt-2">
+                  <RotateCcw className="w-4 h-4" /> 30-day returns
+                </span>
+                <span className="flex items-center gap-1.5 pt-2">
+                  <Lock className="w-4 h-4" /> Secure checkout
+                </span>
+                <span className="flex items-center gap-1.5 pt-2">
+                  <Check className="w-4 h-4" /> Solid wood
+                </span>
               </div>
             </div>
 
