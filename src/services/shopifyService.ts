@@ -67,11 +67,17 @@ const PRODUCTS_QUERY = `
               }
             }
           }
-          variants(first: 30) {
+          options {
+            id
+            name
+            values
+          }
+          variants(first: 100) {
             edges {
               node {
                 id
                 title
+                sku
                 price {
                   amount
                   currencyCode
@@ -887,12 +893,16 @@ export const convertShopifyProduct = (shopifyProduct: ShopifyProduct): Converted
   const images = shopifyProduct.images.edges.map(edge => edge.node.url);
   const variants = shopifyProduct.variants.edges.map(edge => edge.node);
 
-  // Card price = the CHEAPEST variant (price sorts, "Under $X" filters, and
-  // card displays must all agree with what a shopper can actually pay; the
-  // first variant can cost 47% more than the cheapest). compareAt is paired
-  // from the SAME variant so a strikethrough is never borrowed from a
-  // different price point.
-  const minVariant = variants.reduce<ShopifyVariant | undefined>((min, v) => {
+  // Card price = the cheapest variant a shopper can ACTUALLY BUY (price sorts,
+  // "Under $X" filters, and card displays must all agree with what they can
+  // pay). Prefer in-stock, positively-priced variants; only fall back to the
+  // full set when nothing is available, so we never advertise a "From $X" the
+  // shopper can't purchase or a $0 placeholder. compareAt is paired from the
+  // SAME variant so a strikethrough is never borrowed from a different price.
+  const positive = variants.filter(v => parseFloat(v.price?.amount || '0') > 0);
+  const buyable = positive.filter(v => v.availableForSale);
+  const priceable = buyable.length > 0 ? buyable : (positive.length > 0 ? positive : variants);
+  const minVariant = priceable.reduce<ShopifyVariant | undefined>((min, v) => {
     if (!v.price?.amount) return min;
     if (!min || parseFloat(v.price.amount) < parseFloat(min.price.amount)) return v;
     return min;
@@ -900,9 +910,9 @@ export const convertShopifyProduct = (shopifyProduct: ShopifyProduct): Converted
   const price = parseFloat(
     minVariant?.price.amount || shopifyProduct.priceRange.minVariantPrice.amount
   );
-  const maxVariantPrice = variants.reduce(
+  const maxVariantPrice = priceable.reduce(
     (max, v) => Math.max(max, parseFloat(v.price?.amount || '0')),
-    parseFloat(shopifyProduct.priceRange.maxVariantPrice?.amount || '0')
+    price
   );
   const fromPrice = maxVariantPrice > price;
   const minCompareAt = minVariant?.compareAtPrice?.amount
@@ -1013,16 +1023,11 @@ export const convertShopifyProduct = (shopifyProduct: ShopifyProduct): Converted
 // uploaded with SKU-encoded filenames (`{SKU}__{angle}.jpg`), so we can recover
 // every angle of the selected finish by matching those filenames. For beds
 // (no SKU-encoded set) we show the finish hero first, then the whole gallery.
-// P&B photo sets were uploaded once per quantity-tier SKU (Individual /
-// Set-of-2 / Set-of-4 share identical angle photos under different SKU
-// prefixes), so a finish-wide SKU union returns each angle 2-3x. Dedupe by
-// the __{angle} filename suffix, keeping first occurrence order.
-const dedupeByAngle = (urls: string[]): string[] => {
+const dedupeBy = (urls: string[], keyFn: (u: string) => string): string[] => {
   const seen = new Set<string>();
   const out: string[] = [];
   for (const url of urls) {
-    const m = url.toLowerCase().match(/__([^/?]+)/);
-    const key = m ? m[1] : url;
+    const key = keyFn(url);
     if (!seen.has(key)) {
       seen.add(key);
       out.push(url);
@@ -1031,6 +1036,30 @@ const dedupeByAngle = (urls: string[]): string[] => {
   return out;
 };
 
+// ANGLE-only key ({SKU}__{angle} -> "angle"): used ONLY within a single
+// finish's SKU set, where the quantity tiers (Individual / Set-of-2 / Set-of-4)
+// share identical photos under different SKU prefixes but the SAME angle.
+const angleKey = (url: string): string => {
+  const m = url.toLowerCase().match(/__([^_./?]+)/);
+  return m ? m[1] : url.toLowerCase();
+};
+
+// SKU+ANGLE key ({SKU}__{angle}, dropping a trailing _uuid + extension +
+// ?v=): used for the WHOLE gallery. It collapses the same photo re-uploaded
+// with a different CDN version/uuid, but PRESERVES distinct finishes (different
+// SKU prefix) and distinct angles — angle-only keying wrongly merged different
+// finishes that share an angle number.
+const skuAngleKey = (url: string): string => {
+  const file = (url.split('?')[0].split('/').pop() || url).toLowerCase();
+  const m = file.match(/^(.*__[^_./?]+)/);
+  return m ? m[1] : file;
+};
+
+// P&B photo sets were uploaded once per quantity-tier SKU, so a finish-wide SKU
+// union returns each angle 2-3x — dedupe those by angle within the finish set.
+const dedupeByAngle = (urls: string[]): string[] => dedupeBy(urls, angleKey);
+const dedupeGallery = (urls: string[]): string[] => dedupeBy(urls, skuAngleKey);
+
 export const getVariantImages = (
   product: ConvertedProduct,
   finishValue?: string,
@@ -1038,8 +1067,10 @@ export const getVariantImages = (
 ): string[] => {
   const all = product.images.length > 0 ? product.images : [product.image].filter(Boolean);
 
+  // No finish selected / single-variant: the WHOLE gallery. Dedupe by SKU+angle
+  // so re-uploads collapse but different finishes' photos are all kept.
   if (!finishValue || product.variants.length <= 1) {
-    return dedupeByAngle(all);
+    return dedupeGallery(all);
   }
 
   // The selected variant's own SKU is the cleanest angle set when it exists
@@ -1072,10 +1103,10 @@ export const getVariantImages = (
     .map(v => v.image)
     .filter((img): img is string => !!img);
   if (heroes.length > 0) {
-    return Array.from(new Set([...heroes, ...all]));
+    return dedupeGallery([...heroes, ...all]);
   }
 
-  return dedupeByAngle(all);
+  return dedupeGallery(all);
 };
 
 // Live price/availability for a set of variant ids in ONE request — used to

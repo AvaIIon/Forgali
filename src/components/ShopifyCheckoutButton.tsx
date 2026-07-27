@@ -48,10 +48,11 @@ export const ShopifyCheckoutButton = ({ className, children }: ShopifyCheckoutBu
 
       // Redirect to Shopify checkout
       if (cart.checkoutUrl) {
-        // Remember the cart id: next visit we ask Shopify whether it
-        // completed, and clear the local cart if the customer paid.
+        // Remember the cart id + a timestamp: next visit we ask Shopify whether
+        // it completed and, only if the handoff was recent, clear the local
+        // cart (a null cart could also just be expired — see CartContext).
         try {
-          window.localStorage.setItem(CHECKOUT_CART_KEY, cart.id);
+          window.localStorage.setItem(CHECKOUT_CART_KEY, JSON.stringify({ id: cart.id, ts: Date.now() }));
         } catch {
           /* storage unavailable — checkout still proceeds */
         }

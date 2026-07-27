@@ -171,7 +171,11 @@ const CategoryPage = () => {
   const seoDescription = bedSeo?.seoDescription ?? categoryInfo.description;
   const headerH1 = bedSeo?.h1 ?? categoryInfo.title;
   const headerLead = bedSeo?.lead ?? categoryInfo.description;
-  const seoPath = subcategory
+  // Self-canonical ONLY when this subcategory has its own dedicated SEO (rich
+  // title/copy). A subcategory view without dedicated SEO is a near-duplicate
+  // of the parent (same generic title), so it canonicals to the parent to
+  // avoid indexable duplicate pages.
+  const seoPath = subcategory && bedSeo
     ? `/category/${validCategory}?subcategory=${subcategory}`
     : `/category/${validCategory}`;
 

@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -118,14 +118,17 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
   }, [product, options, selections]);
 
   // Selecting a value keeps the other axes when that combination exists;
-  // otherwise snap to the first variant carrying the clicked value so the
-  // selection always lands on a real, purchasable variant.
+  // otherwise snap to a variant carrying the clicked value — preferring an
+  // IN-STOCK one so a click never lands on a sold-out variant when an
+  // available sibling with the same value exists.
   const handleSelect = (optionName: string, value: string) => {
     const next = { ...selections, [optionName]: value };
     if (!product.variants.some(v => variantMatches(v, next))) {
-      const carrier = product.variants.find(v =>
-        v.options.some(o => o.name === optionName && o.value === value)
-      );
+      const hasValue = (v: ConvertedProduct["variants"][number]) =>
+        v.options.some(o => o.name === optionName && o.value === value);
+      const carrier =
+        product.variants.find(v => v.availableForSale && hasValue(v)) ||
+        product.variants.find(hasValue);
       if (carrier) {
         const snapped: Record<string, string> = {};
         carrier.options.forEach(o => {
@@ -138,14 +141,18 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
     } else {
       setSelections(next);
     }
-    if (isFinishLike(optionName)) {
-      setSelectedImage(0);
-      setImageErrors(new Set());
-    }
   };
 
   const finishAxis = options.find(o => isFinishLike(o.name));
   const selectedFinishName = finishAxis ? selections[finishAxis.name] ?? "" : "";
+
+  // Reset the gallery whenever the RESOLVED finish changes — including when a
+  // non-finish click snaps to a different finish (which the old per-click reset
+  // missed, leaving a stale "6 / 3" counter and wrong image).
+  useEffect(() => {
+    setSelectedImage(0);
+    setImageErrors(new Set());
+  }, [selectedFinishName]);
 
   // Gallery for the selected finish; the resolved variant's SKU picks the
   // cleanest angle set when filenames are SKU-encoded (Plank & Beam)
@@ -183,7 +190,14 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
 
   const handleAddToCart = () => {
     if (product && resolvedVariant && canPurchase) {
-      addToCart(product, quantity, selectedFinishName || undefined, resolvedVariant.id);
+      // Label the cart line with the FULL variant (e.g. "Blonde / Set of 4"),
+      // not just the finish — otherwise a size/set/config choice is invisible
+      // in the cart and two lines look identical.
+      const label =
+        resolvedVariant.title && resolvedVariant.title !== "Default Title"
+          ? resolvedVariant.title
+          : selectedFinishName || undefined;
+      addToCart(product, quantity, label, resolvedVariant.id);
       toast({
         title: "Added to cart!",
         description: `${product.name} has been added to your cart.`,
@@ -215,7 +229,9 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
       "@type": "Offer",
       url: `https://www.forgali.com/product/${product.handle}`,
       priceCurrency: "CAD",
-      price: product.price.toFixed(2),
+      // Match the price the page actually shows for the resolved variant, so
+      // structured data can't disagree with the visible price.
+      price: displayPrice.toFixed(2),
       availability: product.availableForSale
         ? "https://schema.org/InStock"
         : "https://schema.org/OutOfStock",

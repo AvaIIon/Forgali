@@ -101,17 +101,32 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [items]);
 
-  // If a checkout was handed off last visit, ask Shopify whether that cart
-  // completed; a completed cart means the customer paid, so the local cart
-  // must not offer the same items for re-purchase.
+  // If a checkout was handed off last visit, ask Shopify whether that cart is
+  // gone; a purchased customer shouldn't be re-offered what they bought.
+  // IMPORTANT: Shopify returns a null cart for BOTH a completed checkout AND an
+  // expired/invalid cart id (carts lapse after ~10 idle days). So a null cart
+  // is only treated as "purchased → clear" when the handoff was RECENT; an old
+  // handoff that now returns null is assumed expired, and we just drop the
+  // stale key WITHOUT wiping the cart of a shopper who deliberated for weeks.
   useEffect(() => {
     if (typeof window === "undefined" || !isShopifyConfigured()) return;
-    const cartId = window.localStorage.getItem(CHECKOUT_CART_KEY);
+    const raw = window.localStorage.getItem(CHECKOUT_CART_KEY);
+    if (!raw) return;
+    let cartId: string | null = null;
+    let ts = 0;
+    try {
+      const parsed = JSON.parse(raw);
+      if (parsed && typeof parsed.id === "string") { cartId = parsed.id; ts = Number(parsed.ts) || 0; }
+    } catch {
+      cartId = raw; // legacy plain-string value → treat as old (ts=0)
+    }
     if (!cartId) return;
+    const RECENT_MS = 3 * 24 * 60 * 60 * 1000; // 3 days
+    const wasRecent = ts > 0 && Date.now() - ts < RECENT_MS;
     fetchCartStatus(cartId)
       .then(status => {
         if (status === "completed") {
-          setItems([]);
+          if (wasRecent) setItems([]); // recent handoff + gone cart ⇒ paid
           window.localStorage.removeItem(CHECKOUT_CART_KEY);
         }
       })
@@ -208,8 +223,11 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const getTotalPrice = () => {
+    // Exclude lines flagged unavailable — their per-line price is hidden in the
+    // drawer/checkout, so counting them would make the subtotal disagree with
+    // the visible line items (and overstate what's actually purchasable).
     return items.reduce(
-      (total, item) => total + (item.unitPrice ?? item.product.price) * item.quantity,
+      (total, item) => item.unavailable ? total : total + (item.unitPrice ?? item.product.price) * item.quantity,
       0
     );
   };

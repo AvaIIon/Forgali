@@ -63,7 +63,7 @@ export const CartDrawer = () => {
                     <div className="flex-1 min-w-0">
                       <h4 className="font-medium text-sm line-clamp-2">{item.product.name}</h4>
                       {item.selectedFinish && (
-                        <p className="text-xs text-muted-foreground mt-1">Finish: {item.selectedFinish}</p>
+                        <p className="text-xs text-muted-foreground mt-1">{item.selectedFinish}</p>
                       )}
                       {item.unavailable ? (
                         <p className="text-xs text-destructive flex items-center gap-1 mt-1">
