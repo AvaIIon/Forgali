@@ -28,6 +28,7 @@ export const Footer = () => {
               <li><Link to="/category/single-beds" className="hover:text-background">Single Beds</Link></li>
               <li><Link to="/category/dining" className="hover:text-background">Dining</Link></li>
               <li><Link to="/category/living" className="hover:text-background">Living</Link></li>
+              <li><Link to="/plank-and-beam" className="hover:text-background">Plank &amp; Beam</Link></li>
               <li><Link to="/category/accessories" className="hover:text-background">Accessories</Link></li>
               <li><Link to="/smart-deals" className="hover:text-background">Smart Deals</Link></li>
             </ul>

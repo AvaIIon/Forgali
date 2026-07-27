@@ -25,6 +25,7 @@ import AssemblyPage from "./pages/AssemblyPage";
 import SafetyStandardsPage from "./pages/SafetyStandardsPage";
 import PrivacyPage from "./pages/PrivacyPage";
 import TermsPage from "./pages/TermsPage";
+import PlankAndBeamPage from "./pages/PlankAndBeamPage";
 
 const queryClient = new QueryClient();
 
@@ -56,6 +57,7 @@ const App = () => (
                 <Route path="/safety-standards" element={<SafetyStandardsPage />} />
                 <Route path="/privacy" element={<PrivacyPage />} />
                 <Route path="/terms" element={<TermsPage />} />
+                <Route path="/plank-and-beam" element={<PlankAndBeamPage />} />
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
               </Routes>

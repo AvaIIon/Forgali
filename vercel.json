@@ -2658,7 +2658,7 @@
       "destination": "/index.html"
     },
     {
-      "source": "/(checkout|smart-deals|search|contact|faqs|about|warranty|shipping|returns|assembly|safety-standards|privacy|terms)",
+      "source": "/(checkout|smart-deals|search|contact|faqs|about|warranty|shipping|returns|assembly|safety-standards|privacy|terms|plank-and-beam)",
       "destination": "/index.html"
     }
   ],
