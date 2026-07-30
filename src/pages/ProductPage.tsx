@@ -11,6 +11,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useShopifyProduct, useShopifyProducts, getRelatedProducts } from "@/hooks/useShopifyProducts";
 import { getVariantImages, ConvertedProduct } from "@/services/shopifyService";
 import { getFinishColor } from "@/lib/finishColors";
+import { categorySubcategories, productMatchesSubcategory } from "@/lib/subcategories";
 
 const MAX_QUANTITY = 10;
 
@@ -88,6 +89,16 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [imageErrors, setImageErrors] = useState<Set<number>>(new Set());
+
+  // Resolve the product's subcategory with the SAME matcher the tabs use, so
+  // the breadcrumb can never link to a tab that would render empty.
+  const breadcrumbSub = useMemo(
+    () =>
+      (categorySubcategories[product.category] ?? []).find(sub =>
+        productMatchesSubcategory(product, sub.slug)
+      ) ?? null,
+    [product]
+  );
 
   // Every real product option gets a selector (finish swatches, size/quantity/
   // feature pills). The old page recognized only a "finish" axis and silently
@@ -254,7 +265,11 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
       />
       <Header />
 
-      {/* Breadcrumb */}
+      {/* Breadcrumb. The subcategory hop is deliberate: the ?subcategory=
+          views carry the money keywords ("solid wood dining table canada",
+          "fireplace mantel shelf canada") but had no inbound links at all
+          except the tab strip on their own parent. This gives each one a
+          contextual link from every product that belongs to it. */}
       <div className="max-w-7xl mx-auto px-4 py-4">
         <nav className="flex items-center gap-2 text-sm text-muted-foreground">
           <Link to="/" className="hover:text-foreground">Home</Link>
@@ -262,6 +277,17 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
           <Link to={`/category/${product.category}`} className="hover:text-foreground capitalize">
             {product.category.replace("-", " ")}
           </Link>
+          {breadcrumbSub && (
+            <>
+              <span>/</span>
+              <Link
+                to={`/category/${product.category}?subcategory=${breadcrumbSub.slug}`}
+                className="hover:text-foreground"
+              >
+                {breadcrumbSub.name}
+              </Link>
+            </>
+          )}
           <span>/</span>
           <span className="text-foreground">{product.name}</span>
         </nav>

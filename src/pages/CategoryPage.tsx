@@ -188,6 +188,17 @@ const CategoryPage = () => {
       />
       <Header />
       <CategoryHeader title={headerH1} description={headerLead} />
+      {/* The brand hub had exactly one inbound link sitewide (the footer), so
+          it could never accumulate signal from its own two best children. */}
+      {(validCategory === "dining" || validCategory === "living") && (
+        <div className="max-w-7xl mx-auto px-4 -mt-2 mb-2 text-sm text-muted-foreground">
+          Part of our{" "}
+          <Link to="/plank-and-beam" className="underline hover:text-foreground">
+            Plank &amp; Beam collection in Canada
+          </Link>
+          .
+        </div>
+      )}
       <SubcategoryTabs products={allCategoryProducts} />
       <CategoryFilters
         filters={filters}
