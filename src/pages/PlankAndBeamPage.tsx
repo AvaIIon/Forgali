@@ -25,6 +25,8 @@ const LIVING_LINKS = [
   { name: "Side Tables", href: "/category/living?subcategory=side-tables" },
   { name: "Sideboards", href: "/category/living?subcategory=sideboards" },
   { name: "TV Stands", href: "/category/living?subcategory=tv-stands" },
+  { name: "Mantel Shelves", href: "/category/living?subcategory=shelves" },
+  { name: "Entryway Benches", href: "/category/living?subcategory=entryway" },
 ];
 
 const PlankAndBeamPage = () => {

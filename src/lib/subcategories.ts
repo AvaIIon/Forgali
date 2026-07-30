@@ -50,6 +50,7 @@ export const categorySubcategories: Record<string, Array<{ slug: string; name: s
     { slug: 'sideboards', name: 'Sideboards' },
     { slug: 'tv-stands', name: 'TV Stands' },
     { slug: 'shelves', name: 'Shelves' },
+    { slug: 'entryway', name: 'Entryway Benches' },
   ],
 };
 
