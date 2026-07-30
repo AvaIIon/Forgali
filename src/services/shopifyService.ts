@@ -1,23 +1,31 @@
 // Shopify Storefront API Integration
-// You'll need to set these environment variables:
-// VITE_SHOPIFY_STORE_DOMAIN=your-store.myshopify.com
-// VITE_SHOPIFY_STOREFRONT_ACCESS_TOKEN=your-storefront-access-token
+// Optional environment override (Vercel): VITE_SHOPIFY_STORE_DOMAIN
 
-const SHOPIFY_STORE_DOMAIN = import.meta.env.VITE_SHOPIFY_STORE_DOMAIN;
-const STOREFRONT_ACCESS_TOKEN = import.meta.env.VITE_SHOPIFY_STOREFRONT_ACCESS_TOKEN;
+// The PUBLIC Storefront API token for the Forgali Headless storefront.
+// Committing this is deliberate, not an oversight: public Storefront tokens are
+// designed to ship in client-side code. They are rate-limited per buyer IP and
+// carry only unauthenticated_* scopes, which is exactly the access a browser
+// needs. A private token is the opposite — server-side only — and one had been
+// shipping in this bundle since launch, which is what this replaces.
+// Source: Shopify admin > Headless > Forgali Headless > Storefront API.
+//
+// The token is NOT read from import.meta.env, and that is load-bearing: Vite
+// inlines env values into the bundle as literal strings at build time. Merely
+// referencing VITE_SHOPIFY_STOREFRONT_ACCESS_TOKEN would embed whatever Vercel
+// holds — including the private token — as a readable string in the shipped
+// JS, even if the code never sends it. Naming only the public token here is the
+// only way the private one stays out of the bundle.
+const PUBLIC_STOREFRONT_TOKEN = 'a657d35533c14d8ad23c908b75c56427';
+const DEFAULT_STORE_DOMAIN = 'kjrq9s-yp.myshopify.com';
+
+const SHOPIFY_STORE_DOMAIN = import.meta.env.VITE_SHOPIFY_STORE_DOMAIN || DEFAULT_STORE_DOMAIN;
+const STOREFRONT_ACCESS_TOKEN = PUBLIC_STOREFRONT_TOKEN;
+
 const API_VERSION = '2025-01';
 
 const SHOPIFY_API_URL = `https://${SHOPIFY_STORE_DOMAIN}/api/${API_VERSION}/graphql.json`;
 
-// Public Storefront tokens (32-char hex) are made for client-side use and go in
-// the X-Shopify-Storefront-Access-Token header. Private tokens (shpat_...) are
-// server-side only and use Shopify-Storefront-Private-Token. Auto-detect by
-// prefix so the same build works before, during, or after the token rotation —
-// deploy order can never take the storefront down. Once the public token is
-// live, this can be collapsed to the public header only.
-const TOKEN_HEADER = STOREFRONT_ACCESS_TOKEN?.startsWith('shpat_')
-  ? 'Shopify-Storefront-Private-Token'
-  : 'X-Shopify-Storefront-Access-Token';
+const TOKEN_HEADER = 'X-Shopify-Storefront-Access-Token';
 
 // Debug logging in development
 if (import.meta.env.DEV) {
@@ -397,10 +405,9 @@ async function shopifyFetch<T>(query: string, variables?: Record<string, any>): 
     
     if (response.status === 401) {
       errorMessage = 'Shopify API Authentication Failed (401). Please check:\n' +
-        '1. VITE_SHOPIFY_STOREFRONT_ACCESS_TOKEN is a PUBLIC Storefront API access token (32-char hex, safe for the browser) — not a private shpat_ token\n' +
-        '2. Environment variables are set in Vercel (VITE_SHOPIFY_STORE_DOMAIN and VITE_SHOPIFY_STOREFRONT_ACCESS_TOKEN)\n' +
-        '3. The token has the required scopes: unauthenticated_read_product_listings, unauthenticated_write_checkouts, unauthenticated_read_checkouts\n' +
-        '4. The store domain is correct (format: your-store.myshopify.com)';
+        '1. The public Storefront token in src/services/shopifyService.ts is still valid — Shopify admin > Headless > Forgali Headless > Storefront API\n' +
+        '2. It has the required permissions: unauthenticated_read_product_listings, unauthenticated_write_checkouts, unauthenticated_read_checkouts\n' +
+        '3. The store domain is correct (format: your-store.myshopify.com)';
     } else if (response.status === 402) {
       errorMessage = 'Shopify Store Unavailable (402). Your Shopify store needs to be activated:\n' +
         '1. Go to your Shopify Admin: https://' + SHOPIFY_STORE_DOMAIN + '/admin\n' +

@@ -54,15 +54,26 @@ const EXCLUDED_HANDLES = new Set([
   "checkout-test-item", // $2 fixture used to prove the payment path; not a real product
 ]);
 
-const domain = process.env.VITE_SHOPIFY_STORE_DOMAIN;
-const token = process.env.VITE_SHOPIFY_STOREFRONT_ACCESS_TOKEN;
+// Public Storefront token — see src/services/shopifyService.ts for why this is
+// committed rather than kept secret. Duplicated (not imported) because this is a
+// plain-node prebuild script that never goes through the TypeScript pipeline.
+// Keep the two in sync if the token is ever rotated.
+const PUBLIC_STOREFRONT_TOKEN = "a657d35533c14d8ad23c908b75c56427";
+const DEFAULT_STORE_DOMAIN = "kjrq9s-yp.myshopify.com";
+
+const domain = process.env.VITE_SHOPIFY_STORE_DOMAIN || DEFAULT_STORE_DOMAIN;
+// Ignore a private token here too, so revoking the leaked one can't silently
+// freeze the sitemap at its committed fallback.
+const configuredToken = process.env.VITE_SHOPIFY_STOREFRONT_ACCESS_TOKEN;
+const token =
+  configuredToken && !configuredToken.startsWith("shpat_")
+    ? configuredToken
+    : PUBLIC_STOREFRONT_TOKEN;
 const API_VERSION = "2025-01";
 
 async function fetchHandles() {
   const url = `https://${domain}/api/${API_VERSION}/graphql.json`;
-  const header = token?.startsWith("shpat_")
-    ? "Shopify-Storefront-Private-Token"
-    : "X-Shopify-Storefront-Access-Token";
+  const header = "X-Shopify-Storefront-Access-Token";
 
   const handles = [];
   let cursor = null;
