@@ -5,9 +5,12 @@ import { Seo } from "@/components/Seo";
 import { Truck, RotateCcw, TreePine, MapPin } from "lucide-react";
 
 // Brand hub targeting the head term "plank and beam furniture canada" — the
-// wide-open lane (no Canadian retailer ranks; the US brand site doesn't ship
-// here). Also acts as an internal-link hub so Google can discover the P&B
-// dining/living pages. All facts grounded in the live catalog.
+// wide-open lane (no Canadian retailer ranks). NOTE: the US brand site DOES
+// ship to Canada (FedEx, $50–$225 per plankandbeam.com/pages/shipping-policy);
+// what it withholds is free shipping and Canadian returns ("unable to accept
+// returns for Canada"). Never claim they don't ship here. Also acts as an
+// internal-link hub so Google can discover the P&B dining/living pages.
+// All facts grounded in the live catalog.
 
 const DINING_LINKS = [
   { name: "Dining Tables", href: "/category/dining?subcategory=dining-tables" },
@@ -84,7 +87,7 @@ const PlankAndBeamPage = () => {
       <section className="max-w-7xl mx-auto px-4 py-14">
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {[
-            { icon: MapPin, title: "Made for Canada", body: "Plank & Beam's own US store doesn't ship here — we bring the full range to Canadian homes." },
+            { icon: MapPin, title: "Made for Canada", body: "Plank & Beam's own US store bills you FedEx freight and won't take Canadian returns — we bring the full range to Canadian homes." },
             { icon: Truck, title: "Free Canada-Wide Shipping", body: "Every order ships free across Canada, with pricing in CAD and no surprise duties or brokerage." },
             { icon: RotateCcw, title: "Local 30-Day Returns", body: "Returns are handled here in Canada within 30 days — no cross-border hassle." },
             { icon: TreePine, title: "Solid Wood", body: "Real solid wood dining and living pieces built to live with for years, not particleboard." },
@@ -105,8 +108,9 @@ const PlankAndBeamPage = () => {
           <p>
             Plank &amp; Beam is a solid wood furniture brand known for clean,
             timeless dining and living pieces — the kind that anchor a room and
-            hold up to everyday life. Until now it's been hard to buy in Canada,
-            because the brand's own site ships only within the United States. At
+            hold up to everyday life. Buying it from the brand's own US site
+            means FedEx charges of $50 to $225 to cross the border, and no way
+            to send anything back: their returns policy excludes Canada. At
             Forgali we carry the collection for Canadian shoppers, with prices in
             CAD, free shipping nationwide, and returns handled locally.
           </p>
