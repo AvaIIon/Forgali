@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Seo } from "@/components/Seo";
-import { Truck, RotateCcw, TreePine, MapPin } from "lucide-react";
+import { Truck, RotateCcw, TreePine } from "lucide-react";
 
 // Brand hub targeting the head term "plank and beam furniture canada" — the
 // wide-open lane (no Canadian retailer ranks). NOTE: the US brand site DOES
@@ -87,9 +87,8 @@ const PlankAndBeamPage = () => {
 
       {/* Why buy from Forgali */}
       <section className="max-w-7xl mx-auto px-4 py-14">
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {[
-            { icon: MapPin, title: "Made for Canada", body: "Plank & Beam's own US store bills you FedEx freight and won't take Canadian returns — we bring the full range to Canadian homes." },
             { icon: Truck, title: "Free Canada-Wide Shipping", body: "Every order ships free across Canada, with pricing in CAD and no surprise duties or brokerage." },
             { icon: RotateCcw, title: "Local 30-Day Returns", body: "Returns are handled here in Canada within 30 days — no cross-border hassle." },
             { icon: TreePine, title: "Solid Wood", body: "Real solid wood dining and living pieces built to live with for years, not particleboard." },
