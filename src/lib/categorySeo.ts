@@ -198,17 +198,23 @@ const BED_SEO: Record<string, CategorySeo> = {
   },
 };
 
+// Own-property lookups only: a plain index walks the prototype chain, so a
+// URL-supplied key like "constructor" would return junk instead of null.
+const own = (key: string): CategorySeo | null =>
+  Object.prototype.hasOwnProperty.call(BED_SEO, key) ? BED_SEO[key] : null;
+
 export const getBedSeo = (
   category: string | undefined,
   subcategory?: string | null
 ): CategorySeo | null => {
   if (!category) return null;
-  if (subcategory && BED_SEO[`${category}|${subcategory}`]) {
-    return BED_SEO[`${category}|${subcategory}`];
+  if (subcategory) {
+    const sub = own(`${category}|${subcategory}`);
+    if (sub) return sub;
   }
   // Only fall back to the category-level entry when no subcategory is active —
   // an unmatched subcategory should keep the generic category page, not
   // mislabel itself with the parent's rich copy.
-  if (!subcategory && BED_SEO[category]) return BED_SEO[category];
+  if (!subcategory) return own(category);
   return null;
 };

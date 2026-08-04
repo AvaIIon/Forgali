@@ -12,42 +12,10 @@ import { useShopifyProductsByCategory } from "@/hooks/useShopifyProducts";
 import { ProductCategory } from "@/services/shopifyService";
 import { productMatchesSubcategory } from "@/lib/subcategories";
 import { getBedSeo } from "@/lib/categorySeo";
+import { categoryInfoMap } from "@/lib/categoryInfo";
 
-// Category info for headers
-const categoryInfoMap: Record<string, { title: string; description: string }> = {
-  "bunk-beds": {
-    title: "Bunk Beds",
-    description: "Premium solid wood bunk beds built to last. From twin over twin to quad bunks, find the perfect space-saving solution for your family."
-  },
-  "loft-beds": {
-    title: "Loft Beds",
-    description: "Maximize your space with our sturdy loft beds. Perfect for bedrooms, dorms, or any space that needs smart vertical storage."
-  },
-  "single-beds": {
-    title: "Single Beds",
-    description: "Classic single beds in timeless designs in twin, full, and queen sizes. Solid wood construction for lasting quality."
-  },
-  "mattresses": {
-    title: "Mattresses",
-    description: "Premium mattresses designed for comfort and support. Find the perfect fit for your bunk bed, loft bed, or single bed."
-  },
-  "accessories": {
-    title: "Storage & Accessories",
-    description: "Complete your room with our storage solutions and accessories. Dressers, shelving, and more."
-  },
-  "bedroom": {
-    title: "Bedroom",
-    description: "Solid wood beds for every sleeper — bunk beds, loft beds, and single beds built to last from childhood through the teenage years."
-  },
-  "dining": {
-    title: "Dining",
-    description: "Solid wood dining tables, chairs, benches, and complete sets. Timeless craftsmanship for the heart of your home."
-  },
-  "living": {
-    title: "Living",
-    description: "Coffee tables, console and side tables, sideboards, TV stands, and shelving — solid wood pieces that bring warmth to every living space."
-  }
-};
+// Category info for headers lives in @/lib/categoryInfo — shared with
+// middleware.ts so the edge and the SPA agree on which categories exist.
 
 const CategoryPage = () => {
   const { category } = useParams<{ category: string }>();
@@ -60,8 +28,13 @@ const CategoryPage = () => {
 
   // Unknown categories must 404, not impersonate Bunk Beds — the old fallback
   // gave every /category/<junk> URL a 200 with a self-canonical, an
-  // unbounded indexable duplicate surface.
-  const categoryInfo = category ? categoryInfoMap[category] : undefined;
+  // unbounded indexable duplicate surface. Own-property check because a plain
+  // lookup walks the prototype chain: /category/constructor was truthy and
+  // rendered an indexable "undefined | Forgali" page.
+  const categoryInfo =
+    category && Object.prototype.hasOwnProperty.call(categoryInfoMap, category)
+      ? categoryInfoMap[category]
+      : undefined;
   const validCategory = category as ProductCategory;
   
   // Fetch products from Shopify

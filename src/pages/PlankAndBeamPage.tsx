@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Seo } from "@/components/Seo";
+import { PLANK_AND_BEAM_SEO } from "@/lib/plankAndBeamSeo";
 import { Truck, RotateCcw, TreePine } from "lucide-react";
 
 // Brand hub targeting the head term "plank and beam furniture canada" — the
@@ -30,22 +31,15 @@ const LIVING_LINKS = [
 ];
 
 const PlankAndBeamPage = () => {
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "CollectionPage",
-    name: "Plank & Beam Furniture Canada",
-    description:
-      "Shop the Plank & Beam collection of solid wood dining and living furniture in Canada — free Canada-wide shipping, CAD pricing and local 30-day returns.",
-    url: "https://www.forgali.com/plank-and-beam",
-  };
-
+  // Title/description/JSON-LD live in @/lib/plankAndBeamSeo — shared with
+  // middleware.ts so the initial-HTML head matches what this page renders.
   return (
     <div className="min-h-screen bg-background">
       <Seo
-        title="Plank & Beam Furniture Canada – Solid Wood | Forgali"
-        description="Shop Plank & Beam solid wood dining and living furniture in Canada — 164 pieces, from $140, with free Canada-wide shipping, CAD pricing and 30-day returns."
+        title={PLANK_AND_BEAM_SEO.title}
+        description={PLANK_AND_BEAM_SEO.description}
         path="/plank-and-beam"
-        jsonLd={jsonLd}
+        jsonLd={PLANK_AND_BEAM_SEO.jsonLd}
       />
       <Header />
 

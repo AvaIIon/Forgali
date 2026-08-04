@@ -6,13 +6,14 @@
 // public/google-feed.xml stays as a fallback. (Deliberately fail-soft: unlike a
 // prerender, a stale feed is harmless — GMC refetches on its own schedule.)
 //
-// Item shape: one item per product. Price = FIRST variant's price, because the
-// PDP auto-selects the first variant on load and Google verifies that the feed
-// price matches the landing page. Brand is "Forgali" across the board — the
-// storefront is deliberately de-branded, and the feed must match what the
-// landing page shows.
+// Item shape: one item per product. Price = the variant the PDP actually
+// auto-selects on load — the first AVAILABLE variant, falling back to the
+// first (ProductPage.tsx initializes selections with exactly that rule) —
+// because Google verifies that the feed price matches the landing page.
+// Brand is "Forgali" across the board — the storefront is deliberately
+// de-branded, and the feed must match what the landing page shows.
 
-import { writeFileSync } from "node:fs";
+import { mkdirSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 
@@ -50,13 +51,13 @@ async function fetchProducts() {
   let pages = 0;
   while (pages < 20) {
     pages++;
-    const query = `{ products(first: 100${cursor ? `, after: "${cursor}"` : ""}, query: "status:active") {
+    const query = `{ products(first: 50${cursor ? `, after: "${cursor}"` : ""}, query: "status:active") {
       pageInfo { hasNextPage endCursor }
       nodes {
-        id handle title productType
+        id handle title productType availableForSale
         description(truncateAt: 4900)
         featuredImage { url }
-        variants(first: 1) { nodes { price { amount currencyCode } availableForSale } }
+        variants(first: 25) { nodes { price { amount currencyCode } availableForSale } }
       } } }`;
     const controller = new AbortController();
     const t = setTimeout(() => controller.abort(), 15000);
@@ -77,6 +78,13 @@ async function fetchProducts() {
   return products;
 }
 
+// The variant whose price the PDP displays on load: first available, falling
+// back to the first (same rule as ProductPage.tsx's initial selection). Feed
+// price/availability and product-meta price both come from THIS variant so the
+// initial-HTML JSON-LD, the hydrated page, and Merchant Center agree.
+const selectedVariant = (p) =>
+  p.variants.nodes.find((v) => v.availableForSale) ?? p.variants.nodes[0];
+
 async function main() {
   if (!domain || !token) return;
   const products = await fetchProducts();
@@ -89,7 +97,7 @@ async function main() {
     .filter((p) => p.handle !== "checkout-test-item")
     .filter((p) => p.featuredImage && p.variants.nodes.length)
     .map((p) => {
-      const v = p.variants.nodes[0];
+      const v = selectedVariant(p);
       const price = `${Number(v.price.amount).toFixed(2)} ${v.price.currencyCode}`;
       // Brand must match what the landing page shows: titles that name the
       // manufacturer keep it; de-branded titles sell under the store brand.
@@ -130,6 +138,36 @@ ${items.join("\n")}
   const out = join(dirname(fileURLToPath(import.meta.url)), "..", "public", "google-feed.xml");
   writeFileSync(out, xml);
   console.log(`google-feed.xml: ${items.length} items`);
+
+  // Same fetch, second consumer: src/data/product-meta.json feeds middleware.ts,
+  // which injects each product's real head (title/description/OG/JSON-LD) into
+  // the initial HTML. Price comes from the SAME selectedVariant() as the feed,
+  // and availability is product-level exactly like ProductPage's own JSON-LD —
+  // so the injected head, the hydrated page, and the feed agree (up to the
+  // 25-variant fetch cap). Committed copy is the fallback when this doesn't run.
+  // Keys are short on purpose — this file is bundled into the edge middleware,
+  // which has a hard size budget. t=title, d=description (trimmed), i=image,
+  // p=price, c=currency, a=availableForSale.
+  const meta = {};
+  for (const p of products) {
+    if (p.handle === "checkout-test-item") continue;
+    const v = selectedVariant(p);
+    const rawD = String(p.description || "").replace(/\s+/g, " ").trim();
+    meta[p.handle] = {
+      t: p.title,
+      // Cap at 500 chars on a word boundary — enough for the meta-description
+      // slice and a sane JSON-LD description without bloating the edge bundle.
+      d: rawD.length > 500 ? rawD.slice(0, 500).replace(/\s+\S*$/, "") : rawD,
+      i: p.featuredImage?.url ?? null,
+      p: v ? Number(v.price.amount).toFixed(2) : null,
+      c: v?.price?.currencyCode || "CAD",
+      a: p.availableForSale === true,
+    };
+  }
+  const metaOut = join(dirname(fileURLToPath(import.meta.url)), "..", "src", "data", "product-meta.json");
+  mkdirSync(dirname(metaOut), { recursive: true });
+  writeFileSync(metaOut, `${JSON.stringify(meta)}\n`);
+  console.log(`product-meta.json: ${Object.keys(meta).length} products`);
 }
 
 main().catch((e) => {

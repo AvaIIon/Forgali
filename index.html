@@ -3,7 +3,6 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Forgali — Solid Wood Furniture for Every Room</title>
 
     <link rel="icon" href="/favicon.ico" sizes="48x48">
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
@@ -15,9 +14,18 @@
     <!-- No static meta description: every route sets its own via <Seo> (react-helmet-async).
          A static one here DUPLICATES rather than gets replaced — JS-rendering crawlers then
          see two description tags and may pick the generic one. The static og:/twitter tags
-         below stay as the fallback for non-JS social scrapers until SSR/prerender lands. -->
+         below stay as the fallback for non-JS social scrapers on routes middleware.ts
+         doesn't rewrite (homepage, static pages). -->
     <meta name="author" content="Forgali" />
 
+    <!-- Everything between the routehead markers is REPLACED per-URL by
+         middleware.ts on /product, /category and /plank-and-beam requests, so
+         those routes carry their real title/description/canonical/OG/JSON-LD in
+         the initial HTML. Vite keeps HTML comments in the build (verified on the
+         live shell); if these markers ever disappear, middleware fails open and
+         serves this block unchanged. Keep the marker text EXACT. -->
+    <!-- routehead:start -->
+    <title>Forgali — Solid Wood Furniture for Every Room</title>
     <meta property="og:title" content="Forgali — Solid Wood Furniture for Every Room" />
     <meta property="og:description" content="Solid wood furniture families trust — from bunk beds to dining tables. Free Canada-wide shipping." />
     <meta property="og:type" content="website" />
@@ -29,6 +37,7 @@
     <meta name="twitter:title" content="Forgali — Solid Wood Furniture for Every Room" />
     <meta name="twitter:description" content="Solid wood furniture families trust — from bunk beds to dining tables. Free Canada-wide shipping." />
     <meta name="twitter:image" content="https://cdn.shopify.com/s/files/1/0972/6492/6995/files/forgali-logo-dark.png?v=1783621771" />
+    <!-- routehead:end -->
   </head>
 
   <body>
