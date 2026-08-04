@@ -5,7 +5,7 @@
 // so a sitemap hiccup can NEVER break a deploy. The committed public/sitemap.xml
 // stays as a fallback if this doesn't run.
 
-import { writeFileSync } from "node:fs";
+import { mkdirSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 
@@ -99,7 +99,7 @@ async function fetchHandles() {
     if (!data) break;
     for (const e of data.edges) {
       const handle = e?.node?.handle;
-      if (handle && !EXCLUDED_HANDLES.has(handle)) handles.push(handle);
+      if (handle) handles.push(handle);
     }
     if (data.pageInfo?.hasNextPage) cursor = data.pageInfo.endCursor;
     else break;
@@ -108,9 +108,15 @@ async function fetchHandles() {
 }
 
 function buildXml(handles) {
+  // EXCLUDED_HANDLES is a "don't advertise to search engines" list, NOT a
+  // "doesn't exist" list — so it is applied here and nowhere else. The handle
+  // set middleware.ts consumes must stay complete, or a live-but-unlisted page
+  // (the $2 payment fixture) would start answering 404 to real visitors.
   const rows = [
     ...STATIC_ROUTES.map(([loc, pri]) => ({ loc, pri })),
-    ...handles.map((h) => ({ loc: `/product/${h}`, pri: "0.6" })),
+    ...handles
+      .filter((h) => !EXCLUDED_HANDLES.has(h))
+      .map((h) => ({ loc: `/product/${h}`, pri: "0.6" })),
   ];
   const body = rows
     .map(
@@ -122,7 +128,9 @@ function buildXml(handles) {
 }
 
 async function main() {
-  const out = join(dirname(fileURLToPath(import.meta.url)), "..", "public", "sitemap.xml");
+  const root = join(dirname(fileURLToPath(import.meta.url)), "..");
+  const out = join(root, "public", "sitemap.xml");
+  const handlesOut = join(root, "src", "data", "product-handles.json");
   if (!domain || !token) {
     console.warn("[sitemap] Shopify env vars not set — keeping committed sitemap.xml");
     return;
@@ -134,6 +142,14 @@ async function main() {
   }
   writeFileSync(out, buildXml(handles), "utf-8");
   console.log(`[sitemap] wrote ${handles.length} products + ${STATIC_ROUTES.length} routes`);
+
+  // Same handle set, in the form middleware.ts needs to tell a live product URL
+  // from a deleted one. Written from the SAME fetch as the sitemap so the two can
+  // never disagree about what exists. Like sitemap.xml, the committed copy is the
+  // fallback when this step doesn't run.
+  mkdirSync(dirname(handlesOut), { recursive: true });
+  writeFileSync(handlesOut, `${JSON.stringify(handles)}\n`, "utf-8");
+  console.log(`[sitemap] wrote ${handles.length} handles to src/data/product-handles.json`);
 }
 
 main().catch((err) => {
