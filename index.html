@@ -17,6 +17,15 @@
          below stay as the fallback for non-JS social scrapers on routes middleware.ts
          doesn't rewrite (homepage, static pages). -->
     <meta name="author" content="Forgali" />
+    <meta property="og:site_name" content="Forgali" />
+
+    <!-- Sitewide brand identity (site name + logo) for Google. Lives OUTSIDE the
+         routehead markers so it survives middleware.ts head injection and never
+         collides with per-route JSON-LD (Helmet/middleware emit their own blocks;
+         multiple ld+json scripts per page are valid). -->
+    <script type="application/ld+json">
+      {"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://www.forgali.com/#website","url":"https://www.forgali.com/","name":"Forgali","publisher":{"@id":"https://www.forgali.com/#organization"}},{"@type":"Organization","@id":"https://www.forgali.com/#organization","name":"Forgali","url":"https://www.forgali.com/","logo":"https://cdn.shopify.com/s/files/1/0972/6492/6995/files/forgali-logo-dark.png?v=1783621771"}]}
+    </script>
 
     <!-- Everything between the routehead markers is REPLACED per-URL by
          middleware.ts on /product, /category and /plank-and-beam requests, so

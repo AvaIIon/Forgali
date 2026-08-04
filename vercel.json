@@ -202,6 +202,16 @@
       "permanent": true
     },
     {
+      "source": "/bedroom",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
+      "source": "/bedroom/:path*",
+      "destination": "/category/bedroom",
+      "permanent": true
+    },
+    {
       "source": "/bedroom-furniture-brooklyn.html",
       "destination": "/category/bedroom",
       "permanent": true
@@ -533,6 +543,16 @@
     },
     {
       "source": "/dina.htm",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/dining",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/dining/:path*",
       "destination": "/category/dining",
       "permanent": true
     },
@@ -953,6 +973,16 @@
     },
     {
       "source": "/liv.htm",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/living",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/living/:path*",
       "destination": "/category/living",
       "permanent": true
     },
