@@ -39,7 +39,7 @@ export const BrandStatement = () => {
             src={getProxiedImage(
               "https://cdn.shopify.com/s/files/1/0972/6492/6995/files/2600425900-014__1_25f566d3-2d94-4b5f-a5dc-1a1fe4172f1b.jpg?v=1783608426",
             )}
-            alt="Plank+Beam Arcata solid wood console table"
+            alt="Plank & Beam Arcata solid wood console table"
             loading="lazy"
             className="h-full w-full object-cover"
           />

@@ -17,7 +17,7 @@ const HOTSPOTS = [
   {
     number: 1,
     handle: "sereno-dining-chair",
-    title: "Plank+Beam Sereno Dining Chair",
+    title: "Plank & Beam Sereno Dining Chair",
     price: 352.9,
     originalPrice: 390,
     fromPrice: true, // sold as Individual / Set of 2 / Set of 4
@@ -30,7 +30,7 @@ const HOTSPOTS = [
   {
     number: 2,
     handle: "lido-oval-dining-table-72",
-    title: 'Plank+Beam Lido Oval Dining Table - 72"',
+    title: 'Plank & Beam Lido Oval Dining Table - 72"',
     price: 847.9,
     originalPrice: 930,
     fromPrice: false,
@@ -43,7 +43,7 @@ const HOTSPOTS = [
   {
     number: 3,
     handle: "arcata-console-table-56",
-    title: 'Plank+Beam Arcata Console Table - 56"',
+    title: 'Plank & Beam Arcata Console Table - 56"',
     price: 600.9,
     originalPrice: 660,
     fromPrice: false,
@@ -204,7 +204,7 @@ export const ShopTheLook = () => {
           <source media="(max-width: 767px)" srcSet={lookMobile} />
           <img
             src={lookDesktop}
-            alt="Plank+Beam dining room — Lido oval dining table with Sereno dining chairs and an Arcata console table"
+            alt="Plank & Beam dining room — Lido oval dining table with Sereno dining chairs and an Arcata console table"
             loading="lazy"
             className="absolute inset-0 h-full w-full object-cover"
           />

@@ -11,7 +11,7 @@ export const Hero = () => {
         <source media="(max-width: 767px)" srcSet={heroDiningMobile} />
         <img
           src={heroDining}
-          alt="Solid wood dining room with Plank+Beam oval table and upholstered chairs"
+          alt="Solid wood dining room with Plank & Beam oval table and upholstered chairs"
           className="w-full h-full object-cover"
           // LCP image: hint the browser to fetch it first. Set via ref because
           // React 18 doesn't recognize the fetchPriority prop.

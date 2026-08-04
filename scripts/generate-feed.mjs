@@ -101,7 +101,7 @@ async function main() {
       const price = `${Number(v.price.amount).toFixed(2)} ${v.price.currencyCode}`;
       // Brand must match what the landing page shows: titles that name the
       // manufacturer keep it; de-branded titles sell under the store brand.
-      const brand = /plank\+beam/i.test(p.title) ? "Plank & Beam"
+      const brand = /plank\s*(?:\+|&|and)\s*beam/i.test(p.title) ? "Plank & Beam"
         : /maxtrix/i.test(p.title) ? "Maxtrix"
         : "Forgali";
       return `  <item>
