@@ -54,7 +54,7 @@ async function fetchProducts() {
     const query = `{ products(first: 50${cursor ? `, after: "${cursor}"` : ""}, query: "status:active") {
       pageInfo { hasNextPage endCursor }
       nodes {
-        id handle title productType availableForSale
+        id handle title productType availableForSale tags
         description(truncateAt: 4900)
         featuredImage { url }
         variants(first: 25) { nodes { price { amount currencyCode } availableForSale } }
@@ -153,6 +153,16 @@ ${items.join("\n")}
     if (p.handle === "checkout-test-item") continue;
     const v = selectedVariant(p);
     const rawD = String(p.description || "").replace(/\s+/g, " ").trim();
+    // Card/list price — the SPA's convertShopifyProduct rule (cheapest variant
+    // a shopper can actually buy, "From" prefix when prices vary), so the
+    // injected category lists agree with the hydrated grid. Distinct from `p`,
+    // which mirrors the PDP's auto-selected variant.
+    const positive = p.variants.nodes.filter((x) => Number(x.price?.amount) > 0);
+    const buyable = positive.filter((x) => x.availableForSale);
+    const priceable = buyable.length ? buyable : positive.length ? positive : p.variants.nodes;
+    const amounts = priceable
+      .map((x) => Number(x.price?.amount))
+      .filter((n) => Number.isFinite(n) && n > 0);
     meta[p.handle] = {
       t: p.title,
       // Cap at 500 chars on a word boundary — enough for the meta-description
@@ -162,12 +172,78 @@ ${items.join("\n")}
       p: v ? Number(v.price.amount).toFixed(2) : null,
       c: v?.price?.currencyCode || "CAD",
       a: p.availableForSale === true,
+      l: amounts.length ? Math.min(...amounts).toFixed(2) : null,
+      f: amounts.length ? Math.max(...amounts) > Math.min(...amounts) : false,
     };
   }
   const metaOut = join(dirname(fileURLToPath(import.meta.url)), "..", "src", "data", "product-meta.json");
   mkdirSync(dirname(metaOut), { recursive: true });
   writeFileSync(metaOut, `${JSON.stringify(meta)}\n`);
   console.log(`product-meta.json: ${Object.keys(meta).length} products`);
+
+  // Same fetch, third consumer: src/data/category-products.json maps each
+  // category slug to its product handles so middleware.ts can server-render a
+  // crawlable product-link list into the category shells (DEV_CHANGES item 19,
+  // body half). categorize() below is a line-for-line port of the SPA's
+  // getCategoryFromProduct (src/services/shopifyService.ts) — keep the two in
+  // sync or the injected list will disagree with what the page hydrates into.
+  const cats = {};
+  const sorted = products.filter((p) => p.handle !== "checkout-test-item");
+  // Available-first mirrors the SPA's OOS-sink; Array.sort is stable so
+  // catalog order is preserved within each group.
+  sorted.sort((a, b) => (b.availableForSale === true) - (a.availableForSale === true));
+  for (const p of sorted) {
+    const c = categorize(p);
+    (cats[c] ??= []).push(p.handle);
+    // The /category/bedroom aggregate = bunk + loft + single, built in the SAME
+    // globally-sorted pass so its order matches the SPA's single OOS-sink over
+    // catalog order (concatenating the three lists would float OOS bunks above
+    // in-stock lofts).
+    if (c === "bunk-beds" || c === "loft-beds" || c === "single-beds") {
+      (cats["bedroom"] ??= []).push(p.handle);
+    }
+  }
+  const catsOut = join(dirname(fileURLToPath(import.meta.url)), "..", "src", "data", "category-products.json");
+  writeFileSync(catsOut, `${JSON.stringify(cats)}\n`);
+  console.log(
+    `category-products.json: ${Object.keys(cats).length} categories, ` +
+    Object.entries(cats).map(([k, v]) => `${k}=${v.length}`).join(" ")
+  );
+}
+
+// Port of the SPA's getCategoryFromProduct — see the comment above its caller.
+const DINING_TYPES = ['dining table', 'dining chair', 'dining set', 'dining bench', 'counter chair', 'bar chair', 'bar stool', 'counter stool', 'outdoor table'];
+const LIVING_TYPES = ['coffee table', 'console table', 'side table', 'end table', 'sideboard', 'tv stand', 'media console', 'shelf', 'bookshelf', 'entryway bench', 'outdoor bench'];
+function categorize(p) {
+  const productType = (p.productType || "").toLowerCase();
+  const handle = (p.handle || "").toLowerCase();
+  const title = (p.title || "").toLowerCase();
+  const tagText = (p.tags || []).join(" | ").toLowerCase();
+  const text = `${productType} ${title} ${handle}`;
+  if (DINING_TYPES.includes(productType)) return "dining";
+  if (LIVING_TYPES.includes(productType)) return "living";
+  const isBunk = tagText.includes("bunk") || text.includes("bunk");
+  const isLoft = tagText.includes("loft") || text.includes("loft");
+  if (isBunk) return "bunk-beds";
+  if (isLoft) return "loft-beds";
+  if (productType.includes("mattress") || tagText.includes("mattress") || text.includes("mattress")) {
+    return "mattresses";
+  }
+  const accessoryWords = ["dresser", "desk", "bookcase", "shelf", "shelves", "nightstand", "storage", "drawer"];
+  if (
+    productType === "accessory" ||
+    productType.includes("dresser") ||
+    (accessoryWords.some((w) => text.includes(w)) && !text.includes("bed"))
+  ) {
+    return "accessories";
+  }
+  if (text.includes("bed") || tagText.includes("single beds") || tagText.includes("platform")) {
+    return "single-beds";
+  }
+  if (tagText.includes("accessor") || tagText.includes("dresser") || tagText.includes("storage")) {
+    return "accessories";
+  }
+  return "single-beds";
 }
 
 main().catch((e) => {

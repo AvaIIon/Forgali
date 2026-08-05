@@ -28,6 +28,7 @@
 
 import handles from "./src/data/product-handles.json";
 import productMeta from "./src/data/product-meta.json";
+import categoryProducts from "./src/data/category-products.json";
 import { categoryInfoMap } from "./src/lib/categoryInfo";
 import { getBedSeo } from "./src/lib/categorySeo";
 import { PLANK_AND_BEAM_SEO } from "./src/lib/plankAndBeamSeo";
@@ -45,6 +46,13 @@ const DEFAULT_IMAGE =
 const START_MARK = "<!-- routehead:start -->";
 const END_MARK = "<!-- routehead:end -->";
 
+// Body SSR splices into the empty SPA mount point. React 18's createRoot()
+// (src/main.tsx) REPLACES the container's children on first render, so
+// hydration simply swaps this static content for the live app — no mismatch
+// warnings, no duplicate UI. If the shell ever stops containing this exact
+// string, body injection silently skips (head injection still runs).
+const ROOT_MARK = '<div id="root"></div>';
+
 type ProductMeta = {
   t: string; // title
   d: string; // description, whitespace-collapsed, <=260 chars
@@ -52,6 +60,12 @@ type ProductMeta = {
   p: string | null; // first-variant price, "1234.00"
   c: string; // currency code
   a: boolean; // availableForSale (product level)
+  // Card/list price fields (optional: absent in older committed fallbacks —
+  // category lists just omit the price then). l = cheapest buyable variant,
+  // f = prices vary so the card renders a "From" prefix. Mirrors
+  // convertShopifyProduct in shopifyService.ts.
+  l?: string | null;
+  f?: boolean;
 };
 
 // Module scope runs OUTSIDE the handler's try/catch — a wrong-shape (but
@@ -85,6 +99,51 @@ const hasOwn = (obj: object, key: string) =>
 const MIN_PLAUSIBLE_HANDLES = 200;
 const HANDLES_OK = KNOWN.size >= MIN_PLAUSIBLE_HANDLES;
 const META_OK = Object.keys(META).length >= MIN_PLAUSIBLE_HANDLES;
+
+// Category -> ordered product handles, for the crawlable link lists. Same
+// module-scope guard rationale as KNOWN/META above.
+const CATS: Record<string, string[]> = (() => {
+  try {
+    return categoryProducts &&
+      typeof categoryProducts === "object" &&
+      !Array.isArray(categoryProducts)
+      ? (categoryProducts as Record<string, string[]>)
+      : {};
+  } catch {
+    return {};
+  }
+})();
+const CATS_OK = (() => {
+  try {
+    const entries = Object.entries(CATS);
+    // bedroom re-lists bunk/loft/single members — exclude it so the aggregate
+    // can't pad a degraded build past the plausibility bar.
+    const total = entries.reduce(
+      (n, [slug, l]) =>
+        slug === "bedroom" || !Array.isArray(l) ? n : n + l.length,
+      0
+    );
+    return entries.length >= 5 && total >= MIN_PLAUSIBLE_HANDLES;
+  } catch {
+    return false;
+  }
+})();
+
+// Reverse lookup so product bodies can link back to their own category page
+// (crawl path both directions). bedroom is an aggregate — skip it so a bed
+// links to its specific category.
+const HANDLE_CATEGORY: Map<string, string> = (() => {
+  const m = new Map<string, string>();
+  try {
+    for (const [slug, list] of Object.entries(CATS)) {
+      if (slug === "bedroom" || !Array.isArray(list)) continue;
+      for (const h of list) if (!m.has(h)) m.set(h, slug);
+    }
+  } catch {
+    /* empty map fails open below */
+  }
+  return m;
+})();
 
 // Fail-open needs failures to actually FAIL: an origin fetch that hangs would
 // otherwise pin every matched request until the platform timeout. AbortSignal
@@ -202,6 +261,92 @@ function categoryHead(category: string, subcategory: string | null): Head {
   };
 }
 
+// ---------------------------------------------------------------------------
+// Body SSR (DEV_CHANGES item 19, body half). Crawlers see real content and a
+// real link graph instead of an empty shell — the fix for the 164 P&B products
+// filed under "Discovered – currently not indexed". Content mirrors what the
+// hydrated page renders (same titles, same prices, same copy modules); markup
+// is deliberately plain inline-styled HTML because the app's utility CSS can't
+// be relied on for markup it never generated. Visible only until React mounts.
+// ---------------------------------------------------------------------------
+
+const money = (p: string): string => {
+  const n = Number(p);
+  return Number.isFinite(n)
+    ? `$${n.toLocaleString("en-CA", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} CAD`
+    : "";
+};
+
+const TRUST_LINE =
+  "Free Canada-wide shipping · 30-day returns · 5-year limited warranty";
+
+function categoryBody(category: string): string | null {
+  if (!CATS_OK || !META_OK || !hasOwn(CATS, category)) return null;
+  const list = CATS[category];
+  if (!Array.isArray(list) || !list.length) return null;
+  const info = categoryInfoMap[category]; // caller has hasOwn-gated `category`
+  const seo = getBedSeo(category, null);
+
+  const items = list
+    .filter((h) => hasOwn(META, h))
+    .map((h) => {
+      const m = META[h];
+      // Card price (cheapest buyable, "From" when prices vary) — NOT m.p, which
+      // is the PDP's auto-selected variant and disagrees with the hydrated grid
+      // on ~30% of products.
+      const price = m.l ? ` — ${m.f ? "From " : ""}${money(m.l)}` : "";
+      return `<li style="margin:6px 0;"><a href="/product/${esc(h)}" style="text-decoration:underline;">${esc(m.t)}</a>${esc(price)}</li>`;
+    });
+  if (!items.length) return null;
+
+  const intro = (seo?.intro ?? "")
+    .split("\n\n")
+    .filter(Boolean)
+    .map((p) => `<p style="margin:12px 0;line-height:1.6;">${esc(p)}</p>`)
+    .join("");
+
+  return [
+    `<div style="max-width:1100px;margin:0 auto;padding:32px 16px;font-family:system-ui,sans-serif;">`,
+    `<p style="margin:0 0 16px;"><a href="/" style="text-decoration:underline;">Forgali</a> · ${esc(TRUST_LINE)}</p>`,
+    `<h1 style="font-size:2rem;font-weight:700;margin:0 0 8px;">${esc(seo?.h1 ?? info.title)}</h1>`,
+    `<p style="margin:0 0 20px;line-height:1.6;">${esc(seo?.lead ?? info.description)}</p>`,
+    `<ul style="list-style:disc;padding-left:20px;margin:0 0 24px;">`,
+    ...items,
+    `</ul>`,
+    intro,
+    `</div>`,
+  ].join("\n");
+}
+
+function productBody(handle: string, m: ProductMeta): string | null {
+  const cat = HANDLE_CATEGORY.get(handle);
+  const crumb =
+    cat && hasOwn(categoryInfoMap, cat)
+      ? ` › <a href="/category/${esc(cat)}" style="text-decoration:underline;">${esc(categoryInfoMap[cat].title)}</a>`
+      : "";
+  const img = m.i
+    ? `<img src="${esc(m.i)}" alt="${esc(m.t)}" style="max-width:100%;width:480px;height:auto;margin:0 0 16px;"/>`
+    : "";
+  const price = m.p
+    ? `<p style="margin:0 0 8px;font-size:1.25rem;font-weight:700;">${esc(money(m.p))}</p>`
+    : "";
+  const stock = `<p style="margin:0 0 16px;">${m.a ? "In stock" : "Out of stock"} — ships free anywhere in Canada.</p>`;
+  const desc = m.d
+    ? `<p style="margin:0 0 16px;line-height:1.6;">${esc(m.d)}</p>`
+    : "";
+  return [
+    `<div style="max-width:800px;margin:0 auto;padding:32px 16px;font-family:system-ui,sans-serif;">`,
+    `<p style="margin:0 0 16px;"><a href="/" style="text-decoration:underline;">Forgali</a>${crumb}</p>`,
+    `<h1 style="font-size:1.75rem;font-weight:700;margin:0 0 8px;">${esc(m.t)}</h1>`,
+    price,
+    stock,
+    img,
+    desc,
+    `<p style="margin:0;">${esc(TRUST_LINE)}</p>`,
+    `</div>`,
+  ].join("\n");
+}
+
 function plankAndBeamHead(): Head {
   return {
     title: PLANK_AND_BEAM_SEO.title,
@@ -260,6 +405,7 @@ export default async function middleware(request: Request) {
     const { pathname, origin, searchParams } = new URL(request.url);
 
     let head: Head | null = null;
+    let body: string | null = null;
 
     if (pathname === "/plank-and-beam") {
       head = plankAndBeamHead();
@@ -274,6 +420,7 @@ export default async function middleware(request: Request) {
       const m = META_OK && hasOwn(META, handle) ? META[handle] : undefined;
       if (!m) return; // known product, no meta (or degraded meta) → today's shell
       head = productHead(handle, m);
+      body = productBody(handle, m);
     } else if (pathname.startsWith("/category/")) {
       const category = segmentAfter("/category/", pathname);
       if (!category) return;
@@ -283,7 +430,12 @@ export default async function middleware(request: Request) {
         // product handles it cannot go stale independently of the routes.
         return notFound(origin);
       }
-      head = categoryHead(category, searchParams.get("subcategory"));
+      const subcategory = searchParams.get("subcategory");
+      head = categoryHead(category, subcategory);
+      // Body only on the plain category URL: a subcategory view renders a
+      // filtered subset, and injecting the full parent list under a
+      // subcategory head would make content contradict the title.
+      if (!subcategory) body = categoryBody(category);
     }
 
     if (!head) return;
@@ -295,8 +447,24 @@ export default async function middleware(request: Request) {
     const end = shell.indexOf(END_MARK);
     if (start === -1 || end === -1 || end <= start) return;
 
-    const html =
+    let html =
       shell.slice(0, start) + renderHead(head) + shell.slice(end + END_MARK.length);
+
+    // Body SSR is additive: if the mount point isn't the exact empty div (or
+    // this route has no body), the head-injected shell ships as before.
+    let bodyInjected = false;
+    if (body) {
+      const rootAt = html.indexOf(ROOT_MARK);
+      if (rootAt !== -1) {
+        html =
+          html.slice(0, rootAt) +
+          `<div id="root">` +
+          body +
+          `</div>` +
+          html.slice(rootAt + ROOT_MARK.length);
+        bodyInjected = true;
+      }
+    }
 
     return new Response(html, {
       status: 200,
@@ -304,6 +472,7 @@ export default async function middleware(request: Request) {
         "content-type": "text/html; charset=utf-8",
         "cache-control": "public, max-age=0, s-maxage=3600",
         "x-routehead": "1", // deploy canary: proves this response was rewritten
+        ...(bodyInjected ? { "x-routebody": "1" } : {}), // canary: body SSR ran
       },
     });
   } catch {
