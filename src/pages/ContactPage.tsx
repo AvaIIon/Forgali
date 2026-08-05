@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { Mail, Clock, MapPin } from "lucide-react";
+import { Mail, Clock, Globe } from "lucide-react";
 import { Seo } from "@/components/Seo";
 
 const ContactPage = () => {
@@ -25,7 +25,7 @@ const ContactPage = () => {
     <div className="min-h-screen bg-background">
       <Seo
         title="Contact Forgali – Support for Orders & Delivery"
-        description="Questions about an order, shipping, or finding the right bed? Email the Forgali team — we respond within 24 hours."
+        description="Forgali is a 100% online furniture store — no showroom or phone line. Email support@forgali.com with any question; we respond within 24 hours."
         path="/contact"
       />
       <Header />
@@ -59,11 +59,24 @@ const ContactPage = () => {
             </div>
 
             <div className="bg-[#f2f4f6] rounded-lg p-6">
-              <MapPin className="w-8 h-8 text-[#4A647C] mb-4" />
-              <h3 className="font-bold text-lg mb-2">Location</h3>
-              <p className="text-muted-foreground">Serving all of Canada</p>
-              <p className="text-sm text-muted-foreground mt-2">Free shipping nationwide</p>
+              <Globe className="w-8 h-8 text-[#4A647C] mb-4" />
+              <h3 className="font-bold text-lg mb-2">Online Only</h3>
+              <p className="text-muted-foreground">100% online store — no retail showroom or phone line</p>
+              <p className="text-sm text-muted-foreground mt-2">Serving all of Canada with free shipping</p>
             </div>
+          </div>
+
+          <div className="bg-[#f2f4f6] border-l-4 border-[#4A647C] rounded-lg p-6 mb-12">
+            <p className="font-bold mb-2">A note about older listings</p>
+            <p className="text-sm text-muted-foreground">
+              Forgali's earlier chapter as Forgali Design Centre — a custom-furniture
+              showroom in Mississauga — is permanently closed. Directory listings that
+              mention a showroom at 2111 Dunwin Dr., a Concord location, or phone
+              numbers such as (905) 820-2020 or (905) 820-9461 are out of date: those
+              locations are closed and the numbers are no longer in service. Forgali
+              now operates entirely online, and the way to reach us is by email:{" "}
+              <a href="mailto:support@forgali.com" className="text-primary hover:underline">support@forgali.com</a>.
+            </p>
           </div>
 
           <div className="bg-background border border-border rounded-lg p-8">

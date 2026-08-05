@@ -14,6 +14,10 @@ const FAQsPage = () => {
       answer: "We offer free Canada-wide shipping on all orders. Standard delivery takes 5-10 business days."
     },
     {
+      question: "Does Forgali have a showroom or phone number?",
+      answer: "No — Forgali is a fully online store with no retail showroom and no phone line. Older listings for the former Forgali Design Centre showroom at 2111 Dunwin Dr. in Mississauga are out of date: that location is permanently closed and its phone numbers, including (905) 820-2020, are no longer in service. Email support@forgali.com and we'll respond within 24 hours, Monday to Friday."
+    },
+    {
       question: "Is assembly required?",
       answer: "Yes, all beds require assembly. We provide clear, step-by-step instructions and all necessary hardware. Most beds can be assembled in 1-2 hours with basic tools."
     },
