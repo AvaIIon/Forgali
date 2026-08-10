@@ -483,7 +483,7 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
                 <Truck className="w-5 h-5 text-[#2D8B6F] shrink-0" />
                 <div>
                   <p className="font-medium text-[#2D8B6F]">Free Canada-Wide Shipping</p>
-                  <p className="text-sm text-muted-foreground">Arrives in 5-10 business days</p>
+                  <p className="text-sm text-muted-foreground">Arrives in 10-15 business days</p>
                 </div>
               </div>
               <div className="flex flex-wrap gap-x-4 gap-y-1 pt-1 text-sm text-[#2D8B6F]/90 border-t border-[#2D8B6F]/15">
@@ -595,7 +595,7 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
                 <AccordionTrigger className="text-base font-semibold">Shipping Information</AccordionTrigger>
                 <AccordionContent className="space-y-3">
                   <p className="text-sm">Free Canada-Wide Shipping on all orders!</p>
-                  <p className="text-sm">Standard delivery: 5-10 business days</p>
+                  <p className="text-sm">Standard delivery: 10-15 business days</p>
                   <p className="text-sm">
                     <Link to="/shipping" className="text-primary hover:underline">Shipping details</Link>
                     {" · "}

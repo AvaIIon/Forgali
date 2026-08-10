@@ -109,7 +109,7 @@ const HOW_IT_WORKS = [
     icon: PackageCheck,
     title: "Tracked from our door to yours",
     body:
-      "Most orders are prepared within about a week, with delivery typically 5–10 business days in total. You get a tracking number by email the moment it ships.",
+      "Most orders are prepared within about a week, with delivery typically 10–15 business days in total. You get a tracking number by email the moment it ships.",
     link: { to: "/shipping", label: "Processing & delivery times" },
   },
   {
