@@ -20,6 +20,33 @@
       gtag('config', 'AW-18359088538');
     </script>
 
+    <!-- Meta Pixel (1007312825634568). Same rules as the Google tag above:
+         keep OUTSIDE the routehead markers so middleware.ts head injection
+         never touches it, and CSP in vercel.json must allowlist
+         connect.facebook.net (script-src) + www.facebook.com (connect-src)
+         or this loads nothing and reports no error.
+         This snippet fires PageView on the initial HTML load ONLY — SPA route
+         changes are handled by src/components/MetaPixel.tsx.
+         The Purchase event does NOT live in this repo: checkout runs on
+         Shopify's domain, so purchases are sent server-side from meta-bot. -->
+    <!-- Meta Pixel Code -->
+    <script>
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window, document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', '1007312825634568');
+      fbq('track', 'PageView');
+    </script>
+    <!-- End Meta Pixel Code. Meta's snippet ships a <noscript> fallback <img>
+         alongside this script — it lives at the top of <body> instead, because
+         an <img> inside <noscript> inside <head> is an HTML parse error that
+         hard-fails the Vite build. Do not move it back up here. -->
+
     <link rel="icon" href="/favicon.ico" sizes="48x48">
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/favicon-180.png">
@@ -66,6 +93,12 @@
   </head>
 
   <body>
+    <!-- Meta Pixel <noscript> fallback (1007312825634568). Belongs in <body>;
+         see the note beside the pixel script in <head>. -->
+    <noscript><img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id=1007312825634568&ev=PageView&noscript=1"
+    /></noscript>
+
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
