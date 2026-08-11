@@ -72,7 +72,7 @@ export const ShopifyCheckoutButton = ({ className, children }: ShopifyCheckoutBu
       } else {
         alert(
           "We couldn't start the secure checkout. Please try again in a moment — " +
-          "if it keeps happening, email support@forgali.com and we'll take care of you."
+          "if it keeps happening, email daniel@forgali.com and we'll take care of you."
         );
       }
       setIsLoading(false);

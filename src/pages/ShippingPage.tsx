@@ -78,7 +78,7 @@ const ShippingPage = () => {
           <div>
             <h2 className="text-2xl font-bold mb-4">Questions About a Delivery?</h2>
             <p className="text-muted-foreground">
-              Email <a href="mailto:support@forgali.com" className="text-primary hover:underline">support@forgali.com</a> with
+              Email <a href="mailto:daniel@forgali.com" className="text-primary hover:underline">daniel@forgali.com</a> with
               your order number and we'll respond within 24 hours. For returns and order
               changes, see our <Link to="/returns" className="text-primary hover:underline">Returns &amp; Cancellations policy</Link>.
             </p>

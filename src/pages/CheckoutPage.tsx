@@ -88,7 +88,7 @@ const CheckoutPage = () => {
                 </Button>
                 <p className="text-sm text-muted-foreground">
                   We can't start the secure checkout right now. Please try again shortly, or
-                  email <a href="mailto:support@forgali.com" className="underline">support@forgali.com</a> and
+                  email <a href="mailto:daniel@forgali.com" className="underline">daniel@forgali.com</a> and
                   we'll complete your order by email. Your cart is saved.
                 </p>
               </div>

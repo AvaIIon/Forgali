@@ -48,7 +48,7 @@ const ReturnsPage = () => {
             </p>
             <ol className="list-decimal list-inside space-y-2 text-muted-foreground mb-3">
               <li>
-                Email <a href="mailto:support@forgali.com" className="text-primary hover:underline">support@forgali.com</a> for
+                Email <a href="mailto:daniel@forgali.com" className="text-primary hover:underline">daniel@forgali.com</a> for
                 a return authorization. Include a quick photo of the item — a phone
                 picture is perfect. We just need a "before" image in case anything is
                 damaged on the way back.
@@ -91,7 +91,7 @@ const ReturnsPage = () => {
           <div>
             <h2 className="text-2xl font-bold mb-4">Contact</h2>
             <p className="text-muted-foreground">
-              Email <a href="mailto:support@forgali.com" className="text-primary hover:underline">support@forgali.com</a> —
+              Email <a href="mailto:daniel@forgali.com" className="text-primary hover:underline">daniel@forgali.com</a> —
               we respond within 24 hours. See also our{" "}
               <Link to="/shipping" className="text-primary hover:underline">Shipping Information</Link> and{" "}
               <Link to="/warranty" className="text-primary hover:underline">Warranty</Link> pages.

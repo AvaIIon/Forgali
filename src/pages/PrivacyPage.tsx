@@ -75,7 +75,7 @@ const PrivacyPage = () => {
             <h2 className="text-2xl font-bold text-foreground mb-3">Contact</h2>
             <p>
               Questions about your privacy? Email{" "}
-              <a href="mailto:support@forgali.com" className="text-primary hover:underline">support@forgali.com</a>.
+              <a href="mailto:daniel@forgali.com" className="text-primary hover:underline">daniel@forgali.com</a>.
               See also our <Link to="/terms" className="text-primary hover:underline">Terms of Service</Link>.
             </p>
           </div>

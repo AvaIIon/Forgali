@@ -71,7 +71,7 @@ const AssemblyPage = () => {
             <p className="text-muted-foreground mb-3">
               Printed step-by-step instructions are included in every box. If yours have
               gone missing, email{" "}
-              <a href="mailto:support@forgali.com" className="text-primary hover:underline">support@forgali.com</a>{" "}
+              <a href="mailto:daniel@forgali.com" className="text-primary hover:underline">daniel@forgali.com</a>{" "}
               with your order number and the product name, and we'll send you the PDF for
               your exact model — usually within 24 hours.
             </p>

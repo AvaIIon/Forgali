@@ -68,7 +68,7 @@ const TermsPage = () => {
             <h2 className="text-2xl font-bold text-foreground mb-3">Contact</h2>
             <p>
               Questions about these terms? Email{" "}
-              <a href="mailto:support@forgali.com" className="text-primary hover:underline">support@forgali.com</a>.
+              <a href="mailto:daniel@forgali.com" className="text-primary hover:underline">daniel@forgali.com</a>.
               See also our <Link to="/privacy" className="text-primary hover:underline">Privacy Policy</Link>.
             </p>
           </div>

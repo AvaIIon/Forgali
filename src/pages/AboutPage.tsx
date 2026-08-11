@@ -354,10 +354,10 @@ const AboutPage = () => {
             <Mail className="w-8 h-8 text-[#4A647C] mb-3" />
             <h3 className="font-bold text-lg mb-1">
               <a
-                href="mailto:support@forgali.com"
+                href="mailto:daniel@forgali.com"
                 className="text-primary hover:underline"
               >
-                support@forgali.com
+                daniel@forgali.com
               </a>
             </h3>
             <p className="text-sm text-muted-foreground">
@@ -385,10 +385,10 @@ const AboutPage = () => {
               Forgali operates entirely online today, and the way to reach us is
               by email:{" "}
               <a
-                href="mailto:support@forgali.com"
+                href="mailto:daniel@forgali.com"
                 className="text-primary hover:underline"
               >
-                support@forgali.com
+                daniel@forgali.com
               </a>
               .
             </p>

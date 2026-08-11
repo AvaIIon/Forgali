@@ -18,14 +18,14 @@ const ContactPage = () => {
     const body = encodeURIComponent(
       `Name: ${name}\nEmail: ${email}\n\n${message}`
     );
-    window.location.href = `mailto:support@forgali.com?subject=${subject}&body=${body}`;
+    window.location.href = `mailto:daniel@forgali.com?subject=${subject}&body=${body}`;
   };
 
   return (
     <div className="min-h-screen bg-background">
       <Seo
         title="Contact Forgali – Support for Orders & Delivery"
-        description="Forgali is a 100% online furniture store — no showroom or phone line. Email support@forgali.com with any question; we respond within 24 hours."
+        description="Forgali is a 100% online furniture store — no showroom or phone line. Email daniel@forgali.com with any question; we respond within 24 hours."
         path="/contact"
       />
       <Header />
@@ -47,7 +47,7 @@ const ContactPage = () => {
             <div className="bg-[#f2f4f6] rounded-lg p-6">
               <Mail className="w-8 h-8 text-[#4A647C] mb-4" />
               <h3 className="font-bold text-lg mb-2">Email</h3>
-              <a href="mailto:support@forgali.com" className="text-primary hover:underline">support@forgali.com</a>
+              <a href="mailto:daniel@forgali.com" className="text-primary hover:underline">daniel@forgali.com</a>
               <p className="text-sm text-muted-foreground mt-2">We'll respond within 24 hours</p>
             </div>
 
@@ -75,7 +75,7 @@ const ContactPage = () => {
               numbers such as (905) 820-2020 or (905) 820-9461 are out of date: those
               locations are closed and the numbers are no longer in service. Forgali
               now operates entirely online, and the way to reach us is by email:{" "}
-              <a href="mailto:support@forgali.com" className="text-primary hover:underline">support@forgali.com</a>.
+              <a href="mailto:daniel@forgali.com" className="text-primary hover:underline">daniel@forgali.com</a>.
             </p>
           </div>
 
@@ -99,7 +99,7 @@ const ContactPage = () => {
               </button>
               <p className="text-xs text-muted-foreground">
                 This opens your email app with the message ready to send. Prefer to write us directly?
-                Email <a href="mailto:support@forgali.com" className="text-primary hover:underline">support@forgali.com</a>.
+                Email <a href="mailto:daniel@forgali.com" className="text-primary hover:underline">daniel@forgali.com</a>.
               </p>
             </form>
           </div>
