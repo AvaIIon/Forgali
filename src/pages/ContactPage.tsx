@@ -6,23 +6,32 @@ import { Seo } from "@/components/Seo";
 
 const RECIPIENT = "daniel@forgali.com";
 
+// Web3Forms posts the submission straight to RECIPIENT's inbox. The access key
+// is public by design — it names the destination mailbox and grants nothing
+// else — which is why it belongs in the source rather than a Vercel env var.
+// While it is empty the form falls back to the mail-client handoff below, so
+// an unconfigured build still reaches a human.
+const WEB3FORMS_ACCESS_KEY: string = "0119e47d-0a81-46d7-8e54-aa2c36803b48";
+const WEB3FORMS_ENDPOINT = "https://api.web3forms.com/submit";
+
+type SendState = "idle" | "sending" | "sent" | "error";
+
 const ContactPage = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [handedOff, setHandedOff] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [status, setStatus] = useState<SendState>("idle");
+  // Web3Forms' honeypot convention: bots fill every field, humans never see it.
+  const [honeypot, setHoneypot] = useState("");
 
-  // No backend endpoint exists, so the form composes an email in the visitor's
-  // mail client rather than silently discarding the message on a native submit
-  // (which just reloaded the SPA).
-  //
   // A bare mailto: is a dead end for anyone without a registered mail handler —
-  // most desktop webmail users. The browser reports nothing back to us, so we
-  // cannot detect that case: the click just does nothing and the visitor
-  // believes the message was sent. So rather than guess, we always surface the
-  // handoff panel below, which carries the same message as copyable text plus
-  // direct webmail compose links.
+  // most desktop webmail users. The browser reports nothing back to us, so that
+  // failure cannot be detected: the click just does nothing and the visitor
+  // believes the message was sent. The handoff panel therefore always appears,
+  // carrying the message as copyable text plus webmail compose links. It also
+  // doubles as the recovery path when a real send fails.
   const subject = `Website enquiry from ${name || "a customer"}`;
   const plainBody = `Name: ${name}\nEmail: ${email}\n\n${message}`;
   const q = encodeURIComponent;
@@ -31,10 +40,49 @@ const ContactPage = () => {
   const gmailHref = `https://mail.google.com/mail/?view=cm&fs=1&to=${q(RECIPIENT)}&su=${q(subject)}&body=${q(plainBody)}`;
   const outlookHref = `https://outlook.live.com/mail/0/deeplink/compose?to=${q(RECIPIENT)}&subject=${q(subject)}&body=${q(plainBody)}`;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setHandedOff(true);
-    window.location.href = mailtoHref;
+
+    // Not configured yet — keep the handoff rather than pretending to send.
+    if (!WEB3FORMS_ACCESS_KEY) {
+      setHandedOff(true);
+      window.location.href = mailtoHref;
+      return;
+    }
+
+    setStatus("sending");
+    try {
+      const res = await fetch(WEB3FORMS_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_ACCESS_KEY,
+          subject,
+          from_name: "Forgali website",
+          name,
+          email,
+          message,
+          replyto: email,
+          botcheck: honeypot,
+        }),
+      });
+      const data = await res.json().catch(() => ({ success: false }));
+      if (!res.ok || !data.success) throw new Error(data.message || `HTTP ${res.status}`);
+      setStatus("sent");
+    } catch {
+      // Never strand the visitor: fall through to the handoff panel so the
+      // message they already typed can still reach us.
+      setStatus("error");
+      setHandedOff(true);
+    }
+  };
+
+  const resetForm = () => {
+    setName("");
+    setEmail("");
+    setMessage("");
+    setStatus("idle");
+    setHandedOff(false);
   };
 
   const handleCopy = async () => {
@@ -119,27 +167,66 @@ const ContactPage = () => {
           <div className="bg-background border border-border rounded-lg p-8">
             <h2 className="text-2xl font-bold mb-6">Send us a message</h2>
 
-            {handedOff ? (
+            {status === "sent" ? (
+              <div role="status" aria-live="polite" className="space-y-5">
+                <div className="flex items-start gap-3">
+                  <div className="mt-0.5 shrink-0 rounded-full bg-[#4A647C] p-1.5">
+                    <Check className="w-4 h-4 text-white" />
+                  </div>
+                  <div>
+                    <p className="font-bold">Thanks — your message is on its way</p>
+                    <p className="text-sm text-muted-foreground mt-1">
+                      It's landed in our inbox and we'll reply to{" "}
+                      <span className="font-medium text-foreground">{email}</span> within 24
+                      hours, Monday to Friday.
+                    </p>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={resetForm}
+                  className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  <ArrowLeft className="w-4 h-4" /> Send another message
+                </button>
+              </div>
+            ) : handedOff ? (
               <div role="status" aria-live="polite" className="space-y-5">
                 <div className="flex items-start gap-3">
                   <div className="mt-0.5 shrink-0 rounded-full bg-[#4A647C] p-1.5">
                     <Mail className="w-4 h-4 text-white" />
                   </div>
                   <div>
-                    <p className="font-bold">Your message is ready to send</p>
-                    <p className="text-sm text-muted-foreground mt-1">
-                      We've opened your email app with this message addressed to{" "}
-                      <span className="font-medium text-foreground">{RECIPIENT}</span>. Press
-                      send there and we'll reply within 24 hours.
-                    </p>
+                    {status === "error" ? (
+                      <>
+                        <p className="font-bold">We couldn't send that automatically</p>
+                        <p className="text-sm text-muted-foreground mt-1">
+                          Sorry — something went wrong on our end. Your message is safe and
+                          still written out below; here are three ways to get it to{" "}
+                          <span className="font-medium text-foreground">{RECIPIENT}</span>.
+                        </p>
+                      </>
+                    ) : (
+                      <>
+                        <p className="font-bold">Your message is ready to send</p>
+                        <p className="text-sm text-muted-foreground mt-1">
+                          We've opened your email app with this message addressed to{" "}
+                          <span className="font-medium text-foreground">{RECIPIENT}</span>.
+                          Press send there and we'll reply within 24 hours.
+                        </p>
+                      </>
+                    )}
                   </div>
                 </div>
 
                 <div className="bg-[#f2f4f6] border-l-4 border-[#4A647C] rounded-lg p-5">
-                  <p className="font-medium text-sm mb-1">Nothing opened?</p>
+                  <p className="font-medium text-sm mb-1">
+                    {status === "error" ? "Send it yourself" : "Nothing opened?"}
+                  </p>
                   <p className="text-sm text-muted-foreground mb-4">
-                    That's normal if you read your mail in a browser. Use one of these instead —
-                    your message is already written.
+                    {status === "error"
+                      ? "Pick whichever is easiest — your message is already written."
+                      : "That's normal if you read your mail in a browser. Use one of these instead — your message is already written."}
                   </p>
 
                   <div className="flex flex-wrap gap-3">
@@ -180,7 +267,10 @@ const ContactPage = () => {
 
                 <button
                   type="button"
-                  onClick={() => setHandedOff(false)}
+                  onClick={() => {
+                    setHandedOff(false);
+                    setStatus("idle");
+                  }}
                   className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
                 >
                   <ArrowLeft className="w-4 h-4" /> Back to edit my message
@@ -200,12 +290,32 @@ const ContactPage = () => {
                   <label htmlFor="contact-message" className="block text-sm font-medium mb-2">Message</label>
                   <textarea id="contact-message" rows={5} required value={message} onChange={(e) => setMessage(e.target.value)} className="w-full px-4 py-2 border border-border rounded-lg" />
                 </div>
-                <button type="submit" className="bg-[#4A647C] text-white px-8 py-3 rounded-lg font-medium hover:bg-[#3A5066] transition-colors">
-                  Send Message
+
+                {/* Honeypot — hidden from people, irresistible to bots. */}
+                <input
+                  type="checkbox"
+                  name="botcheck"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  aria-hidden="true"
+                  checked={honeypot === "true"}
+                  onChange={(e) => setHoneypot(e.target.checked ? "true" : "")}
+                  className="hidden"
+                />
+
+                <button
+                  type="submit"
+                  disabled={status === "sending"}
+                  className="bg-[#4A647C] text-white px-8 py-3 rounded-lg font-medium hover:bg-[#3A5066] transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+                >
+                  {status === "sending" ? "Sending…" : "Send Message"}
                 </button>
                 <p className="text-xs text-muted-foreground">
-                  This opens your email app with the message ready to send. Prefer to write us directly?
-                  Email <a href={`mailto:${RECIPIENT}`} className="text-primary hover:underline">{RECIPIENT}</a>.
+                  {WEB3FORMS_ACCESS_KEY
+                    ? "We'll reply within 24 hours, Monday to Friday."
+                    : "This opens your email app with the message ready to send."}{" "}
+                  Prefer to write us directly? Email{" "}
+                  <a href={`mailto:${RECIPIENT}`} className="text-primary hover:underline">{RECIPIENT}</a>.
                 </p>
               </form>
             )}
