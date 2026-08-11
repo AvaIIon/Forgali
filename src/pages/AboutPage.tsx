@@ -3,6 +3,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { GuaranteeStrip } from "@/components/GuaranteeStrip";
 import { Seo } from "@/components/Seo";
+import { seoProps } from "@/lib/staticPageSeo";
 import {
   TreePine,
   ShieldCheck,
@@ -139,9 +140,7 @@ const AboutPage = () => {
   return (
     <div className="min-h-screen bg-background">
       <Seo
-        title="About Forgali – Canadian Solid Wood Furniture, Online Only"
-        description="Forgali is an online-only Canadian furniture store: solid wood bunk beds, loft beds and Plank & Beam dining and living furniture, shipped free across Canada with 30-day returns and a 5-year warranty."
-        path="/about"
+        {...seoProps("/about")}
         jsonLd={{
           "@context": "https://schema.org",
           "@type": "AboutPage",

@@ -30,13 +30,37 @@ import handles from "./src/data/product-handles.json";
 import productMeta from "./src/data/product-meta.json";
 import categoryProducts from "./src/data/category-products.json";
 import { categoryInfoMap } from "./src/lib/categoryInfo";
-import { getBedSeo } from "./src/lib/categorySeo";
+import { faqPageJsonLd, getBedSeo } from "./src/lib/categorySeo";
+import { categorySubcategories } from "./src/lib/subcategories";
 import { PLANK_AND_BEAM_SEO } from "./src/lib/plankAndBeamSeo";
+import { SITE_FAQS } from "./src/lib/siteFaqs";
+import {
+  STATIC_PAGE_SEO,
+  type StaticPagePath,
+} from "./src/lib/staticPageSeo";
 
 // "/" is deliberately NOT matched: the shell fetch below requests the origin
 // root, so matching it would recurse. Homepage keeps its static head.
 export const config = {
-  matcher: ["/product/:path*", "/category/:path*", "/plank-and-beam"],
+  matcher: [
+    "/product/:path*",
+    "/category/:path*",
+    "/plank-and-beam",
+    // Static routes. They were left out of the original matcher and so kept
+    // serving the generic shell title to every non-JS crawler — see
+    // src/lib/staticPageSeo.ts for what that costs in the SERPs.
+    "/shipping",
+    "/returns",
+    "/contact",
+    "/faqs",
+    "/about",
+    "/warranty",
+    "/safety-standards",
+    "/assembly",
+    "/smart-deals",
+    "/privacy",
+    "/terms",
+  ],
 };
 
 const SITE = "https://www.forgali.com";
@@ -116,11 +140,14 @@ const CATS: Record<string, string[]> = (() => {
 const CATS_OK = (() => {
   try {
     const entries = Object.entries(CATS);
-    // bedroom re-lists bunk/loft/single members — exclude it so the aggregate
-    // can't pad a degraded build past the plausibility bar.
+    // bedroom re-lists bunk/loft/single members, and "cat|sub" keys re-list
+    // their parent's — exclude both so neither can pad a degraded build past
+    // the plausibility bar. The bar is about the base catalogue being present.
     const total = entries.reduce(
       (n, [slug, l]) =>
-        slug === "bedroom" || !Array.isArray(l) ? n : n + l.length,
+        slug === "bedroom" || slug.includes("|") || !Array.isArray(l)
+          ? n
+          : n + l.length,
       0
     );
     return entries.length >= 5 && total >= MIN_PLAUSIBLE_HANDLES;
@@ -136,7 +163,9 @@ const HANDLE_CATEGORY: Map<string, string> = (() => {
   const m = new Map<string, string>();
   try {
     for (const [slug, list] of Object.entries(CATS)) {
-      if (slug === "bedroom" || !Array.isArray(list)) continue;
+      // bedroom is an aggregate and "cat|sub" keys are subsets — both would
+      // give a product a breadcrumb that isn't its own category page.
+      if (slug === "bedroom" || slug.includes("|") || !Array.isArray(list)) continue;
       for (const h of list) if (!m.has(h)) m.set(h, slug);
     }
   } catch {
@@ -254,10 +283,14 @@ function categoryHead(category: string, subcategory: string | null): Head {
     subcategory && bedSeo
       ? `/category/${category}?subcategory=${subcategory}`
       : `/category/${category}`;
+  // Mirrors CategoryPage's own <Seo jsonLd>: FAQPage only where the page
+  // actually renders that Q&A, so the markup never describes absent content.
+  const faqs = bedSeo?.faqs;
   return {
     title: bedSeo?.seoTitle ?? `${info.title} | Forgali`,
     description: bedSeo?.seoDescription ?? info.description,
     path,
+    jsonLd: faqs?.length ? [faqPageJsonLd(faqs)] : undefined,
   };
 }
 
@@ -280,12 +313,20 @@ const money = (p: string): string => {
 const TRUST_LINE =
   "Free Canada-wide shipping · 30-day returns · 5-year limited warranty";
 
-function categoryBody(category: string): string | null {
-  if (!CATS_OK || !META_OK || !hasOwn(CATS, category)) return null;
-  const list = CATS[category];
+// `subcategory` renders the filtered subset under that subcategory's own copy —
+// never the parent's list, which is why the subcategory views shipped body-less
+// in the first place. The caller only passes one through when it has dedicated
+// SEO (so the page self-canonicals) AND the generator emitted its members.
+function categoryBody(category: string, subcategory: string | null): string | null {
+  const key = subcategory ? `${category}|${subcategory}` : category;
+  if (!CATS_OK || !META_OK || !hasOwn(CATS, key)) return null;
+  const list = CATS[key];
   if (!Array.isArray(list) || !list.length) return null;
   const info = categoryInfoMap[category]; // caller has hasOwn-gated `category`
-  const seo = getBedSeo(category, null);
+  const seo = getBedSeo(category, subcategory);
+  // A subcategory body without its own copy would inherit the parent's H1 and
+  // lead — the exact title/content contradiction this guard exists to prevent.
+  if (subcategory && !seo) return null;
 
   const items = list
     .filter((h) => hasOwn(META, h))
@@ -305,15 +346,69 @@ function categoryBody(category: string): string | null {
     .map((p) => `<p style="margin:12px 0;line-height:1.6;">${esc(p)}</p>`)
     .join("");
 
+  // Editorial internal links, in the copy rather than in a filter widget. The
+  // subcategory pages rank worst on the site and had no in-content inbound link
+  // anywhere — the tabs are rendered by JS, so a crawler never saw one.
+  const sections = (seo?.sections ?? [])
+    .map((s) => {
+      const links = s.links?.length
+        ? `<p style="margin:12px 0;">${s.links
+            .map(
+              (l) =>
+                `<a href="${esc(l.href)}" style="text-decoration:underline;">${esc(l.label)}</a>`
+            )
+            .join(" · ")}</p>`
+        : "";
+      return [
+        `<h2 style="font-size:1.35rem;font-weight:700;margin:28px 0 8px;">${esc(s.h2)}</h2>`,
+        `<p style="margin:0 0 8px;line-height:1.6;">${esc(s.body)}</p>`,
+        links,
+      ].join("\n");
+    })
+    .join("\n");
+
+  const faqs = seo?.faqs?.length
+    ? [
+        `<h2 style="font-size:1.35rem;font-weight:700;margin:32px 0 8px;">Frequently Asked Questions</h2>`,
+        ...seo.faqs.map(
+          (f) =>
+            `<h3 style="font-size:1.05rem;font-weight:700;margin:20px 0 4px;">${esc(f.q)}</h3>\n<p style="margin:0;line-height:1.6;">${esc(f.a)}</p>`
+        ),
+      ].join("\n")
+    : "";
+
+  // Crawl paths between the parent and its filtered views, both directions.
+  // Subcategory pages get their siblings plus a link up; the parent gets the
+  // full set of children it otherwise only exposes through JS-rendered tabs.
+  const siblings = hasOwn(categorySubcategories, category)
+    ? categorySubcategories[category]
+        .filter((s) => s.slug !== subcategory && hasOwn(CATS, `${category}|${s.slug}`))
+        .map(
+          (s) =>
+            `<a href="/category/${esc(category)}?subcategory=${esc(s.slug)}" style="text-decoration:underline;">${esc(s.name)}</a>`
+        )
+    : [];
+  const nav = siblings.length
+    ? `<p style="margin:24px 0 0;">Browse by type: ${siblings.join(" · ")}</p>`
+    : "";
+
+  const parentInfo = categoryInfoMap[category];
+  const crumb = subcategory
+    ? ` › <a href="/category/${esc(category)}" style="text-decoration:underline;">${esc(parentInfo.title)}</a>`
+    : "";
+
   return [
     `<div style="max-width:1100px;margin:0 auto;padding:32px 16px;font-family:system-ui,sans-serif;">`,
-    `<p style="margin:0 0 16px;"><a href="/" style="text-decoration:underline;">Forgali</a> · ${esc(TRUST_LINE)}</p>`,
+    `<p style="margin:0 0 16px;"><a href="/" style="text-decoration:underline;">Forgali</a>${crumb} · ${esc(TRUST_LINE)}</p>`,
     `<h1 style="font-size:2rem;font-weight:700;margin:0 0 8px;">${esc(seo?.h1 ?? info.title)}</h1>`,
     `<p style="margin:0 0 20px;line-height:1.6;">${esc(seo?.lead ?? info.description)}</p>`,
     `<ul style="list-style:disc;padding-left:20px;margin:0 0 24px;">`,
     ...items,
     `</ul>`,
     intro,
+    sections,
+    faqs,
+    nav,
     `</div>`,
   ].join("\n");
 }
@@ -343,6 +438,56 @@ function productBody(handle: string, m: ProductMeta): string | null {
     img,
     desc,
     `<p style="margin:0;">${esc(TRUST_LINE)}</p>`,
+    `</div>`,
+  ].join("\n");
+}
+
+// Static routes: exact head from the shared table, plus a body of the page's
+// own facts. /faqs gets the real Q&A and FAQPage schema rather than a summary —
+// those answers (including the "no showroom, no phone" denial that exists to
+// contradict the stale Design Centre citations) are what AI fetchers quote, and
+// none of them ran the JavaScript that rendered it.
+function staticHead(path: StaticPagePath): Head {
+  const p = STATIC_PAGE_SEO[path];
+  return {
+    title: p.title,
+    description: p.description,
+    path: p.path,
+    jsonLd:
+      path === "/faqs"
+        ? [faqPageJsonLd(SITE_FAQS.map((f) => ({ q: f.question, a: f.answer })))]
+        : undefined,
+  };
+}
+
+function staticBody(path: StaticPagePath): string | null {
+  const p = STATIC_PAGE_SEO[path];
+  const blocks: string[] = [];
+
+  if (path === "/faqs") {
+    for (const f of SITE_FAQS) {
+      blocks.push(
+        `<h2 style="font-size:1.15rem;font-weight:700;margin:24px 0 4px;">${esc(f.question)}</h2>`,
+        `<p style="margin:0;line-height:1.6;">${esc(f.answer)}</p>`
+      );
+    }
+  } else if (p.facts?.length) {
+    blocks.push(`<ul style="list-style:disc;padding-left:20px;margin:0 0 24px;">`);
+    for (const fact of p.facts) {
+      blocks.push(`<li style="margin:8px 0;line-height:1.6;">${esc(fact)}</li>`);
+    }
+    blocks.push(`</ul>`);
+  }
+  // Nothing page-specific to say (policy prose lives in the component) — the
+  // head fix alone is the win there; don't ship an empty-looking body.
+  if (!blocks.length) return null;
+
+  return [
+    `<div style="max-width:800px;margin:0 auto;padding:32px 16px;font-family:system-ui,sans-serif;">`,
+    `<p style="margin:0 0 16px;"><a href="/" style="text-decoration:underline;">Forgali</a> · ${esc(TRUST_LINE)}</p>`,
+    `<h1 style="font-size:2rem;font-weight:700;margin:0 0 8px;">${esc(p.h1)}</h1>`,
+    `<p style="margin:0 0 20px;line-height:1.6;">${esc(p.lead)}</p>`,
+    ...blocks,
     `</div>`,
   ].join("\n");
 }
@@ -409,6 +554,10 @@ export default async function middleware(request: Request) {
 
     if (pathname === "/plank-and-beam") {
       head = plankAndBeamHead();
+    } else if (hasOwn(STATIC_PAGE_SEO, pathname)) {
+      const key = pathname as StaticPagePath;
+      head = staticHead(key);
+      body = staticBody(key);
     } else if (pathname.startsWith("/product/")) {
       const handle = segmentAfter("/product/", pathname);
       if (!handle) return;
@@ -432,10 +581,10 @@ export default async function middleware(request: Request) {
       }
       const subcategory = searchParams.get("subcategory");
       head = categoryHead(category, subcategory);
-      // Body only on the plain category URL: a subcategory view renders a
-      // filtered subset, and injecting the full parent list under a
-      // subcategory head would make content contradict the title.
-      if (!subcategory) body = categoryBody(category);
+      // Subcategory views get the FILTERED list under their own copy (see
+      // categoryBody) — they used to get no body at all, which is why they sit
+      // deepest in the SERPs of every indexed route shape.
+      body = categoryBody(category, subcategory);
     }
 
     if (!head) return;

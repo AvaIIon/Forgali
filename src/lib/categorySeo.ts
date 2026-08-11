@@ -14,6 +14,25 @@ export interface CategorySeo {
   h1: string;             // page H1 (the keyword phrase)
   lead: string;           // short supporting line under the H1
   intro: string;          // buying-guide body rendered below the product grid
+  /**
+   * H2 sections rendered after `intro`. Each H2 is a real query this page
+   * already gets impressions for, so the page answers the sub-intent under a
+   * heading instead of burying it mid-paragraph. `links` become in-copy
+   * internal links — the subcategory pages previously had NO editorial inbound
+   * link anywhere on the site, only the filter tabs.
+   */
+  sections?: Array<{
+    h2: string;
+    body: string;
+    links?: Array<{ label: string; href: string }>;
+  }>;
+  /**
+   * Q&A rendered below the sections and emitted as FAQPage structured data.
+   * Answers must be facts already stated elsewhere on the site — this feeds
+   * both People-Also-Ask and AI answers, where a wrong claim is worse than
+   * no claim. No competitor in this niche runs FAQ schema.
+   */
+  faqs?: Array<{ q: string; a: string }>;
 }
 
 const BED_SEO: Record<string, CategorySeo> = {
@@ -25,6 +44,62 @@ const BED_SEO: Record<string, CategorySeo> = {
     lead: "Solid wood loft beds in low, mid and high styles — free up the floor for a desk, storage or play.",
     intro:
       "A loft bed lifts the sleeping surface up onto sturdy posts, leaving the whole area underneath open — space you can turn into a desk nook, reading corner, dresser zone or extra room to play. That makes them a smart choice for smaller bedrooms where every square foot counts. In our loft bed collection you'll find 29 styles across three heights: low loft beds sit close to the floor and suit younger children, mid loft beds add a little more clearance below, and high loft beds free up the most space for a full workstation or storage. We carry them in Twin and Full sizes, so they can grow with your child through the school years.\n\nEvery loft bed is built from solid wood and comes in ten finishes — from White, Grey and Driftwood to warmer Pecan, Walnut and Espresso — to match any room. Some models add practical extras like a built-in bookcase and desk, an angled ladder for easier climbing, a privacy curtain, or a staircase with a slide. Prices start from $544.\n\nWhen choosing, look for full guardrails on the raised bed and keep in mind the widely published guideline that children under six shouldn't sleep on a raised loft or bunk. Every order ships free across Canada and is backed by 30-day returns.",
+    sections: [
+      {
+        h2: "Low, Mid or High: Which Loft Bed Height?",
+        body:
+          "Height is the first decision, and it comes down to your child's age and your ceiling. A low loft bed sits closest to the floor, so younger children can climb in and out on their own and the space below still fits bins, a play mat or a reading nook. A mid loft bed raises the mattress enough for a compact desk or dresser underneath while keeping the top within easy reach for tucking in and changing sheets. A high loft bed lifts the sleeping surface to its tallest, turning the whole footprint below into a proper workstation or storage zone — the reason high loft beds (also sold as high sleeper beds) are the usual pick for tweens and teens.",
+        links: [
+          { label: "Low loft beds", href: "/category/loft-beds?subcategory=low-loft" },
+          { label: "Mid loft beds", href: "/category/loft-beds?subcategory=mid-loft" },
+          { label: "High loft beds", href: "/category/loft-beds?subcategory=high-loft" },
+        ],
+      },
+      {
+        h2: "Loft Beds With a Desk Underneath",
+        body:
+          "If the room has to be a bedroom and a study, a loft bed with a built-in desk does both jobs in one footprint. These designs pair the raised bed with a desk and bookcase below, so there's no separate desk to find floor space for — genuinely useful in a shared room or a small bedroom. They come in Twin and Full sizes, from $662.",
+        links: [
+          { label: "Loft beds with desk", href: "/category/loft-beds?subcategory=loft-with-desk" },
+        ],
+      },
+      {
+        h2: "Twin and Full Size Loft Beds",
+        body:
+          "Most loft beds are Twin, which suits younger children and the tightest rooms. A full size loft bed gives an older child or teen more sleeping room and still frees the same floor area underneath — worth the extra width if the room can take it. Both sizes appear across the collection, so you can filter by height first and check the size on each model.",
+      },
+      {
+        h2: "Loft Bed Safety and Ceiling Height",
+        body:
+          "Measure your ceiling before you choose a height: your child should be able to sit up comfortably on the top without ducking. Look for full guardrails on every open side of the raised bed and a secure ladder or staircase. As a general guideline, the raised level of a loft or bunk bed isn't recommended for children under six. Every loft bed here is solid wood rather than particleboard, which is what keeps a raised frame rigid over years of climbing.",
+      },
+    ],
+    faqs: [
+      {
+        q: "What age is a loft bed suitable for?",
+        a: "As a general guideline, children under six shouldn't sleep on the raised level of a loft or bunk bed. Low loft beds sit closest to the floor and are the usual starting point for younger children, while high loft beds suit tweens and teens. Whatever the height, look for full guardrails on every open side.",
+      },
+      {
+        q: "What's the difference between a low, mid and high loft bed?",
+        a: "It's the height of the sleeping surface. A low loft sits close to the floor, leaving room underneath for play or storage and keeping the mattress within easy reach. A mid loft adds enough clearance for a compact desk or dresser. A high loft lifts the bed to its tallest, freeing the full space below for a desk, dresser or reading nook.",
+      },
+      {
+        q: "Do loft beds come in a full size?",
+        a: "Yes. We carry loft beds in both Twin and Full sizes. Twin suits younger children and smaller rooms; Full gives an older child or teen more sleeping room while freeing the same floor space underneath.",
+      },
+      {
+        q: "How much do loft beds cost?",
+        a: "Loft beds start from $544 CAD. High loft beds and models with a built-in desk and bookcase start from $662 CAD. All prices are in Canadian dollars, and shipping is free anywhere in Canada.",
+      },
+      {
+        q: "How much ceiling height do I need for a loft bed?",
+        a: "Measure from the floor to your ceiling before choosing a height, and leave enough headroom that your child can sit up comfortably on the top bunk without ducking. If the ceiling is low, a low or mid loft is the safer choice.",
+      },
+      {
+        q: "Do you ship loft beds across Canada?",
+        a: "Yes. Every loft bed ships free anywhere in Canada, is priced in Canadian dollars with no duties or brokerage to sort out, and is backed by 30-day returns handled locally.",
+      },
+    ],
   },
   "bunk-beds": {
     seoTitle: "Bunk Beds Canada – Solid Wood, Free Shipping | Forgali",
@@ -197,6 +272,23 @@ const BED_SEO: Record<string, CategorySeo> = {
     intro: "An entryway bench solves a small problem that happens every single day: somewhere to sit while you deal with boots. The Mid-Century Modern Entryway Bench is built from solid pine and birch, starting at $140 in CAD, and comes in two lengths.\n\nThe 41-inch fits a typical front hall or the end of a bed without crowding the walkway. The 56-inch seats two comfortably and suits a wider mudroom or a long blank wall. Both sit on tapered legs, so a boot tray or a pair of baskets slides underneath and the floor stays visible — which keeps a narrow entry feeling wider than it is.\n\nFinishes run further than most of the range: Natural, White, Black, Pecan and Walnut for something quiet, or Teal, Clay and Yellow if the entry is where you would rather have some colour. The bench is equally at home at the foot of a bed or on a covered porch. Ships free across Canada, priced in CAD, 30-day returns handled locally.",
   },
 };
+
+/**
+ * FAQPage structured data. Shared by CategoryPage (hydrated) and middleware.ts
+ * (initial HTML) so both emit byte-identical markup for the same Q&A — a page
+ * whose injected and rendered schema disagree is worse than one with neither.
+ */
+export const faqPageJsonLd = (
+  faqs: Array<{ q: string; a: string }>
+): Record<string, unknown> => ({
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: f.a },
+  })),
+});
 
 // Own-property lookups only: a plain index walks the prototype chain, so a
 // URL-supplied key like "constructor" would return junk instead of null.

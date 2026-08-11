@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Seo } from "@/components/Seo";
+import { seoProps } from "@/lib/staticPageSeo";
 
 // Baseline privacy policy covering what the storefront actually does: order
 // processing via Shopify's hosted checkout and optional email marketing
@@ -11,9 +12,7 @@ const PrivacyPage = () => {
   return (
     <div className="min-h-screen bg-background">
       <Seo
-        title="Privacy Policy | Forgali"
-        description="How Forgali collects, uses, and protects your personal information when you shop with us or subscribe to our emails."
-        path="/privacy"
+        {...seoProps("/privacy")}
       />
       <Header />
 

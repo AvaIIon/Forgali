@@ -2,14 +2,13 @@ import { Link } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Seo } from "@/components/Seo";
+import { seoProps } from "@/lib/staticPageSeo";
 
 const ReturnsPage = () => {
   return (
     <div className="min-h-screen bg-background">
       <Seo
-        title="Returns & Cancellations – 30-Day Policy | Forgali"
-        description="Forgali's return policy: 30-day returns on unused items, order changes and cancellations, and how we handle damaged or incorrect deliveries."
-        path="/returns"
+        {...seoProps("/returns")}
       />
       <Header />
 

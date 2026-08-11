@@ -6,6 +6,7 @@ import { Footer } from "@/components/Footer";
 import { CategoryProductCard } from "@/components/CategoryProductCard";
 import { useShopifyProducts } from "@/hooks/useShopifyProducts";
 import { Seo } from "@/components/Seo";
+import { seoProps } from "@/lib/staticPageSeo";
 import type { ProductCategory } from "@/services/shopifyService";
 
 // Section order mirrors the top nav. Storage & Accessories is deliberately
@@ -75,9 +76,7 @@ const SmartDealsPage = () => {
   return (
     <div className="min-h-screen bg-background">
       <Seo
-        title="Smart Deals – Solid Wood Furniture on Sale | Forgali"
-        description="Save on solid wood bunk beds, loft beds, and furniture for every room. Sale prices with free Canada-wide shipping."
-        path="/smart-deals"
+        {...seoProps("/smart-deals")}
       />
       <Header />
 

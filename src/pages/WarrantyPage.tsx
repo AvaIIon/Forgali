@@ -1,14 +1,13 @@
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Seo } from "@/components/Seo";
+import { seoProps } from "@/lib/staticPageSeo";
 
 const WarrantyPage = () => {
   return (
     <div className="min-h-screen bg-background">
       <Seo
-        title="Warranty – Coverage & Claims | Forgali"
-        description="What Forgali's limited warranty covers, what it doesn't, and how to make a claim on your solid wood furniture — backed by Canadian support."
-        path="/warranty"
+        {...seoProps("/warranty")}
       />
       <Header />
       

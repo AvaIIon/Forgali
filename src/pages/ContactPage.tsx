@@ -3,6 +3,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Mail, Clock, Globe, Check, Copy, ExternalLink, ArrowLeft } from "lucide-react";
 import { Seo } from "@/components/Seo";
+import { seoProps } from "@/lib/staticPageSeo";
 
 const RECIPIENT = "daniel@forgali.com";
 
@@ -109,9 +110,7 @@ const ContactPage = () => {
   return (
     <div className="min-h-screen bg-background">
       <Seo
-        title="Contact Forgali – Support for Orders & Delivery"
-        description="Forgali is a 100% online furniture store — no showroom or phone line. Email daniel@forgali.com with any question; we respond within 24 hours."
-        path="/contact"
+        {...seoProps("/contact")}
       />
       <Header />
       

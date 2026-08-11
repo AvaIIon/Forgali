@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Seo } from "@/components/Seo";
+import { seoProps } from "@/lib/staticPageSeo";
 import { Users, Drill, LayoutGrid, BookOpen, Clock } from "lucide-react";
 
 const tips = [
@@ -36,9 +37,7 @@ const AssemblyPage = () => {
   return (
     <div className="min-h-screen bg-background">
       <Seo
-        title="Assembly Guide – Tips & Instructions | Forgali"
-        description="Get ready to build: assembly tips for solid wood furniture, typical build times, and how to get replacement instructions for your model."
-        path="/assembly"
+        {...seoProps("/assembly")}
       />
       <Header />
 

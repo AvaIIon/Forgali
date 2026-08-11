@@ -11,7 +11,7 @@ import { SubcategoryTabs } from "@/components/SubcategoryTabs";
 import { useShopifyProductsByCategory } from "@/hooks/useShopifyProducts";
 import { ProductCategory } from "@/services/shopifyService";
 import { productMatchesSubcategory } from "@/lib/subcategories";
-import { getBedSeo } from "@/lib/categorySeo";
+import { faqPageJsonLd, getBedSeo } from "@/lib/categorySeo";
 import { categoryInfoMap } from "@/lib/categoryInfo";
 
 // Category info for headers lives in @/lib/categoryInfo — shared with
@@ -158,13 +158,19 @@ const CategoryPage = () => {
         title={seoTitle}
         description={seoDescription}
         path={seoPath}
+        // Emitted only where the Q&A below actually renders. middleware.ts
+        // builds this from the same helper, so the injected and hydrated
+        // schema are identical.
+        jsonLd={bedSeo?.faqs?.length ? faqPageJsonLd(bedSeo.faqs) : undefined}
       />
       <Header />
       <CategoryHeader title={headerH1} description={headerLead} />
       {/* The brand hub had exactly one inbound link sitewide (the footer), so
-          it could never accumulate signal from its own two best children. */}
+          it could never accumulate signal from its own two best children.
+          No negative margin on this line: -mt-2 pulled it up into the
+          CategoryHeader's gradient box, so it straddled the blue/white edge. */}
       {(validCategory === "dining" || validCategory === "living") && (
-        <div className="max-w-7xl mx-auto px-4 -mt-2 mb-2 text-sm text-muted-foreground">
+        <div className="max-w-7xl mx-auto px-4 mt-4 mb-3 text-sm text-muted-foreground">
           Part of our{" "}
           <Link to="/plank-and-beam" className="underline hover:text-foreground">
             Plank &amp; Beam collection in Canada
@@ -231,6 +237,43 @@ const CategoryPage = () => {
                 {para}
               </p>
             ))}
+
+            {/* Sub-intent sections. The H2s are real queries this page already
+                earns impressions for, and the links are the only editorial
+                (non-JS-widget) route to the subcategory pages. */}
+            {bedSeo.sections?.map((section) => (
+              <div key={section.h2} className="mt-8">
+                <h2 className="text-xl font-bold mb-3 text-[#3D5A6C]">{section.h2}</h2>
+                <p className="text-muted-foreground leading-relaxed">{section.body}</p>
+                {section.links?.length ? (
+                  <p className="mt-3 flex flex-wrap gap-x-4 gap-y-1">
+                    {section.links.map((link) => (
+                      <Link
+                        key={link.href}
+                        to={link.href}
+                        className="text-[#4A647C] underline hover:text-foreground"
+                      >
+                        {link.label}
+                      </Link>
+                    ))}
+                  </p>
+                ) : null}
+              </div>
+            ))}
+
+            {bedSeo.faqs?.length ? (
+              <div className="mt-10">
+                <h2 className="text-xl font-bold mb-4 text-[#3D5A6C]">
+                  Frequently Asked Questions
+                </h2>
+                {bedSeo.faqs.map((faq) => (
+                  <div key={faq.q} className="mb-5 last:mb-0">
+                    <h3 className="font-semibold mb-1">{faq.q}</h3>
+                    <p className="text-muted-foreground leading-relaxed">{faq.a}</p>
+                  </div>
+                ))}
+              </div>
+            ) : null}
           </div>
         </section>
       )}

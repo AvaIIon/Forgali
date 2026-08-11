@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Seo } from "@/components/Seo";
+import { seoProps } from "@/lib/staticPageSeo";
 
 // Baseline terms of service. Daniel should have this reviewed and updated with
 // the registered business name and governing jurisdiction before relying on it.
@@ -9,9 +10,7 @@ const TermsPage = () => {
   return (
     <div className="min-h-screen bg-background">
       <Seo
-        title="Terms of Service | Forgali"
-        description="The terms that apply when you browse or buy from Forgali, including orders, pricing, and returns."
-        path="/terms"
+        {...seoProps("/terms")}
       />
       <Header />
 

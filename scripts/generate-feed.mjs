@@ -189,6 +189,7 @@ ${items.join("\n")}
   // sync or the injected list will disagree with what the page hydrates into.
   const cats = {};
   const sorted = products.filter((p) => p.handle !== "checkout-test-item");
+  const byHandle = new Map(sorted.map((p) => [p.handle, p]));
   // Available-first mirrors the SPA's OOS-sink; Array.sort is stable so
   // catalog order is preserved within each group.
   sorted.sort((a, b) => (b.availableForSale === true) - (a.availableForSale === true));
@@ -203,10 +204,29 @@ ${items.join("\n")}
       (cats["bedroom"] ??= []).push(p.handle);
     }
   }
+  // Subcategory lists, same file, keyed "<category>|<subcategory>". The
+  // subcategory views are the site's worst-ranking indexed pages (GSC 2026-08-11:
+  // dining|dining-chairs pos 50.7, living|tv-stands pos 30.1) because they were
+  // the one route shape that got an injected head but an EMPTY body — the parent
+  // list was deliberately withheld to avoid contradicting a subcategory title.
+  // The fix is the right subset, not the parent's. Only these keys are emitted;
+  // middleware gates injection further on having dedicated SEO copy.
+  for (const [category, subs] of Object.entries(SUBCATEGORIES)) {
+    const list = cats[category];
+    if (!Array.isArray(list)) continue;
+    for (const sub of subs) {
+      const members = list.filter((h) => {
+        const p = byHandle.get(h);
+        return p ? matchesSubcategory(p, sub) : false;
+      });
+      if (members.length) cats[`${category}|${sub}`] = members;
+    }
+  }
+
   const catsOut = join(dirname(fileURLToPath(import.meta.url)), "..", "src", "data", "category-products.json");
   writeFileSync(catsOut, `${JSON.stringify(cats)}\n`);
   console.log(
-    `category-products.json: ${Object.keys(cats).length} categories, ` +
+    `category-products.json: ${Object.keys(cats).length} keys, ` +
     Object.entries(cats).map(([k, v]) => `${k}=${v.length}`).join(" ")
   );
 }
@@ -244,6 +264,74 @@ function categorize(p) {
     return "accessories";
   }
   return "single-beds";
+}
+
+// Port of src/lib/subcategories.ts — categorySubcategories + the two pattern
+// maps + productMatchesSubcategory. Same standing hazard as categorize() above:
+// this is a COPY, so a subcategory added or a pattern changed in the TS module
+// must be mirrored here or the injected list stops matching what the tab
+// hydrates into. (A plain-node prebuild script can't import the TS module.)
+const SUBCATEGORIES = {
+  "bunk-beds": ["twin-over-twin", "twin-over-full", "full-over-full", "queen-bunk", "l-shaped", "multi-bunk", "low-bunk", "with-slide", "with-stairs"],
+  "loft-beds": ["low-loft", "mid-loft", "high-loft", "loft-with-desk", "loft-with-slide", "corner-loft"],
+  "single-beds": ["platform", "house-bed", "floor-bed", "traditional", "trundle-bed"],
+  "accessories": ["storage", "desks", "bookcases-shelves", "nightstands"],
+  "dining": ["dining-tables", "dining-chairs", "dining-benches", "bar-counter-chairs", "dining-sets"],
+  "living": ["coffee-tables", "console-tables", "side-tables", "sideboards", "tv-stands", "shelves", "entryway"],
+};
+
+const SUB_TAG_PATTERNS = {
+  "twin-over-twin": ["twin over twin", "twin over twin bunk"],
+  "twin-over-full": ["twin over full"],
+  "full-over-full": ["full over full"],
+  "queen-bunk": ["queen"],
+  "l-shaped": ["l-shaped", "corner loft bunk"],
+  "multi-bunk": ["trio", "quad", "triple"],
+  "low-bunk": ["low bunk"],
+  "with-slide": ["slide", "with slide", "bunk bed with slide"],
+  "with-stairs": ["stairs", "with stairs", "bunk bed with stairs"],
+  "low-loft": ["low loft"],
+  "mid-loft": ["mid loft"],
+  "high-loft": ["high loft", "ultra high"],
+  "loft-with-desk": ["desk", "all in one"],
+  "loft-with-slide": ["slide"],
+  "corner-loft": ["corner loft"],
+  "platform": ["platform"],
+  "house-bed": ["castle", "house"],
+  "floor-bed": ["toddler", "floor"],
+  "traditional": ["traditional"],
+  "trundle-bed": ["trundle"],
+  "storage": ["dresser", "storage", "drawer"],
+  "desks": ["desk"],
+  "bookcases-shelves": ["bookcase", "shelf"],
+  "nightstands": ["nightstand", "night stand"],
+};
+
+const SUB_TYPE_PATTERNS = {
+  "dining-tables": ["dining table", "outdoor table"],
+  "dining-chairs": ["dining chair"],
+  "dining-benches": ["dining bench", "outdoor bench"],
+  "bar-counter-chairs": ["counter chair", "bar chair", "counter stool", "bar stool"],
+  "dining-sets": ["dining set"],
+  "coffee-tables": ["coffee table"],
+  "console-tables": ["console table"],
+  "side-tables": ["side table", "end table"],
+  "sideboards": ["sideboard"],
+  "tv-stands": ["tv stand", "media console"],
+  "shelves": ["shelf", "bookshelf"],
+  "entryway": ["entryway bench"],
+};
+
+function matchesSubcategory(p, subcategory) {
+  const typePatterns = SUB_TYPE_PATTERNS[subcategory];
+  if (typePatterns) return typePatterns.includes((p.productType || "").toLowerCase());
+  const patterns = SUB_TAG_PATTERNS[subcategory];
+  // The TS original falls back to `product.subcategory === subcategory`, a field
+  // the Storefront payload has no equivalent of — every listed subcategory has
+  // patterns, so an unpatterned key means the maps drifted: match nothing.
+  if (!patterns) return false;
+  const haystack = `${(p.tags || []).join(" ")} ${p.title || ""}`.toLowerCase();
+  return patterns.some((pattern) => haystack.includes(pattern));
 }
 
 main().catch((e) => {

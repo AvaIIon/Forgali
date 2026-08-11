@@ -2,15 +2,14 @@ import { Link } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Seo } from "@/components/Seo";
+import { seoProps } from "@/lib/staticPageSeo";
 import { Truck, PackageSearch, Users, ClipboardCheck } from "lucide-react";
 
 const ShippingPage = () => {
   return (
     <div className="min-h-screen bg-background">
       <Seo
-        title="Shipping Information – Free Canada-Wide | Forgali"
-        description="How Forgali shipping works: free Canada-wide delivery, processing times, tracking, and what to check when your furniture arrives."
-        path="/shipping"
+        {...seoProps("/shipping")}
       />
       <Header />
 

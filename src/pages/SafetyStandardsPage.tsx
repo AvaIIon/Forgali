@@ -2,14 +2,13 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Shield, CheckCircle } from "lucide-react";
 import { Seo } from "@/components/Seo";
+import { seoProps } from "@/lib/staticPageSeo";
 
 const SafetyStandardsPage = () => {
   return (
     <div className="min-h-screen bg-background">
       <Seo
-        title="Bunk & Loft Bed Safety Standards | Forgali"
-        description="How Forgali beds address Health Canada guidance: guardrails, low-VOC finishes, and structural integrity — plus safety tips for parents."
-        path="/safety-standards"
+        {...seoProps("/safety-standards")}
       />
       <Header />
       

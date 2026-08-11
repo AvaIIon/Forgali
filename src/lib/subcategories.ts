@@ -1,4 +1,7 @@
-import { ConvertedProduct } from "@/services/shopifyService";
+// Type-only: middleware.ts imports categorySubcategories for its crawlable
+// subcategory link lists, and a value import here would drag the whole Shopify
+// service into the edge bundle.
+import type { ConvertedProduct } from "@/services/shopifyService";
 
 // Predefined subcategories per category (matched to Shopify tags/productType).
 // Tabs with zero matching products are hidden by SubcategoryTabs at render
