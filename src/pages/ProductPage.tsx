@@ -252,11 +252,12 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
   return (
     <div className="min-h-screen bg-background">
       <Seo
-        title={`${product.name} | Forgali`}
+        title={product.seoTitle || `${product.name} | Forgali`}
         description={
-          product.description
+          product.seoDescription ||
+          (product.description
             ? product.description.slice(0, 160)
-            : `${product.name} — solid wood furniture with free Canada-wide shipping from Forgali.`
+            : `${product.name} — solid wood furniture with free Canada-wide shipping from Forgali.`)
         }
         path={`/product/${product.handle}`}
         image={product.image}

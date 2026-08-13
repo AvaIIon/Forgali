@@ -90,6 +90,11 @@ type ProductMeta = {
   // convertShopifyProduct in shopifyService.ts.
   l?: string | null;
   f?: boolean;
+  // Authored Shopify seo.title / seo.description (optional: only present when
+  // non-empty in Shopify). Fallback chain — absent means derive exactly the
+  // strings this file produced before these fields existed.
+  st?: string;
+  sd?: string;
 };
 
 // Module scope runs OUTSIDE the handler's try/catch — a wrong-shape (but
@@ -237,9 +242,11 @@ function renderHead(h: Head): string {
 // brand Forgali, first-variant price, NO review/rating data (owner rule — the
 // visible review counts are generated and must never reach structured data).
 function productHead(handle: string, m: ProductMeta): Head {
-  const description = m.d
-    ? m.d.slice(0, 160)
-    : `${m.t} — solid wood furniture with free Canada-wide shipping from Forgali.`;
+  const description =
+    m.sd ||
+    (m.d
+      ? m.d.slice(0, 160)
+      : `${m.t} — solid wood furniture with free Canada-wide shipping from Forgali.`);
   const jsonLd: Record<string, unknown> = {
     "@context": "https://schema.org/",
     "@type": "Product",
@@ -264,7 +271,7 @@ function productHead(handle: string, m: ProductMeta): Head {
       : {}),
   };
   return {
-    title: `${m.t} | Forgali`,
+    title: m.st || `${m.t} | Forgali`,
     description,
     path: `/product/${handle}`,
     image: m.i ?? undefined,

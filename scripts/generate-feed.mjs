@@ -56,6 +56,7 @@ async function fetchProducts() {
       nodes {
         id handle title productType availableForSale tags
         description(truncateAt: 4900)
+        seo { title description }
         featuredImage { url }
         variants(first: 25) { nodes { price { amount currencyCode } availableForSale } }
       } } }`;
@@ -153,6 +154,11 @@ ${items.join("\n")}
     if (p.handle === "checkout-test-item") continue;
     const v = selectedVariant(p);
     const rawD = String(p.description || "").replace(/\s+/g, " ").trim();
+    // Authored Shopify SEO fields (st/sd) ride along only when non-empty —
+    // middleware falls back to the derived strings exactly like ProductPage,
+    // so a product without them renders precisely what it does today.
+    const st = String(p.seo?.title || "").trim();
+    const sd = String(p.seo?.description || "").trim();
     // Card/list price — the SPA's convertShopifyProduct rule (cheapest variant
     // a shopper can actually buy, "From" prefix when prices vary), so the
     // injected category lists agree with the hydrated grid. Distinct from `p`,
@@ -174,6 +180,8 @@ ${items.join("\n")}
       a: p.availableForSale === true,
       l: amounts.length ? Math.min(...amounts).toFixed(2) : null,
       f: amounts.length ? Math.max(...amounts) > Math.min(...amounts) : false,
+      ...(st ? { st } : {}),
+      ...(sd ? { sd } : {}),
     };
   }
   const metaOut = join(dirname(fileURLToPath(import.meta.url)), "..", "src", "data", "product-meta.json");

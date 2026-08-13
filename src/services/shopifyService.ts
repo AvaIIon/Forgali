@@ -53,6 +53,10 @@ const PRODUCTS_QUERY = `
           handle
           tags
           productType
+          seo {
+            title
+            description
+          }
           priceRange {
             minVariantPrice {
               amount
@@ -122,6 +126,10 @@ const PRODUCT_BY_HANDLE_QUERY = `
       handle
       tags
       productType
+      seo {
+        title
+        description
+      }
       priceRange {
         minVariantPrice {
           amount
@@ -511,6 +519,7 @@ export interface ShopifyProduct {
   handle: string;
   tags: string[];
   productType: string;
+  seo?: { title: string | null; description: string | null } | null;
   priceRange: {
     minVariantPrice: { amount: string; currencyCode: string };
     maxVariantPrice?: { amount: string; currencyCode: string };
@@ -858,6 +867,10 @@ export interface ConvertedProduct {
   fromPrice: boolean;
   description: string;
   descriptionHtml?: string;
+  // Authored Shopify seo.title / seo.description — fallback chain only, never
+  // required: pages derive their strings when these are absent.
+  seoTitle?: string;
+  seoDescription?: string;
   productType: string;
   specs: ProductSpecs;
   productUrl: string;
@@ -1013,6 +1026,8 @@ export const convertShopifyProduct = (shopifyProduct: ShopifyProduct): Converted
     fromPrice,
     description: shopifyProduct.description,
     descriptionHtml: shopifyProduct.descriptionHtml,
+    seoTitle: shopifyProduct.seo?.title?.trim() || undefined,
+    seoDescription: shopifyProduct.seo?.description?.trim() || undefined,
     productType: shopifyProduct.productType || '',
     specs: parseSpecs(shopifyProduct.metafields),
     productUrl: `https://${SHOPIFY_STORE_DOMAIN}/products/${shopifyProduct.handle}`,
