@@ -4,13 +4,35 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- Google Ads conversion tracking (AW-18359088538). Keep OUTSIDE the
-         routehead markers so middleware.ts head injection never touches it.
-         The Purchase event snippet does NOT live in this repo: checkout runs
-         on Shopify's domain, so it fires from a Shopify custom pixel
-         (admin → Settings → Customer events) on checkout_completed.
-         CSP in vercel.json allowlists googletagmanager + Google ad domains —
-         extend it there if this tag ever gains more Google products. -->
+    <!-- Google tag: Ads conversion tracking (AW-18359088538) + GA4 (G-FJSKKZF4H4,
+         property 550865487, account "Forgali" under daniel@forgali.com).
+         One gtag.js instance serves both targets; each gets its own config line.
+         Keep OUTSIDE the routehead markers so middleware.ts head injection never
+         touches it.
+
+         CSP: vercel.json must allowlist *.google-analytics.com AND
+         *.analytics.google.com in connect-src. google-analytics.com is a DIFFERENT
+         registrable domain from google.com, so the *.google.com entry does NOT
+         cover it — without those two, gtag.js loads fine, every /g/collect beacon
+         is blocked, and GA4 shows an empty property with no error anywhere. That
+         is exactly how the Meta pixel silently failed here in August 2026.
+
+         SPA route changes are NOT tracked from application code on purpose. GA4
+         Enhanced measurement ("Page changes based on browser history events", on
+         by default) already fires page_view on every React Router navigation.
+         Adding a second useLocation-driven page_view on top of it double-counts
+         every navigation — the single most common way an SPA's GA4 numbers go
+         wrong, and the number this property exists to get right. If that
+         Enhanced measurement setting is ever turned OFF, a manual hook has to be
+         added back at the same time, not before.
+         Known trade-off: Enhanced measurement reads document.title at history-
+         change time, which is before react-helmet-async updates it, so GA4 page
+         TITLES lag by one navigation. Page PATHS are correct. Read GA4's Pages
+         report by "Page path and screen class", never by page title.
+
+         The Purchase event does NOT live in this repo: checkout runs on Shopify's
+         domain, so it fires from a Shopify custom pixel (admin → Settings →
+         Customer events) on checkout_completed. -->
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18359088538"></script>
     <script>
@@ -18,6 +40,7 @@
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
       gtag('config', 'AW-18359088538');
+      gtag('config', 'G-FJSKKZF4H4');
     </script>
 
     <!-- Meta Pixel (1007312825634568). Same rules as the Google tag above:
