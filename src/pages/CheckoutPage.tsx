@@ -152,12 +152,18 @@ const CheckoutPage = () => {
                   <span>Subtotal</span>
                   <span>${subtotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
                 </div>
-                <div className="flex justify-between text-sm">
-                  <span className="flex items-center gap-2">
-                    <Truck className="w-4 h-4" />
-                    Shipping
-                  </span>
-                  <span className="text-[#2D8B6F] font-medium">FREE</span>
+                {/* Delivery window lives here rather than on the product page:
+                    the shopper has already chosen, and this is the last place
+                    they can be surprised by it before paying. */}
+                <div>
+                  <div className="flex justify-between text-sm">
+                    <span className="flex items-center gap-2">
+                      <Truck className="w-4 h-4" />
+                      Shipping
+                    </span>
+                    <span className="text-[#2D8B6F] font-medium">FREE</span>
+                  </div>
+                  <p className="pl-6 text-xs text-muted-foreground">Arrives in 10-15 business days</p>
                 </div>
                 <div className="flex justify-between text-sm">
                   <span>Tax</span>

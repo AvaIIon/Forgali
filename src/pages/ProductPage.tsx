@@ -478,14 +478,13 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
 
             {/* Shipping + risk-reversal, right at the decision point — the
                 thing furniture shoppers hesitate on. All claims true (returns
-                are 30-day but not free, so we don't say "free returns"). */}
+                are 30-day but not free, so we don't say "free returns"). The
+                10-15 business day delivery window is stated on /checkout and in
+                the Shipping Information accordion below, not here. */}
             <div className="space-y-2.5 p-4 bg-[#E8F5E9] rounded-lg">
               <div className="flex items-center gap-3">
                 <Truck className="w-5 h-5 text-[#2D8B6F] shrink-0" />
-                <div>
-                  <p className="font-medium text-[#2D8B6F]">Free Canada-Wide Shipping</p>
-                  <p className="text-sm text-muted-foreground">Arrives in 10-15 business days</p>
-                </div>
+                <p className="font-medium text-[#2D8B6F]">Free Canada-Wide Shipping</p>
               </div>
               <div className="flex flex-wrap gap-x-4 gap-y-1 pt-1 text-sm text-[#2D8B6F]/90 border-t border-[#2D8B6F]/15">
                 <span className="flex items-center gap-1.5 pt-2">
