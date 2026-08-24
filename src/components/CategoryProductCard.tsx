@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import type { ConvertedProduct } from "@/services/shopifyService";
 import { getFinishColor } from "@/lib/finishColors";
+import { cdnImage, cdnSrcSet, CARD_SIZES } from "@/lib/imageProxy";
 
 interface CategoryProductCardProps {
   product: ConvertedProduct;
@@ -50,7 +51,9 @@ export const CategoryProductCard = ({ product }: CategoryProductCardProps) => {
           </span>
         )}
         <img
-          src={imageSrc}
+          src={cdnImage(imageSrc, 600)}
+          srcSet={cdnSrcSet(imageSrc, [300, 450, 600, 900])}
+          sizes={CARD_SIZES}
           alt={product.name}
           className={`w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 ${
             !product.availableForSale ? "opacity-60 blur-[1px]" : ""

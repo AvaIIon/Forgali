@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { cdnImage, cdnSrcSet, CARD_SIZES } from "@/lib/imageProxy";
 
 // Mirrors the top-nav category structure: Dining · Living · Bedroom ·
 // Storage & Accessories. Bedroom is the aggregate category (bunk/loft/single
@@ -40,7 +41,9 @@ export const FeaturedCategories = () => {
             >
               <div className="relative aspect-square rounded-2xl overflow-hidden bg-[#f2f4f6]">
                 <img
-                  src={category.image}
+                  src={cdnImage(category.image, 600)}
+                  srcSet={cdnSrcSet(category.image, [300, 450, 600, 900])}
+                  sizes={CARD_SIZES}
                   alt={category.name}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />

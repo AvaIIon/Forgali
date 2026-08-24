@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useCart } from "@/context/CartContext";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { cdnImage } from "@/lib/imageProxy";
 
 export const CartDrawer = () => {
   const { items, isCartOpen, setIsCartOpen, updateQuantity, removeFromCart, getTotalPrice, getItemKey, refreshCartLines } = useCart();
@@ -56,7 +57,7 @@ export const CartDrawer = () => {
                 {items.map((item) => (
                   <div key={getItemKey(item)} className="flex gap-4 p-4 bg-secondary/30 rounded-lg">
                     <img
-                      src={item.product.variants.find(v => v.id === item.variantId)?.image || item.product.image}
+                      src={cdnImage(item.product.variants.find(v => v.id === item.variantId)?.image || item.product.image, 200)}
                       alt={item.product.name}
                       className="w-20 h-20 object-cover rounded-lg"
                     />
@@ -117,7 +118,7 @@ export const CartDrawer = () => {
                           className="flex w-full items-center gap-3 rounded-lg p-2 text-left hover:bg-secondary/50 transition-colors"
                         >
                           <img
-                            src={ref.image}
+                            src={cdnImage(ref.image, 120)}
                             alt={ref.title}
                             className="h-12 w-12 shrink-0 rounded object-cover bg-[#f2f4f6]"
                             loading="lazy"

@@ -1,5 +1,8 @@
 import { Link } from "react-router-dom";
-import { getProxiedImage } from "@/lib/imageProxy";
+import { cdnImage, cdnSrcSet } from "@/lib/imageProxy";
+
+const BRAND_IMG =
+  "https://cdn.shopify.com/s/files/1/0972/6492/6995/files/2600425900-014__1_25f566d3-2d94-4b5f-a5dc-1a1fe4172f1b.jpg?v=1783608426";
 
 // Brand-statement block — replaces the old bed-only "Why Choose Forgali?"
 // value-prop cards. The four trust icons already live in GuaranteeStrip near
@@ -36,9 +39,9 @@ export const BrandStatement = () => {
         </div>
         <div className="aspect-[4/3] overflow-hidden rounded-2xl bg-[#f2f4f6]">
           <img
-            src={getProxiedImage(
-              "https://cdn.shopify.com/s/files/1/0972/6492/6995/files/2600425900-014__1_25f566d3-2d94-4b5f-a5dc-1a1fe4172f1b.jpg?v=1783608426",
-            )}
+            src={cdnImage(BRAND_IMG, 900)}
+            srcSet={cdnSrcSet(BRAND_IMG, [600, 900, 1200])}
+            sizes="(max-width: 768px) 100vw, 50vw"
             alt="Plank & Beam Arcata solid wood console table"
             loading="lazy"
             className="h-full w-full object-cover"

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { cdnImage, cdnSrcSet, CARD_SIZES } from "@/lib/imageProxy";
 
 interface ProductCardProps {
   name: string;
@@ -42,7 +43,9 @@ export const ProductCard = ({
           <span className="absolute top-3 left-3 new-badge">NEW</span>
         )}
         <img
-          src={imageSrc}
+          src={cdnImage(imageSrc, 600)}
+          srcSet={cdnSrcSet(imageSrc, [300, 450, 600, 900])}
+          sizes={CARD_SIZES}
           alt={name}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
           onError={handleImageError}

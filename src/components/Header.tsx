@@ -33,6 +33,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
+import { cdnImage, cdnSrcSet } from "@/lib/imageProxy";
 
 // Category imagery is served from Forgali's own Shopify CDN — the previous
 // bedsmart.ca hotlinks (via a free no-SLA proxy) coupled the storefront to the
@@ -372,7 +373,9 @@ export const Header = () => {
                                   className="relative block rounded-lg overflow-hidden group"
                                 >
                                   <img
-                                    src={item.image}
+                                    src={cdnImage(item.image, 600)}
+                                    srcSet={cdnSrcSet(item.image, [400, 600, 900])}
+                                    sizes="300px"
                                     alt={`Shop ${item.label}`}
                                     className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                                   />

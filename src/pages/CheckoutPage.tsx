@@ -9,6 +9,7 @@ import { Lock, Truck, ChevronLeft, AlertTriangle } from "lucide-react";
 import { Seo } from "@/components/Seo";
 import { ShopifyCheckoutButton } from "@/components/ShopifyCheckoutButton";
 import { isShopifyConfigured } from "@/services/shopifyService";
+import { cdnImage } from "@/lib/imageProxy";
 
 const CheckoutPage = () => {
   const { items, getTotalPrice, removeFromCart, getItemKey, refreshCartLines } = useCart();
@@ -110,7 +111,7 @@ const CheckoutPage = () => {
                     <div key={getItemKey(item)} className="flex gap-4">
                       <div className="relative">
                         <img
-                          src={lineImage}
+                          src={cdnImage(lineImage, 160)}
                           alt={item.product.name}
                           className="w-16 h-16 object-cover rounded-lg"
                         />

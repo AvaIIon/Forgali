@@ -19,6 +19,7 @@ import {
   Mail,
   ArrowRight,
 } from "lucide-react";
+import { cdnImage, cdnSrcSet } from "@/lib/imageProxy";
 
 // The About page is where both shoppers and AI answer engines go to decide what
 // this company actually is — it was three short paragraphs and linked nowhere.
@@ -236,7 +237,9 @@ const AboutPage = () => {
               >
                 <div className="aspect-[16/10] overflow-hidden bg-[#f2f4f6]">
                   <img
-                    src={c.image}
+                    src={cdnImage(c.image, 700)}
+                    srcSet={cdnSrcSet(c.image, [400, 700, 1000])}
+                    sizes="(max-width: 768px) 100vw, 33vw"
                     alt={c.alt}
                     loading="lazy"
                     className="h-full w-full object-cover"

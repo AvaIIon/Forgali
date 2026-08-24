@@ -11,6 +11,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useShopifyProduct, useShopifyProducts, getRelatedProducts } from "@/hooks/useShopifyProducts";
 import { getVariantImages, ConvertedProduct } from "@/services/shopifyService";
 import { getFinishColor } from "@/lib/finishColors";
+import { cdnImage, cdnSrcSet, CARD_SIZES } from "@/lib/imageProxy";
 import { categorySubcategories, productMatchesSubcategory } from "@/lib/subcategories";
 
 const MAX_QUANTITY = 10;
@@ -303,7 +304,9 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
             {/* Main Image */}
             <div className="relative aspect-square rounded-lg overflow-hidden bg-secondary group">
               <img
-                src={getImageSrc(selectedImage)}
+                src={cdnImage(getImageSrc(selectedImage), 1000)}
+                srcSet={cdnSrcSet(getImageSrc(selectedImage), [600, 800, 1000, 1400])}
+                sizes="(max-width: 1024px) 100vw, 50vw"
                 alt={product.name}
                 className="w-full h-full object-cover"
                 onError={() => handleImageError(selectedImage)}
@@ -345,7 +348,7 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
                     }`}
                   >
                     <img
-                      src={imageErrors.has(index) ? finishImages[index + 1] || finishImages[0] || product.image : img}
+                      src={cdnImage(imageErrors.has(index) ? finishImages[index + 1] || finishImages[0] || product.image : img, 200)}
                       alt={`${product.name} ${selectedFinishName} view ${index + 1}`}
                       className="w-full h-full object-cover"
                       onError={() => handleImageError(index)}
@@ -624,7 +627,9 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
                 <Link key={ref.handle} to={`/product/${ref.handle}`} className="group">
                   <div className="aspect-square rounded-lg overflow-hidden bg-[#f2f4f6] mb-3">
                     <img
-                      src={ref.image}
+                      src={cdnImage(ref.image, 600)}
+                      srcSet={cdnSrcSet(ref.image, [300, 450, 600])}
+                      sizes={CARD_SIZES}
                       alt={ref.title}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                       loading="lazy"
@@ -666,7 +671,9 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
                 >
                   <div className="aspect-square rounded-lg overflow-hidden bg-[#f2f4f6] mb-3">
                     <img
-                      src={relatedProduct.image}
+                      src={cdnImage(relatedProduct.image, 600)}
+                      srcSet={cdnSrcSet(relatedProduct.image, [300, 450, 600])}
+                      sizes={CARD_SIZES}
                       alt={relatedProduct.name}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                       loading="lazy"

@@ -4,7 +4,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { useShopifyProducts, getProductByHandle } from "@/hooks/useShopifyProducts";
 import { useCart } from "@/context/CartContext";
 import { fetchShopifyProductByHandle, convertShopifyProduct } from "@/services/shopifyService";
-import { getProxiedImage } from "@/lib/imageProxy";
+import { cdnImage, getProxiedImage } from "@/lib/imageProxy";
 import lookDesktop from "@/assets/shop-the-look-dining.jpg";
 import lookMobile from "@/assets/shop-the-look-dining-mobile.jpg";
 
@@ -92,7 +92,7 @@ const HotspotPopover = ({
       <div className="flex gap-3">
         <Link to={`/product/${spot.handle}`} className="shrink-0">
           <img
-            src={getProxiedImage(image)}
+            src={cdnImage(getProxiedImage(image), 200)}
             alt={title}
             loading="lazy"
             className="h-20 w-20 rounded-lg bg-[#f2f4f6] object-cover"
