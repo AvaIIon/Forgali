@@ -65,7 +65,7 @@ const ShippingPage = () => {
             <h2 className="text-2xl font-bold mb-4">Processing &amp; Delivery Times</h2>
             <p className="text-muted-foreground mb-3">
               Most orders are processed and prepared for shipment within about one week,
-              with standard delivery typically taking 10–15 business days in total. Transit
+              with standard delivery typically taking 12–18 business days in total. Transit
               times vary by destination.
             </p>
             <p className="text-muted-foreground mb-3">

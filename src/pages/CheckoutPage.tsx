@@ -163,7 +163,7 @@ const CheckoutPage = () => {
                     </span>
                     <span className="text-[#2D8B6F] font-medium">FREE</span>
                   </div>
-                  <p className="pl-6 text-xs text-muted-foreground">Arrives in 10-15 business days</p>
+                  <p className="pl-6 text-xs text-muted-foreground">Arrives in 12-18 business days</p>
                 </div>
                 <div className="flex justify-between text-sm">
                   <span>Tax</span>

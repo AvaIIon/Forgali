@@ -24,7 +24,7 @@ export const SITE_FAQS: Faq[] = [
   {
     question: "How long does shipping take?",
     answer:
-      "We offer free Canada-wide shipping on all orders. Standard delivery takes 10-15 business days.",
+      "We offer free Canada-wide shipping on all orders. Standard delivery takes 12-18 business days.",
   },
   {
     question: "Does Forgali have a showroom or phone number?",

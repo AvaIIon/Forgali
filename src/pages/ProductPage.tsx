@@ -479,7 +479,7 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
             {/* Shipping + risk-reversal, right at the decision point — the
                 thing furniture shoppers hesitate on. All claims true (returns
                 are 30-day but not free, so we don't say "free returns"). The
-                10-15 business day delivery window is stated on /checkout and in
+                12-18 business day delivery window is stated on /checkout and in
                 the Shipping Information accordion below, not here. */}
             <div className="space-y-2.5 p-4 bg-[#E8F5E9] rounded-lg">
               <div className="flex items-center gap-3">
@@ -595,7 +595,7 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
                 <AccordionTrigger className="text-base font-semibold">Shipping Information</AccordionTrigger>
                 <AccordionContent className="space-y-3">
                   <p className="text-sm">Free Canada-Wide Shipping on all orders!</p>
-                  <p className="text-sm">Standard delivery: 10-15 business days</p>
+                  <p className="text-sm">Standard delivery: 12-18 business days</p>
                   <p className="text-sm">
                     <Link to="/shipping" className="text-primary hover:underline">Shipping details</Link>
                     {" · "}

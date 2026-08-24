@@ -38,7 +38,7 @@ export const STATIC_PAGE_SEO = {
     lead: "Free shipping across Canada on every order, with tracking on every shipment.",
     facts: [
       "Shipping is free Canada-wide on all orders.",
-      "Standard delivery takes 10-15 business days.",
+      "Standard delivery takes 12-18 business days.",
       "Prices are in Canadian dollars — no duties or brokerage fees.",
       "Inspect your delivery on arrival and report any damage to daniel@forgali.com.",
     ],
