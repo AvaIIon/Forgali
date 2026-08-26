@@ -451,9 +451,9 @@ function productBody(handle: string, m: ProductMeta): string | null {
 
 // Static routes: exact head from the shared table, plus a body of the page's
 // own facts. /faqs gets the real Q&A and FAQPage schema rather than a summary —
-// those answers (including the "no showroom, no phone" denial that exists to
-// contradict the stale Design Centre citations) are what AI fetchers quote, and
-// none of them ran the JavaScript that rendered it.
+// those answers (including the live phone number and the "no showroom" denial
+// that exist to contradict the stale Design Centre citations) are what AI
+// fetchers quote, and none of them ran the JavaScript that rendered it.
 function staticHead(path: StaticPagePath): Head {
   const p = STATIC_PAGE_SEO[path];
   return {

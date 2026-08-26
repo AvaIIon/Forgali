@@ -7,7 +7,6 @@ import { Check, Truck, Shield, Lock, RotateCcw, Minus, Plus, Loader2, X, Chevron
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { useCart } from "@/context/CartContext";
-import { useToast } from "@/hooks/use-toast";
 import { useShopifyProduct, useShopifyProducts, getRelatedProducts } from "@/hooks/useShopifyProducts";
 import { getVariantImages, ConvertedProduct } from "@/services/shopifyService";
 import { getFinishColor } from "@/lib/finishColors";
@@ -85,7 +84,6 @@ const ProductPage = () => {
 const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; detailLoaded: boolean }) => {
   const { products: allProducts } = useShopifyProducts();
   const { addToCart } = useCart();
-  const { toast } = useToast();
 
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
@@ -210,10 +208,6 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
           ? resolvedVariant.title
           : selectedFinishName || undefined;
       addToCart(product, quantity, label, resolvedVariant.id);
-      toast({
-        title: "Added to cart!",
-        description: `${product.name} has been added to your cart.`,
-      });
     }
   };
 

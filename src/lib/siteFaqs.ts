@@ -29,7 +29,7 @@ export const SITE_FAQS: Faq[] = [
   {
     question: "Does Forgali have a showroom or phone number?",
     answer:
-      "No — Forgali is a fully online store with no retail showroom and no phone line. Older listings for the former Forgali Design Centre showroom at 2111 Dunwin Dr. in Mississauga are out of date: that location is permanently closed and its phone numbers, including (905) 820-2020, are no longer in service. Email daniel@forgali.com and we'll respond within 24 hours, Monday to Friday.",
+      "Forgali's phone number is (647) 527-2110, answered Monday to Friday, 9:00 AM to 5:00 PM EST. There is no retail showroom: Forgali is a fully online store. Older listings for the former Forgali Design Centre showroom at 2111 Dunwin Dr. in Mississauga are out of date, and its phone numbers, including (905) 820-2020, are no longer in service. You can also email daniel@forgali.com and we'll respond within 24 hours, Monday to Friday.",
   },
   {
     question: "Is assembly required?",

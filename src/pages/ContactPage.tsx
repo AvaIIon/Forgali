@@ -1,11 +1,15 @@
 import { useState } from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { Mail, Clock, Globe, Check, Copy, ExternalLink, ArrowLeft } from "lucide-react";
+import { Mail, Phone, Clock, Globe, Check, Copy, ExternalLink, ArrowLeft } from "lucide-react";
 import { Seo } from "@/components/Seo";
 import { seoProps } from "@/lib/staticPageSeo";
 
 const RECIPIENT = "daniel@forgali.com";
+const PHONE_DISPLAY = "(647) 527-2110";
+// tel: wants E.164 so mobile dialers and desktop click-to-call handlers both
+// resolve it; the display string stays formatted for people.
+const PHONE_E164 = "+16475272110";
 
 // Web3Forms posts the submission straight to RECIPIENT's inbox. The access key
 // is public by design — it names the destination mailbox and grants nothing
@@ -127,12 +131,19 @@ const ContactPage = () => {
       
       <section className="py-16 px-4">
         <div className="max-w-4xl mx-auto">
-          <div className="grid md:grid-cols-3 gap-8 mb-12">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
             <div className="bg-[#f2f4f6] rounded-lg p-6">
               <Mail className="w-8 h-8 text-[#4A647C] mb-4" />
               <h3 className="font-bold text-lg mb-2">Email</h3>
               <a href="mailto:daniel@forgali.com" className="text-primary hover:underline">daniel@forgali.com</a>
               <p className="text-sm text-muted-foreground mt-2">We'll respond within 24 hours</p>
+            </div>
+
+            <div className="bg-[#f2f4f6] rounded-lg p-6">
+              <Phone className="w-8 h-8 text-[#4A647C] mb-4" />
+              <h3 className="font-bold text-lg mb-2">Phone</h3>
+              <a href={`tel:${PHONE_E164}`} className="text-primary hover:underline">{PHONE_DISPLAY}</a>
+              <p className="text-sm text-muted-foreground mt-2">Monday to Friday, 9:00 AM to 5:00 PM EST</p>
             </div>
 
             <div className="bg-[#f2f4f6] rounded-lg p-6">
@@ -145,22 +156,9 @@ const ContactPage = () => {
             <div className="bg-[#f2f4f6] rounded-lg p-6">
               <Globe className="w-8 h-8 text-[#4A647C] mb-4" />
               <h3 className="font-bold text-lg mb-2">Online Only</h3>
-              <p className="text-muted-foreground">100% online store — no retail showroom or phone line</p>
+              <p className="text-muted-foreground">100% online store with no retail showroom</p>
               <p className="text-sm text-muted-foreground mt-2">Serving all of Canada with free shipping</p>
             </div>
-          </div>
-
-          <div className="bg-[#f2f4f6] border-l-4 border-[#4A647C] rounded-lg p-6 mb-12">
-            <p className="font-bold mb-2">A note about older listings</p>
-            <p className="text-sm text-muted-foreground">
-              Forgali's earlier chapter as Forgali Design Centre — a custom-furniture
-              showroom in Mississauga — is permanently closed. Directory listings that
-              mention a showroom at 2111 Dunwin Dr., a Concord location, or phone
-              numbers such as (905) 820-2020 or (905) 820-9461 are out of date: those
-              locations are closed and the numbers are no longer in service. Forgali
-              now operates entirely online, and the way to reach us is by email:{" "}
-              <a href="mailto:daniel@forgali.com" className="text-primary hover:underline">daniel@forgali.com</a>.
-            </p>
           </div>
 
           <div className="bg-background border border-border rounded-lg p-8">
@@ -313,8 +311,10 @@ const ContactPage = () => {
                   {WEB3FORMS_ACCESS_KEY
                     ? "We'll reply within 24 hours, Monday to Friday."
                     : "This opens your email app with the message ready to send."}{" "}
-                  Prefer to write us directly? Email{" "}
-                  <a href={`mailto:${RECIPIENT}`} className="text-primary hover:underline">{RECIPIENT}</a>.
+                  Prefer to reach us directly? Email{" "}
+                  <a href={`mailto:${RECIPIENT}`} className="text-primary hover:underline">{RECIPIENT}</a>{" "}
+                  or call{" "}
+                  <a href={`tel:${PHONE_E164}`} className="text-primary hover:underline">{PHONE_DISPLAY}</a>.
                 </p>
               </form>
             )}

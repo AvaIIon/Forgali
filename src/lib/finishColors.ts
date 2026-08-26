@@ -20,7 +20,9 @@ const FINISH_COLORS: Record<string, string> = {
   "Blue": "#4A647C",
   "Navy": "#24344D",
   "Green": "#5B7553",
-  "Teal": "#3D7676",
+  // Plank & Beam's "Teal" is their name for a bright cyan/azure paint, not a
+  // muted blue-green -- sampled from their own PB184301/184302-105 shots.
+  "Teal": "#1DB6E8",
   "Dusty Rose": "#C9A0A0",
   "Yellow": "#E7C24A",
   "Pink": "#E8AFC0",
@@ -91,7 +93,7 @@ const KEYWORD_TONES: Array<[RegExp, string]> = [
   [/white/i, "#F5F5F4"],
   [/navy/i, "#24344D"],
   [/blue/i, "#4A647C"],
-  [/teal/i, "#3D7676"],
+  [/teal/i, "#1DB6E8"],
   [/green|moss|evergreen/i, "#5B7553"],
   [/rose|pink/i, "#D4A5B9"],
   [/purple/i, "#9B86C1"],

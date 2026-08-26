@@ -346,10 +346,10 @@ const AboutPage = () => {
         <div className="max-w-4xl mx-auto">
           <h2 className="text-3xl font-bold mb-3">Where to Find Us</h2>
           <p className="text-muted-foreground leading-relaxed mb-6">
-            Forgali is a 100% online store. We don't run a retail showroom or a
-            phone line — that's a deliberate choice, and it's part of why the
-            shipping is free and the prices are what they are. Everything goes
-            through one inbox, and a person answers it.
+            Forgali is a 100% online store. We don't run a retail showroom, and
+            that's a deliberate choice: it's part of why the shipping is free and
+            the prices are what they are. Call us at (647) 527-2110 or write to
+            the inbox below, and a person answers either way.
           </p>
 
           <div className="rounded-lg bg-[#f2f4f6] p-6 mb-6">
@@ -384,8 +384,8 @@ const AboutPage = () => {
               showroom at 2111 Dunwin Dr., a Concord address, or phone numbers
               such as (905) 820-2020 or (905) 820-9461 are out of date: those
               locations are closed and the numbers are no longer in service.
-              Forgali operates entirely online today, and the way to reach us is
-              by email:{" "}
+              Forgali operates entirely online today. Our current phone number is
+              (647) 527-2110, and you can also reach us by email:{" "}
               <a
                 href="mailto:daniel@forgali.com"
                 className="text-primary hover:underline"
