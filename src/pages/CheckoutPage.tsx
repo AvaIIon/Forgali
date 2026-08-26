@@ -70,7 +70,8 @@ const CheckoutPage = () => {
               <ol className="space-y-3 text-sm text-muted-foreground list-decimal list-inside">
                 <li>Review your order summary on this page.</li>
                 <li>Continue to our secure checkout to enter your contact details and shipping address.</li>
-                <li>Pay by credit card, Apple Pay, or Google Pay — taxes are calculated there from your address.</li>
+                <li>Pay by credit card, PayPal, Apple Pay, or Google Pay — taxes are calculated there from your address.</li>
+                <li>Want to spread it out? Choose Afterpay at the payment step to split your total into 4 interest-free payments.</li>
               </ol>
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <Lock className="w-4 h-4" />
