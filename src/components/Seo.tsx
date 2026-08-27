@@ -2,7 +2,7 @@ import { Helmet } from "react-helmet-async";
 
 const SITE_URL = "https://www.forgali.com";
 const DEFAULT_IMAGE =
-  "https://cdn.shopify.com/s/files/1/0972/6492/6995/files/forgali-logo-dark.png?v=1783621771";
+  "https://cdn.shopify.com/s/files/1/0972/6492/6995/files/forgali-og-image.png?v=1787862592";
 
 interface SeoProps {
   title: string;

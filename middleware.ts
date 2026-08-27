@@ -66,7 +66,7 @@ export const config = {
 
 const SITE = "https://www.forgali.com";
 const DEFAULT_IMAGE =
-  "https://cdn.shopify.com/s/files/1/0972/6492/6995/files/forgali-logo-dark.png?v=1783621771";
+  "https://cdn.shopify.com/s/files/1/0972/6492/6995/files/forgali-og-image.png?v=1787862592";
 
 const START_MARK = "<!-- routehead:start -->";
 const END_MARK = "<!-- routehead:end -->";
