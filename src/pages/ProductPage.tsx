@@ -195,24 +195,32 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
     };
 
     const n = finishImages.length;
-    warm(finishImages[(selectedImage + 1) % n]);
-    warm(finishImages[(selectedImage - 1 + n) % n]);
+    const at = (offset: number) => finishImages[(selectedImage + offset + n * 2) % n];
 
-    // Thumbnails are random access, so the neighbours alone don't cover them.
-    // The rest of the gallery is warmed only once the browser is idle, and
-    // never on a metered or slow connection — a 9-shot gallery is close to a
-    // megabyte the shopper may never look at.
+    // Immediate neighbours, so an arrow click never waits on the network.
+    warm(at(1));
+    warm(at(-1));
+
+    // Then a small window at idle, which covers a thumbnail jump to something
+    // nearby. Deliberately a WINDOW and not the whole gallery: some products
+    // carry 36 shots, and warming all of them pulled ~3.5MB on a single page
+    // view. The window travels with the shopper because this effect re-runs on
+    // every selection change, so browsing far still stays warm without paying
+    // for photos nobody opens. Skipped entirely on metered or slow links.
     const conn = (navigator as Navigator & {
       connection?: { saveData?: boolean; effectiveType?: string };
     }).connection;
-    if (conn?.saveData || (conn?.effectiveType && /2g/.test(conn.effectiveType))) return;
+    if (conn?.saveData || (conn?.effectiveType && /(^|-)2g$/.test(conn.effectiveType))) return;
 
     const ric = (window as Window & {
       requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number;
       cancelIdleCallback?: (h: number) => void;
     });
     if (!ric.requestIdleCallback) return;
-    const handle = ric.requestIdleCallback(() => finishImages.forEach(warm), { timeout: 4000 });
+    const handle = ric.requestIdleCallback(
+      () => [2, 3, 4, -2].forEach(o => warm(at(o))),
+      { timeout: 4000 }
+    );
     return () => ric.cancelIdleCallback?.(handle);
   }, [finishImages, selectedImage]);
 
