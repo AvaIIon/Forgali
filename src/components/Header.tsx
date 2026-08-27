@@ -243,8 +243,8 @@ export const Header = () => {
               src="/forgali-logo-dark.png"
               alt="Forgali"
               className="h-7 sm:h-8 w-auto"
-              width={1172}
-              height={248}
+              width={1670}
+              height={335}
             />
             <p className="hidden sm:block text-[10px] text-muted-foreground tracking-[0.2em]">
               SOLID WOOD FURNITURE

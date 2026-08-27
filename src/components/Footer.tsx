@@ -11,8 +11,8 @@ export const Footer = () => {
               src="/forgali-logo-light.png"
               alt="Forgali"
               className="h-8 w-auto"
-              width={1172}
-              height={248}
+              width={1670}
+              height={335}
             />
             <span className="text-[10px] text-background/60 tracking-[0.2em] mt-1">
               SOLID WOOD FURNITURE
