@@ -30,6 +30,7 @@ import handles from "./src/data/product-handles.json";
 import productMeta from "./src/data/product-meta.json";
 import categoryProducts from "./src/data/category-products.json";
 import { categoryInfoMap } from "./src/lib/categoryInfo";
+import { cdnImage, cdnSrcSet } from "./src/lib/imageProxy";
 import { faqPageJsonLd, getBedSeo } from "./src/lib/categorySeo";
 import { categorySubcategories } from "./src/lib/subcategories";
 import { PLANK_AND_BEAM_SEO } from "./src/lib/plankAndBeamSeo";
@@ -426,8 +427,15 @@ function productBody(handle: string, m: ProductMeta): string | null {
     cat && hasOwn(categoryInfoMap, cat)
       ? ` › <a href="/category/${esc(cat)}" style="text-decoration:underline;">${esc(categoryInfoMap[cat].title)}</a>`
       : "";
+  // Sized, not original. This <img> renders at 480px but sat in the SSR HTML
+  // with the raw Shopify URL, so the preload scanner pulled a 690KB original
+  // ~80ms into the load — before the bundle even ran — and it competed with
+  // the gallery image the shopper actually looks at. og:image above keeps the
+  // full-size URL, which is what social scrapers want.
   const img = m.i
-    ? `<img src="${esc(m.i)}" alt="${esc(m.t)}" style="max-width:100%;width:480px;height:auto;margin:0 0 16px;"/>`
+    ? `<img src="${esc(cdnImage(m.i, 600))}" srcset="${esc(cdnSrcSet(m.i, [480, 600, 960]) ?? "")}"` +
+      ` sizes="480px" alt="${esc(m.t)}" fetchpriority="high"` +
+      ` style="max-width:100%;width:480px;height:auto;margin:0 0 16px;"/>`
     : "";
   const price = m.p
     ? `<p style="margin:0 0 8px;font-size:1.25rem;font-weight:700;">${esc(money(m.p))}</p>`

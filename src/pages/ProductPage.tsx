@@ -15,6 +15,12 @@ import { categorySubcategories, productMatchesSubcategory } from "@/lib/subcateg
 
 const MAX_QUANTITY = 10;
 
+// The main gallery <img> and the preloader below MUST agree on these, or the
+// browser picks a different srcSet candidate than the one that was warmed and
+// the preload is wasted.
+const MAIN_IMAGE_WIDTHS = [600, 800, 1000, 1400];
+const MAIN_IMAGE_SIZES = "(max-width: 1024px) 100vw, 60vw";
+
 const FINISH_OPTION_NAMES = ["finish", "color", "wood finish"];
 const isFinishLike = (name: string) => FINISH_OPTION_NAMES.includes(name.toLowerCase());
 
@@ -172,6 +178,44 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
     return imgs.length > 0 ? imgs : [product.image];
   }, [product, selectedFinishName, resolvedVariant]);
 
+  // Warm the gallery ahead of the shopper. Each arrow click used to start a
+  // cold ~100KB fetch only once the photo was already meant to be on screen,
+  // which measured ~1s per click on the live site. Warming uses the SAME
+  // src/srcSet/sizes the <img> will request, so the browser reuses the
+  // candidate it already has instead of picking a different one.
+  useEffect(() => {
+    if (finishImages.length < 2) return;
+    const warm = (url: string) => {
+      if (!url) return;
+      const img = new Image();
+      img.sizes = MAIN_IMAGE_SIZES;
+      const set = cdnSrcSet(url, MAIN_IMAGE_WIDTHS);
+      if (set) img.srcset = set;
+      img.src = cdnImage(url, 1000);
+    };
+
+    const n = finishImages.length;
+    warm(finishImages[(selectedImage + 1) % n]);
+    warm(finishImages[(selectedImage - 1 + n) % n]);
+
+    // Thumbnails are random access, so the neighbours alone don't cover them.
+    // The rest of the gallery is warmed only once the browser is idle, and
+    // never on a metered or slow connection — a 9-shot gallery is close to a
+    // megabyte the shopper may never look at.
+    const conn = (navigator as Navigator & {
+      connection?: { saveData?: boolean; effectiveType?: string };
+    }).connection;
+    if (conn?.saveData || (conn?.effectiveType && /2g/.test(conn.effectiveType))) return;
+
+    const ric = (window as Window & {
+      requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number;
+      cancelIdleCallback?: (h: number) => void;
+    });
+    if (!ric.requestIdleCallback) return;
+    const handle = ric.requestIdleCallback(() => finishImages.forEach(warm), { timeout: 4000 });
+    return () => ric.cancelIdleCallback?.(handle);
+  }, [finishImages, selectedImage]);
+
   // Generic same-category fallback ("You May Also Like")
   const relatedProducts = useMemo(() => {
     if (!product || allProducts.length === 0) return [];
@@ -300,8 +344,8 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
             <div className="relative aspect-square rounded-lg overflow-hidden bg-secondary group">
               <img
                 src={cdnImage(getImageSrc(selectedImage), 1000)}
-                srcSet={cdnSrcSet(getImageSrc(selectedImage), [600, 800, 1000, 1400])}
-                sizes="(max-width: 1024px) 100vw, 60vw"
+                srcSet={cdnSrcSet(getImageSrc(selectedImage), MAIN_IMAGE_WIDTHS)}
+                sizes={MAIN_IMAGE_SIZES}
                 alt={product.name}
                 className="w-full h-full object-cover"
                 onError={() => handleImageError(selectedImage)}
