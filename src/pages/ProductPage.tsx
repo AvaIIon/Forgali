@@ -266,7 +266,7 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
           "fireplace mantel shelf canada") but had no inbound links at all
           except the tab strip on their own parent. This gives each one a
           contextual link from every product that belongs to it. */}
-      <div className="max-w-7xl mx-auto px-4 py-4">
+      <div className="max-w-[1600px] mx-auto px-4 py-4">
         <nav className="flex items-center gap-2 text-sm text-muted-foreground">
           <Link to="/" className="hover:text-foreground">Home</Link>
           <span>/</span>
@@ -290,8 +290,8 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
       </div>
 
       {/* Main Product Section */}
-      <div className="max-w-7xl mx-auto px-4 pb-16">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+      <div className="max-w-[1600px] mx-auto px-4 pb-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-[3fr_2fr] gap-12">
 
           {/* Image Gallery */}
           <div className="space-y-4">
@@ -300,7 +300,7 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
               <img
                 src={cdnImage(getImageSrc(selectedImage), 1000)}
                 srcSet={cdnSrcSet(getImageSrc(selectedImage), [600, 800, 1000, 1400])}
-                sizes="(max-width: 1024px) 100vw, 50vw"
+                sizes="(max-width: 1024px) 100vw, 60vw"
                 alt={product.name}
                 className="w-full h-full object-cover"
                 onError={() => handleImageError(selectedImage)}
@@ -611,7 +611,7 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
           nightstand, table↔chairs↔console per family) */}
       {completeTheRoom.length > 0 && (
         <section className="py-12">
-          <div className="max-w-7xl mx-auto px-4">
+          <div className="max-w-[1600px] mx-auto px-4">
             <h2 className="text-2xl font-bold mb-2">Complete the Room</h2>
             <p className="text-muted-foreground text-sm mb-8">
               Pieces from the same family, made to match.
@@ -654,7 +654,7 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
           Complete the Room once the metafield arrived. */}
       {detailLoaded && completeTheRoom.length === 0 && relatedProducts.length > 0 && (
         <section className="bg-secondary/30 py-12">
-          <div className="max-w-7xl mx-auto px-4">
+          <div className="max-w-[1600px] mx-auto px-4">
             <h2 className="text-2xl font-bold mb-8">You May Also Like</h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
               {relatedProducts.map((relatedProduct) => (

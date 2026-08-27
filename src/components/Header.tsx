@@ -145,7 +145,7 @@ export const Header = () => {
 
       {/* Main header */}
       <div className="border-b border-border">
-        <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between gap-3">
+        <div className="max-w-[1920px] mx-auto px-4 py-4 flex items-center justify-between gap-3">
           {/* Left: mobile menu button + desktop search */}
           <div className="flex items-center gap-2 flex-1 min-w-0">
             {/* Mobile menu */}
@@ -315,7 +315,7 @@ export const Header = () => {
 
       {/* Desktop navigation (hidden on mobile — the hamburger Sheet covers it) */}
       <nav className="border-b border-border hidden md:block">
-        <div className="max-w-7xl mx-auto px-4">
+        <div className="max-w-[1920px] mx-auto px-4">
           <NavigationMenu
             ref={menuRef}
             className="max-w-none justify-center"
