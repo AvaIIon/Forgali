@@ -13,7 +13,7 @@ export interface CategorySeo {
   seoDescription: string; // meta description (120-160 chars)
   h1: string;             // page H1 (the keyword phrase)
   lead: string;           // short supporting line under the H1
-  intro: string;          // buying-guide body rendered below the product grid
+  intro?: string;         // buying-guide body below the grid; omit to drop the whole "About" section
   /**
    * H2 sections rendered after `intro`. Each H2 is a real query this page
    * already gets impressions for, so the page answers the sub-intent under a
@@ -227,7 +227,6 @@ const BED_SEO: Record<string, CategorySeo> = {
     seoDescription: "Shop solid wood Plank & Beam coffee tables in Canada, from $229 CAD. Round and rectangular styles with free Canada-wide shipping and easy 30-day returns.",
     h1: "Solid Wood Coffee Tables in Canada",
     lead: "Shop solid wood Plank & Beam coffee tables in Canada, from $229 CAD. Round and rectangular styles with free Canada-wide shipping and easy 30-day returns.",
-    intro: "A coffee table anchors the living room, tying together your sofa, chairs and rug while giving you a surface for books, trays and everyday life. We carry 26 solid wood Plank & Beam coffee tables in Canada, starting from $229, in shapes to suit how you gather. A round top like the Forma Round Coffee Table 34in keeps traffic flowing in tighter seating areas and softens a room full of straight lines. Rectangular styles such as the Arcata Coffee Table 45in and the longer Classic Coffee Table 54in give you more room to spread out in front of a sofa. To choose, measure your seating: leave enough walking space around the table, and aim for a height close to your sofa cushions. Finishes range from light, natural tones like Blonde, Coastal White and Cerused White to warmer Hazelnut and Pecan, plus deep Black and Noir for contrast. The Plank & Beam US site does ship to Canada, but you pay FedEx for it and they accept no Canadian returns. Forgali carries the range in CAD, ships free across the country, and handles 30-day returns locally — no duties or brokerage.",
   },
   "living|console-tables": {
     seoTitle: "Solid Wood Console Tables Canada - Free Shipping | Forgali",
