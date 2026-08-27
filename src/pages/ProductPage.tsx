@@ -291,10 +291,13 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
 
       {/* Main Product Section */}
       <div className="max-w-[1600px] mx-auto px-4 pb-16">
-        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-[3fr_2fr] gap-12">
+        {/* minmax(0,·) keeps the 3:2 tracks rigid — bare fr tracks grow to the
+            thumbnail strip's min-content, so the layout jumped when a variant
+            switch changed the image count */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] gap-12">
 
           {/* Image Gallery */}
-          <div className="space-y-4">
+          <div className="space-y-4 min-w-0">
             {/* Main Image */}
             <div className="relative aspect-square rounded-lg overflow-hidden bg-secondary group">
               <img
@@ -355,7 +358,7 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
           </div>
 
           {/* Product Info */}
-          <div className="space-y-6">
+          <div className="space-y-6 min-w-0">
             {/* Title */}
             <h1 className="text-2xl md:text-3xl font-bold text-foreground leading-tight">
               {product.name}
