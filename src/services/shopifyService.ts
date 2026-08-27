@@ -157,7 +157,10 @@ const PRODUCT_BY_HANDLE_QUERY = `
         { namespace: "specs", key: "material" },
         { namespace: "specs", key: "weight_capacity" },
         { namespace: "specs", key: "recommended_mattress" },
-        { namespace: "specs", key: "assembly" }
+        { namespace: "specs", key: "assembly" },
+        { namespace: "specs", key: "dimension_table" },
+        { namespace: "specs", key: "highlights" },
+        { namespace: "specs", key: "overview" }
       ]) {
         namespace
         key
@@ -532,6 +535,14 @@ export interface ShopifyProduct {
   variants: { edges: Array<{ node: ShopifyVariant }> };
 }
 
+// One row of the PDP Details table, e.g. { label: "Length (L)", value: "54",
+// unit: "IN" }. Sourced from the manufacturer's published specifications.
+export interface DimensionRow {
+  label: string;
+  value: string;
+  unit?: string;
+}
+
 // Structured product specs (from Shopify `specs` metafields)
 export interface ProductSpecs {
   dimensions?: string;
@@ -539,6 +550,9 @@ export interface ProductSpecs {
   weightCapacity?: string;
   recommendedMattress?: string;
   assembly?: string;
+  dimensionTable?: DimensionRow[];
+  highlights?: string[];
+  overview?: string;
 }
 
 // Fetch products from Shopify (250 = Storefront API page-size max; the whole
@@ -903,9 +917,40 @@ const parseSpecs = (metafields?: Array<ShopifyMetafield | null>): ProductSpecs =
       case 'weight_capacity': specs.weightCapacity = mf.value; break;
       case 'recommended_mattress': specs.recommendedMattress = mf.value; break;
       case 'assembly': specs.assembly = mf.value; break;
+      // JSON-typed metafields arrive as strings. A malformed value must not
+      // take the whole PDP down, so every parse is guarded and simply yields
+      // no table / no highlights.
+      case 'dimension_table': specs.dimensionTable = parseDimensionTable(mf.value); break;
+      case 'highlights': specs.highlights = parseStringList(mf.value); break;
+      case 'overview': specs.overview = mf.value.trim() || undefined; break;
     }
   }
   return specs;
+};
+
+const parseDimensionTable = (raw: string): DimensionRow[] | undefined => {
+  try {
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed)) return undefined;
+    const rows = parsed
+      .filter((r): r is DimensionRow => !!r && typeof r.label === 'string' && typeof r.value === 'string')
+      .map(r => ({ label: r.label.trim(), value: r.value.trim(), unit: r.unit?.trim() || undefined }))
+      .filter(r => r.label && r.value);
+    return rows.length ? rows : undefined;
+  } catch {
+    return undefined;
+  }
+};
+
+const parseStringList = (raw: string): string[] | undefined => {
+  try {
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed)) return undefined;
+    const items = parsed.filter((s): s is string => typeof s === 'string').map(s => s.trim()).filter(Boolean);
+    return items.length ? items : undefined;
+  } catch {
+    return undefined;
+  }
 };
 
 // Helper to convert Shopify product to our Product format

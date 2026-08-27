@@ -5,7 +5,7 @@ import { Footer } from "@/components/Footer";
 import { Seo } from "@/components/Seo";
 import { Check, Truck, Shield, Lock, RotateCcw, Minus, Plus, Loader2, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { ProductInfoTabs } from "@/components/ProductInfoTabs";
 import { useCart } from "@/context/CartContext";
 import { useShopifyProduct, useShopifyProducts, getRelatedProducts } from "@/hooks/useShopifyProducts";
 import { getVariantImages, ConvertedProduct } from "@/services/shopifyService";
@@ -218,8 +218,6 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
     ? Math.round((1 - displayPrice / displayCompareAt) * 100)
     : 0;
 
-  const specs = product.specs || {};
-  const isBed = ["bunk-beds", "loft-beds", "single-beds"].includes(product.category);
   const isMattress = product.category === "mattresses";
 
   // Product JSON-LD for rich results (no reviews/aggregateRating — the site
@@ -520,95 +518,15 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
                 <p className="text-xs font-medium">Secure Checkout</p>
               </div>
             </div>
-
-            {/* Product Details Accordion */}
-            <Accordion type="single" collapsible className="w-full">
-              <AccordionItem value="details">
-                <AccordionTrigger className="text-base font-semibold">Product Details</AccordionTrigger>
-                <AccordionContent className="space-y-4">
-                  {product.description && (
-                    <p className="text-sm text-muted-foreground">{product.description}</p>
-                  )}
-                  {(specs.material || specs.weightCapacity) && (
-                    <div className={`grid gap-4 ${specs.material && specs.weightCapacity ? "grid-cols-2" : "grid-cols-1"}`}>
-                      {specs.weightCapacity && (
-                        <div className="bg-secondary/50 p-4 rounded-lg text-center">
-                          <p className="text-2xl font-bold text-[#4A647C]">{specs.weightCapacity}</p>
-                          <p className="text-sm text-muted-foreground">Weight Capacity</p>
-                        </div>
-                      )}
-                      {specs.material && (
-                        <div className="bg-secondary/50 p-4 rounded-lg text-center">
-                          <p className="text-2xl font-bold text-[#4A647C]">{specs.material}</p>
-                          <p className="text-sm text-muted-foreground">Material</p>
-                        </div>
-                      )}
-                    </div>
-                  )}
-                  {(specs.recommendedMattress || specs.assembly) && (
-                    <ul className="space-y-2">
-                      {specs.recommendedMattress && (
-                        <li className="flex items-start gap-2">
-                          <Check className="w-5 h-5 text-[#2D8B6F] flex-shrink-0 mt-0.5" />
-                          <span className="text-sm">Recommended mattress: {specs.recommendedMattress}</span>
-                        </li>
-                      )}
-                      {specs.assembly && (
-                        <li className="flex items-start gap-2">
-                          <Check className="w-5 h-5 text-[#2D8B6F] flex-shrink-0 mt-0.5" />
-                          <span className="text-sm">Assembly: {specs.assembly}</span>
-                        </li>
-                      )}
-                    </ul>
-                  )}
-                  <ul className="space-y-2">
-                    {!isMattress && (
-                      <li className="flex items-start gap-2">
-                        <Check className="w-5 h-5 text-[#2D8B6F] flex-shrink-0 mt-0.5" />
-                        <span className="text-sm">Superior quality: solid wood frame with a durable, low-VOC finish</span>
-                      </li>
-                    )}
-                    <li className="flex items-start gap-2">
-                      <Check className="w-5 h-5 text-[#2D8B6F] flex-shrink-0 mt-0.5" />
-                      <span className="text-sm">Sturdy &amp; stable: built to last with tight, reinforced structural connections</span>
-                    </li>
-                    {isBed && (
-                      <li className="flex items-start gap-2">
-                        <Check className="w-5 h-5 text-[#2D8B6F] flex-shrink-0 mt-0.5" />
-                        <span className="text-sm">Manufacturer-tested to applicable children's furniture safety standards</span>
-                      </li>
-                    )}
-                  </ul>
-                </AccordionContent>
-              </AccordionItem>
-
-              {specs.dimensions && (
-                <AccordionItem value="dimensions">
-                  <AccordionTrigger className="text-base font-semibold">Dimensions</AccordionTrigger>
-                  <AccordionContent>
-                    <p className="text-sm text-muted-foreground whitespace-pre-line">{specs.dimensions}</p>
-                  </AccordionContent>
-                </AccordionItem>
-              )}
-
-              <AccordionItem value="shipping">
-                <AccordionTrigger className="text-base font-semibold">Shipping Information</AccordionTrigger>
-                <AccordionContent className="space-y-3">
-                  <p className="text-sm">Free Canada-Wide Shipping on all orders!</p>
-                  <p className="text-sm">Standard delivery: 12-18 business days</p>
-                  <p className="text-sm">
-                    <Link to="/shipping" className="text-primary hover:underline">Shipping details</Link>
-                    {" · "}
-                    <Link to="/returns" className="text-primary hover:underline">30-day returns</Link>
-                    {" · "}
-                    <Link to="/assembly" className="text-primary hover:underline">Assembly guide</Link>
-                  </p>
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
           </div>
         </div>
       </div>
+
+      {/* Details / Description / Shipping. This replaced the accordion that used
+          to sit in the right rail: it holds the manufacturer's dimension table
+          and per-product highlights, which are far too wide to read squeezed
+          beside the buy box. */}
+      <ProductInfoTabs product={product} />
 
       {/* Complete the Room — curated same-style pieces (bed↔dresser↔
           nightstand, table↔chairs↔console per family) */}
