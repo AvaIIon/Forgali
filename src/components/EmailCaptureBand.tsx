@@ -35,7 +35,7 @@ export const EmailCaptureBand = () => {
   };
 
   return (
-    <section aria-label="Email signup" className="bg-[#4A647C] px-4 py-14 text-white">
+    <section aria-label="Email signup" className="bg-brand px-4 py-14 text-white">
       <div className="mx-auto max-w-2xl text-center">
         <h2 className="text-2xl font-bold md:text-3xl">
           Get 10% Off Your First Dining or Living Order
@@ -76,7 +76,7 @@ export const EmailCaptureBand = () => {
             <button
               type="submit"
               disabled={state === "loading"}
-              className="h-12 shrink-0 rounded-full bg-white px-8 text-sm font-semibold text-[#4A647C] transition-colors hover:bg-[#f2f4f6] disabled:opacity-70"
+              className="h-12 shrink-0 rounded-full bg-white px-8 text-sm font-semibold text-brand-accent transition-colors hover:bg-brand-tint disabled:opacity-70"
             >
               {state === "loading" ? (
                 <Loader2 className="mx-auto h-4 w-4 animate-spin" />

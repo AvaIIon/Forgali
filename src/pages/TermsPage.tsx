@@ -14,7 +14,7 @@ const TermsPage = () => {
       />
       <Header />
 
-      <div className="bg-gradient-to-b from-[#f2f4f6] to-white py-12 px-4">
+      <div className="bg-gradient-to-b from-brand-tint to-white py-12 px-4">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">Terms of Service</h1>
           <p className="text-muted-foreground text-base md:text-lg max-w-2xl mx-auto">
@@ -48,9 +48,9 @@ const TermsPage = () => {
             <h2 className="text-2xl font-bold text-foreground mb-3">Shipping, Returns &amp; Warranty</h2>
             <p>
               Delivery, returns, and warranty coverage are governed by our{" "}
-              <Link to="/shipping" className="text-primary hover:underline">Shipping</Link>,{" "}
-              <Link to="/returns" className="text-primary hover:underline">Returns</Link>, and{" "}
-              <Link to="/warranty" className="text-primary hover:underline">Warranty</Link> pages,
+              <Link to="/shipping" className="text-brand-accent hover:underline">Shipping</Link>,{" "}
+              <Link to="/returns" className="text-brand-accent hover:underline">Returns</Link>, and{" "}
+              <Link to="/warranty" className="text-brand-accent hover:underline">Warranty</Link> pages,
               which form part of these terms.
             </p>
           </div>
@@ -67,8 +67,8 @@ const TermsPage = () => {
             <h2 className="text-2xl font-bold text-foreground mb-3">Contact</h2>
             <p>
               Questions about these terms? Email{" "}
-              <a href="mailto:daniel@forgali.com" className="text-primary hover:underline">daniel@forgali.com</a>.
-              See also our <Link to="/privacy" className="text-primary hover:underline">Privacy Policy</Link>.
+              <a href="mailto:daniel@forgali.com" className="text-brand-accent hover:underline">daniel@forgali.com</a>.
+              See also our <Link to="/privacy" className="text-brand-accent hover:underline">Privacy Policy</Link>.
             </p>
           </div>
         </div>

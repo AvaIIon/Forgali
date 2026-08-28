@@ -14,6 +14,20 @@ export default {
     },
     extend: {
       colors: {
+        // The house palette. Every brand surface, link and accent on the site
+        // resolves through these, so a rebrand is an edit to index.css and
+        // nothing else. Deliberately NOT Plank & Beam's slate (#536976) --
+        // we sell their product, we shouldn't wear their storefront.
+        brand: {
+          DEFAULT: "hsl(var(--brand))",
+          hover: "hsl(var(--brand-hover))",
+          tint: "hsl(var(--brand-tint))",
+          "tint-hover": "hsl(var(--brand-tint-hover))",
+          accent: "hsl(var(--brand-accent))",
+          "accent-hover": "hsl(var(--brand-accent-hover))",
+          positive: "hsl(var(--brand-positive))",
+          "positive-hover": "hsl(var(--brand-positive-hover))",
+        },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

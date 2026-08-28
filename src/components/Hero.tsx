@@ -39,7 +39,7 @@ export const Hero = () => {
           </Link>
           <Link
             to="/category/bedroom"
-            className="bg-[#f2f4f6] text-foreground px-6 py-2.5 rounded-full text-sm font-medium border border-foreground hover:bg-[#e8eaed] transition-colors"
+            className="bg-brand-tint text-foreground px-6 py-2.5 rounded-full text-sm font-medium border border-foreground hover:bg-brand-tint-hover transition-colors"
           >
             Shop Kids&rsquo; Beds
           </Link>

@@ -70,7 +70,7 @@ const SmartDealsPage = () => {
     `inline-flex items-center gap-1.5 rounded-full border px-4 py-2 text-sm font-medium transition-colors ${
       active
         ? "border-primary bg-primary text-primary-foreground"
-        : "border-border bg-background hover:border-[#4A647C] hover:text-[#4A647C]"
+        : "border-border bg-background hover:border-brand-accent hover:text-brand-accent"
     }`;
 
   return (
@@ -80,7 +80,7 @@ const SmartDealsPage = () => {
       />
       <Header />
 
-      <div className="bg-gradient-to-b from-[#f2f4f6] to-white py-12 px-4">
+      <div className="bg-gradient-to-b from-brand-tint to-white py-12 px-4">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
             Smart Deals
@@ -96,7 +96,7 @@ const SmartDealsPage = () => {
         <div className="max-w-rail mx-auto">
           {loading && (
             <div className="flex flex-col items-center justify-center py-16 gap-4">
-              <Loader2 className="w-8 h-8 animate-spin text-[#4A647C]" />
+              <Loader2 className="w-8 h-8 animate-spin text-brand" />
               <p className="text-muted-foreground">Loading deals...</p>
             </div>
           )}
@@ -153,14 +153,14 @@ const SmartDealsPage = () => {
                           <button
                             type="button"
                             onClick={() => selectRoom(section.id)}
-                            className="text-sm font-medium text-primary hover:underline whitespace-nowrap"
+                            className="text-sm font-medium text-brand-accent hover:underline whitespace-nowrap"
                           >
                             See all {section.products.length} {section.label} deals →
                           </button>
                         ) : (
                           <Link
                             to={section.href}
-                            className="text-sm font-medium text-primary hover:underline whitespace-nowrap"
+                            className="text-sm font-medium text-brand-accent hover:underline whitespace-nowrap"
                           >
                             Shop all {section.label} →
                           </Link>

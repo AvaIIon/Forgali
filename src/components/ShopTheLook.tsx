@@ -83,7 +83,7 @@ const HotspotPopover = ({
         style={{ top: coords.top, left: coords.left }}
         // after:-inset-2.5 expands the tap target to ~48px (mobile guideline)
         // while the visible dot stays 28px
-        className="absolute flex h-7 w-7 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white text-[13px] font-semibold text-foreground shadow-md ring-2 ring-black/5 transition-all duration-200 after:absolute after:-inset-2.5 after:rounded-full after:content-[''] hover:scale-110 data-[state=open]:bg-[#4A647C] data-[state=open]:text-white"
+        className="absolute flex h-7 w-7 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white text-[13px] font-semibold text-foreground shadow-md ring-2 ring-black/5 transition-all duration-200 after:absolute after:-inset-2.5 after:rounded-full after:content-[''] hover:scale-110 data-[state=open]:bg-brand data-[state=open]:text-white"
       >
         {spot.number}
       </button>
@@ -95,7 +95,7 @@ const HotspotPopover = ({
             src={cdnImage(getProxiedImage(image), 200)}
             alt={title}
             loading="lazy"
-            className="h-20 w-20 rounded-lg bg-[#f2f4f6] object-cover"
+            className="h-20 w-20 rounded-lg bg-brand-tint object-cover"
           />
         </Link>
         <div className="min-w-0">
@@ -106,7 +106,7 @@ const HotspotPopover = ({
             {title}
           </Link>
           <div className="mt-1 flex items-baseline gap-2">
-            <span className="font-bold text-primary">
+            <span className="font-bold text-brand-accent">
               {spot.fromPrice ? "From " : ""}${formatPrice(price)}
             </span>
             {originalPrice && (
@@ -117,7 +117,7 @@ const HotspotPopover = ({
           </div>
           <Link
             to={`/product/${spot.handle}`}
-            className="mt-2 inline-block text-sm font-semibold text-[#4A647C] hover:underline"
+            className="mt-2 inline-block text-sm font-semibold text-brand-accent hover:underline"
           >
             Shop Now →
           </Link>
@@ -229,7 +229,7 @@ export const ShopTheLook = () => {
             to={`/product/${spot.handle}`}
             className="group inline-flex items-center gap-2 text-sm"
           >
-            <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#4A647C] text-[11px] font-semibold text-white">
+            <span className="flex h-5 w-5 items-center justify-center rounded-full bg-brand text-[11px] font-semibold text-white">
               {spot.number}
             </span>
             <span className="text-muted-foreground group-hover:text-foreground group-hover:underline">
@@ -244,7 +244,7 @@ export const ShopTheLook = () => {
           type="button"
           onClick={addTheLook}
           disabled={lookState !== "idle" && lookState !== "error"}
-          className="rounded-full bg-[#4A647C] px-8 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#3A5066] disabled:opacity-70"
+          className="rounded-full bg-brand px-8 py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-hover disabled:opacity-70"
         >
           {lookState === "adding"
             ? "Adding the look…"

@@ -34,7 +34,7 @@ const ProductPage = () => {
       <div className="min-h-screen bg-background">
         <Header />
         <div className="flex flex-col items-center justify-center py-32 gap-4">
-          <Loader2 className="w-8 h-8 animate-spin text-[#4A647C]" />
+          <Loader2 className="w-8 h-8 animate-spin text-brand" />
           <p className="text-muted-foreground">Loading product...</p>
         </div>
         <Footer />
@@ -65,13 +65,13 @@ const ProductPage = () => {
               : "Please try again in a moment."}
           </p>
           <div className="flex gap-4 flex-wrap justify-center">
-            <Link to="/category/dining" className="text-[#4A647C] hover:underline">
+            <Link to="/category/dining" className="text-brand-accent hover:underline">
               Shop Dining
             </Link>
-            <Link to="/category/living" className="text-[#4A647C] hover:underline">
+            <Link to="/category/living" className="text-brand-accent hover:underline">
               Shop Living
             </Link>
-            <Link to="/category/bedroom" className="text-[#4A647C] hover:underline">
+            <Link to="/category/bedroom" className="text-brand-accent hover:underline">
               Shop Bedroom
             </Link>
           </div>
@@ -391,7 +391,7 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
                     onClick={() => setSelectedImage(index)}
                     aria-label={`View image ${index + 1} of ${finishImages.length}`}
                     className={`flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 transition-colors ${
-                      selectedImage === index ? "border-[#4A647C]" : "border-transparent"
+                      selectedImage === index ? "border-brand" : "border-transparent"
                     }`}
                   >
                     <img
@@ -416,7 +416,7 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
 
             {/* Price Section (selected variant's real price) */}
             <div className="flex items-center gap-3 flex-wrap">
-              <span className="text-3xl font-bold text-[#2D8B6F]">
+              <span className="text-3xl font-bold text-brand-accent">
                 ${displayPrice.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
               </span>
               {displayCompareAt && displayCompareAt > displayPrice && (
@@ -450,7 +450,7 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
                           aria-pressed={selectedValue === value}
                           className={`w-10 h-10 rounded-full border-2 transition-all ${
                             selectedValue === value
-                              ? "border-[#4A647C] ring-2 ring-[#4A647C] ring-offset-2"
+                              ? "border-brand ring-2 ring-brand ring-offset-2"
                               : "border-border hover:border-muted-foreground"
                           }`}
                           style={{ backgroundColor: getFinishColor(value) }}
@@ -475,7 +475,7 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
                         aria-pressed={selectedValue === value}
                         className={`px-4 py-2 rounded-lg border text-sm font-medium transition-colors ${
                           selectedValue === value
-                            ? "border-[#4A647C] bg-[#4A647C] text-white"
+                            ? "border-brand bg-brand text-white"
                             : "border-border hover:border-muted-foreground"
                         }`}
                       >
@@ -511,7 +511,7 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
                 disabled={!canPurchase}
                 className={`flex-1 py-6 text-lg font-semibold rounded-lg ${
                   canPurchase
-                    ? "bg-[#2D8B6F] hover:bg-[#247558] text-white"
+                    ? "bg-brand-positive hover:bg-brand-positive-hover text-white"
                     : "bg-gray-200 text-gray-400 cursor-not-allowed backdrop-blur-sm"
                 }`}
               >
@@ -531,12 +531,12 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
                 are 30-day but not free, so we don't say "free returns"). The
                 12-18 business day delivery window is stated on /checkout and in
                 the Shipping Information accordion below, not here. */}
-            <div className="space-y-2.5 p-4 bg-[#E8F5E9] rounded-lg">
+            <div className="space-y-2.5 p-4 bg-brand-positive/10 rounded-lg">
               <div className="flex items-center gap-3">
-                <Truck className="w-5 h-5 text-[#2D8B6F] shrink-0" />
-                <p className="font-medium text-[#2D8B6F]">Free Canada-Wide Shipping</p>
+                <Truck className="w-5 h-5 text-brand-positive shrink-0" />
+                <p className="font-medium text-brand-positive">Free Canada-Wide Shipping</p>
               </div>
-              <div className="flex flex-wrap gap-x-4 gap-y-1 pt-1 text-sm text-[#2D8B6F]/90 border-t border-[#2D8B6F]/15">
+              <div className="flex flex-wrap gap-x-4 gap-y-1 pt-1 text-sm text-brand-positive/90 border-t border-brand-positive/15">
                 <span className="flex items-center gap-1.5 pt-2">
                   <RotateCcw className="w-4 h-4" /> 30-day returns
                 </span>
@@ -553,19 +553,19 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
             <div className="grid grid-cols-3 gap-4 pt-4 border-t border-border">
               <div className="text-center space-y-2">
                 <div className="w-12 h-12 mx-auto bg-secondary rounded-full flex items-center justify-center">
-                  <Truck className="w-6 h-6 text-[#4A647C]" />
+                  <Truck className="w-6 h-6 text-brand" />
                 </div>
                 <p className="text-xs font-medium">Fast Shipping</p>
               </div>
               <div className="text-center space-y-2">
                 <div className="w-12 h-12 mx-auto bg-secondary rounded-full flex items-center justify-center">
-                  <Shield className="w-6 h-6 text-[#4A647C]" />
+                  <Shield className="w-6 h-6 text-brand" />
                 </div>
                 <p className="text-xs font-medium">{isMattress ? "30-Day Returns" : "100% Solid Wood"}</p>
               </div>
               <div className="text-center space-y-2">
                 <div className="w-12 h-12 mx-auto bg-secondary rounded-full flex items-center justify-center">
-                  <Lock className="w-6 h-6 text-[#4A647C]" />
+                  <Lock className="w-6 h-6 text-brand" />
                 </div>
                 <p className="text-xs font-medium">Secure Checkout</p>
               </div>
@@ -592,7 +592,7 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
               {completeTheRoom.slice(0, 4).map((ref) => (
                 <Link key={ref.handle} to={`/product/${ref.handle}`} className="group">
-                  <div className="aspect-square rounded-lg overflow-hidden bg-[#f2f4f6] mb-3">
+                  <div className="aspect-square rounded-lg overflow-hidden bg-brand-tint mb-3">
                     <img
                       src={cdnImage(ref.image, 600)}
                       srcSet={cdnSrcSet(ref.image, [300, 450, 600])}
@@ -602,11 +602,11 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
                       loading="lazy"
                     />
                   </div>
-                  <h3 className="font-medium text-sm line-clamp-2 group-hover:text-[#4A647C] transition-colors">
+                  <h3 className="font-medium text-sm line-clamp-2 group-hover:text-brand-accent transition-colors">
                     {ref.title}
                   </h3>
                   <div className="flex items-center gap-2 mt-1">
-                    <p className="text-[#2D8B6F] font-bold">
+                    <p className="text-brand-accent font-bold">
                       {ref.fromPrice ? "From " : ""}${ref.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                     </p>
                     {ref.compareAtPrice && (
@@ -636,7 +636,7 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
                   to={`/product/${relatedProduct.handle}`}
                   className="group"
                 >
-                  <div className="aspect-square rounded-lg overflow-hidden bg-[#f2f4f6] mb-3">
+                  <div className="aspect-square rounded-lg overflow-hidden bg-brand-tint mb-3">
                     <img
                       src={cdnImage(relatedProduct.image, 600)}
                       srcSet={cdnSrcSet(relatedProduct.image, [300, 450, 600])}
@@ -646,10 +646,10 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
                       loading="lazy"
                     />
                   </div>
-                  <h3 className="font-medium text-sm line-clamp-2 group-hover:text-[#4A647C] transition-colors">
+                  <h3 className="font-medium text-sm line-clamp-2 group-hover:text-brand-accent transition-colors">
                     {relatedProduct.name}
                   </h3>
-                  <p className="text-[#2D8B6F] font-bold mt-1">
+                  <p className="text-brand-accent font-bold mt-1">
                     {relatedProduct.fromPrice ? "From " : ""}${relatedProduct.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                   </p>
                 </Link>

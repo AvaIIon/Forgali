@@ -29,7 +29,7 @@ const categories = [
 
 export const FeaturedCategories = () => {
   return (
-    <section className="py-16 px-4 bg-[#f2f4f6]/30">
+    <section className="py-16 px-4 bg-brand-tint/30">
       <div className="max-w-rail mx-auto">
         <h2 className="text-3xl font-bold text-center mb-12">Shop By Category</h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
@@ -39,7 +39,7 @@ export const FeaturedCategories = () => {
               to={category.href}
               className="group"
             >
-              <div className="relative aspect-square rounded-2xl overflow-hidden bg-[#f2f4f6]">
+              <div className="relative aspect-square rounded-2xl overflow-hidden bg-brand-tint">
                 <img
                   src={cdnImage(category.image, 600)}
                   srcSet={cdnSrcSet(category.image, [300, 450, 600, 900])}

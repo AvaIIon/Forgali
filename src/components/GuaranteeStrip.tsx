@@ -9,15 +9,15 @@ const items = [
 ];
 
 export const GuaranteeStrip = () => (
-  <section className="border-y border-border bg-[#f2f4f6]">
+  <section className="border-y border-border bg-brand-tint">
     <div className="max-w-rail mx-auto px-4 py-4 grid grid-cols-2 md:grid-cols-4 gap-3">
       {items.map(({ icon: Icon, label, href }) => (
         <Link
           key={href}
           to={href}
-          className="flex items-center justify-center gap-2 text-sm font-medium text-foreground/80 hover:text-[#4A647C] transition-colors"
+          className="flex items-center justify-center gap-2 text-sm font-medium text-foreground/80 hover:text-brand-accent transition-colors"
         >
-          <Icon className="w-5 h-5 text-[#4A647C] shrink-0" />
+          <Icon className="w-5 h-5 text-brand shrink-0" />
           <span>{label}</span>
         </Link>
       ))}

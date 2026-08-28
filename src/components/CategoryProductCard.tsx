@@ -36,12 +36,12 @@ export const CategoryProductCard = ({ product }: CategoryProductCardProps) => {
           can't paint over page chrome like the sticky subcategory bar */}
       <div className="relative isolate aspect-square overflow-hidden rounded-lg mb-3 bg-secondary">
         {product.badge === "new" && (
-          <span className="absolute top-3 left-3 bg-[#4A647C] text-white text-xs font-semibold px-3 py-1.5 rounded-full z-10">
+          <span className="absolute top-3 left-3 bg-brand text-white text-xs font-semibold px-3 py-1.5 rounded-full z-10">
             NEW
           </span>
         )}
         {product.badge === "bestseller" && (
-          <span className="absolute top-3 left-3 bg-[#4A647C] text-white text-xs font-semibold px-3 py-1.5 rounded-full z-10">
+          <span className="absolute top-3 left-3 bg-brand text-white text-xs font-semibold px-3 py-1.5 rounded-full z-10">
             BEST SELLER
           </span>
         )}
@@ -71,7 +71,7 @@ export const CategoryProductCard = ({ product }: CategoryProductCardProps) => {
         )}
       </div>
       
-      <h3 className="font-medium text-sm mb-2 line-clamp-2 group-hover:text-primary transition-colors">
+      <h3 className="font-medium text-sm mb-2 line-clamp-2 group-hover:text-brand-accent transition-colors">
         {product.name}
       </h3>
       
@@ -96,7 +96,7 @@ export const CategoryProductCard = ({ product }: CategoryProductCardProps) => {
           Strikethrough only when the pairing is unambiguous (single price
           point), never borrowed from a different variant. */}
       <div className="flex items-center gap-2">
-        <span className="text-primary font-bold">
+        <span className="text-brand-accent font-bold">
           {product.fromPrice ? "From " : ""}${product.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
         </span>
         {product.originalPrice && !product.fromPrice && (

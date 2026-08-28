@@ -30,7 +30,7 @@ export const SubcategoryTabs = ({ products }: SubcategoryTabsProps) => {
           <div className="flex gap-2 overflow-x-auto py-4 scrollbar-hide">
             <Link
               to="/category/bedroom"
-              className="px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors bg-[#4A647C] text-white"
+              className="px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors bg-brand text-white"
             >
               Shop All Bedroom
             </Link>
@@ -38,7 +38,7 @@ export const SubcategoryTabs = ({ products }: SubcategoryTabsProps) => {
               <Link
                 key={sub.href}
                 to={sub.href}
-                className="px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors bg-[#f2f4f6] text-foreground hover:bg-[#e8eaed]"
+                className="px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors bg-brand-tint text-foreground hover:bg-brand-tint-hover"
               >
                 {sub.name}
               </Link>
@@ -59,8 +59,8 @@ export const SubcategoryTabs = ({ products }: SubcategoryTabsProps) => {
               to={`/category/${category}`}
               className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors ${
                 !selectedSubcategory
-                  ? 'bg-[#4A647C] text-white'
-                  : 'bg-[#f2f4f6] text-foreground hover:bg-[#e8eaed]'
+                  ? 'bg-brand text-white'
+                  : 'bg-brand-tint text-foreground hover:bg-brand-tint-hover'
               }`}
             >
               Shop All Mattresses
@@ -83,8 +83,8 @@ export const SubcategoryTabs = ({ products }: SubcategoryTabsProps) => {
             to={`/category/${category}`}
             className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors ${
               !selectedSubcategory
-                ? 'bg-[#4A647C] text-white'
-                : 'bg-[#f2f4f6] text-foreground hover:bg-[#e8eaed]'
+                ? 'bg-brand text-white'
+                : 'bg-brand-tint text-foreground hover:bg-brand-tint-hover'
             }`}
           >
             Shop All
@@ -95,8 +95,8 @@ export const SubcategoryTabs = ({ products }: SubcategoryTabsProps) => {
               to={`/category/${category}?subcategory=${sub.slug}`}
               className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors ${
                 selectedSubcategory === sub.slug
-                  ? 'bg-[#4A647C] text-white'
-                  : 'bg-[#f2f4f6] text-foreground hover:bg-[#e8eaed]'
+                  ? 'bg-brand text-white'
+                  : 'bg-brand-tint text-foreground hover:bg-brand-tint-hover'
               }`}
             >
               {sub.name}

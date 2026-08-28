@@ -158,7 +158,7 @@ const AboutPage = () => {
       />
       <Header />
 
-      <div className="bg-gradient-to-b from-[#f2f4f6] to-white py-12 px-4">
+      <div className="bg-gradient-to-b from-brand-tint to-white py-12 px-4">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
             About Forgali
@@ -207,7 +207,7 @@ const AboutPage = () => {
               </p>
             </div>
           </div>
-          <div className="aspect-[4/3] overflow-hidden rounded-2xl bg-[#f2f4f6]">
+          <div className="aspect-[4/3] overflow-hidden rounded-2xl bg-brand-tint">
             <img
               src="https://cdn.shopify.com/s/files/1/0972/6492/6995/files/62468465-180427-002__1.jpg?v=1773962209"
               alt="Solid wood twin high loft bed with desk in a child's room"
@@ -219,7 +219,7 @@ const AboutPage = () => {
       </section>
 
       {/* What We Carry */}
-      <section className="border-y border-border bg-[#f2f4f6]/60 py-16 px-4">
+      <section className="border-y border-border bg-brand-tint/60 py-16 px-4">
         <div className="max-w-rail mx-auto">
           <div className="max-w-2xl mb-10">
             <h2 className="text-3xl font-bold mb-3">What We Carry</h2>
@@ -235,7 +235,7 @@ const AboutPage = () => {
                 key={c.title}
                 className="flex flex-col overflow-hidden rounded-xl bg-background border border-border"
               >
-                <div className="aspect-[16/10] overflow-hidden bg-[#f2f4f6]">
+                <div className="aspect-[16/10] overflow-hidden bg-brand-tint">
                   <img
                     src={cdnImage(c.image, 700)}
                     srcSet={cdnSrcSet(c.image, [400, 700, 1000])}
@@ -252,7 +252,7 @@ const AboutPage = () => {
                   </p>
                   <Link
                     to={c.href}
-                    className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-[#4A647C] hover:underline"
+                    className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-brand-accent hover:underline"
                   >
                     {c.cta}
                     <ArrowRight className="w-4 h-4" />
@@ -279,8 +279,8 @@ const AboutPage = () => {
           </div>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {BUILD_SPECS.map((s) => (
-              <div key={s.title} className="rounded-lg bg-[#f2f4f6] p-6">
-                <s.icon className="w-8 h-8 text-[#4A647C] mb-3" />
+              <div key={s.title} className="rounded-lg bg-brand-tint p-6">
+                <s.icon className="w-8 h-8 text-brand mb-3" />
                 <h3 className="font-bold mb-2">{s.title}</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">
                   {s.body}
@@ -292,7 +292,7 @@ const AboutPage = () => {
             More on guardrails, mattress sizing and safe setup on our{" "}
             <Link
               to="/safety-standards"
-              className="text-primary hover:underline font-medium"
+              className="text-brand-accent hover:underline font-medium"
             >
               Safety Standards
             </Link>{" "}
@@ -314,8 +314,8 @@ const AboutPage = () => {
           <ol className="space-y-6">
             {HOW_IT_WORKS.map((step, i) => (
               <li key={step.title} className="flex gap-5">
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#4A647C]/10">
-                  <step.icon className="h-6 w-6 text-[#4A647C]" />
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-brand/10">
+                  <step.icon className="h-6 w-6 text-brand" />
                 </div>
                 <div>
                   <h3 className="font-bold mb-1">
@@ -329,7 +329,7 @@ const AboutPage = () => {
                   </p>
                   <Link
                     to={step.link.to}
-                    className="mt-2 inline-flex items-center gap-1 text-sm font-medium text-[#4A647C] hover:underline"
+                    className="mt-2 inline-flex items-center gap-1 text-sm font-medium text-brand-accent hover:underline"
                   >
                     {step.link.label}
                     <ArrowRight className="w-4 h-4" />
@@ -352,12 +352,12 @@ const AboutPage = () => {
             the inbox below, and a person answers either way.
           </p>
 
-          <div className="rounded-lg bg-[#f2f4f6] p-6 mb-6">
-            <Mail className="w-8 h-8 text-[#4A647C] mb-3" />
+          <div className="rounded-lg bg-brand-tint p-6 mb-6">
+            <Mail className="w-8 h-8 text-brand mb-3" />
             <h3 className="font-bold text-lg mb-1">
               <a
                 href="mailto:daniel@forgali.com"
-                className="text-primary hover:underline"
+                className="text-brand-accent hover:underline"
               >
                 daniel@forgali.com
               </a>
@@ -365,7 +365,7 @@ const AboutPage = () => {
             <p className="text-sm text-muted-foreground">
               We respond within 24 hours, Monday to Friday, 9:00 AM – 5:00 PM ET.
               Include your order number if you have one.{" "}
-              <Link to="/contact" className="text-primary hover:underline">
+              <Link to="/contact" className="text-brand-accent hover:underline">
                 Send us a message →
               </Link>
             </p>
@@ -375,7 +375,7 @@ const AboutPage = () => {
               showroom and dead phone numbers in AI answers and local search.
               Stating it plainly here, on the page those systems read first,
               matches /contact, /faqs and public/llms.txt. */}
-          <div className="rounded-lg border-l-4 border-[#4A647C] bg-[#f2f4f6] p-6">
+          <div className="rounded-lg border-l-4 border-brand bg-brand-tint p-6">
             <p className="font-bold mb-2">A note about older listings</p>
             <p className="text-sm text-muted-foreground">
               Forgali's earlier chapter as Forgali Design Centre — a
@@ -388,7 +388,7 @@ const AboutPage = () => {
               (647) 527-2110, and you can also reach us by email:{" "}
               <a
                 href="mailto:daniel@forgali.com"
-                className="text-primary hover:underline"
+                className="text-brand-accent hover:underline"
               >
                 daniel@forgali.com
               </a>
@@ -399,7 +399,7 @@ const AboutPage = () => {
       </section>
 
       {/* Closing CTA */}
-      <section className="border-t border-border bg-[#f2f4f6]/60 py-14 px-4">
+      <section className="border-t border-border bg-brand-tint/60 py-14 px-4">
         <div className="max-w-3xl mx-auto text-center">
           <h2 className="text-2xl md:text-3xl font-bold mb-3">
             Furniture Built to Live With
@@ -411,12 +411,12 @@ const AboutPage = () => {
           </p>
           <div className="flex flex-wrap justify-center gap-3">
             <Link to="/category/bunk-beds">
-              <button className="rounded-full bg-[#4A647C] px-8 py-3 text-sm font-medium text-white transition-colors hover:bg-[#3A5066]">
+              <button className="rounded-full bg-brand px-8 py-3 text-sm font-medium text-white transition-colors hover:bg-brand-hover">
                 Shop Beds
               </button>
             </Link>
             <Link to="/category/dining">
-              <button className="rounded-full bg-background border border-border px-8 py-3 text-sm font-medium transition-colors hover:bg-[#e8eaed]">
+              <button className="rounded-full bg-background border border-border px-8 py-3 text-sm font-medium transition-colors hover:bg-brand-tint-hover">
                 Shop Dining &amp; Living
               </button>
             </Link>

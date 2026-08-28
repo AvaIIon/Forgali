@@ -118,7 +118,7 @@ const ContactPage = () => {
       />
       <Header />
       
-      <div className="bg-gradient-to-b from-[#f2f4f6] to-white py-12 px-4">
+      <div className="bg-gradient-to-b from-brand-tint to-white py-12 px-4">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
             Contact Us
@@ -132,29 +132,29 @@ const ContactPage = () => {
       <section className="py-16 px-4">
         <div className="max-w-4xl mx-auto">
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-            <div className="bg-[#f2f4f6] rounded-lg p-6">
-              <Mail className="w-8 h-8 text-[#4A647C] mb-4" />
+            <div className="bg-brand-tint rounded-lg p-6">
+              <Mail className="w-8 h-8 text-brand mb-4" />
               <h3 className="font-bold text-lg mb-2">Email</h3>
-              <a href="mailto:daniel@forgali.com" className="text-primary hover:underline">daniel@forgali.com</a>
+              <a href="mailto:daniel@forgali.com" className="text-brand-accent hover:underline">daniel@forgali.com</a>
               <p className="text-sm text-muted-foreground mt-2">We'll respond within 24 hours</p>
             </div>
 
-            <div className="bg-[#f2f4f6] rounded-lg p-6">
-              <Phone className="w-8 h-8 text-[#4A647C] mb-4" />
+            <div className="bg-brand-tint rounded-lg p-6">
+              <Phone className="w-8 h-8 text-brand mb-4" />
               <h3 className="font-bold text-lg mb-2">Phone</h3>
-              <a href={`tel:${PHONE_E164}`} className="text-primary hover:underline">{PHONE_DISPLAY}</a>
+              <a href={`tel:${PHONE_E164}`} className="text-brand-accent hover:underline">{PHONE_DISPLAY}</a>
               <p className="text-sm text-muted-foreground mt-2">Monday to Friday, 9:00 AM to 5:00 PM EST</p>
             </div>
 
-            <div className="bg-[#f2f4f6] rounded-lg p-6">
-              <Clock className="w-8 h-8 text-[#4A647C] mb-4" />
+            <div className="bg-brand-tint rounded-lg p-6">
+              <Clock className="w-8 h-8 text-brand mb-4" />
               <h3 className="font-bold text-lg mb-2">Support Hours</h3>
               <p className="text-muted-foreground">Monday - Friday</p>
               <p className="text-muted-foreground">9:00 AM - 5:00 PM EST</p>
             </div>
 
-            <div className="bg-[#f2f4f6] rounded-lg p-6">
-              <Globe className="w-8 h-8 text-[#4A647C] mb-4" />
+            <div className="bg-brand-tint rounded-lg p-6">
+              <Globe className="w-8 h-8 text-brand mb-4" />
               <h3 className="font-bold text-lg mb-2">Online Only</h3>
               <p className="text-muted-foreground">100% online store with no retail showroom</p>
               <p className="text-sm text-muted-foreground mt-2">Serving all of Canada with free shipping</p>
@@ -167,7 +167,7 @@ const ContactPage = () => {
             {status === "sent" ? (
               <div role="status" aria-live="polite" className="space-y-5">
                 <div className="flex items-start gap-3">
-                  <div className="mt-0.5 shrink-0 rounded-full bg-[#4A647C] p-1.5">
+                  <div className="mt-0.5 shrink-0 rounded-full bg-brand p-1.5">
                     <Check className="w-4 h-4 text-white" />
                   </div>
                   <div>
@@ -190,7 +190,7 @@ const ContactPage = () => {
             ) : handedOff ? (
               <div role="status" aria-live="polite" className="space-y-5">
                 <div className="flex items-start gap-3">
-                  <div className="mt-0.5 shrink-0 rounded-full bg-[#4A647C] p-1.5">
+                  <div className="mt-0.5 shrink-0 rounded-full bg-brand p-1.5">
                     <Mail className="w-4 h-4 text-white" />
                   </div>
                   <div>
@@ -216,7 +216,7 @@ const ContactPage = () => {
                   </div>
                 </div>
 
-                <div className="bg-[#f2f4f6] border-l-4 border-[#4A647C] rounded-lg p-5">
+                <div className="bg-brand-tint border-l-4 border-brand rounded-lg p-5">
                   <p className="font-medium text-sm mb-1">
                     {status === "error" ? "Send it yourself" : "Nothing opened?"}
                   </p>
@@ -230,7 +230,7 @@ const ContactPage = () => {
                     <button
                       type="button"
                       onClick={handleCopy}
-                      className="inline-flex items-center gap-2 bg-[#4A647C] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#3A5066] transition-colors"
+                      className="inline-flex items-center gap-2 bg-brand text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-brand-hover transition-colors"
                     >
                       {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
                       {copied ? "Copied" : "Copy message"}
@@ -255,7 +255,7 @@ const ContactPage = () => {
 
                   <p className="text-xs text-muted-foreground mt-4">
                     Or write to us directly at{" "}
-                    <a href={`mailto:${RECIPIENT}`} className="text-primary hover:underline">
+                    <a href={`mailto:${RECIPIENT}`} className="text-brand-accent hover:underline">
                       {RECIPIENT}
                     </a>
                     .
@@ -303,7 +303,7 @@ const ContactPage = () => {
                 <button
                   type="submit"
                   disabled={status === "sending"}
-                  className="bg-[#4A647C] text-white px-8 py-3 rounded-lg font-medium hover:bg-[#3A5066] transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+                  className="bg-brand text-white px-8 py-3 rounded-lg font-medium hover:bg-brand-hover transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   {status === "sending" ? "Sending…" : "Send Message"}
                 </button>
@@ -312,9 +312,9 @@ const ContactPage = () => {
                     ? "We'll reply within 24 hours, Monday to Friday."
                     : "This opens your email app with the message ready to send."}{" "}
                   Prefer to reach us directly? Email{" "}
-                  <a href={`mailto:${RECIPIENT}`} className="text-primary hover:underline">{RECIPIENT}</a>{" "}
+                  <a href={`mailto:${RECIPIENT}`} className="text-brand-accent hover:underline">{RECIPIENT}</a>{" "}
                   or call{" "}
-                  <a href={`tel:${PHONE_E164}`} className="text-primary hover:underline">{PHONE_DISPLAY}</a>.
+                  <a href={`tel:${PHONE_E164}`} className="text-brand-accent hover:underline">{PHONE_DISPLAY}</a>.
                 </p>
               </form>
             )}

@@ -10,7 +10,7 @@ const BRAND_IMG =
 // them.
 export const BrandStatement = () => {
   return (
-    <section className="py-16 px-4 bg-[#f2f4f6]/60">
+    <section className="py-16 px-4 bg-brand-tint/60">
       <div className="max-w-rail mx-auto grid grid-cols-1 items-center gap-10 md:grid-cols-2 md:gap-14">
         <div className="text-center md:text-left">
           <h2 className="mb-4 text-3xl font-bold">Furniture Built to Live With</h2>
@@ -23,21 +23,21 @@ export const BrandStatement = () => {
           </p>
           <div className="flex flex-col items-center gap-3 md:items-start">
             <Link to="/category/dining">
-              <button className="rounded-full bg-[#4A647C] px-8 py-3 text-sm font-medium text-white transition-colors hover:bg-[#3A5066]">
+              <button className="rounded-full bg-brand px-8 py-3 text-sm font-medium text-white transition-colors hover:bg-brand-hover">
                 Shop the Collection
               </button>
             </Link>
             {/* The homepage is the site's highest-authority page and linked
                 the brand hub nowhere except the footer. */}
-            <Link to="/plank-and-beam" className="text-sm font-medium text-muted-foreground hover:text-[#4A647C] hover:underline">
+            <Link to="/plank-and-beam" className="text-sm font-medium text-muted-foreground hover:text-brand-accent hover:underline">
               Explore Plank &amp; Beam in Canada →
             </Link>
-            <Link to="/about" className="text-sm font-medium text-muted-foreground hover:text-[#4A647C] hover:underline">
+            <Link to="/about" className="text-sm font-medium text-muted-foreground hover:text-brand-accent hover:underline">
               Learn more about Forgali →
             </Link>
           </div>
         </div>
-        <div className="aspect-[4/3] overflow-hidden rounded-2xl bg-[#f2f4f6]">
+        <div className="aspect-[4/3] overflow-hidden rounded-2xl bg-brand-tint">
           <img
             src={cdnImage(BRAND_IMG, 900)}
             srcSet={cdnSrcSet(BRAND_IMG, [600, 900, 1200])}

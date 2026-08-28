@@ -90,7 +90,7 @@ export const CategoryFilters = ({
           <DropdownMenuTrigger asChild>
             <Button 
               variant="outline" 
-              className={`rounded-full px-4 py-2 h-auto text-sm font-normal ${filters.priceRange ? 'bg-[#4A647C] text-white border-[#4A647C]' : ''}`}
+              className={`rounded-full px-4 py-2 h-auto text-sm font-normal ${filters.priceRange ? 'bg-brand text-white border-brand' : ''}`}
             >
               {filters.priceRange ? priceRanges.find(p => p.value === filters.priceRange)?.label : 'Price'}
               <ChevronDown className="w-4 h-4 ml-1.5" />
@@ -101,7 +101,7 @@ export const CategoryFilters = ({
               <DropdownMenuItem 
                 key={range.value}
                 onClick={() => handlePriceChange(range.value)}
-                className={filters.priceRange === range.value ? 'bg-[#4A647C]/10' : ''}
+                className={filters.priceRange === range.value ? 'bg-brand/10' : ''}
               >
                 {range.label}
               </DropdownMenuItem>
@@ -115,7 +115,7 @@ export const CategoryFilters = ({
           <DropdownMenuTrigger asChild>
             <Button 
               variant="outline" 
-              className={`rounded-full px-4 py-2 h-auto text-sm font-normal ${filters.bedSize ? 'bg-[#4A647C] text-white border-[#4A647C]' : ''}`}
+              className={`rounded-full px-4 py-2 h-auto text-sm font-normal ${filters.bedSize ? 'bg-brand text-white border-brand' : ''}`}
             >
               {filters.bedSize || 'Bed Size'}
               <ChevronDown className="w-4 h-4 ml-1.5" />
@@ -126,7 +126,7 @@ export const CategoryFilters = ({
               <DropdownMenuItem
                 key={size}
                 onClick={() => handleBedSizeChange(size)}
-                className={filters.bedSize === size ? 'bg-[#4A647C]/10' : ''}
+                className={filters.bedSize === size ? 'bg-brand/10' : ''}
               >
                 {size}
               </DropdownMenuItem>
@@ -141,7 +141,7 @@ export const CategoryFilters = ({
             <DropdownMenuTrigger asChild>
               <Button 
                 variant="outline" 
-                className={`rounded-full px-4 py-2 h-auto text-sm font-normal ${filters.finish ? 'bg-[#4A647C] text-white border-[#4A647C]' : ''}`}
+                className={`rounded-full px-4 py-2 h-auto text-sm font-normal ${filters.finish ? 'bg-brand text-white border-brand' : ''}`}
               >
                 {filters.finish || 'Finish'}
                 <ChevronDown className="w-4 h-4 ml-1.5" />
@@ -152,7 +152,7 @@ export const CategoryFilters = ({
                 <DropdownMenuItem 
                   key={finish}
                   onClick={() => handleFinishChange(finish)}
-                  className={filters.finish === finish ? 'bg-[#4A647C]/10' : ''}
+                  className={filters.finish === finish ? 'bg-brand/10' : ''}
                 >
                   {finish}
                 </DropdownMenuItem>
@@ -188,7 +188,7 @@ export const CategoryFilters = ({
             <DropdownMenuItem 
               key={option.value}
               onClick={() => onSortChange(option.value)}
-              className={sortBy === option.value ? 'bg-[#4A647C]/10' : ''}
+              className={sortBy === option.value ? 'bg-brand/10' : ''}
             >
               {option.label}
             </DropdownMenuItem>

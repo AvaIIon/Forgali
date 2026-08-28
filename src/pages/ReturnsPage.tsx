@@ -12,7 +12,7 @@ const ReturnsPage = () => {
       />
       <Header />
 
-      <div className="bg-gradient-to-b from-[#f2f4f6] to-white py-12 px-4">
+      <div className="bg-gradient-to-b from-brand-tint to-white py-12 px-4">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
             Returns, Changes &amp; Cancellations
@@ -47,7 +47,7 @@ const ReturnsPage = () => {
             </p>
             <ol className="list-decimal list-inside space-y-2 text-muted-foreground mb-3">
               <li>
-                Email <a href="mailto:daniel@forgali.com" className="text-primary hover:underline">daniel@forgali.com</a> for
+                Email <a href="mailto:daniel@forgali.com" className="text-brand-accent hover:underline">daniel@forgali.com</a> for
                 a return authorization. Include a quick photo of the item — a phone
                 picture is perfect. We just need a "before" image in case anything is
                 damaged on the way back.
@@ -90,10 +90,10 @@ const ReturnsPage = () => {
           <div>
             <h2 className="text-2xl font-bold mb-4">Contact</h2>
             <p className="text-muted-foreground">
-              Email <a href="mailto:daniel@forgali.com" className="text-primary hover:underline">daniel@forgali.com</a> —
+              Email <a href="mailto:daniel@forgali.com" className="text-brand-accent hover:underline">daniel@forgali.com</a> —
               we respond within 24 hours. See also our{" "}
-              <Link to="/shipping" className="text-primary hover:underline">Shipping Information</Link> and{" "}
-              <Link to="/warranty" className="text-primary hover:underline">Warranty</Link> pages.
+              <Link to="/shipping" className="text-brand-accent hover:underline">Shipping Information</Link> and{" "}
+              <Link to="/warranty" className="text-brand-accent hover:underline">Warranty</Link> pages.
             </p>
           </div>
         </div>

@@ -54,7 +54,7 @@ export const ProductInfoTabs = ({ product }: Props) => {
   const triggerClass =
     "rounded-none border-b-2 border-transparent bg-transparent px-2 py-3 text-xs sm:text-sm " +
     "font-semibold uppercase tracking-[0.12em] text-muted-foreground transition-colors " +
-    "hover:text-foreground data-[state=active]:border-[#4A647C] data-[state=active]:bg-transparent " +
+    "hover:text-foreground data-[state=active]:border-brand data-[state=active]:bg-transparent " +
     "data-[state=active]:text-foreground data-[state=active]:shadow-none";
 
   return (
@@ -105,7 +105,7 @@ export const ProductInfoTabs = ({ product }: Props) => {
                   <ul className="space-y-3">
                     {highlights.map(item => (
                       <li key={item} className="flex items-start gap-3">
-                        <Check className="mt-0.5 h-4 w-4 flex-shrink-0 text-[#2D8B6F]" />
+                        <Check className="mt-0.5 h-4 w-4 flex-shrink-0 text-brand-positive" />
                         <span className="text-sm leading-relaxed text-muted-foreground">{item}</span>
                       </li>
                     ))}
@@ -126,7 +126,7 @@ export const ProductInfoTabs = ({ product }: Props) => {
           <TabsContent value="shipping" className="mt-8">
             <div className="grid max-w-4xl grid-cols-1 gap-6 sm:grid-cols-3">
               <div className="flex items-start gap-3">
-                <Truck className="mt-0.5 h-5 w-5 flex-shrink-0 text-[#2D8B6F]" />
+                <Truck className="mt-0.5 h-5 w-5 flex-shrink-0 text-brand-positive" />
                 <div>
                   <p className="text-sm font-semibold">Free Canada-wide shipping</p>
                   <p className="mt-1 text-sm text-muted-foreground">
@@ -135,7 +135,7 @@ export const ProductInfoTabs = ({ product }: Props) => {
                 </div>
               </div>
               <div className="flex items-start gap-3">
-                <RotateCcw className="mt-0.5 h-5 w-5 flex-shrink-0 text-[#2D8B6F]" />
+                <RotateCcw className="mt-0.5 h-5 w-5 flex-shrink-0 text-brand-positive" />
                 <div>
                   <p className="text-sm font-semibold">30-day returns</p>
                   <p className="mt-1 text-sm text-muted-foreground">
@@ -144,7 +144,7 @@ export const ProductInfoTabs = ({ product }: Props) => {
                 </div>
               </div>
               <div className="flex items-start gap-3">
-                <Wrench className="mt-0.5 h-5 w-5 flex-shrink-0 text-[#2D8B6F]" />
+                <Wrench className="mt-0.5 h-5 w-5 flex-shrink-0 text-brand-positive" />
                 <div>
                   <p className="text-sm font-semibold">Flat-packed for assembly</p>
                   <p className="mt-1 text-sm text-muted-foreground">
@@ -154,15 +154,15 @@ export const ProductInfoTabs = ({ product }: Props) => {
               </div>
             </div>
             <p className="mt-6 text-sm">
-              <Link to="/shipping" className="text-primary hover:underline">
+              <Link to="/shipping" className="text-brand-accent hover:underline">
                 Shipping details
               </Link>
               {" · "}
-              <Link to="/returns" className="text-primary hover:underline">
+              <Link to="/returns" className="text-brand-accent hover:underline">
                 Returns policy
               </Link>
               {" · "}
-              <Link to="/assembly" className="text-primary hover:underline">
+              <Link to="/assembly" className="text-brand-accent hover:underline">
                 Assembly guide
               </Link>
             </p>

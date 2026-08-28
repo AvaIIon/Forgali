@@ -30,7 +30,7 @@ const SearchPage = () => {
           <h1 className="text-3xl font-bold text-foreground mb-2">
             {query ? (
               <>
-                Search results for <span className="text-primary">&ldquo;{query}&rdquo;</span>
+                Search results for <span className="text-brand-accent">&ldquo;{query}&rdquo;</span>
               </>
             ) : (
               "Search"
@@ -44,7 +44,7 @@ const SearchPage = () => {
 
           {loading && (
             <div className="flex flex-col items-center justify-center py-16 gap-4">
-              <Loader2 className="w-8 h-8 animate-spin text-[#4A647C]" />
+              <Loader2 className="w-8 h-8 animate-spin text-brand" />
               <p className="text-muted-foreground">Searching...</p>
             </div>
           )}
@@ -76,7 +76,7 @@ const SearchPage = () => {
                   <Link
                     key={cat.href}
                     to={cat.href}
-                    className="inline-flex items-center rounded-full border border-border bg-background px-4 py-2 text-sm font-medium hover:border-[#4A647C] hover:text-[#4A647C] transition-colors"
+                    className="inline-flex items-center rounded-full border border-border bg-background px-4 py-2 text-sm font-medium hover:border-brand-accent hover:text-brand-accent transition-colors"
                   >
                     {cat.label}
                   </Link>

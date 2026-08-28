@@ -16,7 +16,7 @@ const PrivacyPage = () => {
       />
       <Header />
 
-      <div className="bg-gradient-to-b from-[#f2f4f6] to-white py-12 px-4">
+      <div className="bg-gradient-to-b from-brand-tint to-white py-12 px-4">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">Privacy Policy</h1>
           <p className="text-muted-foreground text-base md:text-lg max-w-2xl mx-auto">
@@ -74,8 +74,8 @@ const PrivacyPage = () => {
             <h2 className="text-2xl font-bold text-foreground mb-3">Contact</h2>
             <p>
               Questions about your privacy? Email{" "}
-              <a href="mailto:daniel@forgali.com" className="text-primary hover:underline">daniel@forgali.com</a>.
-              See also our <Link to="/terms" className="text-primary hover:underline">Terms of Service</Link>.
+              <a href="mailto:daniel@forgali.com" className="text-brand-accent hover:underline">daniel@forgali.com</a>.
+              See also our <Link to="/terms" className="text-brand-accent hover:underline">Terms of Service</Link>.
             </p>
           </div>
         </div>

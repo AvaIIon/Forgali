@@ -124,10 +124,10 @@ const CategoryPage = () => {
         <div className="flex flex-col items-center justify-center py-32 gap-4 px-4 text-center">
           <h1 className="text-2xl font-bold">We couldn't find that category</h1>
           <div className="flex gap-4 flex-wrap justify-center">
-            <Link to="/category/dining" className="text-[#4A647C] hover:underline">Dining</Link>
-            <Link to="/category/living" className="text-[#4A647C] hover:underline">Living</Link>
-            <Link to="/category/bedroom" className="text-[#4A647C] hover:underline">Bedroom</Link>
-            <Link to="/category/accessories" className="text-[#4A647C] hover:underline">Storage &amp; Accessories</Link>
+            <Link to="/category/dining" className="text-brand-accent hover:underline">Dining</Link>
+            <Link to="/category/living" className="text-brand-accent hover:underline">Living</Link>
+            <Link to="/category/bedroom" className="text-brand-accent hover:underline">Bedroom</Link>
+            <Link to="/category/accessories" className="text-brand-accent hover:underline">Storage &amp; Accessories</Link>
           </div>
         </div>
         <Footer />
@@ -193,7 +193,7 @@ const CategoryPage = () => {
           {/* Loading state */}
           {loading && (
             <div className="flex flex-col items-center justify-center py-16 gap-4">
-              <Loader2 className="w-8 h-8 animate-spin text-[#4A647C]" />
+              <Loader2 className="w-8 h-8 animate-spin text-brand" />
               <p className="text-muted-foreground">Loading products...</p>
             </div>
           )}
@@ -229,7 +229,7 @@ const CategoryPage = () => {
       {bedSeo?.intro && (
         <section className="border-t border-border bg-secondary/20 py-12 px-4">
           <div className="max-w-3xl mx-auto">
-            <h2 className="text-2xl font-bold mb-4 text-[#3D5A6C]">
+            <h2 className="text-2xl font-bold mb-4 text-brand">
               About {headerH1}
             </h2>
             {bedSeo.intro.split("\n\n").map((para, i) => (
@@ -243,7 +243,7 @@ const CategoryPage = () => {
                 (non-JS-widget) route to the subcategory pages. */}
             {bedSeo.sections?.map((section) => (
               <div key={section.h2} className="mt-8">
-                <h2 className="text-xl font-bold mb-3 text-[#3D5A6C]">{section.h2}</h2>
+                <h2 className="text-xl font-bold mb-3 text-brand">{section.h2}</h2>
                 <p className="text-muted-foreground leading-relaxed">{section.body}</p>
                 {section.links?.length ? (
                   <p className="mt-3 flex flex-wrap gap-x-4 gap-y-1">
@@ -251,7 +251,7 @@ const CategoryPage = () => {
                       <Link
                         key={link.href}
                         to={link.href}
-                        className="text-[#4A647C] underline hover:text-foreground"
+                        className="text-brand-accent underline hover:text-foreground"
                       >
                         {link.label}
                       </Link>
@@ -263,7 +263,7 @@ const CategoryPage = () => {
 
             {bedSeo.faqs?.length ? (
               <div className="mt-10">
-                <h2 className="text-xl font-bold mb-4 text-[#3D5A6C]">
+                <h2 className="text-xl font-bold mb-4 text-brand">
                   Frequently Asked Questions
                 </h2>
                 {bedSeo.faqs.map((faq) => (

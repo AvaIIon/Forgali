@@ -4,6 +4,16 @@
 
 @layer base {
   :root {
+    /* House palette -- the only place these values live. */
+    --brand: 314 13% 14%;
+    --brand-hover: 314 9% 23%;
+    --brand-tint: 314 13% 95%;
+    --brand-tint-hover: 314 13% 90%;
+    --brand-accent: 33 72% 36%;
+    --brand-positive: 162 51% 36%;
+    --brand-positive-hover: 159 53% 30%;
+    --brand-accent-hover: 33 74% 28%;
+
     --background: 0 0% 100%;
     --foreground: 0 0% 15%;
 
@@ -13,7 +23,7 @@
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 15%;
 
-    --primary: 209 25% 39%;
+    --primary: var(--brand);
     --primary-foreground: 0 0% 100%;
 
     --secondary: 0 0% 96%;
@@ -22,7 +32,7 @@
     --muted: 0 0% 96%;
     --muted-foreground: 0 0% 45%;
 
-    --accent: 209 25% 39%;
+    --accent: var(--brand);
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
@@ -30,7 +40,7 @@
 
     --border: 0 0% 90%;
     --input: 0 0% 90%;
-    --ring: 209 25% 39%;
+    --ring: var(--brand);
 
     --radius: 0.5rem;
     
@@ -41,9 +51,9 @@
     --chart-5: 27 87% 67%;
 
     /* KidKraft brand colors */
-    --kidkraft-pink: 209 25% 39%;
-    --kidkraft-pink-light: 209 25% 95%;
-    --kidkraft-pink-dark: 209 25% 30%;
+    --kidkraft-pink: var(--brand-accent);
+    --kidkraft-pink-light: var(--brand-tint);
+    --kidkraft-pink-dark: var(--brand-accent-hover);
     --kidkraft-coral: 8 82% 56%;
     --kidkraft-teal: 175 60% 45%;
     --kidkraft-gray: 0 0% 96%;
@@ -51,7 +61,7 @@
     --kidkraft-text-light: 0 0% 55%;
     
     --link-color: 0 0% 30%;
-    --link-hover: 209 25% 39%;
+    --link-hover: var(--brand-accent);
   }
 
   .dark {
@@ -64,7 +74,7 @@
     --popover: 0 0% 12%;
     --popover-foreground: 0 0% 95%;
 
-    --primary: 209 25% 42%;
+    --primary: var(--brand-hover);
     --primary-foreground: 0 0% 100%;
 
     --secondary: 0 0% 15%;
@@ -81,7 +91,7 @@
 
     --border: 0 0% 20%;
     --input: 0 0% 20%;
-    --ring: 209 25% 42%;
+    --ring: var(--brand-hover);
   }
 }
 

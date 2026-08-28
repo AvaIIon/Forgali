@@ -13,7 +13,7 @@ const ShippingPage = () => {
       />
       <Header />
 
-      <div className="bg-gradient-to-b from-[#f2f4f6] to-white py-12 px-4">
+      <div className="bg-gradient-to-b from-brand-tint to-white py-12 px-4">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
             Shipping Information
@@ -27,32 +27,32 @@ const ShippingPage = () => {
       <section className="py-16 px-4">
         <div className="max-w-4xl mx-auto space-y-10">
           <div className="grid md:grid-cols-2 gap-6">
-            <div className="bg-[#f2f4f6] rounded-lg p-6">
-              <Truck className="w-8 h-8 text-[#4A647C] mb-4" />
+            <div className="bg-brand-tint rounded-lg p-6">
+              <Truck className="w-8 h-8 text-brand mb-4" />
               <h3 className="font-bold text-lg mb-2">Free Canada-Wide Shipping</h3>
               <p className="text-muted-foreground text-sm">
                 Every order ships free to any Canadian address — no minimums, no surprises
                 at checkout.
               </p>
             </div>
-            <div className="bg-[#f2f4f6] rounded-lg p-6">
-              <PackageSearch className="w-8 h-8 text-[#4A647C] mb-4" />
+            <div className="bg-brand-tint rounded-lg p-6">
+              <PackageSearch className="w-8 h-8 text-brand mb-4" />
               <h3 className="font-bold text-lg mb-2">Tracking on Every Order</h3>
               <p className="text-muted-foreground text-sm">
                 As soon as your order ships you'll receive a tracking number by email, so
                 you can follow your delivery every step of the way.
               </p>
             </div>
-            <div className="bg-[#f2f4f6] rounded-lg p-6">
-              <ClipboardCheck className="w-8 h-8 text-[#4A647C] mb-4" />
+            <div className="bg-brand-tint rounded-lg p-6">
+              <ClipboardCheck className="w-8 h-8 text-brand mb-4" />
               <h3 className="font-bold text-lg mb-2">Check Your Boxes on Arrival</h3>
               <p className="text-muted-foreground text-sm">
                 When your furniture arrives, inspect all boxes and note any visible damage
                 at delivery — it makes resolving carrier issues much faster.
               </p>
             </div>
-            <div className="bg-[#f2f4f6] rounded-lg p-6">
-              <Users className="w-8 h-8 text-[#4A647C] mb-4" />
+            <div className="bg-brand-tint rounded-lg p-6">
+              <Users className="w-8 h-8 text-brand mb-4" />
               <h3 className="font-bold text-lg mb-2">Heavy Boxes — Grab a Helper</h3>
               <p className="text-muted-foreground text-sm">
                 Solid wood means large, heavy packages. Having two adults available makes
@@ -77,9 +77,9 @@ const ShippingPage = () => {
           <div>
             <h2 className="text-2xl font-bold mb-4">Questions About a Delivery?</h2>
             <p className="text-muted-foreground">
-              Email <a href="mailto:daniel@forgali.com" className="text-primary hover:underline">daniel@forgali.com</a> with
+              Email <a href="mailto:daniel@forgali.com" className="text-brand-accent hover:underline">daniel@forgali.com</a> with
               your order number and we'll respond within 24 hours. For returns and order
-              changes, see our <Link to="/returns" className="text-primary hover:underline">Returns &amp; Cancellations policy</Link>.
+              changes, see our <Link to="/returns" className="text-brand-accent hover:underline">Returns &amp; Cancellations policy</Link>.
             </p>
           </div>
         </div>

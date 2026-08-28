@@ -132,7 +132,7 @@ const LoginDialog = ({ open, onOpenChange }: LoginDialogProps) => {
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
-              <Button type="submit" disabled={busy} className="w-full bg-[#4A647C] hover:bg-[#3A5066]">
+              <Button type="submit" disabled={busy} className="w-full bg-brand hover:bg-brand-hover">
                 {busy ? "Signing in..." : "Sign In"}
               </Button>
             </form>
@@ -189,7 +189,7 @@ const LoginDialog = ({ open, onOpenChange }: LoginDialogProps) => {
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
-              <Button type="submit" disabled={busy} className="w-full bg-[#4A647C] hover:bg-[#3A5066]">
+              <Button type="submit" disabled={busy} className="w-full bg-brand hover:bg-brand-hover">
                 {busy ? "Creating account..." : "Create Account"}
               </Button>
             </form>

@@ -72,7 +72,7 @@ export const CartDrawer = () => {
                           No longer available — please remove
                         </p>
                       ) : (
-                        <p className="text-[#2D8B6F] font-bold mt-1">
+                        <p className="text-brand-accent font-bold mt-1">
                           ${(item.unitPrice ?? item.product.price).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                         </p>
                       )}
@@ -120,12 +120,12 @@ export const CartDrawer = () => {
                           <img
                             src={cdnImage(ref.image, 120)}
                             alt={ref.title}
-                            className="h-12 w-12 shrink-0 rounded object-cover bg-[#f2f4f6]"
+                            className="h-12 w-12 shrink-0 rounded object-cover bg-brand-tint"
                             loading="lazy"
                           />
                           <span className="min-w-0 flex-1">
                             <span className="block truncate text-sm">{ref.title}</span>
-                            <span className="text-sm font-semibold text-[#4A647C]">
+                            <span className="text-sm font-semibold text-brand-accent">
                               {ref.fromPrice ? "From " : ""}${ref.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                             </span>
                           </span>
@@ -147,7 +147,7 @@ export const CartDrawer = () => {
                 <p className="text-sm text-muted-foreground">Free shipping · taxes calculated at checkout</p>
                 <Button 
                   onClick={handleCheckout}
-                  className="w-full bg-[#2D8B6F] hover:bg-[#247558] text-white py-6 text-lg font-semibold"
+                  className="w-full bg-brand-positive hover:bg-brand-positive-hover text-white py-6 text-lg font-semibold"
                 >
                   Checkout
                 </Button>

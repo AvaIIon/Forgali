@@ -64,7 +64,7 @@ const PlankAndBeamPage = () => {
             <div className="mt-6 flex flex-wrap gap-3">
               <Link
                 to="/category/dining"
-                className="bg-[#f2f4f6] text-foreground hover:bg-[#e8eaed] px-6 py-3 rounded-full text-sm font-semibold"
+                className="bg-brand-tint text-foreground hover:bg-brand-tint-hover px-6 py-3 rounded-full text-sm font-semibold"
               >
                 Shop Dining
               </Link>
@@ -87,8 +87,8 @@ const PlankAndBeamPage = () => {
             { icon: RotateCcw, title: "Local 30-Day Returns", body: "Returns are handled here in Canada within 30 days — no cross-border hassle." },
             { icon: TreePine, title: "Solid Wood", body: "Real solid wood dining and living pieces built to live with for years, not particleboard." },
           ].map((f) => (
-            <div key={f.title} className="bg-[#f2f4f6] rounded-lg p-6">
-              <f.icon className="w-8 h-8 text-[#4A647C] mb-3" />
+            <div key={f.title} className="bg-brand-tint rounded-lg p-6">
+              <f.icon className="w-8 h-8 text-brand mb-3" />
               <h3 className="font-bold mb-1">{f.title}</h3>
               <p className="text-sm text-muted-foreground">{f.body}</p>
             </div>
@@ -99,7 +99,7 @@ const PlankAndBeamPage = () => {
       {/* Intro copy */}
       <section className="border-t border-border bg-secondary/20 py-14 px-4">
         <div className="max-w-3xl mx-auto space-y-4 text-muted-foreground leading-relaxed">
-          <h2 className="text-2xl font-bold text-[#3D5A6C]">About Plank &amp; Beam</h2>
+          <h2 className="text-2xl font-bold text-brand">About Plank &amp; Beam</h2>
           <p>
             Plank &amp; Beam is a solid wood furniture brand known for clean,
             timeless dining and living pieces — the kind that anchor a room and
@@ -134,7 +134,7 @@ const PlankAndBeamPage = () => {
           <div>
             <div className="flex items-baseline justify-between mb-4">
               <h2 className="text-2xl font-bold">Plank &amp; Beam Dining</h2>
-              <Link to="/category/dining" className="text-sm font-medium text-primary hover:underline">
+              <Link to="/category/dining" className="text-sm font-medium text-brand-accent hover:underline">
                 Shop all →
               </Link>
             </div>
@@ -151,7 +151,7 @@ const PlankAndBeamPage = () => {
                 <li key={l.href}>
                   <Link
                     to={l.href}
-                    className="inline-block text-sm px-3 py-1.5 rounded-full bg-[#f2f4f6] hover:bg-[#e8eaed] transition-colors"
+                    className="inline-block text-sm px-3 py-1.5 rounded-full bg-brand-tint hover:bg-brand-tint-hover transition-colors"
                   >
                     {l.name}
                   </Link>
@@ -162,7 +162,7 @@ const PlankAndBeamPage = () => {
           <div>
             <div className="flex items-baseline justify-between mb-4">
               <h2 className="text-2xl font-bold">Plank &amp; Beam Living</h2>
-              <Link to="/category/living" className="text-sm font-medium text-primary hover:underline">
+              <Link to="/category/living" className="text-sm font-medium text-brand-accent hover:underline">
                 Shop all →
               </Link>
             </div>
@@ -179,7 +179,7 @@ const PlankAndBeamPage = () => {
                 <li key={l.href}>
                   <Link
                     to={l.href}
-                    className="inline-block text-sm px-3 py-1.5 rounded-full bg-[#f2f4f6] hover:bg-[#e8eaed] transition-colors"
+                    className="inline-block text-sm px-3 py-1.5 rounded-full bg-brand-tint hover:bg-brand-tint-hover transition-colors"
                   >
                     {l.name}
                   </Link>

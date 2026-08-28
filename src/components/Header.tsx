@@ -181,7 +181,7 @@ export const Header = () => {
                           <SheetClose asChild>
                             <Link
                               to={item.href}
-                              className="flex-1 py-3 text-sm font-medium hover:text-primary transition-colors"
+                              className="flex-1 py-3 text-sm font-medium hover:text-brand-accent transition-colors"
                             >
                               {item.label}
                             </Link>
@@ -198,7 +198,7 @@ export const Header = () => {
                             <SheetClose asChild key={sub.name}>
                               <Link
                                 to={sub.href}
-                                className="block py-2 text-sm text-muted-foreground hover:text-primary transition-colors"
+                                className="block py-2 text-sm text-muted-foreground hover:text-brand-accent transition-colors"
                               >
                                 {sub.name}
                               </Link>
@@ -210,8 +210,8 @@ export const Header = () => {
                       <SheetClose asChild key={item.label}>
                         <Link
                           to={item.href}
-                          className={`py-3 text-sm font-medium hover:text-primary transition-colors ${
-                            item.highlight ? "text-primary" : ""
+                          className={`py-3 text-sm font-medium hover:text-brand-accent transition-colors ${
+                            item.highlight ? "text-brand-accent" : ""
                           }`}
                         >
                           {item.label}
@@ -265,7 +265,7 @@ export const Header = () => {
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <button
-                    className="flex items-center justify-center w-10 h-10 rounded-full bg-muted hover:bg-muted/70 transition-colors text-sm font-semibold text-[#4A647C]"
+                    className="flex items-center justify-center w-10 h-10 rounded-full bg-muted hover:bg-muted/70 transition-colors text-sm font-semibold text-brand-accent"
                     aria-label="Your account"
                   >
                     {(customer.firstName?.[0] || customer.email[0]).toUpperCase()}
@@ -330,7 +330,7 @@ export const Header = () => {
                       <NavigationMenuTrigger
                         ref={(el) => { triggerRefs.current[item.label] = el; }}
                         className={`text-sm whitespace-nowrap bg-transparent hover:bg-transparent data-[state=open]:bg-transparent ${
-                          item.highlight ? 'text-primary font-medium' : ''
+                          item.highlight ? 'text-brand-accent font-medium' : ''
                         }`}
                       >
                         {item.label}
@@ -350,7 +350,7 @@ export const Header = () => {
                                     <NavigationMenuLink asChild>
                                       <Link
                                         to={sub.href}
-                                        className="block text-sm py-1 hover:text-primary transition-colors"
+                                        className="block text-sm py-1 hover:text-brand-accent transition-colors"
                                       >
                                         {sub.name}
                                       </Link>
@@ -360,7 +360,7 @@ export const Header = () => {
                               </ul>
                               <Link
                                 to={item.href}
-                                className="inline-block text-sm font-medium text-primary hover:underline mt-2"
+                                className="inline-block text-sm font-medium text-brand-accent hover:underline mt-2"
                               >
                                 Shop All {item.label} →
                               </Link>
@@ -393,8 +393,8 @@ export const Header = () => {
                   ) : (
                     <Link
                       to={item.href}
-                      className={`flex items-center gap-1 px-4 py-2 text-sm whitespace-nowrap transition-colors text-foreground hover:text-primary
-                        ${item.highlight ? 'text-primary font-medium' : ''}
+                      className={`flex items-center gap-1 px-4 py-2 text-sm whitespace-nowrap transition-colors text-foreground hover:text-brand-accent
+                        ${item.highlight ? 'text-brand-accent font-medium' : ''}
                       `}
                     >
                       {item.label}

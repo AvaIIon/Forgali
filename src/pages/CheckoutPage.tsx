@@ -80,7 +80,7 @@ const CheckoutPage = () => {
             </div>
 
             {isShopifyConfigured() ? (
-              <ShopifyCheckoutButton className="w-full bg-[#4A647C] hover:bg-[#3A5066] text-white py-6 text-lg font-semibold">
+              <ShopifyCheckoutButton className="w-full bg-brand hover:bg-brand-hover text-white py-6 text-lg font-semibold">
                 Continue to Secure Checkout
               </ShopifyCheckoutButton>
             ) : (
@@ -163,7 +163,7 @@ const CheckoutPage = () => {
                       <Truck className="w-4 h-4" />
                       Shipping
                     </span>
-                    <span className="text-[#2D8B6F] font-medium">FREE</span>
+                    <span className="text-brand-positive font-medium">FREE</span>
                   </div>
                   <p className="pl-6 text-xs text-muted-foreground">Arrives in 12-18 business days</p>
                 </div>
@@ -179,12 +179,12 @@ const CheckoutPage = () => {
               </div>
 
               {/* Trust badges */}
-              <div className="bg-[#E8F5E9] rounded-lg p-4 space-y-2">
-                <div className="flex items-center gap-2 text-sm text-[#2D8B6F]">
+              <div className="bg-brand-positive/10 rounded-lg p-4 space-y-2">
+                <div className="flex items-center gap-2 text-sm text-brand-positive">
                   <Truck className="w-4 h-4" />
                   Free Canada-Wide Shipping
                 </div>
-                <div className="flex items-center gap-2 text-sm text-[#2D8B6F]">
+                <div className="flex items-center gap-2 text-sm text-brand-positive">
                   <Lock className="w-4 h-4" />
                   Secure Checkout
                 </div>

@@ -12,7 +12,7 @@ export const ProductGrid = () => {
     return (
       <section className="py-8 px-4">
         <div className="max-w-rail mx-auto flex items-center justify-center py-12">
-          <Loader2 className="w-6 h-6 animate-spin text-[#4A647C]" />
+          <Loader2 className="w-6 h-6 animate-spin text-brand" />
         </div>
       </section>
     );
@@ -26,7 +26,7 @@ export const ProductGrid = () => {
           <h2 className="text-3xl font-bold">Featured Furniture</h2>
           <p className="text-muted-foreground">
             We couldn't load products right now.{" "}
-            <Link to="/category/dining" className="text-primary hover:underline">
+            <Link to="/category/dining" className="text-brand-accent hover:underline">
               Browse the Dining collection
             </Link>{" "}
             instead.
@@ -41,7 +41,7 @@ export const ProductGrid = () => {
       <div className="max-w-rail mx-auto">
         <div className="flex flex-wrap items-baseline justify-between gap-2 mb-10">
           <h2 className="text-3xl font-bold">Featured Furniture</h2>
-          <Link to="/category/dining" className="text-sm font-medium text-primary hover:underline whitespace-nowrap">
+          <Link to="/category/dining" className="text-sm font-medium text-brand-accent hover:underline whitespace-nowrap">
             Shop All →
           </Link>
         </div>

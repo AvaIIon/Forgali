@@ -12,7 +12,7 @@ const NotFound = () => {
       <Seo title="Page Not Found | Forgali" path={location.pathname} noindex />
       <Header />
       <main className="flex-1 flex flex-col items-center justify-center py-24 px-4 text-center">
-        <p className="text-6xl font-bold text-[#4A647C]">404</p>
+        <p className="text-6xl font-bold text-brand">404</p>
         <h1 className="mt-4 text-2xl font-bold">We couldn't find that page</h1>
         <p className="mt-2 text-muted-foreground max-w-md">
           The link may be broken or the page may have moved — but there's plenty more to explore.
