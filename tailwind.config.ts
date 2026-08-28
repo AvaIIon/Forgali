@@ -80,10 +80,11 @@ export default {
         sans: ['Manrope', 'system-ui', 'sans-serif'],
       },
       // The shared content rail every band sits on (grid, filters, tabs,
-      // guarantee strip, footer). Named rather than max-w-7xl so the bands
-      // stay aligned when it moves. 1400px matches the container 2xl above.
+      // guarantee strip, footer, and the product page). Named rather than
+      // repeated so the bands stay aligned when it moves. The header nav is
+      // deliberately wider than this.
       maxWidth: {
-        rail: "1400px",
+        rail: "1600px",
       },
     },
   },
