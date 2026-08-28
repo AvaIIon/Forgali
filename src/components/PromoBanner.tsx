@@ -23,15 +23,17 @@ export const PromoBanner = () => {
         />
       </picture>
       {/* Warm walnut gradient (not black) keeps the sunlit room vibrant while
-          carrying white text on the left */}
+          carrying white text on the left. The accents below are house brass, not
+          amber: the pill takes it at full strength, the headline word and the CTA
+          take the light step, because brass itself only manages 2.3:1 here. */}
       <div className="absolute inset-0 bg-gradient-to-r from-[#33210f]/85 via-[#33210f]/45 to-transparent" />
       <div className="relative h-full max-w-rail mx-auto px-4 flex items-center">
         <div className="max-w-lg text-white [text-shadow:0_2px_12px_rgba(0,0,0,0.45)]">
-          <span className="text-sm font-semibold uppercase tracking-wider text-[#33210f] bg-amber-400 px-3 py-1 rounded-full [text-shadow:none]">
+          <span className="text-sm font-semibold uppercase tracking-wider text-white bg-brand-accent px-3 py-1 rounded-full [text-shadow:none]">
             Dining Event
           </span>
           <h2 className="text-4xl md:text-5xl font-bold mt-4 leading-tight">
-            <span className="text-amber-300">Every</span> Dining Piece Is On
+            <span className="text-brand-accent-light">Every</span> Dining Piece Is On
             Sale
           </h2>
           <p className="text-lg mt-4 text-white/90">
@@ -42,13 +44,13 @@ export const PromoBanner = () => {
             <Button
               size="lg"
               asChild
-              className="bg-amber-400 text-[#33210f] font-semibold hover:bg-amber-300"
+              className="bg-brand-accent-light text-brand font-semibold hover:bg-brand-accent-light-hover"
             >
               <Link to="/smart-deals?room=dining">Shop Dining Deals</Link>
             </Button>
             <Link
               to="/category/dining"
-              className="text-sm font-medium text-white underline underline-offset-4 hover:text-amber-200"
+              className="text-sm font-medium text-white underline underline-offset-4 hover:text-brand-accent-light"
             >
               Browse all dining &rarr;
             </Link>

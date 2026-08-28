@@ -13,6 +13,11 @@
     --brand-positive: 162 51% 36%;
     --brand-positive-hover: 159 53% 30%;
     --brand-accent-hover: 33 74% 28%;
+    /* Brass is too dark to sit on a photograph -- 2.3:1 against the promo
+       banner's walnut scrim. Same hue, lifted into a range that carries
+       text and buttons over dark imagery. */
+    --brand-accent-light: 33 60% 70%;
+    --brand-accent-light-hover: 33 62% 78%;
 
     --background: 0 0% 100%;
     --foreground: 0 0% 15%;

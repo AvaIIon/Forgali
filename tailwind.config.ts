@@ -25,6 +25,8 @@ export default {
           "tint-hover": "hsl(var(--brand-tint-hover))",
           accent: "hsl(var(--brand-accent))",
           "accent-hover": "hsl(var(--brand-accent-hover))",
+          "accent-light": "hsl(var(--brand-accent-light))",
+          "accent-light-hover": "hsl(var(--brand-accent-light-hover))",
           positive: "hsl(var(--brand-positive))",
           "positive-hover": "hsl(var(--brand-positive-hover))",
         },
