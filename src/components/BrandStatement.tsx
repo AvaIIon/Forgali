@@ -11,7 +11,7 @@ const BRAND_IMG =
 export const BrandStatement = () => {
   return (
     <section className="py-16 px-4 bg-[#f2f4f6]/60">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 items-center gap-10 md:grid-cols-2 md:gap-14">
+      <div className="max-w-rail mx-auto grid grid-cols-1 items-center gap-10 md:grid-cols-2 md:gap-14">
         <div className="text-center md:text-left">
           <h2 className="mb-4 text-3xl font-bold">Furniture Built to Live With</h2>
           <p className="mx-auto mb-6 max-w-xl leading-relaxed text-muted-foreground md:mx-0">

@@ -48,7 +48,7 @@ const CheckoutPage = () => {
 
       {/* Checkout Header */}
       <div className="border-b border-border">
-        <div className="max-w-7xl mx-auto px-4 py-4">
+        <div className="max-w-rail mx-auto px-4 py-4">
           <Link to="/" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground">
             <ChevronLeft className="w-4 h-4" />
             Back to shopping
@@ -56,7 +56,7 @@ const CheckoutPage = () => {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 py-8">
+      <div className="max-w-rail mx-auto px-4 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Left - handoff explainer. Contact, shipping address, and payment
               are all collected on Shopify's PCI-compliant hosted checkout —

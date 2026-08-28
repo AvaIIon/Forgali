@@ -30,7 +30,7 @@ const categories = [
 export const FeaturedCategories = () => {
   return (
     <section className="py-16 px-4 bg-[#f2f4f6]/30">
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-rail mx-auto">
         <h2 className="text-3xl font-bold text-center mb-12">Shop By Category</h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
           {categories.map((category) => (

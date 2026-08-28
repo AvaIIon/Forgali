@@ -51,7 +51,7 @@ const PlankAndBeamPage = () => {
           className="absolute inset-0 w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/55 to-transparent" />
-        <div className="relative max-w-7xl mx-auto px-4 py-24 md:py-32">
+        <div className="relative max-w-rail mx-auto px-4 py-24 md:py-32">
           <div className="max-w-xl text-white [text-shadow:0_2px_12px_rgba(0,0,0,0.55)]">
             <h1 className="text-4xl md:text-5xl font-bold leading-tight">
               Plank &amp; Beam Furniture, in Canada
@@ -80,7 +80,7 @@ const PlankAndBeamPage = () => {
       </section>
 
       {/* Why buy from Forgali */}
-      <section className="max-w-7xl mx-auto px-4 py-14">
+      <section className="max-w-rail mx-auto px-4 py-14">
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {[
             { icon: Truck, title: "Free Canada-Wide Shipping", body: "Every order ships free across Canada, with pricing in CAD and no surprise duties or brokerage." },
@@ -129,7 +129,7 @@ const PlankAndBeamPage = () => {
       </section>
 
       {/* Shop by room — internal link hub */}
-      <section className="max-w-7xl mx-auto px-4 py-14">
+      <section className="max-w-rail mx-auto px-4 py-14">
         <div className="grid md:grid-cols-2 gap-10">
           <div>
             <div className="flex items-baseline justify-between mb-4">

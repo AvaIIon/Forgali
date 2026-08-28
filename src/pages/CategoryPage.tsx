@@ -170,7 +170,7 @@ const CategoryPage = () => {
           No negative margin on this line: -mt-2 pulled it up into the
           CategoryHeader's gradient box, so it straddled the blue/white edge. */}
       {(validCategory === "dining" || validCategory === "living") && (
-        <div className="max-w-7xl mx-auto px-4 mt-4 mb-3 text-sm text-muted-foreground">
+        <div className="max-w-rail mx-auto px-4 mt-4 mb-3 text-sm text-muted-foreground">
           Part of our{" "}
           <Link to="/plank-and-beam" className="underline hover:text-foreground">
             Plank &amp; Beam collection in Canada
@@ -189,7 +189,7 @@ const CategoryPage = () => {
       />
       
       <section className="py-8 px-4">
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-rail mx-auto">
           {/* Loading state */}
           {loading && (
             <div className="flex flex-col items-center justify-center py-16 gap-4">

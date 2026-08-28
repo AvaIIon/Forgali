@@ -26,7 +26,7 @@ const SearchPage = () => {
       <Header />
 
       <section className="py-10 px-4">
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-rail mx-auto">
           <h1 className="text-3xl font-bold text-foreground mb-2">
             {query ? (
               <>

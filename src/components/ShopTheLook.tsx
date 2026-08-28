@@ -192,7 +192,7 @@ export const ShopTheLook = () => {
 
   return (
     <section aria-label="Shop the Look" className="py-16">
-      <div className="mx-auto mb-10 max-w-7xl px-4 text-center">
+      <div className="mx-auto mb-10 max-w-rail px-4 text-center">
         <h2 className="text-3xl font-bold">Made for Real Gatherings</h2>
         <p className="mt-2 text-lg text-muted-foreground">
           Shop the look — tap a number to shop the piece
@@ -222,7 +222,7 @@ export const ShopTheLook = () => {
         </div>
       </div>
 
-      <div className="mx-auto mt-6 flex max-w-7xl flex-wrap justify-center gap-x-8 gap-y-2 px-4">
+      <div className="mx-auto mt-6 flex max-w-rail flex-wrap justify-center gap-x-8 gap-y-2 px-4">
         {resolved.map(({ spot, title, price }) => (
           <Link
             key={spot.handle}
@@ -239,7 +239,7 @@ export const ShopTheLook = () => {
         ))}
       </div>
 
-      <div className="mx-auto mt-6 max-w-7xl px-4 text-center">
+      <div className="mx-auto mt-6 max-w-rail px-4 text-center">
         <button
           type="button"
           onClick={addTheLook}

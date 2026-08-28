@@ -25,7 +25,7 @@ export const PromoBanner = () => {
       {/* Warm walnut gradient (not black) keeps the sunlit room vibrant while
           carrying white text on the left */}
       <div className="absolute inset-0 bg-gradient-to-r from-[#33210f]/85 via-[#33210f]/45 to-transparent" />
-      <div className="relative h-full max-w-7xl mx-auto px-4 flex items-center">
+      <div className="relative h-full max-w-rail mx-auto px-4 flex items-center">
         <div className="max-w-lg text-white [text-shadow:0_2px_12px_rgba(0,0,0,0.45)]">
           <span className="text-sm font-semibold uppercase tracking-wider text-[#33210f] bg-amber-400 px-3 py-1 rounded-full [text-shadow:none]">
             Dining Event

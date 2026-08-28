@@ -175,7 +175,7 @@ const AboutPage = () => {
 
       {/* Our Story */}
       <section className="py-16 px-4">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 items-center gap-10 md:grid-cols-2 md:gap-14">
+        <div className="max-w-rail mx-auto grid grid-cols-1 items-center gap-10 md:grid-cols-2 md:gap-14">
           <div>
             <h2 className="text-3xl font-bold mb-4">Our Story</h2>
             <div className="space-y-4 text-muted-foreground leading-relaxed">
@@ -220,7 +220,7 @@ const AboutPage = () => {
 
       {/* What We Carry */}
       <section className="border-y border-border bg-[#f2f4f6]/60 py-16 px-4">
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-rail mx-auto">
           <div className="max-w-2xl mb-10">
             <h2 className="text-3xl font-bold mb-3">What We Carry</h2>
             <p className="text-muted-foreground leading-relaxed">
@@ -266,7 +266,7 @@ const AboutPage = () => {
 
       {/* Build quality */}
       <section className="py-16 px-4">
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-rail mx-auto">
           <div className="max-w-2xl mb-10">
             <h2 className="text-3xl font-bold mb-3">
               What &ldquo;Solid Wood&rdquo; Means Here

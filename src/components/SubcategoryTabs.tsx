@@ -26,7 +26,7 @@ export const SubcategoryTabs = ({ products }: SubcategoryTabsProps) => {
     ];
     return (
       <div className="border-b border-border bg-background sticky top-0 z-30">
-        <div className="max-w-7xl mx-auto px-4">
+        <div className="max-w-rail mx-auto px-4">
           <div className="flex gap-2 overflow-x-auto py-4 scrollbar-hide">
             <Link
               to="/category/bedroom"
@@ -53,7 +53,7 @@ export const SubcategoryTabs = ({ products }: SubcategoryTabsProps) => {
   if (category === 'mattresses') {
     return (
       <div className="border-b border-border bg-background">
-        <div className="max-w-7xl mx-auto px-4">
+        <div className="max-w-rail mx-auto px-4">
           <div className="flex gap-2 overflow-x-auto py-4">
             <Link
               to={`/category/${category}`}
@@ -77,7 +77,7 @@ export const SubcategoryTabs = ({ products }: SubcategoryTabsProps) => {
 
   return (
     <div className="border-b border-border bg-background sticky top-0 z-30">
-      <div className="max-w-7xl mx-auto px-4">
+      <div className="max-w-rail mx-auto px-4">
         <div className="flex gap-2 overflow-x-auto py-4 scrollbar-hide">
           <Link
             to={`/category/${category}`}

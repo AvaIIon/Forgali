@@ -10,7 +10,7 @@ const items = [
 
 export const GuaranteeStrip = () => (
   <section className="border-y border-border bg-[#f2f4f6]">
-    <div className="max-w-7xl mx-auto px-4 py-4 grid grid-cols-2 md:grid-cols-4 gap-3">
+    <div className="max-w-rail mx-auto px-4 py-4 grid grid-cols-2 md:grid-cols-4 gap-3">
       {items.map(({ icon: Icon, label, href }) => (
         <Link
           key={href}

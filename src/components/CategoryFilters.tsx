@@ -83,7 +83,7 @@ export const CategoryFilters = ({
   const currentSortLabel = sortOptions.find(o => o.value === sortBy)?.label || 'Sort by';
 
   return (
-    <div className="flex flex-wrap items-center justify-between gap-4 py-6 px-4 max-w-7xl mx-auto border-b border-border">
+    <div className="flex flex-wrap items-center justify-between gap-4 py-6 px-4 max-w-rail mx-auto border-b border-border">
       <div className="flex flex-wrap items-center gap-2">
         {/* Price Filter */}
         <DropdownMenu>

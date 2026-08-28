@@ -79,6 +79,12 @@ export default {
       fontFamily: {
         sans: ['Manrope', 'system-ui', 'sans-serif'],
       },
+      // The shared content rail every band sits on (grid, filters, tabs,
+      // guarantee strip, footer). Named rather than max-w-7xl so the bands
+      // stay aligned when it moves. 1400px matches the container 2xl above.
+      maxWidth: {
+        rail: "1400px",
+      },
     },
   },
   plugins: [require("tailwindcss-animate")],

@@ -59,7 +59,7 @@ export const ProductInfoTabs = ({ product }: Props) => {
 
   return (
     <section className="border-t border-border bg-secondary/30">
-      <div className="max-w-7xl mx-auto px-4 py-10 md:py-14">
+      <div className="max-w-rail mx-auto px-4 py-10 md:py-14">
         <Tabs defaultValue={hasDetails ? "details" : "description"} className="w-full">
           <TabsList className="h-auto w-full justify-between gap-1 overflow-x-auto rounded-none border-b border-border bg-transparent p-0 sm:justify-center sm:gap-10">
             {hasDetails && (

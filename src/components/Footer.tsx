@@ -4,7 +4,7 @@ import { Facebook, Instagram, Twitter, Youtube } from "lucide-react";
 export const Footer = () => {
   return (
     <footer className="bg-foreground text-background py-12 px-4">
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-rail mx-auto">
         <div className="mb-8">
           <Link to="/" className="inline-flex flex-col">
             <img
