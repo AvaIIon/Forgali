@@ -11,6 +11,15 @@ import { ShopifyCheckoutButton } from "@/components/ShopifyCheckoutButton";
 import { isShopifyConfigured } from "@/services/shopifyService";
 import { cdnImage } from "@/lib/imageProxy";
 
+/**
+ * Fallback checkout surface, no longer part of the normal path.
+ *
+ * The cart drawer's Checkout button hands straight off to Shopify now: this
+ * page only ever restated the drawer's own summary and then asked for a second
+ * click, which cost a step for nothing. It stays reachable so a bookmark, an
+ * old link, or a shopper who backed out of Shopify still lands somewhere that
+ * can complete the order, but nothing in the UI routes here.
+ */
 const CheckoutPage = () => {
   const { items, getTotalPrice, removeFromCart, getItemKey, refreshCartLines } = useCart();
 

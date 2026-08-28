@@ -2,6 +2,8 @@ import { AlertTriangle, ChevronRight, Minus, Plus, Trash2 } from "lucide-react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "@/context/CartContext";
+import { useShopifyCheckout } from "@/hooks/useShopifyCheckout";
+import { isShopifyConfigured } from "@/services/shopifyService";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { cdnImage } from "@/lib/imageProxy";
@@ -9,6 +11,7 @@ import { cdnImage } from "@/lib/imageProxy";
 export const CartDrawer = () => {
   const { items, isCartOpen, setIsCartOpen, updateQuantity, removeFromCart, getTotalPrice, getItemKey, refreshCartLines } = useCart();
   const navigate = useNavigate();
+  const { startCheckout, isLoading: isCheckoutLoading } = useShopifyCheckout();
 
   // Refresh live prices/availability whenever the drawer opens — persisted
   // lines can be weeks old and checkout charges the live price.
@@ -16,11 +19,6 @@ export const CartDrawer = () => {
     if (isCartOpen) refreshCartLines();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isCartOpen]);
-
-  const handleCheckout = () => {
-    setIsCartOpen(false);
-    navigate("/checkout");
-  };
 
   // "Complete the room" cross-sells: curated related products of what's in
   // the cart (custom.related_products), minus anything already added.
@@ -144,13 +142,38 @@ export const CartDrawer = () => {
                     ${getTotalPrice().toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                   </span>
                 </div>
-                <p className="text-sm text-muted-foreground">Free shipping · taxes calculated at checkout</p>
-                <Button 
-                  onClick={handleCheckout}
-                  className="w-full bg-brand-positive hover:bg-brand-positive-hover text-white py-6 text-lg font-semibold"
-                >
-                  Checkout
-                </Button>
+                {/* The delivery window and the Afterpay note used to live on
+                    the /checkout interstitial. Checkout now hands straight off
+                    to Shopify, so this drawer is the last thing the shopper
+                    reads before the payment page and has to carry them. */}
+                <div className="space-y-1">
+                  <p className="text-sm text-muted-foreground">
+                    Free shipping · arrives in 12-18 business days · taxes calculated at checkout
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    Or pay in 4 interest-free payments with Afterpay.
+                  </p>
+                </div>
+                {isShopifyConfigured() ? (
+                  <Button
+                    onClick={startCheckout}
+                    disabled={isCheckoutLoading}
+                    className="w-full bg-brand-positive hover:bg-brand-positive-hover text-white py-6 text-lg font-semibold"
+                  >
+                    {isCheckoutLoading ? "Processing..." : "Checkout"}
+                  </Button>
+                ) : (
+                  <div className="space-y-2">
+                    <Button disabled className="w-full py-6 text-lg font-semibold">
+                      Checkout temporarily unavailable
+                    </Button>
+                    <p className="text-sm text-muted-foreground">
+                      We can't start the secure checkout right now. Please try again shortly, or
+                      email <a href="mailto:daniel@forgali.com" className="underline">daniel@forgali.com</a> and
+                      we'll complete your order by email. Your cart is saved.
+                    </p>
+                  </div>
+                )}
                 <Button 
                   variant="outline" 
                   className="w-full"

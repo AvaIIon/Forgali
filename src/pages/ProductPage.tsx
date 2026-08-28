@@ -529,8 +529,9 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
             {/* Shipping + risk-reversal, right at the decision point — the
                 thing furniture shoppers hesitate on. All claims true (returns
                 are 30-day but not free, so we don't say "free returns"). The
-                12-18 business day delivery window is stated on /checkout and in
-                the Shipping Information accordion below, not here. */}
+                12-18 business day delivery window is stated in the cart
+                drawer and in the Shipping Information accordion below, not
+                here. */}
             <div className="space-y-2.5 p-4 bg-brand-positive/10 rounded-lg">
               <div className="flex items-center gap-3">
                 <Truck className="w-5 h-5 text-brand-positive shrink-0" />
