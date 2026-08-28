@@ -67,7 +67,7 @@ const navItems = [
   {
     label: "Bedroom",
     href: "/category/bedroom",
-    image: "https://cdn.shopify.com/s/files/1/0972/6492/6995/files/84b8c31b-max-and-lily-twin-over-twin-bunk-bed-with-trundle-in-white.jpg?v=1773961862",
+    image: "https://cdn.shopify.com/s/files/1/0972/6492/6995/files/88ebbdad-195271-181__2.jpg?v=1773962026",
     subcategories: [
       { name: "Bunk Beds", href: "/category/bunk-beds" },
       { name: "Loft Beds", href: "/category/loft-beds" },
