@@ -213,8 +213,19 @@ export const useFeaturedProducts = (count: number = 8) => {
     };
   }, [count]);
 
+  // No mattresses in "Featured Furniture" — check productType as well as
+  // category, since bed-tagged mattresses can categorize as bunk/loft beds.
   const featured = useMemo(
-    () => products.filter(p => p.availableForSale && p.image).slice(0, count),
+    () =>
+      products
+        .filter(
+          p =>
+            p.availableForSale &&
+            p.image &&
+            p.category !== 'mattresses' &&
+            !p.productType.toLowerCase().includes('mattress')
+        )
+        .slice(0, count),
     [products, count]
   );
 
