@@ -70,6 +70,15 @@
          an <img> inside <noscript> inside <head> is an HTML parse error that
          hard-fails the Vite build. Do not move it back up here. -->
 
+    <!-- Contentsquare tag (Hotjar's platform): session replay + heatmaps for
+         project "Forgali" (tag e834394607057, dashboard at app.contentsquare.com).
+         Same rules as the tags above: keep OUTSIDE the routehead markers, and CSP
+         in vercel.json must allowlist *.contentsquare.net in script-src AND
+         connect-src (plus *.contentsquare.com in connect-src, and
+         worker-src/child-src blob: for the replay worker) — without those it
+         loads fine, records nothing, and reports no error. -->
+    <script async src="https://t.contentsquare.net/uxa/e834394607057.js"></script>
+
     <link rel="icon" href="/favicon.ico" sizes="48x48">
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/favicon-180.png">
