@@ -8,7 +8,7 @@
 //    indexed" rather than spend render budget on a low-authority domain.
 //    This fetches the built shell once, then splices the per-URL
 //    title/description/canonical/OG/JSON-LD between the routehead markers in
-//    index.html for /product/*, /category/* and /plank-and-beam. Values mirror
+//    index.html for /product/* and /category/*. Values mirror
 //    what the SPA's <Seo> renders (same data modules / generated catalog data),
 //    and injected tags carry data-rh="true" so react-helmet-async adopts and
 //    replaces them on hydration instead of duplicating them.
@@ -33,7 +33,6 @@ import { categoryInfoMap } from "./src/lib/categoryInfo";
 import { cdnImage, cdnSrcSet } from "./src/lib/imageProxy";
 import { faqPageJsonLd, getBedSeo } from "./src/lib/categorySeo";
 import { categorySubcategories } from "./src/lib/subcategories";
-import { PLANK_AND_BEAM_SEO } from "./src/lib/plankAndBeamSeo";
 import { SITE_FAQS } from "./src/lib/siteFaqs";
 import {
   STATIC_PAGE_SEO,
@@ -46,7 +45,6 @@ export const config = {
   matcher: [
     "/product/:path*",
     "/category/:path*",
-    "/plank-and-beam",
     // Static routes. They were left out of the original matcher and so kept
     // serving the generic shell title to every non-JS crawler — see
     // src/lib/staticPageSeo.ts for what that costs in the SERPs.
@@ -507,15 +505,6 @@ function staticBody(path: StaticPagePath): string | null {
   ].join("\n");
 }
 
-function plankAndBeamHead(): Head {
-  return {
-    title: PLANK_AND_BEAM_SEO.title,
-    description: PLANK_AND_BEAM_SEO.description,
-    path: "/plank-and-beam",
-    jsonLd: [PLANK_AND_BEAM_SEO.jsonLd as Record<string, unknown>],
-  };
-}
-
 // One decoded, slash-free segment after the prefix, or null when the URL isn't
 // shaped like a page this middleware should touch (deeper paths, empty, bad
 // percent-encoding — all pass through).
@@ -567,9 +556,7 @@ export default async function middleware(request: Request) {
     let head: Head | null = null;
     let body: string | null = null;
 
-    if (pathname === "/plank-and-beam") {
-      head = plankAndBeamHead();
-    } else if (hasOwn(STATIC_PAGE_SEO, pathname)) {
+    if (hasOwn(STATIC_PAGE_SEO, pathname)) {
       const key = pathname as StaticPagePath;
       head = staticHead(key);
       body = staticBody(key);
