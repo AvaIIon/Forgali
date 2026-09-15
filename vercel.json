@@ -7,6 +7,11 @@
   "trailingSlash": false,
   "redirects": [
     {
+      "source": "/plank-and-beam",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
       "source": "/contact-us",
       "destination": "/contact",
       "permanent": true
@@ -2688,7 +2693,7 @@
       "destination": "/index.html"
     },
     {
-      "source": "/(checkout|smart-deals|search|contact|faqs|about|warranty|shipping|returns|assembly|safety-standards|privacy|terms|plank-and-beam)",
+      "source": "/(checkout|smart-deals|search|contact|faqs|about|warranty|shipping|returns|assembly|safety-standards|privacy|terms)",
       "destination": "/index.html"
     }
   ],
