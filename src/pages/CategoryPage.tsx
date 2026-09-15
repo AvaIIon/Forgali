@@ -165,19 +165,6 @@ const CategoryPage = () => {
       />
       <Header />
       <CategoryHeader title={headerH1} description={headerLead} />
-      {/* The brand hub had exactly one inbound link sitewide (the footer), so
-          it could never accumulate signal from its own two best children.
-          No negative margin on this line: -mt-2 pulled it up into the
-          CategoryHeader's gradient box, so it straddled the blue/white edge. */}
-      {(validCategory === "dining" || validCategory === "living") && (
-        <div className="max-w-rail mx-auto px-4 mt-4 mb-3 text-sm text-muted-foreground">
-          Part of our{" "}
-          <Link to="/plank-and-beam" className="underline hover:text-foreground">
-            Plank &amp; Beam collection in Canada
-          </Link>
-          .
-        </div>
-      )}
       <SubcategoryTabs products={allCategoryProducts} />
       <CategoryFilters
         filters={filters}
