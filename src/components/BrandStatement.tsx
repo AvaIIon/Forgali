@@ -27,11 +27,6 @@ export const BrandStatement = () => {
                 Shop the Collection
               </button>
             </Link>
-            {/* The homepage is the site's highest-authority page and linked
-                the brand hub nowhere except the footer. */}
-            <Link to="/plank-and-beam" className="text-sm font-medium text-muted-foreground hover:text-brand-accent hover:underline">
-              Explore Plank &amp; Beam in Canada →
-            </Link>
             <Link to="/about" className="text-sm font-medium text-muted-foreground hover:text-brand-accent hover:underline">
               Learn more about Forgali →
             </Link>
