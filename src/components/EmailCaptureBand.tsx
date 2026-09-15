@@ -4,8 +4,8 @@ import { subscribeEmail } from "@/services/shopifyService";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
-// Pre-footer email capture tied to the WELCOME10 offer. Submitting the form
-// is the express consent (CASL): the copy states exactly what the signup is.
+// Pre-footer newsletter email capture. Submitting the form is the express
+// consent (CASL): the copy states exactly what the signup is.
 export const EmailCaptureBand = () => {
   const [email, setEmail] = useState("");
   const [state, setState] = useState<"idle" | "loading" | "done" | "already" | "error">("idle");
@@ -38,20 +38,18 @@ export const EmailCaptureBand = () => {
     <section aria-label="Email signup" className="bg-brand px-4 py-14 text-white">
       <div className="mx-auto max-w-2xl text-center">
         <h2 className="text-2xl font-bold md:text-3xl">
-          Get 10% Off Your First Dining or Living Order
+          Join the Forgali List
         </h2>
         <p className="mx-auto mt-3 max-w-xl text-white/85">
-          Join the Forgali list for news, offers, and early access to new
-          arrivals — and use code{" "}
-          <span className="font-bold tracking-wide">WELCOME10</span> today for
-          10% off Dining &amp; Living.
+          News, offers, and early access to new arrivals — straight to your
+          inbox.
         </p>
 
         {state === "done" || state === "already" ? (
           <p role="status" className="mt-6 rounded-full bg-white/15 px-6 py-3 text-sm font-medium">
             {state === "done"
-              ? "You're in! Use code WELCOME10 at checkout for 10% off Dining & Living."
-              : "This email already has a Forgali account — code WELCOME10 still works at checkout."}
+              ? "You're in! Watch your inbox for news and offers."
+              : "This email already has a Forgali account — you're on the list."}
           </p>
         ) : (
           <form onSubmit={submit} className="mx-auto mt-6 flex max-w-md flex-col gap-3 sm:flex-row">
@@ -81,7 +79,7 @@ export const EmailCaptureBand = () => {
               {state === "loading" ? (
                 <Loader2 className="mx-auto h-4 w-4 animate-spin" />
               ) : (
-                "Get My 10% Off"
+                "Subscribe"
               )}
             </button>
           </form>
