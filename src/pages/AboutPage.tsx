@@ -42,8 +42,8 @@ const WHAT_WE_CARRY = [
     title: "Plank & Beam Dining & Living",
     body:
       "164 pieces from the Plank & Beam collection — dining tables, chairs, benches, bar and counter stools, coffee and console tables, sideboards and TV stands — priced in CAD with no border charges.",
-    href: "/plank-and-beam",
-    cta: "Explore Plank & Beam",
+    href: "/category/dining",
+    cta: "Shop dining & living",
     image:
       "https://cdn.shopify.com/s/files/1/0972/6492/6995/files/3400388400-155__1.jpg?v=1783608444",
     alt: "Plank & Beam solid wood dining table and chairs",
