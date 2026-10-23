@@ -284,8 +284,8 @@ const SUBCATEGORIES = {
   "loft-beds": ["low-loft", "mid-loft", "high-loft", "loft-with-desk", "loft-with-slide", "corner-loft"],
   "single-beds": ["platform", "house-bed", "floor-bed", "traditional", "trundle-bed"],
   "accessories": ["storage", "desks", "bookcases-shelves", "nightstands"],
-  "dining": ["dining-tables", "dining-chairs", "dining-benches", "bar-counter-chairs", "dining-sets"],
-  "living": ["coffee-tables", "console-tables", "side-tables", "sideboards", "tv-stands", "shelves", "entryway"],
+  "dining": ["dining-tables", "dining-chairs", "dining-benches", "bar-counter-chairs", "dining-sets", "round-dining-tables", "kitchen-tables", "counter-stools", "bar-stools"],
+  "living": ["coffee-tables", "console-tables", "side-tables", "sideboards", "tv-stands", "shelves", "entryway", "round-coffee-tables", "console-tables-with-storage", "mid-century-modern"],
 };
 
 const SUB_TAG_PATTERNS = {
@@ -313,6 +313,14 @@ const SUB_TAG_PATTERNS = {
   "desks": ["desk"],
   "bookcases-shelves": ["bookcase", "shelf"],
   "nightstands": ["nightstand", "night stand"],
+  // Dining & living demand views (keep in sync with src/lib/subcategories.ts).
+  "round-dining-tables": ["round dining table", "oval dining table"],
+  "kitchen-tables": ["kitchen table"],
+  "counter-stools": ["counter chair", "counter stool"],
+  "bar-stools": ["bar chair", "bar stool", "bar height"],
+  "round-coffee-tables": ["round coffee table"],
+  "console-tables-with-storage": ["console table with"],
+  "mid-century-modern": ["mid-century modern"],
 };
 
 const SUB_TYPE_PATTERNS = {
