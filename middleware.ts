@@ -34,6 +34,7 @@ import { cdnImage, cdnSrcSet } from "./src/lib/imageProxy";
 import { faqPageJsonLd, getBedSeo } from "./src/lib/categorySeo";
 import { categorySubcategories } from "./src/lib/subcategories";
 import { SITE_FAQS } from "./src/lib/siteFaqs";
+import { GUIDES, GUIDES_INDEX_SEO, getGuide, guideJsonLd, relatedLinks, type Guide } from "./src/lib/guides";
 import {
   STATIC_PAGE_SEO,
   type StaticPagePath,
@@ -59,6 +60,10 @@ export const config = {
     "/smart-deals",
     "/privacy",
     "/terms",
+    // Buying guides (src/lib/guides.ts): editorial pages whose whole point is
+    // being read by crawlers, so they get head + body like the categories.
+    "/guides",
+    "/guides/:path*",
   ],
 };
 
@@ -505,6 +510,99 @@ function staticBody(path: StaticPagePath): string | null {
   ].join("\n");
 }
 
+// ---------------------------------------------------------------------------
+// Buying guides (src/lib/guides.ts). Same contract as categoryBody: plain
+// inline-styled HTML mirroring exactly what GuidePage renders.
+// ---------------------------------------------------------------------------
+function guideHead(g: Guide): Head {
+  return {
+    title: g.title,
+    description: g.description,
+    path: `/guides/${g.slug}`,
+    jsonLd: guideJsonLd(g),
+  };
+}
+
+function guideBody(g: Guide): string {
+  const sections = g.sections
+    .map((s) => {
+      const paras = s.paragraphs
+        .map((p) => `<p style="margin:0 0 12px;line-height:1.6;">${esc(p)}</p>`)
+        .join("\n");
+      const bullets = s.bullets?.length
+        ? `<ul style="list-style:disc;padding-left:20px;margin:0 0 12px;">${s.bullets
+            .map((b) => `<li style="margin:4px 0;line-height:1.6;">${esc(b)}</li>`)
+            .join("")}</ul>`
+        : "";
+      const links = s.links?.length
+        ? `<p style="margin:0 0 12px;">${s.links
+            .map((l) => `<a href="${esc(l.href)}" style="text-decoration:underline;">${esc(l.label)}</a>`)
+            .join(" · ")}</p>`
+        : "";
+      return [
+        `<h2 style="font-size:1.35rem;font-weight:700;margin:28px 0 8px;">${esc(s.h2)}</h2>`,
+        paras,
+        bullets,
+        links,
+      ].join("\n");
+    })
+    .join("\n");
+  const faqs = g.faqs.length
+    ? [
+        `<h2 style="font-size:1.35rem;font-weight:700;margin:32px 0 8px;">Frequently Asked Questions</h2>`,
+        ...g.faqs.map(
+          (f) =>
+            `<h3 style="font-size:1.05rem;font-weight:700;margin:20px 0 4px;">${esc(f.q)}</h3>\n<p style="margin:0;line-height:1.6;">${esc(f.a)}</p>`
+        ),
+      ].join("\n")
+    : "";
+  const shop = relatedLinks(g);
+  const shopHtml = shop.length
+    ? `<h2 style="font-size:1.2rem;font-weight:700;margin:32px 0 8px;">Shop the pieces in this guide</h2>\n<p style="margin:0 0 12px;">${shop
+        .map((l) => `<a href="${esc(l.href)}" style="text-decoration:underline;">${esc(l.label)}</a>`)
+        .join(" · ")}</p>`
+    : "";
+  const others = GUIDES.filter((o) => o.slug !== g.slug)
+    .slice(0, 4)
+    .map((o) => `<li style="margin:4px 0;"><a href="/guides/${esc(o.slug)}" style="text-decoration:underline;">${esc(o.h1)}</a></li>`)
+    .join("");
+  return [
+    `<div style="max-width:800px;margin:0 auto;padding:32px 16px;font-family:system-ui,sans-serif;">`,
+    `<p style="margin:0 0 16px;"><a href="/" style="text-decoration:underline;">Forgali</a> › <a href="/guides" style="text-decoration:underline;">Buying Guides</a> · ${esc(TRUST_LINE)}</p>`,
+    `<h1 style="font-size:2rem;font-weight:700;margin:0 0 8px;">${esc(g.h1)}</h1>`,
+    `<p style="margin:0 0 20px;line-height:1.6;">${esc(g.lead)}</p>`,
+    sections,
+    faqs,
+    shopHtml,
+    `<h2 style="font-size:1.2rem;font-weight:700;margin:32px 0 8px;">More buying guides</h2><ul style="list-style:disc;padding-left:20px;margin:0;">${others}</ul>`,
+    `<p style="font-size:0.8rem;margin:24px 0 0;">Last updated ${esc(g.updated)}.</p>`,
+    `</div>`,
+  ].join("\n");
+}
+
+function guidesIndexHead(): Head {
+  return {
+    title: GUIDES_INDEX_SEO.title,
+    description: GUIDES_INDEX_SEO.description,
+    path: GUIDES_INDEX_SEO.path,
+  };
+}
+
+function guidesIndexBody(): string {
+  const items = GUIDES.map(
+    (g) =>
+      `<li style="margin:10px 0;"><a href="/guides/${esc(g.slug)}" style="text-decoration:underline;font-weight:700;">${esc(g.h1)}</a><br>${esc(g.description)}</li>`
+  ).join("");
+  return [
+    `<div style="max-width:800px;margin:0 auto;padding:32px 16px;font-family:system-ui,sans-serif;">`,
+    `<p style="margin:0 0 16px;"><a href="/" style="text-decoration:underline;">Forgali</a> · ${esc(TRUST_LINE)}</p>`,
+    `<h1 style="font-size:2rem;font-weight:700;margin:0 0 8px;">${esc(GUIDES_INDEX_SEO.h1)}</h1>`,
+    `<p style="margin:0 0 20px;line-height:1.6;">${esc(GUIDES_INDEX_SEO.lead)}</p>`,
+    `<ul style="list-style:none;padding:0;margin:0;">${items}</ul>`,
+    `</div>`,
+  ].join("\n");
+}
+
 // One decoded, slash-free segment after the prefix, or null when the URL isn't
 // shaped like a page this middleware should touch (deeper paths, empty, bad
 // percent-encoding — all pass through).
@@ -560,6 +658,17 @@ export default async function middleware(request: Request) {
       const key = pathname as StaticPagePath;
       head = staticHead(key);
       body = staticBody(key);
+    } else if (pathname === "/guides" || pathname === "/guides/") {
+      head = guidesIndexHead();
+      body = guidesIndexBody();
+    } else if (pathname.startsWith("/guides/")) {
+      const slug = segmentAfter("/guides/", pathname);
+      if (!slug) return;
+      const g = getGuide(slug);
+      // Unknown guide → real 404; the slug set lives in this repo.
+      if (!g) return notFound(origin);
+      head = guideHead(g);
+      body = guideBody(g);
     } else if (pathname.startsWith("/product/")) {
       const handle = segmentAfter("/product/", pathname);
       if (!handle) return;
