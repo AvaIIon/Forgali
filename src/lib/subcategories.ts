@@ -45,6 +45,12 @@ export const categorySubcategories: Record<string, Array<{ slug: string; name: s
     { slug: 'dining-benches', name: 'Benches' },
     { slug: 'bar-counter-chairs', name: 'Bar & Counter Chairs' },
     { slug: 'dining-sets', name: 'Dining Sets' },
+    // Demand-matched views (Search Console / autocomplete 2026-10): each has
+    // its own copy in categorySeo.ts and self-canonicals.
+    { slug: 'round-dining-tables', name: 'Round & Oval' },
+    { slug: 'kitchen-tables', name: 'Kitchen Tables' },
+    { slug: 'counter-stools', name: 'Counter Stools' },
+    { slug: 'bar-stools', name: 'Bar Stools' },
   ],
   'living': [
     { slug: 'coffee-tables', name: 'Coffee Tables' },
@@ -54,6 +60,9 @@ export const categorySubcategories: Record<string, Array<{ slug: string; name: s
     { slug: 'tv-stands', name: 'TV Stands' },
     { slug: 'shelves', name: 'Shelves' },
     { slug: 'entryway', name: 'Entryway Benches' },
+    { slug: 'round-coffee-tables', name: 'Round Coffee Tables' },
+    { slug: 'console-tables-with-storage', name: 'Consoles with Storage' },
+    { slug: 'mid-century-modern', name: 'Mid-Century Modern' },
   ],
 };
 
@@ -88,6 +97,15 @@ const subcategoryTagPatterns: Record<string, string[]> = {
   'desks': ['desk'],
   'bookcases-shelves': ['bookcase', 'shelf'],
   'nightstands': ['nightstand', 'night stand'],
+  // Dining & living demand views — matched on the product TITLE (tags are
+  // empty on the Plank & Beam range except Counter Chair / Bar Chair).
+  'round-dining-tables': ['round dining table', 'oval dining table'],
+  'kitchen-tables': ['kitchen table'],
+  'counter-stools': ['counter chair', 'counter stool'],
+  'bar-stools': ['bar chair', 'bar stool', 'bar height'],
+  'round-coffee-tables': ['round coffee table'],
+  'console-tables-with-storage': ['console table with'],
+  'mid-century-modern': ['mid-century modern'],
 };
 
 // Furniture subcategories match on Shopify productType (authoritative for the
