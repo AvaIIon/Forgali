@@ -292,7 +292,7 @@ const BED_SEO: Record<string, CategorySeo> = {
       },
     ],
     faqs: [
-      { q: "Do any of the dining benches have a back?", a: "The Risa corner banquette has a full backrest and an optional cushion. All the other benches are backless so they slide under the table." },
+      { q: "Do any of the dining benches have a back?", a: "The Risa corner banquette has a low back panel and an optional cushion. All the other benches are backless so they slide under the table." },
       { q: "Are the benches solid wood?", a: "Yes. Seats are knot-free solid wood, and the Verso bench pairs the pine seat with solid hardwood legs." },
       { q: "How many people can sit on a dining bench?", a: "Two on a 46 to 49-inch bench, three on a 58 to 61-inch bench and four on an 83 or 85-inch bench." },
       { q: "Can a dining bench go outside?", a: "Only the Modern outdoor bench, which is finished for a covered patio or porch. Keep it out of direct rain and sun to avoid weathering. The indoor benches should stay indoors." },

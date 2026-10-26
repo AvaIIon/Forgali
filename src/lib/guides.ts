@@ -178,7 +178,7 @@ export const GUIDES: Guide[] = [
       {
         h2: "Sizing the Risa banquette",
         paragraphs: [
-          "The Plank & Beam Risa banquette is 63 inches along each wall, 24.75 inches high and 72.75 pounds, built from knot-free solid pine and hardwood. It works in a left or right corner, so it fits either side of a kitchen. Three adults sit comfortably, four if two are children, and the optional Cream or Onyx cushion adds the padding of an upholstered seat without covering the wood.",
+          "The Plank & Beam Risa banquette is 63 inches along each wall, with a 17.75-inch seat and a low back panel that rises to 24.75 inches. It weighs 72.75 pounds and is built from knot-free solid pine and hardwood. It works in a left or right corner, so it fits either side of a kitchen. Three adults sit comfortably, four if two are children, and the optional Cream or Onyx cushion adds the padding of an upholstered seat without covering the wood.",
           "You need a clear corner of at least 63 by 63 inches, plus the table in front. Measure from the corner along both walls, and check that a window sill, a radiator or a baseboard heater does not sit in the way at seat height.",
         ],
         links: [{ label: "Plank & Beam Risa Banquette", href: "/product/risa-banquette" }],
