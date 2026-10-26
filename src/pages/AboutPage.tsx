@@ -41,7 +41,7 @@ const WHAT_WE_CARRY = [
   {
     title: "Plank & Beam Dining & Living",
     body:
-      "164 pieces from the Plank & Beam collection — dining tables, chairs, benches, bar and counter stools, coffee and console tables, sideboards and TV stands — priced in CAD with no border charges.",
+      "164 pieces from the Plank & Beam collection — dining tables, chairs, benches, bar and counter stools, coffee and console tables, sideboards and TV stands — with no border charges.",
     href: "/category/dining",
     cta: "Shop dining & living",
     image:
@@ -104,7 +104,7 @@ const HOW_IT_WORKS = [
     icon: Truck,
     title: "Free shipping, anywhere in Canada",
     body:
-      "Every order ships free to any Canadian address — no minimum, no surprise total at checkout, prices in CAD with no duties or brokerage fees.",
+      "Every order ships free to any Canadian address — no minimum, no surprise total at checkout, no duties or brokerage fees.",
     link: { to: "/shipping", label: "Shipping details" },
   },
   {
@@ -193,7 +193,7 @@ const AboutPage = () => {
                 So we closed the showroom and rebuilt the business online. No
                 floor space to pay for, no commissioned salesperson steering you
                 toward this week's overstock — just a catalogue we've curated
-                ourselves, priced in Canadian dollars, delivered free anywhere in
+                ourselves and delivered free anywhere in
                 the country.
               </p>
               <p>
