@@ -122,7 +122,7 @@ const BED_SEO: Record<string, CategorySeo> = {
       },
       {
         h2: "Solid wood dining furniture shipped across Canada",
-        body: "Every order ships free to your door anywhere in Canada, from Victoria to St. John's. Items arrive flat-packed with all hardware and step-by-step instructions, and most tables and benches go together in under an hour with basic tools. Returns are accepted within 30 days on new, unused, unassembled items, and everything is covered by a 5-year limited warranty.",
+        body: "Every order ships free to your door anywhere in Canada, from Victoria to St. John's. Items arrive boxed with all hardware and step-by-step instructions. Returns are accepted within 30 days on new, unused, unassembled items, and everything is covered by a 5-year limited warranty.",
         links: [
           { label: "Shipping information", href: "/shipping" },
           { label: "Returns", href: "/returns" },
@@ -135,7 +135,7 @@ const BED_SEO: Record<string, CategorySeo> = {
     faqs: [
       { q: "Is Plank & Beam furniture available in Canada?", a: "Yes. Forgali stocks the Plank & Beam dining and living range for Canadian customers, with free shipping to every province and no duties or brokerage fees." },
       { q: "Is Plank & Beam dining furniture solid wood?", a: "Tables, benches and dining sets are built from knot-free solid wood. Chairs and stools use solid rubberwood or hardwood frames, and the upholstered chairs have cushioned seats on those frames. Sideboards and TV stands in the living range use engineered wood only for the back panels." },
-      { q: "Do the dining tables need assembly?", a: "Yes. Tables, benches and chairs arrive flat-packed with all hardware and instructions. Most tables assemble in under an hour, and the three-panel tops on the Classic and Modern tables can be taken apart again if you move." },
+      { q: "Do the dining tables need assembly?", a: "Yes. Tables, benches and chairs arrive boxed with all hardware and step-by-step instructions, and the three-panel tops on the Classic and Modern tables can be taken apart again if you move." },
       { q: "How much does shipping cost in Canada?", a: "Shipping is free on every order, to every province and territory, with no duties or brokerage to pay at delivery. See the Shipping page for current delivery times." },
       { q: "What finishes do Plank & Beam dining pieces come in?", a: "The core finishes are Pecan, Walnut, Blonde and Black. The Classic and Modern tables add wirebrushed versions and Coastal White, Camden pieces come in Rustic Barnwood, Rustic Char and Rustic Honey, and upholstered chairs pair a wood finish with an Ivory, Sesame, Toffee or Terracotta seat." },
     ],
@@ -170,7 +170,7 @@ const BED_SEO: Record<string, CategorySeo> = {
       { q: "Are these dining tables solid wood?", a: "Yes. The Classic, Modern, Verso, Contour and Camden tables are knot-free solid pine and the Mid-Century Modern tables are knot-free solid wood. The Lido pedestal tables combine solid wood with rubberwood and an engineered core in the base." },
       { q: "How many people does a 72-inch dining table seat?", a: "Six comfortably, three on each side, or eight if you use benches and squeeze. A 60-inch table seats four to six and a 48-inch table seats four." },
       { q: "Do any of the tables extend?", a: "No. There are no leaves or extension mechanisms in the range. If you host large dinners, choose the 84 or 94-inch size, or pair a 72-inch table with benches, which seat more people per foot than chairs." },
-      { q: "Is the table hard to assemble?", a: "No. The Classic and Modern tables use a three-panel top that bolts to the legs with the included hardware, and the same design lets you take the table apart to move it. Most tables are assembled in under an hour." },
+      { q: "Is the table hard to assemble?", a: "No. Every table ships with all hardware and step-by-step instructions, and the three-panel tops on the Classic and Modern tables can be taken apart again to move them." },
       { q: "Does the price include shipping to Canada?", a: "Yes. Every table ships free to any address in Canada, with no duties or brokerage fees." },
     ],
   },
@@ -183,7 +183,7 @@ const BED_SEO: Record<string, CategorySeo> = {
     sections: [
       {
         h2: "Round or oval?",
-        body: "Choose a 38-inch round for two to four people, a 47-inch round for four, or a 62 or 72-inch oval when you want the softer shape but need to seat six. The oval tables fit a narrow dining room better than a round table of the same capacity because they keep the width down.",
+        body: "Choose a 38-inch round for two to four people, a 47-inch round for four, a 62-inch oval for four with more elbow room, or a 72-inch oval to seat six. The oval tables fit a narrow dining room better than a round table of the same capacity because they keep the width down.",
         links: [
           { label: "All dining tables", href: "/category/dining?subcategory=dining-tables" },
           { label: "Kitchen tables for small spaces", href: "/category/dining?subcategory=kitchen-tables" },
@@ -198,7 +198,7 @@ const BED_SEO: Record<string, CategorySeo> = {
     faqs: [
       { q: "How many people fit around a 47-inch round table?", a: "Four comfortably. A 38-inch round seats two to four, and the 72-inch oval seats six." },
       { q: "Are the round tables solid wood?", a: "The Classic, Verso and Contour rounds are knot-free solid wood. The Lido round and oval tables combine solid wood with rubberwood and an engineered core in the pedestal." },
-      { q: "Do the round tables have a pedestal base?", a: "The Lido tables do, with a slatted pedestal that leaves the legroom clear. The Classic, Verso and Contour round tables have four legs." },
+      { q: "Do the round tables have a pedestal base?", a: "The Lido tables do, with a slatted pedestal that leaves the legroom clear. The Classic and Contour round tables stand on legs, and the Verso rounds on a crossed-leg base." },
       { q: "Does shipping to Canada cost extra?", a: "No. Shipping is free to any address in Canada." },
     ],
   },
@@ -341,7 +341,7 @@ const BED_SEO: Record<string, CategorySeo> = {
     sections: [
       {
         h2: "Backless counter stools",
-        body: "The Smythe and Beryl counter stools have a contoured wood seat with no back, so they slide fully under the counter and keep a small kitchen looking open. They are the lightest stools in the range and the least expensive, from $186 each or less per stool in a set of four.",
+        body: "The Smythe and Beryl counter stools have a contoured wood seat with no back, so they slide fully under the counter and keep a small kitchen looking open. They are the least expensive stools in the range, from $186 each or less per stool in a set of four.",
         links: [
           { label: "All counter and bar stools", href: "/category/dining?subcategory=bar-counter-chairs" },
           { label: "Bar stools for 42-inch bars", href: "/category/dining?subcategory=bar-stools" },
@@ -390,7 +390,7 @@ const BED_SEO: Record<string, CategorySeo> = {
     seoDescription: "14 solid wood dining sets for 4 to 8 people from $1,238 CAD: 72-inch tables with two benches, bench plus four chairs or six chairs, and a 94-inch set for eight. Free Canada-wide shipping.",
     h1: "Solid Wood Dining Sets Canada",
     lead: "14 ready-made dining sets in knot-free solid wood, seating four to eight, from $1,238 CAD with free shipping across Canada.",
-    intro: "A dining set takes the guesswork out of matching: the table and seating arrive in the same finish, sized to fit each other, at a lower price than buying the pieces separately. Most sets are built around the 72-inch Classic, Modern, Mid-Century Modern or Contour table, which seats six, and come with two benches, a bench plus four chairs, or six chairs. The 94-inch Classic set with two benches seats eight, and the counter height set with four chairs seats four at bar-table height.\n\nEvery set is knot-free solid wood with hand-applied, low-VOC finishes. Sets with benches start at $1,238, sets with a bench and four chairs from $1,503, and sets with six matching chairs from $1,698. Finishes are Pecan, Walnut, Blonde, Black and Coastal White, with wirebrushed versions on the Classic and Modern sets.",
+    intro: "A dining set takes the guesswork out of matching: the table and seating arrive in the same finish, sized to fit each other. Most sets are built around the 72-inch Classic, Modern, Mid-Century Modern or Contour table, which seats six, and come with two benches, a bench plus four chairs, or six chairs. The 94-inch Classic set with two benches seats eight, and the counter height set with four chairs seats four at bar-table height.\n\nEvery set is knot-free solid wood with hand-applied, low-VOC finishes. Sets with benches start at $1,238, sets with a bench and four chairs from $1,503, and sets with six matching chairs from $1,698. Finishes are Pecan, Walnut, Blonde, Black and Coastal White, with wirebrushed versions on the Classic and Modern sets.",
     sections: [
       {
         h2: "Dining sets for 6",
@@ -412,8 +412,7 @@ const BED_SEO: Record<string, CategorySeo> = {
     faqs: [
       { q: "How many people do the dining sets seat?", a: "The 72-inch sets seat six, the 94-inch Classic set with benches seats eight, and the counter height set seats four." },
       { q: "Are the dining sets solid wood?", a: "Yes. Tables and benches are knot-free solid pine, and the chair sets include six matching solid wood dining chairs." },
-      { q: "Is a dining set cheaper than buying the pieces separately?", a: "Yes. The set price is lower than the table plus seating bought individually, and the whole set ships free as one order." },
-      { q: "Do the sets come assembled?", a: "No. The table and seating arrive flat-packed with all hardware and instructions. Plan on about an hour for the table and a few minutes more for each chair or bench." },
+      { q: "Do the sets come assembled?", a: "No. The table and seating arrive boxed with all hardware and step-by-step instructions." },
       { q: "Does the set ship free in Canada?", a: "Yes. Every set ships free to any address in Canada, with no duties or brokerage fees." },
     ],
   },
@@ -442,7 +441,7 @@ const BED_SEO: Record<string, CategorySeo> = {
       },
       {
         h2: "Solid wood living room furniture shipped across Canada",
-        body: "Every order ships free to your door anywhere in Canada. Pieces arrive flat-packed with hardware and instructions, and the tables go together in well under an hour. Returns are accepted within 30 days on new, unused, unassembled items, and everything carries a 5-year limited warranty.",
+        body: "Every order ships free to your door anywhere in Canada. Pieces arrive boxed with hardware and step-by-step instructions. Returns are accepted within 30 days on new, unused, unassembled items, and everything carries a 5-year limited warranty.",
         links: [
           { label: "Shipping information", href: "/shipping" },
           { label: "Returns", href: "/returns" },
@@ -455,7 +454,7 @@ const BED_SEO: Record<string, CategorySeo> = {
     faqs: [
       { q: "Is Plank & Beam living room furniture available in Canada?", a: "Yes. Forgali stocks the Plank & Beam living range for Canadian customers, with free shipping to every province and no duties or brokerage fees." },
       { q: "Is the furniture solid wood?", a: "The coffee, console and side tables are knot-free solid wood, apart from one melamine side table. The sideboards and TV stands are solid pine with engineered wood back panels. The Arcata pieces have a real oak veneer over a solid wood and engineered core, and the mantels are 100 percent solid pine." },
-      { q: "Do the pieces need assembly?", a: "Yes. Everything arrives flat-packed with hardware and step-by-step instructions. Coffee and side tables are quick, and the Arcata console is just three parts." },
+      { q: "Do the pieces need assembly?", a: "Yes. Everything arrives boxed with hardware and step-by-step instructions, and the Arcata console is just three parts." },
       { q: "What finishes are available?", a: "Pecan, Walnut, Blonde and Black across most collections, Coastal White and wirebrushed finishes on Classic and Modern, Rustic Barnwood, Char and Honey on Camden, and Cashew, Cerused White, Hazelnut and Noir oak veneer on Arcata." },
       { q: "How much is shipping in Canada?", a: "Free, to every province and territory, on every order. See the Shipping page for current delivery times." },
     ],
@@ -489,7 +488,7 @@ const BED_SEO: Record<string, CategorySeo> = {
       { q: "Are the coffee tables solid wood?", a: "Yes. The Classic, Modern, Mid-Century Modern, Verso, Contour and Forma coffee tables are knot-free solid wood. The Arcata coffee table has a real oak veneer over a solid wood and engineered wood core." },
       { q: "How high are the coffee tables?", a: "Standard coffee table height, which sits level with or just below a typical sofa seat. Check the Details tab on each product for the exact height, length and width." },
       { q: "Do any coffee tables have storage?", a: "Yes. The Modern coffee table with shelf in 40 and 48 inches and the Forma tables have a lower shelf. None have drawers." },
-      { q: "Is assembly difficult?", a: "No. The single-panel top bolts to the legs with the included hardware and tool." },
+      { q: "Is assembly difficult?", a: "No. The single-panel top keeps assembly simple, and all hardware is included." },
       { q: "Is shipping free to Canada?", a: "Yes. Every coffee table ships free anywhere in Canada." },
     ],
   },
@@ -522,7 +521,7 @@ const BED_SEO: Record<string, CategorySeo> = {
     seoDescription: "23 solid wood console tables from 36 to 66 inches wide, from $158 CAD, for entryways, hallways and behind the sofa. Free Canada-wide shipping and 30-day returns.",
     h1: "Solid Wood Console Tables",
     lead: "23 Plank & Beam console tables in knot-free solid wood, 36 to 66 inches wide, from $158 CAD with free shipping across Canada.",
-    intro: "A console table is the narrow table that goes against a wall in an entryway, down a hallway or behind a sofa. These 23 run from 36 inches, which fits a condo entry, up to 66 inches for a wide hallway or the back of a sectional. Four of them add a lower shelf or closed storage for shoes, baskets and mail.\n\nThe Classic and Modern consoles are the simplest and least expensive, from $158. Verso has crossed legs, Mid-Century Modern has tapered legs, Contour and Forma have rounded tops, Camden is a rustic plank style, Grande is a heavier wirebrushed design and Arcata is an arched waterfall console in oak veneer. Finishes are Pecan, Walnut, Blonde and Black, with Coastal White, Seashell and White on Classic and Modern, rustic finishes on Camden and Cashew, Cerused White, Hazelnut and Noir on Arcata.",
+    intro: "A console table is the narrow table that goes against a wall in an entryway, down a hallway or behind a sofa. These 23 run from 36 inches, which fits a condo entry, up to 66 inches for a wide hallway or the back of a sectional. Four of them add a lower shelf or closed storage for shoes, baskets and mail.\n\nThe Classic consoles start at $158, the lowest price in the range. Verso has crossed legs, Mid-Century Modern has tapered legs, Contour and Forma have rounded tops, Camden is a rustic plank style, Grande is a heavier wirebrushed design and Arcata is an arched waterfall console in oak veneer. Finishes are Pecan, Walnut, Blonde and Black, with Coastal White, Seashell and White on Classic and Modern, rustic finishes on Camden and Cashew, Cerused White, Hazelnut and Noir on Arcata.",
     sections: [
       {
         h2: "Console table sizes for an entryway or behind a sofa",
@@ -604,10 +603,10 @@ const BED_SEO: Record<string, CategorySeo> = {
   },
   "living|sideboards": {
     seoTitle: "Solid Wood Sideboards Canada - Free Shipping | Forgali",
-    seoDescription: "Seven solid pine sideboards and buffets in 49 and 59 inch widths with 2 or 3 slatted doors and adjustable shelves, from $671 CAD. Free Canada-wide shipping.",
+    seoDescription: "Seven solid pine sideboards and buffets in 49 and 59 inch widths with 2 or 3 doors and adjustable shelves, from $671 CAD. Free Canada-wide shipping.",
     h1: "Solid Wood Sideboards & Buffets",
     lead: "Seven sideboards in knot-free solid pine, 49 and 59 inches wide, with two or three doors and adjustable shelves, from $671 CAD with free shipping across Canada.",
-    intro: "A sideboard is the storage piece that works in a dining room as a buffet, in a living room as a media cabinet or in a hallway as a credenza. These seven are built from knot-free solid pine with engineered wood only on the back panels, and come in 49 and 59 inch widths with two or three slatted doors. Behind the doors, adjustable shelves have three height positions for platters, glassware, board games or a record collection.\n\nThe Mid-Century Modern sideboard has tapered legs and comes in 49 and 59 inch two-door and 59-inch three-door versions. The Modern sideboard has square legs and the Contour sideboard has rounded edges, each in two and three-door versions at 59 inches. All are finished in low-VOC Pecan, Walnut, Blonde or Black and match the TV stands and coffee tables of the same collection.",
+    intro: "A sideboard is the storage piece that works in a dining room as a buffet, in a living room as a media cabinet or in a hallway as a credenza. These seven are built from knot-free solid pine with engineered wood only on the back panels, and come in 49 and 59 inch widths with two or three doors. Behind the doors, adjustable shelves have three height positions for platters, glassware, board games or a record collection.\n\nThe Mid-Century Modern sideboard has tapered legs and comes in 49 and 59 inch two-door and 59-inch three-door versions. The Modern sideboard has soft-close doors and the Contour sideboard has slatted doors with rounded edges, each in two and three-door versions at 59 inches. All are finished in low-VOC Pecan, Walnut, Blonde or Black and match the TV stands and coffee tables of the same collection.",
     sections: [
       {
         h2: "Two doors or three?",
@@ -628,10 +627,10 @@ const BED_SEO: Record<string, CategorySeo> = {
   },
   "living|tv-stands": {
     seoTitle: "Solid Wood TV Stands Canada - Fits 65 Inch TV | Forgali",
-    seoDescription: "Three solid pine TV stands for screens up to 65 inches, with slatted doors, adjustable shelves and cord cutouts, from $654 CAD. Free Canada-wide shipping.",
+    seoDescription: "Three solid pine TV stands for screens up to 65 inches, with two doors, adjustable shelves and cord cutouts, from $654 CAD. Free Canada-wide shipping.",
     h1: "Solid Wood TV Stands",
     lead: "Three media consoles in knot-free solid pine, sized for TVs up to 65 inches, from $654 CAD with free shipping across Canada.",
-    intro: "Each of these TV stands is built from knot-free solid pine with engineered wood back panels, and is designed to hold a television up to 65 inches. Two slatted doors hide a cable box, console or router on shelves that adjust to three heights, an open middle shelf holds a soundbar or a record player, and cord cutouts in the back keep the cables out of sight.\n\nThe Mid-Century Modern TV stand has tapered legs, the Modern TV stand has square legs and the Contour TV stand has rounded corners on the doors. Each matches the sideboard and coffee table of the same collection, in low-VOC Pecan, Walnut, Blonde or Black.",
+    intro: "Each of these TV stands is built from knot-free solid pine with engineered wood back panels, and is designed to hold a television up to 65 inches. Two doors hide a cable box, console or router on shelves that adjust to three heights, an open middle shelf holds a soundbar or a record player, and cord cutouts in the back keep the cables out of sight.\n\nThe Mid-Century Modern TV stand has tapered legs and slatted doors, the Modern TV stand has soft-close doors and the Contour TV stand has slatted doors with rounded corners. Each matches the sideboard and coffee table of the same collection, in low-VOC Pecan, Walnut, Blonde or Black.",
     sections: [
       {
         h2: "Which TV sizes fit?",

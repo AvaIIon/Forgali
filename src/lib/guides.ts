@@ -51,7 +51,7 @@ export const GUIDES: Guide[] = [
         h2: "Start with the room, not the table",
         paragraphs: [
           "Measure the floor space you can give the table, then subtract 36 inches on every side where someone needs to pull out a chair and walk behind it. That 36 inches is the minimum; 42 to 48 inches is comfortable. Whatever is left is the largest table footprint the room can take.",
-          "In a condo or an eat-in kitchen that usually leaves room for a 48-inch table or a 38 to 47 inch round. A dedicated dining room in a detached house typically takes a 72 to 84 inch table, and a 94-inch table needs a room at least 12 feet long.",
+          "In a condo or an eat-in kitchen that usually leaves room for a 48-inch table or a 38 to 47 inch round. A dedicated dining room in a detached house typically takes a 72 to 84 inch table, and a 94-inch table needs a room about 14 feet long.",
         ],
       },
       {
@@ -65,7 +65,7 @@ export const GUIDES: Guide[] = [
           "72-inch table: six, three per side. The most common size in the range.",
           "84-inch table: six to eight.",
           "94-inch table: eight, four per side.",
-          "38-inch round: two to four. 47-inch round: four. 62-inch oval: four to six. 72-inch oval: six.",
+          "38-inch round: two to four. 47-inch round: four. 62-inch oval: four. 72-inch oval: six.",
         ],
         links: [
           { label: "All solid wood dining tables", href: "/category/dining?subcategory=dining-tables" },
@@ -100,7 +100,7 @@ export const GUIDES: Guide[] = [
       },
     ],
     faqs: [
-      { q: "What size dining table fits a 10 by 12 foot room?", a: "A 72-inch table with chairs fits a 10 by 12 room with the recommended 36 inches of clearance on all sides. An 84-inch table fits if you place one long side against a wall and only pull chairs out on the other three sides." },
+      { q: "What size dining table fits a 10 by 12 foot room?", a: "A 72-inch table with chairs fits a 10 by 12 room with the recommended 36 inches of clearance on all sides. An 84-inch table leaves only 30 inches at each end of a 12-foot room, which works only if nobody needs to walk past the ends during a meal." },
       { q: "How much space do you need around a dining table?", a: "36 inches from the table edge to the wall or the next piece of furniture is the minimum for pulling out a chair and walking behind it. 42 to 48 inches is comfortable." },
       { q: "Is a round or rectangular table better for a small space?", a: "Round, up to four people. A 47-inch round seats four in a smaller footprint than a 60-inch rectangle and has no corners in the walkway. Past four people, rectangular tables use space more efficiently." },
       { q: "How many people fit at a 72-inch table?", a: "Six at 24 inches each, or up to eight with benches on both sides." },
@@ -210,7 +210,7 @@ export const GUIDES: Guide[] = [
       { q: "How many people does a corner banquette seat?", a: "The 63 by 63 inch Risa banquette seats three adults comfortably, or four with children, before you add chairs on the open side of the table." },
       { q: "What size table fits a corner banquette?", a: "A 38 or 47 inch round table, or a 48-inch kitchen table. Round tables are easier to slide in and out around." },
       { q: "Does the banquette come with a cushion?", a: "The cushion is optional, in Cream or Onyx. The bench is a finished solid wood seat on its own." },
-      { q: "Does it ship assembled?", a: "No. It ships flat in one box with all hardware and instructions, free to any address in Canada." },
+      { q: "Does it ship assembled?", a: "No. It ships in one box with all hardware and instructions, free to any address in Canada." },
     ],
     related: ["dining-benches", "round-dining-tables", "kitchen-tables"],
   },
@@ -242,7 +242,7 @@ export const GUIDES: Guide[] = [
       {
         h2: "Backless or with a back?",
         paragraphs: [
-          "Backless stools like the Smythe and Beryl slide completely under the counter, which keeps a small kitchen looking open and keeps the walkway clear. They are also the least expensive, from $186 CAD, and the lightest to move. They suit an island people perch at for breakfast or a drink.",
+          "Backless stools like the Smythe and Beryl slide completely under the counter, which keeps a small kitchen looking open and keeps the walkway clear. They are also the least expensive, from $186 CAD. They suit an island people perch at for breakfast or a drink.",
           "Stools with a back, like the Solid Wood counter chair, the Elio, Sereno and Brio, and the Loar upholstered counter chair, are for an island that is the real table: homework, long breakfasts, guests who sit while you cook. An upholstered seat adds comfort for the same reason.",
         ],
       },
