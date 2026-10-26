@@ -39,7 +39,7 @@ export const STATIC_PAGE_SEO = {
     facts: [
       "Shipping is free Canada-wide on all orders.",
       "Standard delivery takes 12-18 business days.",
-      "Prices are in Canadian dollars — no duties or brokerage fees.",
+      "No duties or brokerage fees on delivery.",
       "Inspect your delivery on arrival and report any damage to daniel@forgali.com.",
     ],
   },
@@ -87,7 +87,7 @@ export const STATIC_PAGE_SEO = {
     h1: "About Forgali",
     lead: "A Canadian online store for solid wood furniture — kids' beds and Plank & Beam dining and living.",
     facts: [
-      "Forgali sells solid wood furniture online across Canada, priced in Canadian dollars.",
+      "Forgali sells solid wood furniture online across Canada.",
       "The bedroom range covers bunk beds, loft beds and single beds, including a wide selection of Max & Lily.",
       "We also carry the Plank & Beam collection of dining and living room furniture.",
       "Shipping is free Canada-wide, returns are handled locally within 30 days, and orders carry a 5-year limited warranty.",

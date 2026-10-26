@@ -101,10 +101,10 @@ const BED_SEO: Record<string, CategorySeo> = {
   },
   "dining": {
     seoTitle: "Plank & Beam Dining Furniture Canada | Forgali",
-    seoDescription: "Shop Plank & Beam solid wood dining tables, chairs, benches, stools and sets in Canada. Priced in CAD, free Canada-wide shipping, 30-day returns.",
+    seoDescription: "Shop Plank & Beam solid wood dining tables, chairs, benches, stools and sets in Canada. Free Canada-wide shipping and 30-day returns.",
     h1: "Plank & Beam Dining Furniture",
-    lead: "Solid wood dining tables, chairs, benches, counter and bar stools and complete sets, priced in CAD with free shipping anywhere in Canada.",
-    intro: "Forgali is an online Canadian stockist of Plank & Beam dining furniture. Every table, bench and set is built from knot-free solid wood with hand-applied, low-VOC finishes, and the chairs and stools use solid rubberwood or hardwood frames. Prices are in Canadian dollars, shipping is free to every province, and there are no duties or brokerage fees on delivery.\n\nThe range covers 28 dining and kitchen tables, 19 dining chairs, 13 benches including a corner banquette, 13 counter and bar stools, and 14 ready-made dining sets. Most pieces come in Pecan, Walnut, Blonde and Black, with Coastal White, wirebrushed and rustic finishes on selected collections.",
+    lead: "Solid wood dining tables, chairs, benches, counter and bar stools and complete sets, with free shipping anywhere in Canada.",
+    intro: "Forgali is an online Canadian stockist of Plank & Beam dining furniture. Every table, bench and set is built from knot-free solid wood with hand-applied, low-VOC finishes, and the chairs and stools use solid rubberwood or hardwood frames. Shipping is free to every province, and there are no duties or brokerage fees on delivery.\n\nThe range covers 28 dining and kitchen tables, 19 dining chairs, 13 benches including a corner banquette, 13 counter and bar stools, and 14 ready-made dining sets. Most pieces come in Pecan, Walnut, Blonde and Black, with Coastal White, wirebrushed and rustic finishes on selected collections.",
     sections: [
       {
         h2: "Shop by piece",
@@ -133,10 +133,10 @@ const BED_SEO: Record<string, CategorySeo> = {
       },
     ],
     faqs: [
-      { q: "Is Plank & Beam furniture available in Canada?", a: "Yes. Forgali stocks the Plank & Beam dining and living range for Canadian customers, priced in Canadian dollars with free shipping to every province and no duties or brokerage fees." },
+      { q: "Is Plank & Beam furniture available in Canada?", a: "Yes. Forgali stocks the Plank & Beam dining and living range for Canadian customers, with free shipping to every province and no duties or brokerage fees." },
       { q: "Is Plank & Beam dining furniture solid wood?", a: "Tables, benches and dining sets are built from knot-free solid wood. Chairs and stools use solid rubberwood or hardwood frames, and the upholstered chairs have cushioned seats on those frames. Sideboards and TV stands in the living range use engineered wood only for the back panels." },
       { q: "Do the dining tables need assembly?", a: "Yes. Tables, benches and chairs arrive flat-packed with all hardware and instructions. Most tables assemble in under an hour, and the three-panel tops on the Classic and Modern tables can be taken apart again if you move." },
-      { q: "How much does shipping cost in Canada?", a: "Shipping is free on every order, to every province and territory. Prices are in CAD, so there are no duties, brokerage or exchange surprises at delivery. See the Shipping page for current delivery times." },
+      { q: "How much does shipping cost in Canada?", a: "Shipping is free on every order, to every province and territory, with no duties or brokerage to pay at delivery. See the Shipping page for current delivery times." },
       { q: "What finishes do Plank & Beam dining pieces come in?", a: "The core finishes are Pecan, Walnut, Blonde and Black. The Classic and Modern tables add wirebrushed versions and Coastal White, Camden pieces come in Rustic Barnwood, Rustic Char and Rustic Honey, and upholstered chairs pair a wood finish with an Ivory, Sesame, Toffee or Terracotta seat." },
     ],
   },
@@ -171,7 +171,7 @@ const BED_SEO: Record<string, CategorySeo> = {
       { q: "How many people does a 72-inch dining table seat?", a: "Six comfortably, three on each side, or eight if you use benches and squeeze. A 60-inch table seats four to six and a 48-inch table seats four." },
       { q: "Do any of the tables extend?", a: "No. There are no leaves or extension mechanisms in the range. If you host large dinners, choose the 84 or 94-inch size, or pair a 72-inch table with benches, which seat more people per foot than chairs." },
       { q: "Is the table hard to assemble?", a: "No. The Classic and Modern tables use a three-panel top that bolts to the legs with the included hardware, and the same design lets you take the table apart to move it. Most tables are assembled in under an hour." },
-      { q: "Does the price include shipping to Canada?", a: "Yes. Every table ships free to any address in Canada, and the price shown is in Canadian dollars with no duties or brokerage fees." },
+      { q: "Does the price include shipping to Canada?", a: "Yes. Every table ships free to any address in Canada, with no duties or brokerage fees." },
     ],
   },
   "dining|round-dining-tables": {
@@ -199,7 +199,7 @@ const BED_SEO: Record<string, CategorySeo> = {
       { q: "How many people fit around a 47-inch round table?", a: "Four comfortably. A 38-inch round seats two to four, and the 72-inch oval seats six." },
       { q: "Are the round tables solid wood?", a: "The Classic, Verso and Contour rounds are knot-free solid wood. The Lido round and oval tables combine solid wood with rubberwood and an engineered core in the pedestal." },
       { q: "Do the round tables have a pedestal base?", a: "The Lido tables do, with a slatted pedestal that leaves the legroom clear. The Classic, Verso and Contour round tables have four legs." },
-      { q: "Does shipping to Canada cost extra?", a: "No. Prices are in Canadian dollars and shipping is free to any address in Canada." },
+      { q: "Does shipping to Canada cost extra?", a: "No. Shipping is free to any address in Canada." },
     ],
   },
   "dining|kitchen-tables": {
@@ -230,7 +230,7 @@ const BED_SEO: Record<string, CategorySeo> = {
       { q: "How many people does a 48-inch kitchen table seat?", a: "Four, one on each side or two per long side. For six people, move up to a 60 or 72-inch dining table." },
       { q: "Can I use a bench with a 48-inch table?", a: "Yes. A 46 to 49-inch bench seats two along one side of a 48-inch table. It sits flush with the table edge rather than tucking underneath." },
       { q: "Is the kitchen table solid wood?", a: "Yes. All four 48-inch tables are knot-free solid wood with low-VOC finishes." },
-      { q: "Is shipping included?", a: "Yes. Every table ships free anywhere in Canada and is priced in Canadian dollars." },
+      { q: "Is shipping included?", a: "Yes. Every table ships free anywhere in Canada." },
     ],
   },
   "dining|dining-chairs": {
@@ -296,7 +296,7 @@ const BED_SEO: Record<string, CategorySeo> = {
       { q: "Are the benches solid wood?", a: "Yes. Seats are knot-free solid wood, and the Verso bench pairs the pine seat with solid hardwood legs." },
       { q: "How many people can sit on a dining bench?", a: "Two on a 46 to 49-inch bench, three on a 58 to 61-inch bench and four on an 83 or 85-inch bench." },
       { q: "Can a dining bench go outside?", a: "Only the Modern outdoor bench, which is finished for a covered patio or porch. Keep it out of direct rain and sun to avoid weathering. The indoor benches should stay indoors." },
-      { q: "Is shipping free in Canada?", a: "Yes. Every bench ships free to any address in Canada, and prices are in Canadian dollars." },
+      { q: "Is shipping free in Canada?", a: "Yes. Every bench ships free to any address in Canada." },
     ],
   },
   "dining|bar-counter-chairs": {
@@ -329,7 +329,7 @@ const BED_SEO: Record<string, CategorySeo> = {
       { q: "Are the stools solid wood?", a: "Yes. The Smythe, Beryl, Elio, Sereno, Brio and Loar stools are solid rubberwood, and the Solid Wood counter and bar chairs are knot-free solid wood. Upholstered versions have a cushioned seat on the wood frame." },
       { q: "Do the stools come in sets?", a: "Yes. The Smythe and Beryl stools are sold individually or in sets of two and four, and the Solid Wood counter and bar chairs come in sets of two." },
       { q: "Do the stools need assembly?", a: "Yes. Hardware and tools are included and each stool goes together quickly." },
-      { q: "Is shipping free to Canada?", a: "Yes. Every stool ships free anywhere in Canada and prices are in Canadian dollars." },
+      { q: "Is shipping free to Canada?", a: "Yes. Every stool ships free anywhere in Canada." },
     ],
   },
   "dining|counter-stools": {
@@ -414,15 +414,15 @@ const BED_SEO: Record<string, CategorySeo> = {
       { q: "Are the dining sets solid wood?", a: "Yes. Tables and benches are knot-free solid pine, and the chair sets include six matching solid wood dining chairs." },
       { q: "Is a dining set cheaper than buying the pieces separately?", a: "Yes. The set price is lower than the table plus seating bought individually, and the whole set ships free as one order." },
       { q: "Do the sets come assembled?", a: "No. The table and seating arrive flat-packed with all hardware and instructions. Plan on about an hour for the table and a few minutes more for each chair or bench." },
-      { q: "Does the set ship free in Canada?", a: "Yes. Every set ships free to any address in Canada and is priced in Canadian dollars with no duties or brokerage fees." },
+      { q: "Does the set ship free in Canada?", a: "Yes. Every set ships free to any address in Canada, with no duties or brokerage fees." },
     ],
   },
   "living": {
     seoTitle: "Plank & Beam Living Room Furniture Canada | Forgali",
-    seoDescription: "Shop Plank & Beam solid wood coffee tables, console tables, side tables, sideboards, TV stands and entryway benches in Canada. Priced in CAD, free shipping, 30-day returns.",
+    seoDescription: "Shop Plank & Beam solid wood coffee tables, console tables, side tables, sideboards, TV stands and entryway benches in Canada. Free Canada-wide shipping and 30-day returns.",
     h1: "Plank & Beam Living Room Furniture",
-    lead: "Solid pine coffee tables, console tables, side tables, sideboards, TV stands, mantels and entryway benches, priced in CAD with free shipping anywhere in Canada.",
-    intro: "Forgali is an online Canadian stockist of Plank & Beam living room furniture. The tables are knot-free solid wood with hand-applied, low-VOC finishes, and the sideboards and TV stands are solid pine with engineered wood only on the back panels. Prices are in Canadian dollars, shipping is free to every province, and there are no duties or brokerage fees at the door.\n\nThe range covers 26 coffee tables, 23 console tables, 13 side tables, 7 sideboards, 3 TV stands, 3 floating mantels and 2 entryway benches. The Classic, Modern, Mid-Century Modern, Verso, Contour and Forma collections share Pecan, Walnut, Blonde and Black finishes, the Camden pieces come in rustic finishes and the Arcata pieces in an oak veneer, so a coffee table, console and side table from one collection match.",
+    lead: "Solid pine coffee tables, console tables, side tables, sideboards, TV stands, mantels and entryway benches, with free shipping anywhere in Canada.",
+    intro: "Forgali is an online Canadian stockist of Plank & Beam living room furniture. The tables are knot-free solid wood with hand-applied, low-VOC finishes, and the sideboards and TV stands are solid pine with engineered wood only on the back panels. Shipping is free to every province, and there are no duties or brokerage fees at the door.\n\nThe range covers 26 coffee tables, 23 console tables, 13 side tables, 7 sideboards, 3 TV stands, 3 floating mantels and 2 entryway benches. The Classic, Modern, Mid-Century Modern, Verso, Contour and Forma collections share Pecan, Walnut, Blonde and Black finishes, the Camden pieces come in rustic finishes and the Arcata pieces in an oak veneer, so a coffee table, console and side table from one collection match.",
     sections: [
       {
         h2: "Shop by piece",
@@ -453,7 +453,7 @@ const BED_SEO: Record<string, CategorySeo> = {
       },
     ],
     faqs: [
-      { q: "Is Plank & Beam living room furniture available in Canada?", a: "Yes. Forgali stocks the Plank & Beam living range for Canadian customers, priced in Canadian dollars with free shipping to every province and no duties or brokerage fees." },
+      { q: "Is Plank & Beam living room furniture available in Canada?", a: "Yes. Forgali stocks the Plank & Beam living range for Canadian customers, with free shipping to every province and no duties or brokerage fees." },
       { q: "Is the furniture solid wood?", a: "The coffee, console and side tables are knot-free solid wood, apart from one melamine side table. The sideboards and TV stands are solid pine with engineered wood back panels. The Arcata pieces have a real oak veneer over a solid wood and engineered core, and the mantels are 100 percent solid pine." },
       { q: "Do the pieces need assembly?", a: "Yes. Everything arrives flat-packed with hardware and step-by-step instructions. Coffee and side tables are quick, and the Arcata console is just three parts." },
       { q: "What finishes are available?", a: "Pecan, Walnut, Blonde and Black across most collections, Coastal White and wirebrushed finishes on Classic and Modern, Rustic Barnwood, Char and Honey on Camden, and Cashew, Cerused White, Hazelnut and Noir oak veneer on Arcata." },
@@ -490,7 +490,7 @@ const BED_SEO: Record<string, CategorySeo> = {
       { q: "How high are the coffee tables?", a: "Standard coffee table height, which sits level with or just below a typical sofa seat. Check the Details tab on each product for the exact height, length and width." },
       { q: "Do any coffee tables have storage?", a: "Yes. The Modern coffee table with shelf in 40 and 48 inches and the Forma tables have a lower shelf. None have drawers." },
       { q: "Is assembly difficult?", a: "No. The single-panel top bolts to the legs with the included hardware and tool." },
-      { q: "Is shipping free to Canada?", a: "Yes. Every coffee table ships free anywhere in Canada and is priced in Canadian dollars." },
+      { q: "Is shipping free to Canada?", a: "Yes. Every coffee table ships free anywhere in Canada." },
     ],
   },
   "living|round-coffee-tables": {
@@ -514,7 +514,7 @@ const BED_SEO: Record<string, CategorySeo> = {
       { q: "Are the round coffee tables solid wood?", a: "Yes. All seven are knot-free solid wood with hand-applied, low-VOC finishes." },
       { q: "What sizes do the round coffee tables come in?", a: "30 inches in Classic, Verso and Contour, 34 inches in Forma, and 36 inches in Classic, Mid-Century Modern and Verso." },
       { q: "Is there a round coffee table with storage?", a: "The 34-inch Forma round has a lower shelf. The other round tables are open underneath." },
-      { q: "Does shipping cost extra in Canada?", a: "No. Prices are in Canadian dollars and shipping is free to any address in Canada." },
+      { q: "Does shipping cost extra in Canada?", a: "No. Shipping is free to any address in Canada." },
     ],
   },
   "living|console-tables": {
@@ -547,7 +547,7 @@ const BED_SEO: Record<string, CategorySeo> = {
       { q: "How wide are the console tables?", a: "36, 46, 47, 56 and 66 inches depending on the collection. Check the Details tab on each product for exact depth and height." },
       { q: "Which console tables have storage?", a: "The Classic console with shelf in 36 and 46 inches, the Mid-Century Modern console with storage and the Grande console with shelf. The rest have an open base." },
       { q: "Can a console table go behind a sofa?", a: "Yes. Choose one slightly shorter than the sofa and no taller than the sofa back. The 56 and 66 inch consoles suit most three-seat sofas." },
-      { q: "Is shipping free in Canada?", a: "Yes. Every console table ships free to any address in Canada and is priced in Canadian dollars." },
+      { q: "Is shipping free in Canada?", a: "Yes. Every console table ships free to any address in Canada." },
     ],
   },
   "living|console-tables-with-storage": {
@@ -571,7 +571,7 @@ const BED_SEO: Record<string, CategorySeo> = {
       { q: "Which console table has closed storage?", a: "The 46-inch Mid-Century Modern console with storage has cabinets with pull-down doors. The Classic consoles with shelf and the Grande console with shelf have an open lower shelf." },
       { q: "Are these console tables solid wood?", a: "Yes. All four are knot-free solid wood with low-VOC finishes, and the Classic and Grande shelves are solid wood too." },
       { q: "What is the narrowest console table with storage?", a: "The 36-inch Classic console with shelf, which fits a condo or apartment entryway and starts at $158." },
-      { q: "Is shipping included in Canada?", a: "Yes. Prices are in Canadian dollars and shipping is free to any address in Canada." },
+      { q: "Is shipping included in Canada?", a: "Yes. Shipping is free to any address in Canada." },
     ],
   },
   "living|side-tables": {
@@ -623,7 +623,7 @@ const BED_SEO: Record<string, CategorySeo> = {
       { q: "Can a sideboard be used as a TV stand?", a: "Yes. The 59-inch sideboards are wide enough for a 55 or 65 inch television, though the dedicated TV stands add cord cutouts. The sideboards do not have cord cutouts." },
       { q: "Are the shelves adjustable?", a: "Yes. The shelves behind the doors have three height positions." },
       { q: "How long does assembly take?", a: "Sideboards are the largest assembly in the living range and take one to two hours with the included hardware and instructions." },
-      { q: "Does the sideboard ship free in Canada?", a: "Yes. Every sideboard ships free to any address in Canada and is priced in Canadian dollars." },
+      { q: "Does the sideboard ship free in Canada?", a: "Yes. Every sideboard ships free to any address in Canada." },
     ],
   },
   "living|tv-stands": {
@@ -647,7 +647,7 @@ const BED_SEO: Record<string, CategorySeo> = {
       { q: "Are the TV stands solid wood?", a: "The frame, doors, top and shelves are knot-free solid pine, with engineered wood back panels that carry the cord cutouts." },
       { q: "Do the TV stands have cable management?", a: "Yes. There are cord cutouts in the back panels, and the shelves behind the doors adjust to three heights for a cable box, game console or receiver." },
       { q: "How long does assembly take?", a: "About one to two hours with the included hardware and instructions." },
-      { q: "Is shipping free in Canada?", a: "Yes. Every TV stand ships free to any address in Canada and is priced in Canadian dollars." },
+      { q: "Is shipping free in Canada?", a: "Yes. Every TV stand ships free to any address in Canada." },
     ],
   },
   "living|shelves": {
@@ -670,7 +670,7 @@ const BED_SEO: Record<string, CategorySeo> = {
       { q: "Is the mantel solid wood?", a: "Yes. The Camden mantel is 100 percent solid pine with the natural knots and grain showing through the finish." },
       { q: "How does the mantel attach to the wall?", a: "With the included wooden wall bracket and four screws into the studs. The mantel slides over the bracket for a floating look." },
       { q: "Can it be used as a shelf, not a mantel?", a: "Yes. Mounted on any wall it works as a floating shelf for books, plants or photos." },
-      { q: "Is shipping free in Canada?", a: "Yes. Prices are in Canadian dollars and shipping is free to any address in Canada." },
+      { q: "Is shipping free in Canada?", a: "Yes. Shipping is free to any address in Canada." },
     ],
   },
   "living|entryway": {
@@ -694,7 +694,7 @@ const BED_SEO: Record<string, CategorySeo> = {
       { q: "Does the entryway bench have storage?", a: "No. It is an open slatted bench. For shoe storage, pair it with the Classic console with shelf." },
       { q: "What finishes does it come in?", a: "Eight: Pecan, Walnut, Natural, Black, White, Clay, Teal and Yellow, all low-VOC." },
       { q: "Can the bench be used outdoors?", a: "On a covered porch, yes. Keep it out of direct rain and sun." },
-      { q: "Is shipping free in Canada?", a: "Yes. Both benches ship free to any address in Canada and are priced in Canadian dollars." },
+      { q: "Is shipping free in Canada?", a: "Yes. Both benches ship free to any address in Canada." },
     ],
   },
   "living|mid-century-modern": {
@@ -720,7 +720,7 @@ const BED_SEO: Record<string, CategorySeo> = {
       { q: "Is the Mid-Century Modern collection solid wood?", a: "Yes, apart from the melamine side table with storage. Tables and benches are knot-free solid wood, and the sideboards and TV stand are solid pine with engineered wood back panels." },
       { q: "What finishes does the collection come in?", a: "Walnut, Pecan, Blonde and Black across the collection. The entryway bench adds White, Clay, Teal, Yellow and Natural." },
       { q: "Does the collection include dining furniture?", a: "Yes. The Mid-Century Modern dining table, kitchen table, dining bench and dining set with benches are in the dining range in the same finishes." },
-      { q: "Is shipping free in Canada?", a: "Yes. Every piece ships free to any address in Canada and is priced in Canadian dollars." },
+      { q: "Is shipping free in Canada?", a: "Yes. Every piece ships free to any address in Canada." },
     ],
   },
 };
