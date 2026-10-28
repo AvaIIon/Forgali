@@ -139,6 +139,7 @@ export const productMatchesSubcategory = (product: ConvertedProduct, subcategory
   const patterns = subcategoryTagPatterns[subcategory];
   if (!patterns) return product.subcategory === subcategory;
 
-  const haystack = `${product.tags.join(' ')} ${product.name}`.toLowerCase();
+  // matchName = English title on translated storefronts (shopifyService applyEnglishShape)
+  const haystack = `${product.tags.join(' ')} ${product.matchName ?? product.name}`.toLowerCase();
   return patterns.some(pattern => haystack.includes(pattern));
 };
