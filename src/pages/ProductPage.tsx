@@ -1,5 +1,6 @@
 import { useState, useMemo, useEffect } from "react";
 import { useLocale } from "@/i18n/LocaleContext";
+import { optionNameLabel, optionValueLabel } from "@/i18n/messages";
 import { useParams, Link } from "@/i18n/router";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -89,7 +90,7 @@ const ProductPage = () => {
 };
 
 const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; detailLoaded: boolean }) => {
-  const { t, money } = useLocale();
+  const { t, money, locale } = useLocale();
   const { products: allProducts } = useShopifyProducts();
   const { addToCart } = useCart();
 
@@ -163,9 +164,10 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
 
   // Option names/values stay English for matching (variants, swatches, gallery);
   // these two only change what the shopper SEES on a translated storefront.
-  const optionLabel = (name: string) => product.optionLabels?.options[name]?.name ?? name;
+  const optionLabel = (name: string) =>
+    optionNameLabel(locale, name, product.optionLabels?.options[name]?.name);
   const valueLabel = (name: string, value: string | undefined) =>
-    value === undefined ? value : product.optionLabels?.options[name]?.values[value] ?? value;
+    value === undefined ? value : optionValueLabel(locale, value, product.optionLabels?.options[name]?.values[value]);
 
   const finishAxis = options.find(o => isFinishLike(o.name));
   const selectedFinishName = finishAxis ? selections[finishAxis.name] ?? "" : "";
