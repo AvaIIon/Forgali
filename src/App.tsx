@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { CartProvider } from "@/context/CartContext";
+import { LocaleProvider } from "@/i18n/LocaleContext";
 import { CustomerProvider } from "@/context/CustomerContext";
 import { CartDrawer } from "@/components/CartDrawer";
 import { ScrollToTop } from "@/components/ScrollToTop";
@@ -28,44 +29,56 @@ import TermsPage from "./pages/TermsPage";
 import GuidesIndexPage from "./pages/GuidesIndexPage";
 import GuidePage from "./pages/GuidePage";
 
+// One route tree, mounted twice: at "/" for English and at "/fr" for French
+// (src/i18n/locale.ts). Pages never see the prefix: <Link>/useNavigate from
+// src/i18n/router add it, and LocaleProvider reads it back from the URL.
+const pageRoutes = (
+  <>
+    <Route index element={<Index />} />
+    <Route path="category/:category" element={<CategoryPage />} />
+    <Route path="product/:id" element={<ProductPage />} />
+    <Route path="checkout" element={<CheckoutPage />} />
+    <Route path="smart-deals" element={<SmartDealsPage />} />
+    <Route path="search" element={<SearchPage />} />
+    <Route path="contact" element={<ContactPage />} />
+    <Route path="faqs" element={<FAQsPage />} />
+    <Route path="about" element={<AboutPage />} />
+    <Route path="warranty" element={<WarrantyPage />} />
+    <Route path="shipping" element={<ShippingPage />} />
+    <Route path="returns" element={<ReturnsPage />} />
+    <Route path="assembly" element={<AssemblyPage />} />
+    <Route path="safety-standards" element={<SafetyStandardsPage />} />
+    <Route path="privacy" element={<PrivacyPage />} />
+    <Route path="terms" element={<TermsPage />} />
+    <Route path="guides" element={<GuidesIndexPage />} />
+    <Route path="guides/:slug" element={<GuidePage />} />
+    {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+    <Route path="*" element={<NotFound />} />
+  </>
+);
+
 const queryClient = new QueryClient();
 
 const App = () => (
   <HelmetProvider>
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
-        <ScrollToTop />
-        <MetaPixel />
-        <CustomerProvider>
-          <CartProvider>
-            <TooltipProvider>
-              <Sonner />
-              <CartDrawer />
-              <Routes>
-                <Route path="/" element={<Index />} />
-                <Route path="/category/:category" element={<CategoryPage />} />
-                <Route path="/product/:id" element={<ProductPage />} />
-                <Route path="/checkout" element={<CheckoutPage />} />
-                <Route path="/smart-deals" element={<SmartDealsPage />} />
-                <Route path="/search" element={<SearchPage />} />
-                <Route path="/contact" element={<ContactPage />} />
-                <Route path="/faqs" element={<FAQsPage />} />
-                <Route path="/about" element={<AboutPage />} />
-                <Route path="/warranty" element={<WarrantyPage />} />
-                <Route path="/shipping" element={<ShippingPage />} />
-                <Route path="/returns" element={<ReturnsPage />} />
-                <Route path="/assembly" element={<AssemblyPage />} />
-                <Route path="/safety-standards" element={<SafetyStandardsPage />} />
-                <Route path="/privacy" element={<PrivacyPage />} />
-                <Route path="/terms" element={<TermsPage />} />
-                <Route path="/guides" element={<GuidesIndexPage />} />
-                <Route path="/guides/:slug" element={<GuidePage />} />
-                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </TooltipProvider>
-          </CartProvider>
-        </CustomerProvider>
+        <LocaleProvider>
+          <ScrollToTop />
+          <MetaPixel />
+          <CustomerProvider>
+            <CartProvider>
+              <TooltipProvider>
+                <Sonner />
+                <CartDrawer />
+                <Routes>
+                  <Route path="/">{pageRoutes}</Route>
+                  <Route path="/fr">{pageRoutes}</Route>
+                </Routes>
+              </TooltipProvider>
+            </CartProvider>
+          </CustomerProvider>
+        </LocaleProvider>
       </BrowserRouter>
     </QueryClientProvider>
   </HelmetProvider>
