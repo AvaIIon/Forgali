@@ -1,4 +1,4 @@
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "@/i18n/router";
 import { Loader2, SearchX } from "lucide-react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";

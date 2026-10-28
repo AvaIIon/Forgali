@@ -1,5 +1,6 @@
 import { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useLocale } from "@/i18n/LocaleContext";
+import { Link } from "@/i18n/router";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { useCart } from "@/context/CartContext";
@@ -21,6 +22,7 @@ import { cdnImage } from "@/lib/imageProxy";
  * can complete the order, but nothing in the UI routes here.
  */
 const CheckoutPage = () => {
+  const { money } = useLocale();
   const { items, getTotalPrice, removeFromCart, getItemKey, refreshCartLines } = useCart();
 
   // Revalidate persisted lines against Shopify the moment the shopper reaches
@@ -148,7 +150,7 @@ const CheckoutPage = () => {
                         )}
                       </div>
                       <p className="font-medium">
-                        ${((item.unitPrice ?? item.product.price) * item.quantity).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                        {money(((item.unitPrice ?? item.product.price) * item.quantity))}
                       </p>
                     </div>
                   );
@@ -161,7 +163,7 @@ const CheckoutPage = () => {
               <div className="space-y-3">
                 <div className="flex justify-between text-sm">
                   <span>Subtotal</span>
-                  <span>${subtotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+                  <span>{money(subtotal)}</span>
                 </div>
                 {/* Delivery window lives here rather than on the product page:
                     the shopper has already chosen, and this is the last place
@@ -183,7 +185,7 @@ const CheckoutPage = () => {
                 <Separator />
                 <div className="flex justify-between text-lg font-bold">
                   <span>Total before tax</span>
-                  <span>${subtotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+                  <span>{money(subtotal)}</span>
                 </div>
               </div>
 

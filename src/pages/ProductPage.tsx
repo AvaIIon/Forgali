@@ -1,5 +1,6 @@
 import { useState, useMemo, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useLocale } from "@/i18n/LocaleContext";
+import { useParams, Link } from "@/i18n/router";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Seo } from "@/components/Seo";
@@ -88,6 +89,7 @@ const ProductPage = () => {
 };
 
 const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; detailLoaded: boolean }) => {
+  const { t, money } = useLocale();
   const { products: allProducts } = useShopifyProducts();
   const { addToCart } = useCart();
 
@@ -158,6 +160,12 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
       setSelections(next);
     }
   };
+
+  // Option names/values stay English for matching (variants, swatches, gallery);
+  // these two only change what the shopper SEES on a translated storefront.
+  const optionLabel = (name: string) => product.optionLabels?.options[name]?.name ?? name;
+  const valueLabel = (name: string, value: string | undefined) =>
+    value === undefined ? value : product.optionLabels?.options[name]?.values[value] ?? value;
 
   const finishAxis = options.find(o => isFinishLike(o.name));
   const selectedFinishName = finishAxis ? selections[finishAxis.name] ?? "" : "";
@@ -417,12 +425,12 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
             {/* Price Section (selected variant's real price) */}
             <div className="flex items-center gap-3 flex-wrap">
               <span className="text-3xl font-bold text-brand-accent">
-                ${displayPrice.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                {money(displayPrice)}
               </span>
               {displayCompareAt && displayCompareAt > displayPrice && (
                 <>
                   <span className="text-xl text-muted-foreground line-through">
-                    ${displayCompareAt.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                    {money(displayCompareAt)}
                   </span>
                   <span className="bg-primary text-primary-foreground text-sm font-semibold px-3 py-1 rounded-full">
                     {discountPercent}% OFF
@@ -438,15 +446,15 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
                 return (
                   <div key={option.name} className="space-y-3">
                     <div className="flex items-center justify-between">
-                      <span className="font-medium">{option.name}:</span>
-                      <span className="text-muted-foreground">{selectedValue}</span>
+                      <span className="font-medium">{optionLabel(option.name)}:</span>
+                      <span className="text-muted-foreground">{valueLabel(option.name, selectedValue)}</span>
                     </div>
                     <div className="flex flex-wrap gap-2">
                       {option.values.map(value => (
                         <button
                           key={value}
                           onClick={() => handleSelect(option.name, value)}
-                          aria-label={`${option.name}: ${value}`}
+                          aria-label={`${optionLabel(option.name)}: ${valueLabel(option.name, value)}`}
                           aria-pressed={selectedValue === value}
                           className={`w-10 h-10 rounded-full border-2 transition-all ${
                             selectedValue === value
@@ -454,7 +462,7 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
                               : "border-border hover:border-muted-foreground"
                           }`}
                           style={{ backgroundColor: getFinishColor(value) }}
-                          title={value}
+                          title={valueLabel(option.name, value)}
                         />
                       ))}
                     </div>
@@ -464,8 +472,8 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
               return (
                 <div key={option.name} className="space-y-3">
                   <div className="flex items-center justify-between">
-                    <span className="font-medium">{option.name}:</span>
-                    <span className="text-muted-foreground">{selectedValue}</span>
+                    <span className="font-medium">{optionLabel(option.name)}:</span>
+                    <span className="text-muted-foreground">{valueLabel(option.name, selectedValue)}</span>
                   </div>
                   <div className="flex flex-wrap gap-2">
                     {option.values.map(value => (
@@ -479,7 +487,7 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
                             : "border-border hover:border-muted-foreground"
                         }`}
                       >
-                        {value}
+                        {valueLabel(option.name, value)}
                       </button>
                     ))}
                   </div>
@@ -608,11 +616,11 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
                   </h3>
                   <div className="flex items-center gap-2 mt-1">
                     <p className="text-brand-accent font-bold">
-                      {ref.fromPrice ? "From " : ""}${ref.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                      {ref.fromPrice ? t("from") : ""}{money(ref.price)}
                     </p>
                     {ref.compareAtPrice && (
                       <p className="text-muted-foreground line-through text-sm">
-                        ${ref.compareAtPrice.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                        {money(ref.compareAtPrice)}
                       </p>
                     )}
                   </div>
@@ -651,7 +659,7 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
                     {relatedProduct.name}
                   </h3>
                   <p className="text-brand-accent font-bold mt-1">
-                    {relatedProduct.fromPrice ? "From " : ""}${relatedProduct.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                    {relatedProduct.fromPrice ? t("from") : ""}{money(relatedProduct.price)}
                   </p>
                 </Link>
               ))}
