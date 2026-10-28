@@ -1,7 +1,9 @@
 import { useRef, useState } from "react";
 import { Search, User, ShoppingCart, Menu, ChevronDown, LogOut } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "@/i18n/router";
+import { useLocale } from "@/i18n/LocaleContext";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { useCart } from "@/context/CartContext";
 import { useCustomer } from "@/context/CustomerContext";
 import LoginDialog from "@/components/LoginDialog";
@@ -118,6 +120,7 @@ export const Header = () => {
   };
   const totalItems = getTotalItems();
   const navigate = useNavigate();
+  const { t } = useLocale();
   const [searchQuery, setSearchQuery] = useState("");
 
   const handleSearchSubmit = (e: React.FormEvent) => {
@@ -162,11 +165,11 @@ export const Header = () => {
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                   <Input
                     type="search"
-                    placeholder="Search our store"
+                    placeholder={t("searchPlaceholder")}
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     className="pl-10 bg-background border-border rounded-full h-10"
-                    aria-label="Search our store"
+                    aria-label={t("searchPlaceholder")}
                   />
                 </form>
                 <nav className="mt-4 flex flex-col gap-1">
@@ -216,6 +219,9 @@ export const Header = () => {
                     )
                   )}
                 </nav>
+                <div className="mt-6 border-t border-border pt-4">
+                  <LanguageSwitcher />
+                </div>
               </SheetContent>
             </Sheet>
 
@@ -224,11 +230,11 @@ export const Header = () => {
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
               <Input
                 type="search"
-                placeholder="Search our store"
+                placeholder={t("searchPlaceholder")}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="pl-10 bg-background border-border rounded-full h-10"
-                aria-label="Search our store"
+                aria-label={t("searchPlaceholder")}
               />
             </form>
           </div>
@@ -250,13 +256,14 @@ export const Header = () => {
           {/* Right side */}
           <div className="flex items-center gap-3 sm:gap-6 justify-end flex-1 min-w-0">
             <div className="hidden lg:flex items-center gap-2 text-sm">
-              <span className="text-muted-foreground">Country:</span>
+              <span className="text-muted-foreground">{t("country")}</span>
               {/* CAD-only store: static chip, not a selector */}
               <div className="flex items-center gap-1">
                 <span className="text-lg">🇨🇦</span>
                 <span>CAD</span>
               </div>
             </div>
+            <LanguageSwitcher className="hidden md:flex" />
             {customer ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>

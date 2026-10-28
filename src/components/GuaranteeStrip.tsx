@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link } from "@/i18n/router";
 import { Truck, RotateCcw, ShieldCheck, BadgeCheck } from "lucide-react";
 
 const items = [

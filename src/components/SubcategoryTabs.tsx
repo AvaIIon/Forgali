@@ -1,4 +1,4 @@
-import { Link, useParams, useSearchParams } from "react-router-dom";
+import { Link, useParams, useSearchParams } from "@/i18n/router";
 import { ConvertedProduct } from "@/services/shopifyService";
 import { categorySubcategories, productMatchesSubcategory } from "@/lib/subcategories";
 

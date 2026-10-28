@@ -1,4 +1,6 @@
 import { Helmet } from "react-helmet-async";
+import { useLocale } from "@/i18n/LocaleContext";
+import { FR_INDEXABLE, HREFLANG, OG_LOCALE, localizePath } from "@/i18n/locale";
 
 const SITE_URL = "https://www.forgali.com";
 const DEFAULT_IMAGE =
@@ -30,7 +32,21 @@ export const Seo = ({
   noindex = false,
   jsonLd,
 }: SeoProps) => {
-  const url = `${SITE_URL}${path.startsWith("/") ? path : `/${path}`}`;
+  const { locale } = useLocale();
+  const cleanPath = path.startsWith("/") ? path : `/${path}`;
+  const url = `${SITE_URL}${localizePath(cleanPath, locale)}`;
+  // French is staged behind FR_INDEXABLE (src/i18n/locale.ts): until it flips,
+  // every /fr page is noindex with no canonical — middleware.ts mirrors this.
+  const hidden = noindex || (locale === "fr" && !FR_INDEXABLE);
+  // hreflang only once both languages are indexable; the set must reciprocate.
+  const alternates =
+    !hidden && FR_INDEXABLE
+      ? [
+          { hrefLang: HREFLANG.en, href: `${SITE_URL}${cleanPath}` },
+          { hrefLang: HREFLANG.fr, href: `${SITE_URL}${localizePath(cleanPath, "fr")}` },
+          { hrefLang: "x-default", href: `${SITE_URL}${cleanPath}` },
+        ]
+      : [];
   const blocks = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
 
   return (
@@ -42,13 +58,17 @@ export const Seo = ({
       {description && <meta name="description" content={description} />}
       {/* A noindex page must NOT emit a self-canonical or og:url — pointing an
           unknown/404 URL at itself as canonical is a contradictory signal. */}
-      {!noindex && <link rel="canonical" href={url} />}
-      {noindex && <meta name="robots" content="noindex, follow" />}
+      {!hidden && <link rel="canonical" href={url} />}
+      {hidden && <meta name="robots" content="noindex, follow" />}
+      {alternates.map((a) => (
+        <link key={a.hrefLang} rel="alternate" hrefLang={a.hrefLang} href={a.href} />
+      ))}
 
       <meta property="og:title" content={title} />
       {description && <meta property="og:description" content={description} />}
       <meta property="og:type" content={type} />
-      {!noindex && <meta property="og:url" content={url} />}
+      {!hidden && <meta property="og:url" content={url} />}
+      <meta property="og:locale" content={OG_LOCALE[locale]} />
       <meta property="og:image" content={image} />
 
       <meta name="twitter:card" content="summary_large_image" />

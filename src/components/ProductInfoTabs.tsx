@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link } from "@/i18n/router";
 import { Check, Truck, RotateCcw, Wrench } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ConvertedProduct } from "@/services/shopifyService";

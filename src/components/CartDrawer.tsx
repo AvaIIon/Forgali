@@ -1,6 +1,7 @@
 import { AlertTriangle, ChevronRight, Minus, Plus, Trash2 } from "lucide-react";
+import { useLocale } from "@/i18n/LocaleContext";
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "@/i18n/router";
 import { useCart } from "@/context/CartContext";
 import { useShopifyCheckout } from "@/hooks/useShopifyCheckout";
 import { isShopifyConfigured } from "@/services/shopifyService";
@@ -9,6 +10,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sh
 import { cdnImage } from "@/lib/imageProxy";
 
 export const CartDrawer = () => {
+  const { t, money } = useLocale();
   const { items, isCartOpen, setIsCartOpen, updateQuantity, removeFromCart, getTotalPrice, getItemKey, refreshCartLines } = useCart();
   const navigate = useNavigate();
   const { startCheckout, isLoading: isCheckoutLoading } = useShopifyCheckout();
@@ -71,7 +73,7 @@ export const CartDrawer = () => {
                         </p>
                       ) : (
                         <p className="text-brand-accent font-bold mt-1">
-                          ${(item.unitPrice ?? item.product.price).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                          {money((item.unitPrice ?? item.product.price))}
                         </p>
                       )}
                       <div className="flex items-center gap-2 mt-2">
@@ -124,7 +126,7 @@ export const CartDrawer = () => {
                           <span className="min-w-0 flex-1">
                             <span className="block truncate text-sm">{ref.title}</span>
                             <span className="text-sm font-semibold text-brand-accent">
-                              {ref.fromPrice ? "From " : ""}${ref.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                              {ref.fromPrice ? t("from") : ""}{money(ref.price)}
                             </span>
                           </span>
                           <ChevronRight className="h-4 w-4 shrink-0 text-muted-foreground" />
@@ -139,7 +141,7 @@ export const CartDrawer = () => {
                 <div className="flex justify-between items-center">
                   <span className="font-medium">Subtotal</span>
                   <span className="text-xl font-bold">
-                    ${getTotalPrice().toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                    {money(getTotalPrice())}
                   </span>
                 </div>
                 {/* The delivery window and the Afterpay note used to live on
