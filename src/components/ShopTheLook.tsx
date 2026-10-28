@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useLocale } from "@/i18n/LocaleContext";
+import { Link } from "@/i18n/router";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { useShopifyProducts, getProductByHandle } from "@/hooks/useShopifyProducts";
 import { useCart } from "@/context/CartContext";
@@ -55,9 +56,6 @@ const HOTSPOTS = [
   },
 ];
 
-const formatPrice = (n: number) =>
-  n.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-
 type Hotspot = (typeof HOTSPOTS)[number];
 type Coords = { top: string; left: string };
 
@@ -75,59 +73,63 @@ const HotspotPopover = ({
   price: number;
   originalPrice?: number;
   image: string;
-}) => (
-  <Popover>
-    <PopoverTrigger asChild>
-      <button
-        aria-label={`Shop ${title}`}
-        style={{ top: coords.top, left: coords.left }}
-        // after:-inset-2.5 expands the tap target to ~48px (mobile guideline)
-        // while the visible dot stays 28px
-        className="absolute flex h-7 w-7 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white text-[13px] font-semibold text-foreground shadow-md ring-2 ring-black/5 transition-all duration-200 after:absolute after:-inset-2.5 after:rounded-full after:content-[''] hover:scale-110 data-[state=open]:bg-brand data-[state=open]:text-white"
-      >
-        {spot.number}
-      </button>
-    </PopoverTrigger>
-    <PopoverContent side="top" className="w-64 p-3">
-      <div className="flex gap-3">
-        <Link to={`/product/${spot.handle}`} className="shrink-0">
-          <img
-            src={cdnImage(getProxiedImage(image), 200)}
-            alt={title}
-            loading="lazy"
-            className="h-20 w-20 rounded-lg bg-brand-tint object-cover"
-          />
-        </Link>
-        <div className="min-w-0">
-          <Link
-            to={`/product/${spot.handle}`}
-            className="line-clamp-2 text-sm font-medium leading-snug hover:underline"
-          >
-            {title}
+}) => {
+  const { t, money } = useLocale();
+  return (
+    <Popover>
+      <PopoverTrigger asChild>
+        <button
+          aria-label={`Shop ${title}`}
+          style={{ top: coords.top, left: coords.left }}
+          // after:-inset-2.5 expands the tap target to ~48px (mobile guideline)
+          // while the visible dot stays 28px
+          className="absolute flex h-7 w-7 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white text-[13px] font-semibold text-foreground shadow-md ring-2 ring-black/5 transition-all duration-200 after:absolute after:-inset-2.5 after:rounded-full after:content-[''] hover:scale-110 data-[state=open]:bg-brand data-[state=open]:text-white"
+        >
+          {spot.number}
+        </button>
+      </PopoverTrigger>
+      <PopoverContent side="top" className="w-64 p-3">
+        <div className="flex gap-3">
+          <Link to={`/product/${spot.handle}`} className="shrink-0">
+            <img
+              src={cdnImage(getProxiedImage(image), 200)}
+              alt={title}
+              loading="lazy"
+              className="h-20 w-20 rounded-lg bg-brand-tint object-cover"
+            />
           </Link>
-          <div className="mt-1 flex items-baseline gap-2">
-            <span className="font-bold text-brand-accent">
-              {spot.fromPrice ? "From " : ""}${formatPrice(price)}
-            </span>
-            {originalPrice && (
-              <span className="text-xs text-muted-foreground line-through">
-                ${formatPrice(originalPrice)}
+          <div className="min-w-0">
+            <Link
+              to={`/product/${spot.handle}`}
+              className="line-clamp-2 text-sm font-medium leading-snug hover:underline"
+            >
+              {title}
+            </Link>
+            <div className="mt-1 flex items-baseline gap-2">
+              <span className="font-bold text-brand-accent">
+                {spot.fromPrice ? t("from") : ""}{money(price)}
               </span>
-            )}
+              {originalPrice && (
+                <span className="text-xs text-muted-foreground line-through">
+                  {money(originalPrice)}
+                </span>
+              )}
+            </div>
+            <Link
+              to={`/product/${spot.handle}`}
+              className="mt-2 inline-block text-sm font-semibold text-brand-accent hover:underline"
+            >
+              Shop Now →
+            </Link>
           </div>
-          <Link
-            to={`/product/${spot.handle}`}
-            className="mt-2 inline-block text-sm font-semibold text-brand-accent hover:underline"
-          >
-            Shop Now →
-          </Link>
         </div>
-      </div>
-    </PopoverContent>
-  </Popover>
-);
+      </PopoverContent>
+    </Popover>
+  );
+};
 
 export const ShopTheLook = () => {
+  const { t, money } = useLocale();
   const { products } = useShopifyProducts();
   const { addToCart } = useCart();
   const [lookState, setLookState] = useState<"idle" | "adding" | "added" | "partial" | "error">("idle");
@@ -233,7 +235,7 @@ export const ShopTheLook = () => {
               {spot.number}
             </span>
             <span className="text-muted-foreground group-hover:text-foreground group-hover:underline">
-              {title} · {spot.fromPrice ? "From " : ""}${formatPrice(price)}
+              {title} · {spot.fromPrice ? t("from") : ""}{money(price)}
             </span>
           </Link>
         ))}
@@ -252,7 +254,7 @@ export const ShopTheLook = () => {
               ? "Look added to cart ✓"
               : lookState === "partial"
                 ? `Added ${HOTSPOTS.length - missingPieces.length} of ${HOTSPOTS.length} pieces`
-                : `Add the Whole Look to Cart · $${formatPrice(lookTotal)}`}
+                : `Add the Whole Look to Cart · ${money(lookTotal)}`}
         </button>
         <p className="mt-2 text-xs text-muted-foreground">
           Adds the table, one chair, and the console in the finishes shown.

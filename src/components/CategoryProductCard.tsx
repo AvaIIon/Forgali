@@ -1,5 +1,6 @@
 import { X } from "lucide-react";
-import { Link } from "react-router-dom";
+import { useLocale } from "@/i18n/LocaleContext";
+import { Link } from "@/i18n/router";
 import { useState } from "react";
 import type { ConvertedProduct } from "@/services/shopifyService";
 import { getFinishColor } from "@/lib/finishColors";
@@ -10,6 +11,7 @@ interface CategoryProductCardProps {
 }
 
 export const CategoryProductCard = ({ product }: CategoryProductCardProps) => {
+  const { t, money } = useLocale();
   // Use finishes array for color swatches
   const finishes = product.finishes || [];
   const displayFinishes = finishes.slice(0, 4);
@@ -97,11 +99,11 @@ export const CategoryProductCard = ({ product }: CategoryProductCardProps) => {
           point), never borrowed from a different variant. */}
       <div className="flex items-center gap-2">
         <span className="text-brand-accent font-bold">
-          {product.fromPrice ? "From " : ""}${product.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+          {product.fromPrice ? t("from") : ""}{money(product.price)}
         </span>
         {product.originalPrice && !product.fromPrice && (
           <span className="text-muted-foreground line-through text-sm">
-            ${product.originalPrice.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+            {money(product.originalPrice)}
           </span>
         )}
       </div>

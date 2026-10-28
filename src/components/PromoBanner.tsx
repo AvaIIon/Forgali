@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link } from "@/i18n/router";
 import { Button } from "@/components/ui/button";
 
 // Every active dining piece carries a compare-at price (verified Aug 4 via the

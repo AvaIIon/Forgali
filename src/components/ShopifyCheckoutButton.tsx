@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { useLocale } from "@/i18n/LocaleContext";
 import { useCart } from "@/context/CartContext";
 import { useShopifyCheckout } from "@/hooks/useShopifyCheckout";
 
@@ -8,6 +9,7 @@ interface ShopifyCheckoutButtonProps {
 }
 
 export const ShopifyCheckoutButton = ({ className, children }: ShopifyCheckoutButtonProps) => {
+  const { t, money } = useLocale();
   const { getTotalPrice } = useCart();
   const { startCheckout, isLoading, isEmpty } = useShopifyCheckout();
 
@@ -17,7 +19,7 @@ export const ShopifyCheckoutButton = ({ className, children }: ShopifyCheckoutBu
       disabled={isLoading || isEmpty}
       className={className}
     >
-      {isLoading ? 'Processing...' : (children || `Checkout with Shopify - $${getTotalPrice().toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`)}
+      {isLoading ? t("processing") : (children || `${t("checkoutWithShopify")} - ${money(getTotalPrice())}`)}
     </Button>
   );
 };

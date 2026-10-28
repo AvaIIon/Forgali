@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link } from "@/i18n/router";
 import { cdnImage, cdnSrcSet } from "@/lib/imageProxy";
 
 const BRAND_IMG =

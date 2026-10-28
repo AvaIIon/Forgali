@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useLocale } from "@/i18n/LocaleContext";
 import { cdnImage, cdnSrcSet, CARD_SIZES } from "@/lib/imageProxy";
 
 interface ProductCardProps {
@@ -21,6 +22,7 @@ export const ProductCard = ({
   badge,
   fromPrice,
 }: ProductCardProps) => {
+  const { t, money } = useLocale();
   const [imageError, setImageError] = useState(false);
   const [imageSrc, setImageSrc] = useState(image);
 
@@ -57,11 +59,11 @@ export const ProductCard = ({
 
       <div className="flex items-center gap-2">
         <span className="text-brand-accent font-bold">
-          {fromPrice ? "From " : ""}${price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+          {fromPrice ? t("from") : ""}{money(price)}
         </span>
         {originalPrice && !fromPrice && (
           <span className="text-muted-foreground line-through text-sm">
-            ${originalPrice.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+            {money(originalPrice)}
           </span>
         )}
       </div>

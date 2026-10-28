@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link } from "@/i18n/router";
 import { cdnImage, cdnSrcSet, CARD_SIZES } from "@/lib/imageProxy";
 
 // Mirrors the top-nav category structure: Dining · Living · Bedroom ·

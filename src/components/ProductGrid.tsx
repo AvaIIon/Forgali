@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link } from "@/i18n/router";
 import { Loader2 } from "lucide-react";
 import { ProductCard } from "./ProductCard";
 import { useFeaturedProducts } from "@/hooks/useShopifyProducts";

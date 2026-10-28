@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link } from "@/i18n/router";
 import heroDining from "@/assets/hero-dining.jpg";
 import heroDiningMobile from "@/assets/shop-the-look-dining-mobile.jpg";
 
