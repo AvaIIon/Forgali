@@ -1,3 +1,5 @@
+import { SHOPIFY_LANGUAGE, localeFromPathname } from '@/i18n/locale';
+
 // Shopify Storefront API Integration
 // Optional environment override (Vercel): VITE_SHOPIFY_STORE_DOMAIN
 
@@ -26,6 +28,184 @@ const API_VERSION = '2025-01';
 const SHOPIFY_API_URL = `https://${SHOPIFY_STORE_DOMAIN}/api/${API_VERSION}/graphql.json`;
 
 const TOKEN_HEADER = 'X-Shopify-Storefront-Access-Token';
+
+// ---------------------------------------------------------------------------
+// Storefront language. With @inContext(language: …) on the operation, the
+// Storefront API returns the store's French translations (titles, descriptions,
+// SEO fields, metafields, options) and cartCreate hands back a /fr/ checkoutUrl,
+// so the whole Shopify checkout runs in French. Instead of hand-editing every
+// operation string in this file, shopifyFetch() adds the directive plus a
+// $language variable to whatever document it is given. The language is read
+// from the URL prefix (src/i18n/locale.ts) at call time, which keeps this
+// module free of React.
+// ---------------------------------------------------------------------------
+const currentLanguage = (): 'EN' | 'FR' =>
+  typeof window === 'undefined' ? 'EN' : SHOPIFY_LANGUAGE[localeFromPathname(window.location.pathname)];
+
+const OPERATION_HEADER = /^\s*(query|mutation)(\s+[A-Za-z_][A-Za-z0-9_]*)?\s*(?:\(([^)]*)\))?\s*\{/;
+const LANGUAGE_VAR = '$language: LanguageCode!';
+const IN_CONTEXT = '@inContext(language: $language, country: CA)';
+
+/**
+ * `query getX($a: Int) { … }`   → `query getX($a: Int, $language: LanguageCode!) @inContext(language: $language, country: CA) { … }`
+ * `mutation($input: T!) { … }`  → same treatment, name-less operations included
+ * `{ … }` (shorthand)           → gets an explicit `query (…)` header
+ * Documents that already carry @inContext are returned unchanged.
+ */
+export function withStorefrontLanguage(document: string): string {
+  if (document.includes('@inContext(')) return document;
+  const m = OPERATION_HEADER.exec(document);
+  if (!m) {
+    const trimmed = document.trimStart();
+    return trimmed.startsWith('{') ? `query (${LANGUAGE_VAR}) ${IN_CONTEXT} ${trimmed}` : document;
+  }
+  const [header, kind, name = '', vars] = m;
+  const variables = vars && vars.trim() ? `${vars.trim()}, ${LANGUAGE_VAR}` : LANGUAGE_VAR;
+  return `${kind}${name}(${variables}) ${IN_CONTEXT} {` + document.slice(header.length);
+}
+
+// ---------------------------------------------------------------------------
+// English "shape" for translated storefronts.
+//
+// Everything that SORTS or MATCHES products — the category/subcategory rules
+// below, subcategories.ts title patterns, the product page's finish-axis
+// detection, getVariantImages() and the finish colour swatches — is written
+// against Shopify's English productType, title, option names and option
+// values. Shopify translates all four (tags and handles stay English), so in
+// French the catalogue came back empty and the finish axis went undetected.
+//
+// Fix: keep that logic on English data. For a non-English language, fetch a
+// small English shape per product (type, title, option names/values, each
+// variant's selected options) and merge it in. The translated strings stay on
+// the product for display, and the translated option names/values survive as
+// `optionLabels` so the product page can still show them. English requests
+// are untouched: no extra fetch, byte-identical data.
+// ---------------------------------------------------------------------------
+export interface OptionLabels {
+  productType: string;
+  /** English option name → translated name + English value → translated value. */
+  options: Record<string, { name: string; values: Record<string, string> }>;
+}
+
+interface EnglishShape {
+  handle: string;
+  title: string;
+  productType: string;
+  options: Array<{ name: string; values: string[] }>;
+  /** variant id → English selectedOptions */
+  variants: Record<string, Array<{ name: string; value: string }>>;
+}
+
+interface EnglishShapeNode {
+  handle: string;
+  title: string;
+  productType: string;
+  options: Array<{ name: string; values: string[] }>;
+  variants: { edges: Array<{ node: { id: string; selectedOptions: Array<{ name: string; value: string }> } }> };
+}
+
+const ENGLISH_SHAPE_FIELDS = `
+  handle
+  title
+  productType
+  options { name values }
+  variants(first: 100) { edges { node { id selectedOptions { name value } } } }
+`;
+
+// Pinned to EN explicitly: withStorefrontLanguage() leaves documents that
+// already carry @inContext untouched.
+const ENGLISH_SHAPE_QUERY = `
+  query englishShape($first: Int!, $after: String) @inContext(language: EN, country: CA) {
+    products(first: $first, after: $after) {
+      pageInfo { hasNextPage endCursor }
+      edges { node { ${ENGLISH_SHAPE_FIELDS} } }
+    }
+  }
+`;
+
+const ENGLISH_SHAPE_BY_HANDLE_QUERY = `
+  query englishShapeByHandle($handle: String!) @inContext(language: EN, country: CA) {
+    productByHandle(handle: $handle) { ${ENGLISH_SHAPE_FIELDS} }
+  }
+`;
+
+const toShape = (n: EnglishShapeNode): EnglishShape => ({
+  handle: n.handle,
+  title: n.title,
+  productType: n.productType,
+  options: n.options,
+  variants: Object.fromEntries(n.variants.edges.map(e => [e.node.id, e.node.selectedOptions])),
+});
+
+const needsEnglishShape = (): boolean => currentLanguage() !== 'EN';
+
+// Whole-catalogue shapes, fetched once per page load (a language switch is a
+// full reload, so this can never hold the wrong language).
+let englishShapesInflight: Promise<Map<string, EnglishShape>> | null = null;
+const englishShapes = (): Promise<Map<string, EnglishShape>> => {
+  if (!englishShapesInflight) {
+    englishShapesInflight = (async () => {
+      const map = new Map<string, EnglishShape>();
+      let cursor: string | undefined;
+      let hasNextPage = true;
+      while (hasNextPage) {
+        const data = await shopifyFetch<{
+          products: { pageInfo: { hasNextPage: boolean; endCursor: string }; edges: Array<{ node: EnglishShapeNode }> };
+        }>(ENGLISH_SHAPE_QUERY, { first: 250, after: cursor });
+        data.products.edges.forEach(e => map.set(e.node.handle, toShape(e.node)));
+        hasNextPage = data.products.pageInfo.hasNextPage;
+        cursor = data.products.pageInfo.endCursor;
+      }
+      return map;
+    })().catch(err => {
+      englishShapesInflight = null; // let the next call retry
+      throw err;
+    });
+  }
+  return englishShapesInflight;
+};
+
+const englishShapeFor = async (handle: string): Promise<EnglishShape | undefined> => {
+  if (englishShapesInflight) return (await englishShapesInflight).get(handle);
+  const data = await shopifyFetch<{ productByHandle: EnglishShapeNode | null }>(ENGLISH_SHAPE_BY_HANDLE_QUERY, { handle });
+  return data.productByHandle ? toShape(data.productByHandle) : undefined;
+};
+
+/** Merge the English shape into a translated product (see the block comment above). */
+export const applyEnglishShape = (product: ShopifyProduct, shape: EnglishShape | undefined): ShopifyProduct => {
+  if (!shape) return product;
+  const optionLabels: OptionLabels = { productType: product.productType, options: {} };
+  shape.options.forEach((enOpt, i) => {
+    const localized = product.options?.[i];
+    if (!localized) return;
+    const values: Record<string, string> = {};
+    enOpt.values.forEach((v, j) => {
+      if (localized.values[j] !== undefined) values[v] = localized.values[j];
+    });
+    optionLabels.options[enOpt.name] = { name: localized.name, values };
+  });
+  return {
+    ...product,
+    productType: shape.productType,
+    classificationTitle: shape.title,
+    options: product.options
+      ? shape.options.map((o, i) => ({ id: product.options?.[i]?.id ?? o.name, name: o.name, values: o.values }))
+      : product.options,
+    variants: {
+      edges: product.variants.edges.map(e => {
+        const en = shape.variants[e.node.id];
+        return en ? { node: { ...e.node, selectedOptions: en } } : e;
+      }),
+    },
+    optionLabels,
+  };
+};
+
+const withEnglishShapes = async (products: ShopifyProduct[]): Promise<ShopifyProduct[]> => {
+  if (!needsEnglishShape() || products.length === 0) return products;
+  const shapes = await englishShapes();
+  return products.map(p => applyEnglishShape(p, shapes.get(p.handle)));
+};
 
 // Debug logging in development
 if (import.meta.env.DEV) {
@@ -407,7 +587,12 @@ async function shopifyFetch<T>(query: string, variables?: Record<string, any>): 
       'Content-Type': 'application/json',
       [TOKEN_HEADER]: STOREFRONT_ACCESS_TOKEN,
     },
-    body: JSON.stringify({ query, variables }),
+    body: JSON.stringify({
+      query: withStorefrontLanguage(query),
+      variables: withStorefrontLanguage(query).includes('$language')
+        ? { ...variables, language: currentLanguage() }
+        : variables,
+    }),
   });
 
   // Check HTTP status before parsing JSON
@@ -533,6 +718,10 @@ export interface ShopifyProduct {
   relatedProducts?: { references?: { nodes: ShopifyRelatedProductNode[] } | null } | null;
   options?: Array<{ id: string; name: string; values: string[] }>;
   variants: { edges: Array<{ node: ShopifyVariant }> };
+  /** English title for the category/subcategory rules when `title` is a translation (see applyEnglishShape). */
+  classificationTitle?: string;
+  /** Translated display strings for the (English) option names/values, non-English storefronts only. */
+  optionLabels?: OptionLabels;
 }
 
 // One row of the PDP Details table, e.g. { label: "Length (L)", value: "54",
@@ -565,7 +754,9 @@ export const fetchShopifyProducts = async (first: number = 250, after?: string) 
     };
   }>(PRODUCTS_QUERY, { first, after });
 
-  return data.products;
+  if (!needsEnglishShape()) return data.products;
+  const nodes = await withEnglishShapes(data.products.edges.map(e => e.node));
+  return { ...data.products, edges: nodes.map(node => ({ node })) };
 };
 
 // Fetch all products (handles pagination)
@@ -594,7 +785,7 @@ export const fetchBestSellingProducts = async (first: number = 12): Promise<Shop
   const data = await shopifyFetch<{
     products: { edges: Array<{ node: ShopifyProduct }> };
   }>(BEST_SELLING_QUERY, { first });
-  return data.products.edges.map(e => e.node);
+  return withEnglishShapes(data.products.edges.map(e => e.node));
 };
 
 // Fetch a single product by handle
@@ -603,7 +794,8 @@ export const fetchShopifyProductByHandle = async (handle: string): Promise<Shopi
     productByHandle: ShopifyProduct | null;
   }>(PRODUCT_BY_HANDLE_QUERY, { handle });
 
-  return data.productByHandle;
+  if (!data.productByHandle || !needsEnglishShape()) return data.productByHandle;
+  return applyEnglishShape(data.productByHandle, await englishShapeFor(handle));
 };
 
 // Fetch products by collection handle
@@ -624,7 +816,12 @@ export const fetchShopifyProductsByCollection = async (
     } | null;
   }>(PRODUCTS_BY_COLLECTION_QUERY, { handle: collectionHandle, first, after });
 
-  return data.collectionByHandle;
+  if (!data.collectionByHandle || !needsEnglishShape()) return data.collectionByHandle;
+  const nodes = await withEnglishShapes(data.collectionByHandle.products.edges.map(e => e.node));
+  return {
+    ...data.collectionByHandle,
+    products: { ...data.collectionByHandle.products, edges: nodes.map(node => ({ node })) },
+  };
 };
 
 // Create a new cart
@@ -900,6 +1097,10 @@ export interface ConvertedProduct {
     options: Array<{ name: string; value: string }>;
   }>;
   options: Array<{ name: string; values: string[] }>;
+  /** English title for title-pattern matching (subcategories.ts) when `name` is a translation. */
+  matchName?: string;
+  /** Translated labels for option names/values; absent in English. */
+  optionLabels?: OptionLabels;
   // Curated same-style cross-sells from custom.related_products (by-handle
   // query only — list-query products won't have this)
   relatedProducts?: RelatedProductRef[];
@@ -1023,8 +1224,12 @@ export const convertShopifyProduct = (shopifyProduct: ShopifyProduct): Converted
     options: v.selectedOptions,
   }));
 
-  const category = getCategoryFromProduct(shopifyProduct);
-  const subcategory = getSubcategoryFromProduct(shopifyProduct);
+  // Category rules read the title; on a translated product use the English one.
+  const forRules = shopifyProduct.classificationTitle
+    ? { ...shopifyProduct, title: shopifyProduct.classificationTitle }
+    : shopifyProduct;
+  const category = getCategoryFromProduct(forRules);
+  const subcategory = getSubcategoryFromProduct(forRules);
 
   // Map curated cross-sell references (custom.related_products metafield)
   const relatedProducts: RelatedProductRef[] | undefined =
@@ -1079,6 +1284,8 @@ export const convertShopifyProduct = (shopifyProduct: ShopifyProduct): Converted
     availableForSale: variants.some(v => v.availableForSale),
     variants: convertedVariants,
     options,
+    matchName: shopifyProduct.classificationTitle,
+    optionLabels: shopifyProduct.optionLabels,
     relatedProducts: relatedProducts?.length ? relatedProducts : undefined,
   };
 };
