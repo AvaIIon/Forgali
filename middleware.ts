@@ -39,6 +39,15 @@ import {
   STATIC_PAGE_SEO,
   type StaticPagePath,
 } from "./src/lib/staticPageSeo";
+import {
+  FR_INDEXABLE,
+  HREFLANG,
+  HTML_LANG,
+  OG_LOCALE,
+  localizePath,
+  stripLocale,
+  type Locale,
+} from "./src/i18n/locale";
 
 // "/" is deliberately NOT matched: the shell fetch below requests the origin
 // root, so matching it would recurse. Homepage keeps its static head.
@@ -64,6 +73,27 @@ export const config = {
     // being read by crawlers, so they get head + body like the categories.
     "/guides",
     "/guides/:path*",
+    // French (src/i18n/locale.ts): same routes under /fr. The prefix is
+    // stripped in the handler and the same head/body builders run; while
+    // FR_INDEXABLE is false they emit noindex instead of a canonical.
+    // "/fr" itself IS matched (unlike "/"): fetchShell() fetches "/", which
+    // is not in this list, so there is no recursion.
+    "/fr",
+    "/fr/product/:path*",
+    "/fr/category/:path*",
+    "/fr/shipping",
+    "/fr/returns",
+    "/fr/contact",
+    "/fr/faqs",
+    "/fr/about",
+    "/fr/warranty",
+    "/fr/safety-standards",
+    "/fr/assembly",
+    "/fr/smart-deals",
+    "/fr/privacy",
+    "/fr/terms",
+    "/fr/guides",
+    "/fr/guides/:path*",
   ],
 };
 
@@ -214,24 +244,39 @@ interface Head {
 // Mirrors src/components/Seo.tsx tag-for-tag. data-rh="true" hands ownership
 // to react-helmet-async on hydration. twitter:site is unmanaged (Seo.tsx never
 // sets it), so it keeps today's static value and no data-rh.
-function renderHead(h: Head): string {
-  const url = SITE + h.path;
+function renderHead(h: Head, locale: Locale): string {
+  const enUrl = SITE + h.path;
+  const url = SITE + localizePath(h.path, locale);
   const image = h.image ?? DEFAULT_IMAGE;
+  // Same staging rule as Seo.tsx: French is noindex, no canonical, no
+  // alternates until FR_INDEXABLE flips (src/i18n/locale.ts).
+  const hidden = locale === "fr" && !FR_INDEXABLE;
   const lines = [
     `<title>${esc(h.title)}</title>`,
     `<meta name="description" content="${esc(h.description)}" data-rh="true"/>`,
-    `<link rel="canonical" href="${esc(url)}" data-rh="true"/>`,
+    hidden
+      ? `<meta name="robots" content="noindex, follow" data-rh="true"/>`
+      : `<link rel="canonical" href="${esc(url)}" data-rh="true"/>`,
     `<meta property="og:title" content="${esc(h.title)}" data-rh="true"/>`,
     `<meta property="og:description" content="${esc(h.description)}" data-rh="true"/>`,
     `<meta property="og:type" content="${h.type ?? "website"}" data-rh="true"/>`,
-    `<meta property="og:url" content="${esc(url)}" data-rh="true"/>`,
+    ...(hidden ? [] : [`<meta property="og:url" content="${esc(url)}" data-rh="true"/>`]),
     `<meta property="og:image" content="${esc(image)}" data-rh="true"/>`,
+    `<meta property="og:locale" content="${OG_LOCALE[locale]}" data-rh="true"/>`,
     `<meta name="twitter:card" content="summary_large_image" data-rh="true"/>`,
     `<meta name="twitter:site" content="@Forgali"/>`,
     `<meta name="twitter:title" content="${esc(h.title)}" data-rh="true"/>`,
     `<meta name="twitter:description" content="${esc(h.description)}" data-rh="true"/>`,
     `<meta name="twitter:image" content="${esc(image)}" data-rh="true"/>`,
   ];
+  if (!hidden && FR_INDEXABLE) {
+    const frUrl = SITE + localizePath(h.path, "fr");
+    lines.push(
+      `<link rel="alternate" hreflang="${HREFLANG.en}" href="${esc(enUrl)}" data-rh="true"/>`,
+      `<link rel="alternate" hreflang="${HREFLANG.fr}" href="${esc(frUrl)}" data-rh="true"/>`,
+      `<link rel="alternate" hreflang="x-default" href="${esc(enUrl)}" data-rh="true"/>`
+    );
+  }
   for (const block of h.jsonLd ?? []) {
     // "<" escaped so content containing "</script>" can't break out of the tag
     // — same rule as Seo.tsx.
@@ -621,6 +666,17 @@ function segmentAfter(prefix: string, pathname: string): string | null {
 // (hashed asset URLs), so cache it per isolate. Only cache a shell that
 // carries both markers — anything else would make every later request fail.
 let shellCache: string | null = null;
+// French responses: swap the shell's <html lang> and move the pre-hydration
+// body's internal links under /fr so a crawler reading the static HTML stays
+// inside the French tree. Both are no-ops for English.
+function localizeHtmlLang(html: string, locale: Locale): string {
+  return locale === "en" ? html : html.replace('<html lang="en">', `<html lang="${HTML_LANG[locale]}">`);
+}
+function localizeBodyLinks(body: string, locale: Locale): string {
+  return locale === "en" ? body : body.replace(/href="(\/[^"]*)"/g, (_, p: string) => `href="${localizePath(p, locale)}"`);
+}
+const NOINDEX_META = `<meta name="robots" content="noindex, follow" data-rh="true"/>`;
+
 async function fetchShell(origin: string): Promise<string | null> {
   if (shellCache) return shellCache;
   const res = await fetch(`${origin}/`, { signal: timeoutSignal(3000) });
@@ -649,7 +705,9 @@ export default async function middleware(request: Request) {
   try {
     if (request.method !== "GET" && request.method !== "HEAD") return;
 
-    const { pathname, origin, searchParams } = new URL(request.url);
+    const { pathname: rawPathname, origin, searchParams } = new URL(request.url);
+    // "/fr/…" → locale fr + the English-shaped path every builder below expects.
+    const { locale, path: pathname } = stripLocale(rawPathname);
 
     let head: Head | null = null;
     let body: string | null = null;
@@ -698,7 +756,11 @@ export default async function middleware(request: Request) {
       body = categoryBody(category, subcategory);
     }
 
-    if (!head) return;
+    // The French homepage has no head builder yet (the English one keeps its
+    // static head in index.html); it still needs lang="fr" and, while staged,
+    // the noindex meta, so it is the one headless route handled here.
+    const frenchHome = locale === "fr" && pathname === "/";
+    if (!head && !frenchHome) return;
 
     const shell = await fetchShell(origin);
     if (!shell) return;
@@ -707,8 +769,13 @@ export default async function middleware(request: Request) {
     const end = shell.indexOf(END_MARK);
     if (start === -1 || end === -1 || end <= start) return;
 
-    let html =
-      shell.slice(0, start) + renderHead(head) + shell.slice(end + END_MARK.length);
+    const headHtml = head
+      ? renderHead(head, locale)
+      : (FR_INDEXABLE ? "" : NOINDEX_META + "\n    ") + shell.slice(start + START_MARK.length, end);
+    let html = localizeHtmlLang(
+      shell.slice(0, start) + headHtml + shell.slice(end + END_MARK.length),
+      locale
+    );
 
     // Body SSR is additive: if the mount point isn't the exact empty div (or
     // this route has no body), the head-injected shell ships as before.
@@ -719,7 +786,7 @@ export default async function middleware(request: Request) {
         html =
           html.slice(0, rootAt) +
           `<div id="root">` +
-          body +
+          localizeBodyLinks(body, locale) +
           `</div>` +
           html.slice(rootAt + ROOT_MARK.length);
         bodyInjected = true;
@@ -730,6 +797,7 @@ export default async function middleware(request: Request) {
       status: 200,
       headers: {
         "content-type": "text/html; charset=utf-8",
+        "content-language": HREFLANG[locale],
         "cache-control": "public, max-age=0, s-maxage=3600",
         "x-routehead": "1", // deploy canary: proves this response was rewritten
         ...(bodyInjected ? { "x-routebody": "1" } : {}), // canary: body SSR ran

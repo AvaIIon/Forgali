@@ -2693,6 +2693,30 @@
       "destination": "/index.html"
     },
     {
+      "source": "/guides/:path*",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/fr",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/fr/category/:path*",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/fr/product/:path*",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/fr/guides/:path*",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/fr/(checkout|smart-deals|search|contact|faqs|about|warranty|shipping|returns|assembly|safety-standards|privacy|terms)",
+      "destination": "/index.html"
+    },
+    {
       "source": "/(checkout|smart-deals|search|contact|faqs|about|warranty|shipping|returns|assembly|safety-standards|privacy|terms)",
       "destination": "/index.html"
     }
@@ -2734,6 +2758,24 @@
     },
     {
       "source": "/(checkout|search)",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, follow"
+        }
+      ]
+    },
+    {
+      "source": "/fr/(checkout|search)",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, follow"
+        }
+      ]
+    },
+    {
+      "source": "/fr/:path*",
       "headers": [
         {
           "key": "X-Robots-Tag",
