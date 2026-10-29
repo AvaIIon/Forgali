@@ -3,37 +3,21 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Seo } from "@/components/Seo";
 import { seoProps } from "@/lib/staticPageSeo";
+import { useLocale } from "@/i18n/LocaleContext";
+import type { MessageKey } from "@/i18n/messages";
 import { Users, Drill, LayoutGrid, BookOpen, Clock } from "lucide-react";
 
-const tips = [
-  {
-    icon: Users,
-    title: "Bring a Second Pair of Hands",
-    text: "Solid pine makes our furniture beautiful — and the boxes large and heavy. Two adults make moving and building far easier.",
-  },
-  {
-    icon: Drill,
-    title: "Charge the Power Drill",
-    text: "Everything can be built with the included hand tools, but a power drill makes assembly noticeably faster.",
-  },
-  {
-    icon: LayoutGrid,
-    title: "Clear the Room First",
-    text: "Give yourself plenty of floor space to lay out panels and hardware before you start building.",
-  },
-  {
-    icon: BookOpen,
-    title: "Read Before You Build",
-    text: "Skim the illustrated instructions first to understand the design — it prevents the classic backwards-headboard restart.",
-  },
-  {
-    icon: Clock,
-    title: "Set Aside 2–3 Hours",
-    text: "From nightstands to staircase bunks, assembly time varies. Most beds take a relaxed afternoon.",
-  },
+// Copy lives in src/i18n/messages.ts under assembly.tipN*.
+const tips: Array<{ icon: typeof Users; title: MessageKey; text: MessageKey }> = [
+  { icon: Users, title: "assembly.tip1Title", text: "assembly.tip1Text" },
+  { icon: Drill, title: "assembly.tip2Title", text: "assembly.tip2Text" },
+  { icon: LayoutGrid, title: "assembly.tip3Title", text: "assembly.tip3Text" },
+  { icon: BookOpen, title: "assembly.tip4Title", text: "assembly.tip4Text" },
+  { icon: Clock, title: "assembly.tip5Title", text: "assembly.tip5Text" },
 ];
 
 const AssemblyPage = () => {
+  const { t } = useLocale();
   return (
     <div className="min-h-screen bg-background">
       <Seo
@@ -44,11 +28,10 @@ const AssemblyPage = () => {
       <div className="bg-gradient-to-b from-brand-tint to-white py-12 px-4">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-            Assembly Guide
+            {t("assembly.title")}
           </h1>
           <p className="text-muted-foreground text-base md:text-lg max-w-2xl mx-auto">
-            Every Forgali piece arrives flat-packed with illustrated instructions and all
-            the hardware you need. Here's how to make build day easy.
+            {t("assembly.lead")}
           </p>
         </div>
       </div>
@@ -59,34 +42,29 @@ const AssemblyPage = () => {
             {tips.map(({ icon: Icon, title, text }) => (
               <div key={title} className="bg-brand-tint rounded-lg p-6">
                 <Icon className="w-8 h-8 text-brand mb-4" />
-                <h3 className="font-bold text-lg mb-2">{title}</h3>
-                <p className="text-muted-foreground text-sm">{text}</p>
+                <h3 className="font-bold text-lg mb-2">{t(title)}</h3>
+                <p className="text-muted-foreground text-sm">{t(text)}</p>
               </div>
             ))}
           </div>
 
           <div>
-            <h2 className="text-2xl font-bold mb-4">Need Your Instructions Again?</h2>
+            <h2 className="text-2xl font-bold mb-4">{t("assembly.instructionsTitle")}</h2>
             <p className="text-muted-foreground mb-3">
-              Printed step-by-step instructions are included in every box. If yours have
-              gone missing, email{" "}
+              {t("assembly.instructions1")}{" "}
               <a href="mailto:daniel@forgali.com" className="text-brand-accent hover:underline">daniel@forgali.com</a>{" "}
-              with your order number and the product name, and we'll send you the PDF for
-              your exact model — usually within 24 hours.
+              {t("assembly.instructions2")}
             </p>
             <p className="text-muted-foreground">
-              Missing hardware or a damaged part? See{" "}
-              <Link to="/returns" className="text-brand-accent hover:underline">Returns &amp; Missing Parts</Link> —
-              we'll ship replacements.
+              {t("assembly.missing1")}{" "}
+              <Link to="/returns" className="text-brand-accent hover:underline">{t("assembly.returnsLink")}</Link>{t("assembly.missing2")}
             </p>
           </div>
 
           <div>
-            <h2 className="text-2xl font-bold mb-4">Build It Safe</h2>
+            <h2 className="text-2xl font-bold mb-4">{t("assembly.safeTitle")}</h2>
             <p className="text-muted-foreground">
-              Follow the guardrail, mattress-height, and age recommendations in your
-              instructions — they matter, especially for bunk and loft beds. Read more on
-              our <Link to="/safety-standards" className="text-brand-accent hover:underline">Safety Standards</Link> page.
+              {t("assembly.safe1")} <Link to="/safety-standards" className="text-brand-accent hover:underline">{t("footer.safetyStandards")}</Link>{t("assembly.safe2")}
             </p>
           </div>
         </div>

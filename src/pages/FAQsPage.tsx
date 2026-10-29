@@ -2,11 +2,13 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Seo } from "@/components/Seo";
+import { useLocale } from "@/i18n/LocaleContext";
 import { seoProps } from "@/lib/staticPageSeo";
 import { SITE_FAQS } from "@/lib/siteFaqs";
 import { faqPageJsonLd } from "@/lib/categorySeo";
 
 const FAQsPage = () => {
+  const { t } = useLocale();
   const faqs = SITE_FAQS;
 
   return (
@@ -22,10 +24,10 @@ const FAQsPage = () => {
       <div className="bg-gradient-to-b from-brand-tint to-white py-12 px-4">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-            Frequently Asked Questions
+            {t("faqs.title")}
           </h1>
           <p className="text-muted-foreground text-base md:text-lg max-w-2xl mx-auto">
-            Find answers to common questions about our products, shipping, and policies.
+            {t("faqs.lead")}
           </p>
         </div>
       </div>

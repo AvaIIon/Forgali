@@ -2,8 +2,10 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Seo } from "@/components/Seo";
 import { seoProps } from "@/lib/staticPageSeo";
+import { useLocale } from "@/i18n/LocaleContext";
 
 const WarrantyPage = () => {
+  const { t } = useLocale();
   return (
     <div className="min-h-screen bg-background">
       <Seo
@@ -14,10 +16,10 @@ const WarrantyPage = () => {
       <div className="bg-gradient-to-b from-brand-tint to-white py-12 px-4">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-            Warranty Information
+            {t("warranty.title")}
           </h1>
           <p className="text-muted-foreground text-base md:text-lg max-w-2xl mx-auto">
-            Your investment is protected with our comprehensive warranty coverage.
+            {t("warranty.lead")}
           </p>
         </div>
       </div>
@@ -25,31 +27,29 @@ const WarrantyPage = () => {
       <section className="py-16 px-4">
         <div className="max-w-4xl mx-auto space-y-8">
           <div className="bg-background border border-border rounded-lg p-8">
-            <h2 className="text-2xl font-bold mb-4">Limited Warranty</h2>
+            <h2 className="text-2xl font-bold mb-4">{t("warranty.limited")}</h2>
             <p className="text-muted-foreground leading-relaxed mb-4">
-              Forgali warrants that all products are free from defects in materials and workmanship under normal use for a period 
-              of 5 years from the date of purchase. This warranty covers structural defects and manufacturing flaws.
+              {t("warranty.body")}
             </p>
             
-            <h3 className="text-xl font-bold mb-3 mt-6">What's Covered</h3>
+            <h3 className="text-xl font-bold mb-3 mt-6">{t("warranty.covered")}</h3>
             <ul className="list-disc list-inside text-muted-foreground space-y-2 mb-4">
-              <li>Structural defects in solid wood components</li>
-              <li>Manufacturing defects in hardware and assembly</li>
-              <li>Premature wear of finish under normal use</li>
+              <li>{t("warranty.covered1")}</li>
+              <li>{t("warranty.covered2")}</li>
+              <li>{t("warranty.covered3")}</li>
             </ul>
             
-            <h3 className="text-xl font-bold mb-3 mt-6">What's Not Covered</h3>
+            <h3 className="text-xl font-bold mb-3 mt-6">{t("warranty.notCovered")}</h3>
             <ul className="list-disc list-inside text-muted-foreground space-y-2 mb-4">
-              <li>Damage from misuse, abuse, or accidents</li>
-              <li>Normal wear and tear</li>
-              <li>Damage from improper assembly</li>
-              <li>Modifications made to the product</li>
+              <li>{t("warranty.notCovered1")}</li>
+              <li>{t("warranty.notCovered2")}</li>
+              <li>{t("warranty.notCovered3")}</li>
+              <li>{t("warranty.notCovered4")}</li>
             </ul>
             
-            <h3 className="text-xl font-bold mb-3 mt-6">How to Make a Claim</h3>
+            <h3 className="text-xl font-bold mb-3 mt-6">{t("warranty.claim")}</h3>
             <p className="text-muted-foreground leading-relaxed">
-              To make a warranty claim, please contact our customer service team with your order number, photos of the issue, 
-              and a description of the problem. We'll review your claim and provide a resolution within 5-7 business days.
+              {t("warranty.claimBody")}
             </p>
           </div>
         </div>

@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect } from "react";
 import { useLocale } from "@/i18n/LocaleContext";
-import { optionNameLabel, optionValueLabel } from "@/i18n/messages";
+import { categoryName, optionNameLabel, optionValueLabel, subcategoryName } from "@/i18n/messages";
 import { useParams, Link } from "@/i18n/router";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -28,6 +28,7 @@ const isFinishLike = (name: string) => FINISH_OPTION_NAMES.includes(name.toLower
 
 const ProductPage = () => {
   const { id } = useParams<{ id: string }>();
+  const { t } = useLocale();
   const { product, loading, error, detailLoaded, notFound } = useShopifyProduct(id);
 
   // Loading state
@@ -37,7 +38,7 @@ const ProductPage = () => {
         <Header />
         <div className="flex flex-col items-center justify-center py-32 gap-4">
           <Loader2 className="w-8 h-8 animate-spin text-brand" />
-          <p className="text-muted-foreground">Loading product...</p>
+          <p className="text-muted-foreground">{t("pdp.loading")}</p>
         </div>
         <Footer />
       </div>
@@ -51,30 +52,28 @@ const ProductPage = () => {
     return (
       <div className="min-h-screen bg-background">
         <Seo
-          title={notFound ? "Product Not Found | Forgali" : "Something Went Wrong | Forgali"}
-          description="This product could not be found."
+          title={notFound ? t("pdp.notFoundSeoTitle") : t("pdp.errorSeoTitle")}
+          description={t("pdp.notFoundSeoDescription")}
           path={`/product/${id ?? ""}`}
           noindex
         />
         <Header />
         <div className="flex flex-col items-center justify-center py-32 gap-4 px-4 text-center">
           <h1 className="text-2xl font-bold">
-            {notFound ? "We couldn't find that product" : "Something went wrong"}
+            {notFound ? t("pdp.notFoundTitle") : t("pdp.errorTitle")}
           </h1>
           <p className="text-muted-foreground text-lg max-w-md">
-            {notFound
-              ? "It may have been renamed or is no longer available — but the rest of the collection is right here."
-              : "Please try again in a moment."}
+            {notFound ? t("pdp.notFoundBody") : t("pdp.errorBody")}
           </p>
           <div className="flex gap-4 flex-wrap justify-center">
             <Link to="/category/dining" className="text-brand-accent hover:underline">
-              Shop Dining
+              {t("common.shopDining")}
             </Link>
             <Link to="/category/living" className="text-brand-accent hover:underline">
-              Shop Living
+              {t("common.shopLiving")}
             </Link>
             <Link to="/category/bedroom" className="text-brand-accent hover:underline">
-              Shop Bedroom
+              {t("common.shopBedroom")}
             </Link>
           </div>
         </div>
@@ -264,10 +263,17 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
     if (product && resolvedVariant && canPurchase) {
       // Label the cart line with the FULL variant (e.g. "Blonde / Set of 4"),
       // not just the finish — otherwise a size/set/config choice is invisible
-      // in the cart and two lines look identical.
+      // in the cart and two lines look identical. Built from the variant's
+      // option values (which is exactly what Shopify's variant title is) so the
+      // French line goes through the same label overrides as the selectors
+      // instead of showing Shopify's raw "Expresso".
+      const variantLabel = resolvedVariant.options
+        .filter(o => o.value !== "Default Title")
+        .map(o => valueLabel(o.name, o.value))
+        .join(" / ");
       const label =
         resolvedVariant.title && resolvedVariant.title !== "Default Title"
-          ? resolvedVariant.title
+          ? variantLabel || resolvedVariant.title
           : selectedFinishName || undefined;
       addToCart(product, quantity, label, resolvedVariant.id);
     }
@@ -312,7 +318,7 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
           product.seoDescription ||
           (product.description
             ? product.description.slice(0, 160)
-            : `${product.name} — solid wood furniture with free Canada-wide shipping from Forgali.`)
+            : t("pdp.seoDescriptionFallback", { name: product.name }))
         }
         path={`/product/${product.handle}`}
         image={product.image}
@@ -328,10 +334,12 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
           contextual link from every product that belongs to it. */}
       <div className="max-w-rail mx-auto px-4 py-4">
         <nav className="flex items-center gap-2 text-sm text-muted-foreground">
-          <Link to="/" className="hover:text-foreground">Home</Link>
+          <Link to="/" className="hover:text-foreground">{t("pdp.home")}</Link>
           <span>/</span>
-          <Link to={`/category/${product.category}`} className="hover:text-foreground capitalize">
-            {product.category.replace("-", " ")}
+          {/* English keeps the slug-derived, CSS-capitalized label; French has
+              its own category names (src/i18n/messages.ts). */}
+          <Link to={`/category/${product.category}`} className={`hover:text-foreground${locale === "en" ? " capitalize" : ""}`}>
+            {categoryName(locale, product.category, product.category.replace("-", " "))}
           </Link>
           {breadcrumbSub && (
             <>
@@ -340,7 +348,7 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
                 to={`/category/${product.category}?subcategory=${breadcrumbSub.slug}`}
                 className="hover:text-foreground"
               >
-                {breadcrumbSub.name}
+                {subcategoryName(locale, breadcrumbSub.slug, breadcrumbSub.name)}
               </Link>
             </>
           )}
@@ -372,14 +380,14 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
               {finishImages.length > 1 && (
                 <>
                   <button
-                    aria-label="Previous image"
+                    aria-label={t("pdp.prevImage")}
                     onClick={() => setSelectedImage(i => (i - 1 + finishImages.length) % finishImages.length)}
                     className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/90 shadow-md flex items-center justify-center hover:bg-white transition-colors"
                   >
                     <ChevronLeft className="w-5 h-5 text-foreground" />
                   </button>
                   <button
-                    aria-label="Next image"
+                    aria-label={t("pdp.nextImage")}
                     onClick={() => setSelectedImage(i => (i + 1) % finishImages.length)}
                     className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/90 shadow-md flex items-center justify-center hover:bg-white transition-colors"
                   >
@@ -399,14 +407,14 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
                   <button
                     key={index}
                     onClick={() => setSelectedImage(index)}
-                    aria-label={`View image ${index + 1} of ${finishImages.length}`}
+                    aria-label={t("pdp.viewImage", { index: index + 1, total: finishImages.length })}
                     className={`flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 transition-colors ${
                       selectedImage === index ? "border-brand" : "border-transparent"
                     }`}
                   >
                     <img
                       src={cdnImage(imageErrors.has(index) ? finishImages[index + 1] || finishImages[0] || product.image : img, 200)}
-                      alt={`${product.name} ${selectedFinishName} view ${index + 1}`}
+                      alt={t("pdp.thumbAlt", { name: product.name, finish: selectedFinishName, index: index + 1 })}
                       className="w-full h-full object-cover"
                       onError={() => handleImageError(index)}
                       loading="lazy"
@@ -435,7 +443,7 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
                     {money(displayCompareAt)}
                   </span>
                   <span className="bg-primary text-primary-foreground text-sm font-semibold px-3 py-1 rounded-full">
-                    {discountPercent}% OFF
+                    {t("pdp.percentOff", { percent: discountPercent })}
                   </span>
                 </>
               )}
@@ -448,7 +456,7 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
                 return (
                   <div key={option.name} className="space-y-3">
                     <div className="flex items-center justify-between">
-                      <span className="font-medium">{optionLabel(option.name)}:</span>
+                      <span className="font-medium">{optionLabel(option.name)}{t("pdp.optionColon")}</span>
                       <span className="text-muted-foreground">{valueLabel(option.name, selectedValue)}</span>
                     </div>
                     <div className="flex flex-wrap gap-2">
@@ -474,7 +482,7 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
               return (
                 <div key={option.name} className="space-y-3">
                   <div className="flex items-center justify-between">
-                    <span className="font-medium">{optionLabel(option.name)}:</span>
+                    <span className="font-medium">{optionLabel(option.name)}{t("pdp.optionColon")}</span>
                     <span className="text-muted-foreground">{valueLabel(option.name, selectedValue)}</span>
                   </div>
                   <div className="flex flex-wrap gap-2">
@@ -502,7 +510,7 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
               <div className="flex items-center border border-border rounded-lg">
                 <button
                   onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                  aria-label="Decrease quantity"
+                  aria-label={t("pdp.decrease")}
                   className="p-3 hover:bg-secondary transition-colors"
                 >
                   <Minus className="w-4 h-4" />
@@ -510,7 +518,7 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
                 <span className="px-6 py-3 font-medium" aria-live="polite">{quantity}</span>
                 <button
                   onClick={() => setQuantity(Math.min(MAX_QUANTITY, quantity + 1))}
-                  aria-label="Increase quantity"
+                  aria-label={t("pdp.increase")}
                   className="p-3 hover:bg-secondary transition-colors"
                 >
                   <Plus className="w-4 h-4" />
@@ -526,11 +534,11 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
                 }`}
               >
                 {canPurchase ? (
-                  "Add to Cart"
+                  t("pdp.addToCart")
                 ) : (
                   <span className="flex items-center justify-center gap-2">
                     <X className="w-5 h-5" />
-                    <span>{resolvedVariant ? "Out of Stock" : "Unavailable"}</span>
+                    <span>{resolvedVariant ? t("pdp.outOfStock") : t("pdp.unavailable")}</span>
                   </span>
                 )}
               </Button>
@@ -545,17 +553,17 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
             <div className="space-y-2.5 p-4 bg-brand-positive/10 rounded-lg">
               <div className="flex items-center gap-3">
                 <Truck className="w-5 h-5 text-brand-positive shrink-0" />
-                <p className="font-medium text-brand-positive">Free Canada-Wide Shipping</p>
+                <p className="font-medium text-brand-positive">{t("common.freeShipping")}</p>
               </div>
               <div className="flex flex-wrap gap-x-4 gap-y-1 pt-1 text-sm text-brand-positive/90 border-t border-brand-positive/15">
                 <span className="flex items-center gap-1.5 pt-2">
-                  <RotateCcw className="w-4 h-4" /> 30-day returns
+                  <RotateCcw className="w-4 h-4" /> {t("pdp.returnsLower")}
                 </span>
                 <span className="flex items-center gap-1.5 pt-2">
-                  <Lock className="w-4 h-4" /> Secure checkout
+                  <Lock className="w-4 h-4" /> {t("pdp.secureCheckoutLower")}
                 </span>
                 <span className="flex items-center gap-1.5 pt-2">
-                  <Check className="w-4 h-4" /> Solid wood
+                  <Check className="w-4 h-4" /> {t("pdp.solidWood")}
                 </span>
               </div>
             </div>
@@ -566,19 +574,19 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
                 <div className="w-12 h-12 mx-auto bg-secondary rounded-full flex items-center justify-center">
                   <Truck className="w-6 h-6 text-brand" />
                 </div>
-                <p className="text-xs font-medium">Fast Shipping</p>
+                <p className="text-xs font-medium">{t("pdp.fastShipping")}</p>
               </div>
               <div className="text-center space-y-2">
                 <div className="w-12 h-12 mx-auto bg-secondary rounded-full flex items-center justify-center">
                   <Shield className="w-6 h-6 text-brand" />
                 </div>
-                <p className="text-xs font-medium">{isMattress ? "30-Day Returns" : "100% Solid Wood"}</p>
+                <p className="text-xs font-medium">{isMattress ? t("common.returns30") : t("pdp.solidWood100")}</p>
               </div>
               <div className="text-center space-y-2">
                 <div className="w-12 h-12 mx-auto bg-secondary rounded-full flex items-center justify-center">
                   <Lock className="w-6 h-6 text-brand" />
                 </div>
-                <p className="text-xs font-medium">Secure Checkout</p>
+                <p className="text-xs font-medium">{t("common.secureCheckout")}</p>
               </div>
             </div>
           </div>
@@ -596,9 +604,9 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
       {completeTheRoom.length > 0 && (
         <section className="py-12">
           <div className="max-w-rail mx-auto px-4">
-            <h2 className="text-2xl font-bold mb-2">Complete the Room</h2>
+            <h2 className="text-2xl font-bold mb-2">{t("pdp.completeRoom")}</h2>
             <p className="text-muted-foreground text-sm mb-8">
-              Pieces from the same family, made to match.
+              {t("pdp.completeRoomLead")}
             </p>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
               {completeTheRoom.slice(0, 4).map((ref) => (
@@ -639,7 +647,7 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
       {detailLoaded && completeTheRoom.length === 0 && relatedProducts.length > 0 && (
         <section className="bg-secondary/30 py-12">
           <div className="max-w-rail mx-auto px-4">
-            <h2 className="text-2xl font-bold mb-8">You May Also Like</h2>
+            <h2 className="text-2xl font-bold mb-8">{t("pdp.youMayAlsoLike")}</h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
               {relatedProducts.map((relatedProduct) => (
                 <Link

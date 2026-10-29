@@ -3,10 +3,12 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Seo } from "@/components/Seo";
 import { seoProps } from "@/lib/staticPageSeo";
+import { useLocale } from "@/i18n/LocaleContext";
 
 // Baseline terms of service. Daniel should have this reviewed and updated with
 // the registered business name and governing jurisdiction before relying on it.
 const TermsPage = () => {
+  const { t } = useLocale();
   return (
     <div className="min-h-screen bg-background">
       <Seo
@@ -16,9 +18,9 @@ const TermsPage = () => {
 
       <div className="bg-gradient-to-b from-brand-tint to-white py-12 px-4">
         <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">Terms of Service</h1>
+          <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">{t("terms.title")}</h1>
           <p className="text-muted-foreground text-base md:text-lg max-w-2xl mx-auto">
-            The terms that apply when you shop with us. Effective July 2026.
+            {t("terms.lead")}
           </p>
         </div>
       </div>
@@ -26,49 +28,42 @@ const TermsPage = () => {
       <section className="py-16 px-4">
         <div className="max-w-4xl mx-auto space-y-8 text-muted-foreground">
           <div>
-            <h2 className="text-2xl font-bold text-foreground mb-3">Orders &amp; Acceptance</h2>
+            <h2 className="text-2xl font-bold text-foreground mb-3">{t("terms.ordersTitle")}</h2>
             <p>
-              Placing an order is an offer to purchase. We confirm orders by email, and we reserve the
-              right to decline or cancel an order — for example, if an item is unavailable or a pricing
-              error occurs. Where we cancel an order you have paid for, we issue a full refund.
+              {t("terms.ordersBody")}
             </p>
           </div>
 
           <div>
-            <h2 className="text-2xl font-bold text-foreground mb-3">Pricing &amp; Payment</h2>
+            <h2 className="text-2xl font-bold text-foreground mb-3">{t("terms.pricingTitle")}</h2>
             <p>
-              All prices are shown in Canadian dollars (CAD). Applicable taxes are calculated at
-              checkout based on your shipping address. We make every effort to display accurate prices
-              and product information; in the rare event of an error, we'll contact you before
-              processing the affected order.
+              {t("terms.pricingBody")}
             </p>
           </div>
 
           <div>
-            <h2 className="text-2xl font-bold text-foreground mb-3">Shipping, Returns &amp; Warranty</h2>
+            <h2 className="text-2xl font-bold text-foreground mb-3">{t("terms.shippingTitle")}</h2>
             <p>
-              Delivery, returns, and warranty coverage are governed by our{" "}
-              <Link to="/shipping" className="text-brand-accent hover:underline">Shipping</Link>,{" "}
-              <Link to="/returns" className="text-brand-accent hover:underline">Returns</Link>, and{" "}
-              <Link to="/warranty" className="text-brand-accent hover:underline">Warranty</Link> pages,
-              which form part of these terms.
+              {t("terms.shippingBody1")}{" "}
+              <Link to="/shipping" className="text-brand-accent hover:underline">{t("terms.shippingLink")}</Link>,{" "}
+              <Link to="/returns" className="text-brand-accent hover:underline">{t("terms.returnsLink")}</Link>{t("terms.and")}{" "}
+              <Link to="/warranty" className="text-brand-accent hover:underline">{t("terms.warrantyLink")}</Link>{t("terms.shippingBody2")}
             </p>
           </div>
 
           <div>
-            <h2 className="text-2xl font-bold text-foreground mb-3">Use of This Site</h2>
+            <h2 className="text-2xl font-bold text-foreground mb-3">{t("terms.useTitle")}</h2>
             <p>
-              You agree to use this site lawfully and not to interfere with its operation or security.
-              Product images and content are provided for your personal, non-commercial use.
+              {t("terms.useBody")}
             </p>
           </div>
 
           <div>
-            <h2 className="text-2xl font-bold text-foreground mb-3">Contact</h2>
+            <h2 className="text-2xl font-bold text-foreground mb-3">{t("terms.contactTitle")}</h2>
             <p>
-              Questions about these terms? Email{" "}
+              {t("terms.contactBody")}{" "}
               <a href="mailto:daniel@forgali.com" className="text-brand-accent hover:underline">daniel@forgali.com</a>.
-              See also our <Link to="/privacy" className="text-brand-accent hover:underline">Privacy Policy</Link>.
+              {" "}{t("terms.seeAlso")} <Link to="/privacy" className="text-brand-accent hover:underline">{t("footer.privacy")}</Link>.
             </p>
           </div>
         </div>

@@ -13,11 +13,13 @@ import { ProductCategory } from "@/services/shopifyService";
 import { productMatchesSubcategory } from "@/lib/subcategories";
 import { faqPageJsonLd, getBedSeo } from "@/lib/categorySeo";
 import { categoryInfoMap } from "@/lib/categoryInfo";
+import { useLocale } from "@/i18n/LocaleContext";
 
 // Category info for headers lives in @/lib/categoryInfo — shared with
 // middleware.ts so the edge and the SPA agree on which categories exist.
 
 const CategoryPage = () => {
+  const { t } = useLocale();
   const { category } = useParams<{ category: string }>();
   const [searchParams] = useSearchParams();
   const subcategory = searchParams.get('subcategory');
@@ -115,19 +117,19 @@ const CategoryPage = () => {
     return (
       <div className="min-h-screen bg-background">
         <Seo
-          title="Category Not Found | Forgali"
-          description="This category could not be found."
+          title={t("category.notFoundSeoTitle")}
+          description={t("category.notFoundSeoDescription")}
           path={`/category/${category ?? ""}`}
           noindex
         />
         <Header />
         <div className="flex flex-col items-center justify-center py-32 gap-4 px-4 text-center">
-          <h1 className="text-2xl font-bold">We couldn't find that category</h1>
+          <h1 className="text-2xl font-bold">{t("category.notFoundTitle")}</h1>
           <div className="flex gap-4 flex-wrap justify-center">
-            <Link to="/category/dining" className="text-brand-accent hover:underline">Dining</Link>
-            <Link to="/category/living" className="text-brand-accent hover:underline">Living</Link>
-            <Link to="/category/bedroom" className="text-brand-accent hover:underline">Bedroom</Link>
-            <Link to="/category/accessories" className="text-brand-accent hover:underline">Storage &amp; Accessories</Link>
+            <Link to="/category/dining" className="text-brand-accent hover:underline">{t("nav.dining")}</Link>
+            <Link to="/category/living" className="text-brand-accent hover:underline">{t("nav.living")}</Link>
+            <Link to="/category/bedroom" className="text-brand-accent hover:underline">{t("nav.bedroom")}</Link>
+            <Link to="/category/accessories" className="text-brand-accent hover:underline">{t("nav.storage")}</Link>
           </div>
         </div>
         <Footer />
@@ -181,14 +183,14 @@ const CategoryPage = () => {
           {loading && (
             <div className="flex flex-col items-center justify-center py-16 gap-4">
               <Loader2 className="w-8 h-8 animate-spin text-brand" />
-              <p className="text-muted-foreground">Loading products...</p>
+              <p className="text-muted-foreground">{t("category.loading")}</p>
             </div>
           )}
           
           {/* Error state */}
           {error && !loading && (
             <div className="text-center py-16">
-              <p className="text-red-500 text-lg mb-2">Error loading products</p>
+              <p className="text-red-500 text-lg mb-2">{t("common.loadingError")}</p>
               <p className="text-muted-foreground">{error}</p>
             </div>
           )}
@@ -205,7 +207,7 @@ const CategoryPage = () => {
           {/* Empty state */}
           {!loading && !error && products.length === 0 && (
             <div className="text-center py-16">
-              <p className="text-muted-foreground text-lg">No products found in this category.</p>
+              <p className="text-muted-foreground text-lg">{t("category.empty")}</p>
             </div>
           )}
         </div>
@@ -217,7 +219,7 @@ const CategoryPage = () => {
         <section className="border-t border-border bg-secondary/20 py-12 px-4">
           <div className="max-w-3xl mx-auto">
             <h2 className="text-2xl font-bold mb-4 text-brand">
-              About {headerH1}
+              {t("category.about", { name: headerH1 })}
             </h2>
             {bedSeo.intro.split("\n\n").map((para, i) => (
               <p key={i} className="text-muted-foreground leading-relaxed mb-4 last:mb-0">
@@ -251,7 +253,7 @@ const CategoryPage = () => {
             {bedSeo.faqs?.length ? (
               <div className="mt-10">
                 <h2 className="text-xl font-bold mb-4 text-brand">
-                  Frequently Asked Questions
+                  {t("common.faq")}
                 </h2>
                 {bedSeo.faqs.map((faq) => (
                   <div key={faq.q} className="mb-5 last:mb-0">

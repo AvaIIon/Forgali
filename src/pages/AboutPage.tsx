@@ -20,124 +20,66 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { cdnImage, cdnSrcSet } from "@/lib/imageProxy";
+import { useLocale } from "@/i18n/LocaleContext";
+import type { MessageKey } from "@/i18n/messages";
 
 // The About page is where both shoppers and AI answer engines go to decide what
 // this company actually is — it was three short paragraphs and linked nowhere.
 // Every number and claim below is grounded in the live catalog
 // (src/data/product-meta.json) or in the policy pages it links to; nothing here
 // invents a founding date, a team size, or a certification we can't point at.
+// The copy itself lives in src/i18n/messages.ts under about.*; these arrays
+// only pair each dictionary key with its icon, image and link.
 
-const WHAT_WE_CARRY = [
+const WHAT_WE_CARRY: Array<{ title: MessageKey; body: MessageKey; href: string; cta: MessageKey; image: string; alt: MessageKey }> = [
   {
-    title: "Kids' & Family Beds",
-    body:
-      "Roughly 100 bunk and loft configurations — twin over twin right up to queen over queen, L-shaped, with stairs, trundles, desks, slides or under-bed drawers — plus platform beds in twin, full and queen.",
+    title: "about.carry1Title",
+    body: "about.carry1Body",
     href: "/category/bunk-beds",
-    cta: "Shop bunk beds",
+    cta: "about.carry1Cta",
     image:
       "https://cdn.shopify.com/s/files/1/0972/6492/6995/files/4cd2a236-190201-182__1.jpg?v=1773961974",
-    alt: "Solid wood Modern Farmhouse twin over twin bunk bed",
+    alt: "about.carry1Alt",
   },
   {
-    title: "Plank & Beam Dining & Living",
-    body:
-      "164 pieces from the Plank & Beam collection — dining tables, chairs, benches, bar and counter stools, coffee and console tables, sideboards and TV stands — with no border charges.",
+    title: "about.carry2Title",
+    body: "about.carry2Body",
     href: "/category/dining",
-    cta: "Shop dining & living",
+    cta: "about.carry2Cta",
     image:
       "https://cdn.shopify.com/s/files/1/0972/6492/6995/files/3400388400-155__1.jpg?v=1783608444",
-    alt: "Plank & Beam solid wood dining table and chairs",
+    alt: "about.carry2Alt",
   },
   {
-    title: "Storage & Finishing Pieces",
-    body:
-      "Dressers and night stands in matching finishes, under-bed storage drawers, add-on guard rails, desks and low-profile mattresses sized for bunk and loft clearances — so a room gets finished properly instead of assembled from four different stores.",
+    title: "about.carry3Title",
+    body: "about.carry3Body",
     href: "/category/accessories",
-    cta: "Shop storage & accessories",
+    cta: "about.carry3Cta",
     image:
       "https://cdn.shopify.com/s/files/1/0972/6492/6995/files/d46c26e8-max-and-lily-full-over-full-bunk-bed-with-storage-in-white.jpg?v=1773961859",
-    alt: "Solid wood full over full bunk bed with under-bed storage drawers",
+    alt: "about.carry3Alt",
   },
 ];
 
-const BUILD_SPECS = [
-  {
-    icon: TreePine,
-    title: "Solid New Zealand Pine",
-    body:
-      "Knot-free solid pine frames, not particleboard or veneer over MDF. It's the reason the boxes are heavy and the reason the bed is still standing when it gets handed down.",
-  },
-  {
-    icon: Leaf,
-    title: "Low-VOC, GREENGUARD Gold Finishes",
-    body:
-      "Durable, non-toxic finishes. Many of the beds we carry are GREENGUARD Gold certified — independently tested for low chemical emissions in indoor air.",
-  },
-  {
-    icon: Weight,
-    title: "400 lb Per Bed",
-    body:
-      "Most of our bunks and lofts are rated to 400 lb per sleeping surface, on solid pine slats with a metal centre support bar. They hold toddlers, teenagers, and the parent reading at bedtime.",
-  },
-  {
-    icon: Bolt,
-    title: "Metal-on-Metal Connections",
-    body:
-      "Structural joints are metal into metal rather than screws biting into wood, so they don't work loose and start creaking after a year of climbing.",
-  },
-  {
-    icon: ShieldCheck,
-    title: "Guardrails & Safety Standards",
-    body:
-      "Children's beds are manufactured and tested to applicable children's furniture safety standards, and elevated beds ship with guardrails designed to standard spacing.",
-  },
-  {
-    icon: Ruler,
-    title: "Beds That Change With the Room",
-    body:
-      "Most bunks separate into two standalone beds, and many lofts take a desk, a curtain or drawers underneath — one purchase that survives more than one phase of childhood.",
-  },
+const BUILD_SPECS: Array<{ icon: typeof TreePine; title: MessageKey; body: MessageKey }> = [
+  { icon: TreePine, title: "about.spec1Title", body: "about.spec1Body" },
+  { icon: Leaf, title: "about.spec2Title", body: "about.spec2Body" },
+  { icon: Weight, title: "about.spec3Title", body: "about.spec3Body" },
+  { icon: Bolt, title: "about.spec4Title", body: "about.spec4Body" },
+  { icon: ShieldCheck, title: "about.spec5Title", body: "about.spec5Body" },
+  { icon: Ruler, title: "about.spec6Title", body: "about.spec6Body" },
 ];
 
-const HOW_IT_WORKS = [
-  {
-    icon: Truck,
-    title: "Free shipping, anywhere in Canada",
-    body:
-      "Every order ships free to any Canadian address — no minimum, no surprise total at checkout, no duties or brokerage fees.",
-    link: { to: "/shipping", label: "Shipping details" },
-  },
-  {
-    icon: PackageCheck,
-    title: "Tracked from our door to yours",
-    body:
-      "Most orders are prepared within about a week, with delivery typically 12–18 business days in total. You get a tracking number by email the moment it ships.",
-    link: { to: "/shipping", label: "Processing & delivery times" },
-  },
-  {
-    icon: Wrench,
-    title: "Assembly you can actually finish",
-    body:
-      "Beds arrive flat-packed with step-by-step instructions and all hardware included. Most go together in one to two hours with basic tools and a second pair of hands.",
-    link: { to: "/assembly", label: "Assembly guide" },
-  },
-  {
-    icon: RotateCcw,
-    title: "30 days to change your mind",
-    body:
-      "Return new, unused, unassembled items within 30 days. If something arrives damaged, defective or wrong, we cover the return shipping and waive the restocking fee.",
-    link: { to: "/returns", label: "Returns & cancellations" },
-  },
-  {
-    icon: BadgeCheck,
-    title: "Five years of warranty behind it",
-    body:
-      "A 5-year limited warranty against defects in materials and workmanship, and replacement parts — a bolt bag, a slat, a panel — sent out on request.",
-    link: { to: "/warranty", label: "Warranty coverage" },
-  },
+const HOW_IT_WORKS: Array<{ icon: typeof Truck; title: MessageKey; body: MessageKey; link: { to: string; label: MessageKey } }> = [
+  { icon: Truck, title: "about.how1Title", body: "about.how1Body", link: { to: "/shipping", label: "about.how1Link" } },
+  { icon: PackageCheck, title: "about.how2Title", body: "about.how2Body", link: { to: "/shipping", label: "about.how2Link" } },
+  { icon: Wrench, title: "about.how3Title", body: "about.how3Body", link: { to: "/assembly", label: "about.how3Link" } },
+  { icon: RotateCcw, title: "about.how4Title", body: "about.how4Body", link: { to: "/returns", label: "about.how4Link" } },
+  { icon: BadgeCheck, title: "about.how5Title", body: "about.how5Body", link: { to: "/warranty", label: "about.how5Link" } },
 ];
 
 const AboutPage = () => {
+  const { t } = useLocale();
   return (
     <div className="min-h-screen bg-background">
       <Seo
@@ -161,12 +103,10 @@ const AboutPage = () => {
       <div className="bg-gradient-to-b from-brand-tint to-white py-12 px-4">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-            About Forgali
+            {t("about.title")}
           </h1>
           <p className="text-muted-foreground text-base md:text-lg max-w-2xl mx-auto">
-            An online-only Canadian furniture store. Solid wood beds, dining and
-            living pieces — over 300 of them — shipped free to your door, from
-            Victoria to St. John's.
+            {t("about.lead")}
           </p>
         </div>
       </div>
@@ -177,40 +117,27 @@ const AboutPage = () => {
       <section className="py-16 px-4">
         <div className="max-w-rail mx-auto grid grid-cols-1 items-center gap-10 md:grid-cols-2 md:gap-14">
           <div>
-            <h2 className="text-3xl font-bold mb-4">Our Story</h2>
+            <h2 className="text-3xl font-bold mb-4">{t("about.storyTitle")}</h2>
             <div className="space-y-4 text-muted-foreground leading-relaxed">
               <p>
-                Forgali started in furniture the long way around — as{" "}
+                {t("about.story1a")}{" "}
                 <strong className="text-foreground font-semibold">
                   Forgali Design Centre
                 </strong>
-                , a custom-furniture showroom in the Greater Toronto Area. Years
-                of building rooms for families taught us the same lesson over and
-                over: the pieces people regret are almost never the ones made of
-                real wood.
+                {t("about.story1b")}
               </p>
               <p>
-                So we closed the showroom and rebuilt the business online. No
-                floor space to pay for, no commissioned salesperson steering you
-                toward this week's overstock — just a catalogue we've curated
-                ourselves and delivered free anywhere in
-                the country.
+                {t("about.story2")}
               </p>
               <p>
-                That last part matters more than it should. A lot of the solid
-                wood furniture Canadians want is easy to find and painful to
-                actually buy here — cross-border shipping fees, brokerage
-                surprises, and return policies that quietly exclude Canada. We
-                carry those pieces domestically so the price you see is the price
-                you pay, and so a return is an email rather than an international
-                shipping problem.
+                {t("about.story3")}
               </p>
             </div>
           </div>
           <div className="aspect-[4/3] overflow-hidden rounded-2xl bg-brand-tint">
             <img
               src="https://cdn.shopify.com/s/files/1/0972/6492/6995/files/62468465-180427-002__1.jpg?v=1773962209"
-              alt="Solid wood twin high loft bed with desk in a child's room"
+              alt={t("about.storyAlt")}
               loading="lazy"
               className="h-full w-full object-cover"
             />
@@ -222,11 +149,9 @@ const AboutPage = () => {
       <section className="border-y border-border bg-brand-tint/60 py-16 px-4">
         <div className="max-w-rail mx-auto">
           <div className="max-w-2xl mb-10">
-            <h2 className="text-3xl font-bold mb-3">What We Carry</h2>
+            <h2 className="text-3xl font-bold mb-3">{t("about.carryTitle")}</h2>
             <p className="text-muted-foreground leading-relaxed">
-              Two rooms, done properly, instead of a little of everything. Beds
-              that grow with a child, and dining and living furniture built to the
-              same standard.
+              {t("about.carryLead")}
             </p>
           </div>
           <div className="grid gap-6 md:grid-cols-3">
@@ -240,21 +165,21 @@ const AboutPage = () => {
                     src={cdnImage(c.image, 700)}
                     srcSet={cdnSrcSet(c.image, [400, 700, 1000])}
                     sizes="(max-width: 768px) 100vw, 33vw"
-                    alt={c.alt}
+                    alt={t(c.alt)}
                     loading="lazy"
                     className="h-full w-full object-cover"
                   />
                 </div>
                 <div className="flex flex-1 flex-col p-6">
-                  <h3 className="text-lg font-bold mb-2">{c.title}</h3>
+                  <h3 className="text-lg font-bold mb-2">{t(c.title)}</h3>
                   <p className="text-sm text-muted-foreground leading-relaxed flex-1">
-                    {c.body}
+                    {t(c.body)}
                   </p>
                   <Link
                     to={c.href}
                     className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-brand-accent hover:underline"
                   >
-                    {c.cta}
+                    {t(c.cta)}
                     <ArrowRight className="w-4 h-4" />
                   </Link>
                 </div>
@@ -269,34 +194,32 @@ const AboutPage = () => {
         <div className="max-w-rail mx-auto">
           <div className="max-w-2xl mb-10">
             <h2 className="text-3xl font-bold mb-3">
-              What &ldquo;Solid Wood&rdquo; Means Here
+              {t("about.buildTitle")}
             </h2>
             <p className="text-muted-foreground leading-relaxed">
-              Plenty of furniture is described as solid wood. These are the
-              specifications behind ours — the things you'd want to know before
-              putting a child on the top bunk.
+              {t("about.buildLead")}
             </p>
           </div>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {BUILD_SPECS.map((s) => (
               <div key={s.title} className="rounded-lg bg-brand-tint p-6">
                 <s.icon className="w-8 h-8 text-brand mb-3" />
-                <h3 className="font-bold mb-2">{s.title}</h3>
+                <h3 className="font-bold mb-2">{t(s.title)}</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">
-                  {s.body}
+                  {t(s.body)}
                 </p>
               </div>
             ))}
           </div>
           <p className="mt-8 text-sm text-muted-foreground">
-            More on guardrails, mattress sizing and safe setup on our{" "}
+            {t("about.safetyMore1")}{" "}
             <Link
               to="/safety-standards"
               className="text-brand-accent hover:underline font-medium"
             >
-              Safety Standards
-            </Link>{" "}
-            page.
+              {t("footer.safetyStandards")}
+            </Link>
+            {t("about.safetyMore2")}
           </p>
         </div>
       </section>
@@ -305,10 +228,9 @@ const AboutPage = () => {
       <section className="border-t border-border bg-secondary/20 py-16 px-4">
         <div className="max-w-4xl mx-auto">
           <div className="mb-10">
-            <h2 className="text-3xl font-bold mb-3">How Buying From Us Works</h2>
+            <h2 className="text-3xl font-bold mb-3">{t("about.howTitle")}</h2>
             <p className="text-muted-foreground leading-relaxed">
-              No memberships, no delivery surcharges, no fine-print games. Here's
-              the whole thing, start to finish.
+              {t("about.howLead")}
             </p>
           </div>
           <ol className="space-y-6">
@@ -322,16 +244,16 @@ const AboutPage = () => {
                     <span className="text-muted-foreground/60 mr-2">
                       {i + 1}.
                     </span>
-                    {step.title}
+                    {t(step.title)}
                   </h3>
                   <p className="text-sm text-muted-foreground leading-relaxed">
-                    {step.body}
+                    {t(step.body)}
                   </p>
                   <Link
                     to={step.link.to}
                     className="mt-2 inline-flex items-center gap-1 text-sm font-medium text-brand-accent hover:underline"
                   >
-                    {step.link.label}
+                    {t(step.link.label)}
                     <ArrowRight className="w-4 h-4" />
                   </Link>
                 </div>
@@ -344,12 +266,9 @@ const AboutPage = () => {
       {/* Where we are / how to reach us */}
       <section className="py-16 px-4">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl font-bold mb-3">Where to Find Us</h2>
+          <h2 className="text-3xl font-bold mb-3">{t("about.findTitle")}</h2>
           <p className="text-muted-foreground leading-relaxed mb-6">
-            Forgali is a 100% online store. We don't run a retail showroom, and
-            that's a deliberate choice: it's part of why the shipping is free and
-            the prices are what they are. Call us at (647) 527-2110 or write to
-            the inbox below, and a person answers either way.
+            {t("about.findBody")}
           </p>
 
           <div className="rounded-lg bg-brand-tint p-6 mb-6">
@@ -363,10 +282,9 @@ const AboutPage = () => {
               </a>
             </h3>
             <p className="text-sm text-muted-foreground">
-              We respond within 24 hours, Monday to Friday, 9:00 AM – 5:00 PM ET.
-              Include your order number if you have one.{" "}
+              {t("about.respond")}{" "}
               <Link to="/contact" className="text-brand-accent hover:underline">
-                Send us a message →
+                {t("about.sendMessage")}
               </Link>
             </p>
           </div>
@@ -376,16 +294,9 @@ const AboutPage = () => {
               Stating it plainly here, on the page those systems read first,
               matches /contact, /faqs and public/llms.txt. */}
           <div className="rounded-lg border-l-4 border-brand bg-brand-tint p-6">
-            <p className="font-bold mb-2">A note about older listings</p>
+            <p className="font-bold mb-2">{t("about.noteTitle")}</p>
             <p className="text-sm text-muted-foreground">
-              Forgali's earlier chapter as Forgali Design Centre — a
-              custom-furniture showroom in Mississauga — is permanently closed, as
-              is the former Concord location. Directory entries that still show a
-              showroom at 2111 Dunwin Dr., a Concord address, or phone numbers
-              such as (905) 820-2020 or (905) 820-9461 are out of date: those
-              locations are closed and the numbers are no longer in service.
-              Forgali operates entirely online today. Our current phone number is
-              (647) 527-2110, and you can also reach us by email:{" "}
+              {t("about.noteBody")}{" "}
               <a
                 href="mailto:daniel@forgali.com"
                 className="text-brand-accent hover:underline"
@@ -402,22 +313,20 @@ const AboutPage = () => {
       <section className="border-t border-border bg-brand-tint/60 py-14 px-4">
         <div className="max-w-3xl mx-auto text-center">
           <h2 className="text-2xl md:text-3xl font-bold mb-3">
-            Furniture Built to Live With
+            {t("brand.title")}
           </h2>
           <p className="text-muted-foreground leading-relaxed mb-6">
-            Real solid wood, priced fairly, shipped free across Canada. Have a
-            look — and if you're stuck between two finishes or not sure a loft
-            will clear your ceiling, just email us.
+            {t("about.ctaBody")}
           </p>
           <div className="flex flex-wrap justify-center gap-3">
             <Link to="/category/bunk-beds">
               <button className="rounded-full bg-brand px-8 py-3 text-sm font-medium text-white transition-colors hover:bg-brand-hover">
-                Shop Beds
+                {t("about.shopBeds")}
               </button>
             </Link>
             <Link to="/category/dining">
               <button className="rounded-full bg-background border border-border px-8 py-3 text-sm font-medium transition-colors hover:bg-brand-tint-hover">
-                Shop Dining &amp; Living
+                {t("hero.ctaDining")}
               </button>
             </Link>
           </div>

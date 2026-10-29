@@ -3,9 +3,11 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Seo } from "@/components/Seo";
 import { seoProps } from "@/lib/staticPageSeo";
+import { useLocale } from "@/i18n/LocaleContext";
 import { Truck, PackageSearch, Users, ClipboardCheck } from "lucide-react";
 
 const ShippingPage = () => {
+  const { t } = useLocale();
   return (
     <div className="min-h-screen bg-background">
       <Seo
@@ -16,10 +18,10 @@ const ShippingPage = () => {
       <div className="bg-gradient-to-b from-brand-tint to-white py-12 px-4">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-            Shipping Information
+            {t("shipping.title")}
           </h1>
           <p className="text-muted-foreground text-base md:text-lg max-w-2xl mx-auto">
-            Solid wood furniture, shipped straight to your door — free, anywhere in Canada.
+            {t("shipping.lead")}
           </p>
         </div>
       </div>
@@ -29,57 +31,49 @@ const ShippingPage = () => {
           <div className="grid md:grid-cols-2 gap-6">
             <div className="bg-brand-tint rounded-lg p-6">
               <Truck className="w-8 h-8 text-brand mb-4" />
-              <h3 className="font-bold text-lg mb-2">Free Canada-Wide Shipping</h3>
+              <h3 className="font-bold text-lg mb-2">{t("common.freeShipping")}</h3>
               <p className="text-muted-foreground text-sm">
-                Every order ships free to any Canadian address — no minimums, no surprises
-                at checkout.
+                {t("shipping.card1Body")}
               </p>
             </div>
             <div className="bg-brand-tint rounded-lg p-6">
               <PackageSearch className="w-8 h-8 text-brand mb-4" />
-              <h3 className="font-bold text-lg mb-2">Tracking on Every Order</h3>
+              <h3 className="font-bold text-lg mb-2">{t("shipping.card2Title")}</h3>
               <p className="text-muted-foreground text-sm">
-                As soon as your order ships you'll receive a tracking number by email, so
-                you can follow your delivery every step of the way.
+                {t("shipping.card2Body")}
               </p>
             </div>
             <div className="bg-brand-tint rounded-lg p-6">
               <ClipboardCheck className="w-8 h-8 text-brand mb-4" />
-              <h3 className="font-bold text-lg mb-2">Check Your Boxes on Arrival</h3>
+              <h3 className="font-bold text-lg mb-2">{t("shipping.card3Title")}</h3>
               <p className="text-muted-foreground text-sm">
-                When your furniture arrives, inspect all boxes and note any visible damage
-                at delivery — it makes resolving carrier issues much faster.
+                {t("shipping.card3Body")}
               </p>
             </div>
             <div className="bg-brand-tint rounded-lg p-6">
               <Users className="w-8 h-8 text-brand mb-4" />
-              <h3 className="font-bold text-lg mb-2">Heavy Boxes — Grab a Helper</h3>
+              <h3 className="font-bold text-lg mb-2">{t("shipping.card4Title")}</h3>
               <p className="text-muted-foreground text-sm">
-                Solid wood means large, heavy packages. Having two adults available makes
-                moving boxes into your home much easier.
+                {t("shipping.card4Body")}
               </p>
             </div>
           </div>
 
           <div>
-            <h2 className="text-2xl font-bold mb-4">Processing &amp; Delivery Times</h2>
+            <h2 className="text-2xl font-bold mb-4">{t("shipping.timesTitle")}</h2>
             <p className="text-muted-foreground mb-3">
-              Most orders are processed and prepared for shipment within about one week,
-              with standard delivery typically taking 12–18 business days in total. Transit
-              times vary by destination.
+              {t("shipping.times1")}
             </p>
             <p className="text-muted-foreground mb-3">
-              All orders are subject to stock availability — if anything changes with
-              your order, we'll email you right away.
+              {t("shipping.times2")}
             </p>
           </div>
 
           <div>
-            <h2 className="text-2xl font-bold mb-4">Questions About a Delivery?</h2>
+            <h2 className="text-2xl font-bold mb-4">{t("shipping.questionsTitle")}</h2>
             <p className="text-muted-foreground">
-              Email <a href="mailto:daniel@forgali.com" className="text-brand-accent hover:underline">daniel@forgali.com</a> with
-              your order number and we'll respond within 24 hours. For returns and order
-              changes, see our <Link to="/returns" className="text-brand-accent hover:underline">Returns &amp; Cancellations policy</Link>.
+              {t("shipping.questions1")} <a href="mailto:daniel@forgali.com" className="text-brand-accent hover:underline">daniel@forgali.com</a>{t("shipping.questions2")}{" "}
+              <Link to="/returns" className="text-brand-accent hover:underline">{t("shipping.returnsPolicyLink")}</Link>.
             </p>
           </div>
         </div>
