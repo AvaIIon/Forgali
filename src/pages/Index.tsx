@@ -9,13 +9,15 @@ import { PromoBanner } from "@/components/PromoBanner";
 import { GuaranteeStrip } from "@/components/GuaranteeStrip";
 import { EmailCaptureBand } from "@/components/EmailCaptureBand";
 import { Seo } from "@/components/Seo";
+import { useLocale } from "@/i18n/LocaleContext";
 
 const Index = () => {
+  const { t } = useLocale();
   return (
     <div className="min-h-screen bg-background">
       <Seo
-        title="Forgali — Solid Wood Furniture for Every Room"
-        description="Solid wood furniture families trust — kids' bunk and loft beds, dining tables and chairs, and living-room pieces. Free Canada-wide shipping."
+        title={t("home.seoTitle")}
+        description={t("home.seoDescription")}
         path="/"
       />
       <Header />

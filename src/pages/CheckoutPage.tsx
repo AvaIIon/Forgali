@@ -22,7 +22,7 @@ import { cdnImage } from "@/lib/imageProxy";
  * can complete the order, but nothing in the UI routes here.
  */
 const CheckoutPage = () => {
-  const { money } = useLocale();
+  const { t, money } = useLocale();
   const { items, getTotalPrice, removeFromCart, getItemKey, refreshCartLines } = useCart();
 
   // Revalidate persisted lines against Shopify the moment the shopper reaches
@@ -38,13 +38,13 @@ const CheckoutPage = () => {
   if (items.length === 0) {
     return (
       <div className="min-h-screen bg-background">
-        <Seo title="Checkout | Forgali" path="/checkout" noindex />
+        <Seo title={t("checkout.seoTitle")} path="/checkout" noindex />
         <Header />
         <div className="max-w-4xl mx-auto px-4 py-16 text-center">
-          <h1 className="text-2xl font-bold mb-4">Your cart is empty</h1>
-          <p className="text-muted-foreground mb-6">Add some products to your cart to checkout.</p>
+          <h1 className="text-2xl font-bold mb-4">{t("checkout.emptyTitle")}</h1>
+          <p className="text-muted-foreground mb-6">{t("checkout.emptyBody")}</p>
           <Link to="/">
-            <Button>Continue Shopping</Button>
+            <Button>{t("common.continueShopping")}</Button>
           </Link>
         </div>
         <Footer />
@@ -54,7 +54,7 @@ const CheckoutPage = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Seo title="Checkout | Forgali" path="/checkout" noindex />
+      <Seo title={t("checkout.seoTitle")} path="/checkout" noindex />
       <Header />
 
       {/* Checkout Header */}
@@ -62,7 +62,7 @@ const CheckoutPage = () => {
         <div className="max-w-rail mx-auto px-4 py-4">
           <Link to="/" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground">
             <ChevronLeft className="w-4 h-4" />
-            Back to shopping
+            {t("checkout.back")}
           </Link>
         </div>
       </div>
@@ -74,35 +74,33 @@ const CheckoutPage = () => {
               duplicate fields here collected data that went nowhere and made
               shoppers type everything twice. */}
           <div className="space-y-8">
-            <h1 className="text-3xl font-bold">Checkout</h1>
+            <h1 className="text-3xl font-bold">{t("checkout.title")}</h1>
 
             <div className="space-y-4">
-              <h2 className="text-lg font-semibold">How it works</h2>
+              <h2 className="text-lg font-semibold">{t("checkout.howItWorks")}</h2>
               <ol className="space-y-3 text-sm text-muted-foreground list-decimal list-inside">
-                <li>Review your order summary on this page.</li>
-                <li>Continue to our secure checkout to enter your contact details and shipping address.</li>
-                <li>Pay by credit card, PayPal, Apple Pay, or Google Pay — taxes are calculated there from your address.</li>
-                <li>Want to spread it out? Choose Afterpay at the payment step to split your total into 4 interest-free payments.</li>
+                <li>{t("checkout.step1")}</li>
+                <li>{t("checkout.step2")}</li>
+                <li>{t("checkout.step3")}</li>
+                <li>{t("checkout.step4")}</li>
               </ol>
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <Lock className="w-4 h-4" />
-                Payments are processed on our encrypted, PCI-compliant checkout.
+                {t("checkout.pci")}
               </div>
             </div>
 
             {isShopifyConfigured() ? (
               <ShopifyCheckoutButton className="w-full bg-brand hover:bg-brand-hover text-white py-6 text-lg font-semibold">
-                Continue to Secure Checkout
+                {t("checkout.continue")}
               </ShopifyCheckoutButton>
             ) : (
               <div className="space-y-3">
                 <Button disabled className="w-full py-6 text-lg font-semibold">
-                  Checkout temporarily unavailable
+                  {t("common.checkoutUnavailable")}
                 </Button>
                 <p className="text-sm text-muted-foreground">
-                  We can't start the secure checkout right now. Please try again shortly, or
-                  email <a href="mailto:daniel@forgali.com" className="underline">daniel@forgali.com</a> and
-                  we'll complete your order by email. Your cart is saved.
+                  {t("common.checkoutUnavailableBody1")}<a href="mailto:daniel@forgali.com" className="underline">daniel@forgali.com</a>{t("common.checkoutUnavailableBody2")}
                 </p>
               </div>
             )}
@@ -111,7 +109,7 @@ const CheckoutPage = () => {
           {/* Right - Order Summary */}
           <div className="lg:pl-8 lg:border-l border-border">
             <div className="sticky top-8 space-y-6">
-              <h2 className="text-lg font-semibold">Order Summary</h2>
+              <h2 className="text-lg font-semibold">{t("checkout.orderSummary")}</h2>
 
               {/* Items */}
               <div className="space-y-4 max-h-96 overflow-y-auto">
@@ -139,12 +137,12 @@ const CheckoutPage = () => {
                         {item.unavailable && (
                           <p className="text-xs text-destructive flex items-center gap-1 mt-1">
                             <AlertTriangle className="w-3 h-3" />
-                            No longer available —{" "}
+                            {t("checkout.unavailable")}
                             <button
                               className="underline"
                               onClick={() => removeFromCart(item.product.id, item.variantId)}
                             >
-                              remove
+                              {t("checkout.remove")}
                             </button>
                           </p>
                         )}
@@ -162,7 +160,7 @@ const CheckoutPage = () => {
               {/* Totals */}
               <div className="space-y-3">
                 <div className="flex justify-between text-sm">
-                  <span>Subtotal</span>
+                  <span>{t("cart.subtotal")}</span>
                   <span>{money(subtotal)}</span>
                 </div>
                 {/* Delivery window lives here rather than on the product page:
@@ -172,19 +170,19 @@ const CheckoutPage = () => {
                   <div className="flex justify-between text-sm">
                     <span className="flex items-center gap-2">
                       <Truck className="w-4 h-4" />
-                      Shipping
+                      {t("checkout.shipping")}
                     </span>
-                    <span className="text-brand-positive font-medium">FREE</span>
+                    <span className="text-brand-positive font-medium">{t("checkout.free")}</span>
                   </div>
-                  <p className="pl-6 text-xs text-muted-foreground">Arrives in 12-18 business days</p>
+                  <p className="pl-6 text-xs text-muted-foreground">{t("checkout.arrives")}</p>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span>Tax</span>
-                  <span className="text-muted-foreground">Calculated at checkout</span>
+                  <span>{t("checkout.tax")}</span>
+                  <span className="text-muted-foreground">{t("checkout.taxCalculated")}</span>
                 </div>
                 <Separator />
                 <div className="flex justify-between text-lg font-bold">
-                  <span>Total before tax</span>
+                  <span>{t("checkout.totalBeforeTax")}</span>
                   <span>{money(subtotal)}</span>
                 </div>
               </div>
@@ -193,11 +191,11 @@ const CheckoutPage = () => {
               <div className="bg-brand-positive/10 rounded-lg p-4 space-y-2">
                 <div className="flex items-center gap-2 text-sm text-brand-positive">
                   <Truck className="w-4 h-4" />
-                  Free Canada-Wide Shipping
+                  {t("common.freeShipping")}
                 </div>
                 <div className="flex items-center gap-2 text-sm text-brand-positive">
                   <Lock className="w-4 h-4" />
-                  Secure Checkout
+                  {t("common.secureCheckout")}
                 </div>
               </div>
             </div>

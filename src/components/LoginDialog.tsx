@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useCustomer } from "@/context/CustomerContext";
+import { useLocale } from "@/i18n/LocaleContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -20,6 +21,7 @@ interface LoginDialogProps {
 }
 
 const LoginDialog = ({ open, onOpenChange }: LoginDialogProps) => {
+  const { t } = useLocale();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -46,14 +48,14 @@ const LoginDialog = ({ open, onOpenChange }: LoginDialogProps) => {
     e.preventDefault();
     setError("");
     if (!email || !password) {
-      setError("Please enter both email and password.");
+      setError(t("login.enterBoth"));
       return;
     }
     setBusy(true);
-    const res = await login(email, password).catch(() => ({ ok: false, message: "Something went wrong — please try again." }));
+    const res = await login(email, password).catch(() => ({ ok: false, message: t("common.somethingWrong") }));
     setBusy(false);
     if (!res.ok) {
-      setError(res.message || "Incorrect email or password.");
+      setError(res.message || t("login.incorrect"));
       return;
     }
     handleClose(false);
@@ -63,21 +65,21 @@ const LoginDialog = ({ open, onOpenChange }: LoginDialogProps) => {
     e.preventDefault();
     setError("");
     if (!firstName || !lastName || !email || !password) {
-      setError("Please fill in every field.");
+      setError(t("login.fillAll"));
       return;
     }
     if (password.length < 5) {
-      setError("Password must be at least 5 characters.");
+      setError(t("login.passwordMin"));
       return;
     }
     setBusy(true);
     const res = await register({ firstName, lastName, email, password }).catch(() => ({
       ok: false,
-      message: "Something went wrong — please try again.",
+      message: t("common.somethingWrong"),
     }));
     setBusy(false);
     if (!res.ok) {
-      setError(res.message || "Could not create your account.");
+      setError(res.message || t("login.couldNotCreate"));
       return;
     }
     handleClose(false);
@@ -89,17 +91,17 @@ const LoginDialog = ({ open, onOpenChange }: LoginDialogProps) => {
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <UserRound className="w-5 h-5" />
-            Your Account
+            {t("header.yourAccountTitle")}
           </DialogTitle>
           <DialogDescription>
-            Sign in to your Forgali account, or create one in seconds.
+            {t("login.description")}
           </DialogDescription>
         </DialogHeader>
 
         <Tabs defaultValue="signin" onValueChange={() => setError("")}>
           <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="signin">Sign In</TabsTrigger>
-            <TabsTrigger value="register">Create Account</TabsTrigger>
+            <TabsTrigger value="signin">{t("login.signIn")}</TabsTrigger>
+            <TabsTrigger value="register">{t("login.createAccount")}</TabsTrigger>
           </TabsList>
 
           <TabsContent value="signin">
@@ -110,30 +112,30 @@ const LoginDialog = ({ open, onOpenChange }: LoginDialogProps) => {
                 </Alert>
               )}
               <div className="space-y-2">
-                <Label htmlFor="signin-email">Email</Label>
+                <Label htmlFor="signin-email">{t("login.email")}</Label>
                 <Input
                   id="signin-email"
                   type="text"
                   autoComplete="email"
-                  placeholder="you@example.com"
+                  placeholder={t("login.emailPlaceholder")}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   autoFocus
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="signin-password">Password</Label>
+                <Label htmlFor="signin-password">{t("login.password")}</Label>
                 <Input
                   id="signin-password"
                   type="password"
                   autoComplete="current-password"
-                  placeholder="Your password"
+                  placeholder={t("login.passwordPlaceholder")}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
               <Button type="submit" disabled={busy} className="w-full bg-brand hover:bg-brand-hover">
-                {busy ? "Signing in..." : "Sign In"}
+                {busy ? t("login.signingIn") : t("login.signIn")}
               </Button>
             </form>
           </TabsContent>
@@ -147,50 +149,50 @@ const LoginDialog = ({ open, onOpenChange }: LoginDialogProps) => {
               )}
               <div className="grid grid-cols-2 gap-3">
                 <div className="space-y-2">
-                  <Label htmlFor="reg-first">First name</Label>
+                  <Label htmlFor="reg-first">{t("login.firstName")}</Label>
                   <Input
                     id="reg-first"
                     autoComplete="given-name"
-                    placeholder="First name"
+                    placeholder={t("login.firstName")}
                     value={firstName}
                     onChange={(e) => setFirstName(e.target.value)}
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="reg-last">Last name</Label>
+                  <Label htmlFor="reg-last">{t("login.lastName")}</Label>
                   <Input
                     id="reg-last"
                     autoComplete="family-name"
-                    placeholder="Last name"
+                    placeholder={t("login.lastName")}
                     value={lastName}
                     onChange={(e) => setLastName(e.target.value)}
                   />
                 </div>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="reg-email">Email</Label>
+                <Label htmlFor="reg-email">{t("login.email")}</Label>
                 <Input
                   id="reg-email"
                   type="email"
                   autoComplete="email"
-                  placeholder="you@example.com"
+                  placeholder={t("login.emailPlaceholder")}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="reg-password">Password</Label>
+                <Label htmlFor="reg-password">{t("login.password")}</Label>
                 <Input
                   id="reg-password"
                   type="password"
                   autoComplete="new-password"
-                  placeholder="At least 5 characters"
+                  placeholder={t("login.passwordHint")}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
               <Button type="submit" disabled={busy} className="w-full bg-brand hover:bg-brand-hover">
-                {busy ? "Creating account..." : "Create Account"}
+                {busy ? t("login.creating") : t("login.createAccount")}
               </Button>
             </form>
           </TabsContent>

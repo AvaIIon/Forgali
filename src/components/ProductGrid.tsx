@@ -1,9 +1,11 @@
 import { Link } from "@/i18n/router";
+import { useLocale } from "@/i18n/LocaleContext";
 import { Loader2 } from "lucide-react";
 import { ProductCard } from "./ProductCard";
 import { useFeaturedProducts } from "@/hooks/useShopifyProducts";
 
 export const ProductGrid = () => {
+  const { t } = useLocale();
   // Shopify's real BEST_SELLING ordering (in-stock only). The old grid ranked
   // by fabricated hash-derived ratings under a "Best Sellers" heading.
   const { products, loading, error } = useFeaturedProducts(8);
@@ -23,13 +25,13 @@ export const ProductGrid = () => {
     return (
       <section className="py-16 px-4">
         <div className="max-w-rail mx-auto text-center space-y-3">
-          <h2 className="text-3xl font-bold">Featured Furniture</h2>
+          <h2 className="text-3xl font-bold">{t("home.featured")}</h2>
           <p className="text-muted-foreground">
-            We couldn't load products right now.{" "}
+            {t("home.loadError")}{" "}
             <Link to="/category/dining" className="text-brand-accent hover:underline">
-              Browse the Dining collection
-            </Link>{" "}
-            instead.
+              {t("home.browseDining")}
+            </Link>
+            {t("home.loadErrorTail")}
           </p>
         </div>
       </section>
@@ -40,9 +42,9 @@ export const ProductGrid = () => {
     <section className="py-16 px-4">
       <div className="max-w-rail mx-auto">
         <div className="flex flex-wrap items-baseline justify-between gap-2 mb-10">
-          <h2 className="text-3xl font-bold">Featured Furniture</h2>
+          <h2 className="text-3xl font-bold">{t("home.featured")}</h2>
           <Link to="/category/dining" className="text-sm font-medium text-brand-accent hover:underline whitespace-nowrap">
-            Shop All →
+            {t("home.shopAll")}
           </Link>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">

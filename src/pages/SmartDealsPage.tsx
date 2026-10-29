@@ -7,14 +7,25 @@ import { CategoryProductCard } from "@/components/CategoryProductCard";
 import { useShopifyProducts } from "@/hooks/useShopifyProducts";
 import { Seo } from "@/components/Seo";
 import { seoProps } from "@/lib/staticPageSeo";
+import { useLocale } from "@/i18n/LocaleContext";
+import type { MessageKey } from "@/i18n/messages";
 import type { ProductCategory } from "@/services/shopifyService";
 
 // Section order mirrors the top nav. Storage & Accessories is deliberately
-// excluded from Smart Deals (owner call, Jul 21).
-const DEAL_SECTIONS: { id: string; label: string; href: string; categories: ProductCategory[] }[] = [
-  { id: "dining", label: "Dining", href: "/category/dining", categories: ["dining"] },
-  { id: "living", label: "Living", href: "/category/living", categories: ["living"] },
-  { id: "bedroom", label: "Bedroom", href: "/category/bedroom", categories: ["bunk-beds", "loft-beds", "single-beds"] },
+// excluded from Smart Deals (owner call, Jul 21). Labels are dictionary keys;
+// `seeAll` ("See all {count} Dining deals →") and `shopAll` are per room so
+// each language can phrase them naturally.
+const DEAL_SECTIONS: {
+  id: string;
+  label: MessageKey;
+  seeAll: MessageKey;
+  shopAll: MessageKey;
+  href: string;
+  categories: ProductCategory[];
+}[] = [
+  { id: "dining", label: "nav.dining", seeAll: "deals.dining.seeAll", shopAll: "deals.dining.shopAll", href: "/category/dining", categories: ["dining"] },
+  { id: "living", label: "nav.living", seeAll: "deals.living.seeAll", shopAll: "deals.living.shopAll", href: "/category/living", categories: ["living"] },
+  { id: "bedroom", label: "nav.bedroom", seeAll: "deals.bedroom.seeAll", shopAll: "deals.bedroom.shopAll", href: "/category/bedroom", categories: ["bunk-beds", "loft-beds", "single-beds"] },
 ];
 
 const discountPct = (p: { price: number; originalPrice?: number }) =>
@@ -33,6 +44,7 @@ const shuffled = <T,>(arr: T[]): T[] => {
 };
 
 const SmartDealsPage = () => {
+  const { t } = useLocale();
   const { products: allProducts, loading, error } = useShopifyProducts();
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -83,11 +95,10 @@ const SmartDealsPage = () => {
       <div className="bg-gradient-to-b from-brand-tint to-white py-12 px-4">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-            Smart Deals
+            {t("deals.title")}
           </h1>
           <p className="text-muted-foreground text-base md:text-lg max-w-2xl mx-auto">
-            Save on solid wood furniture for every room — dining, living, and bedroom.
-            Sale prices with free Canada-wide shipping.
+            {t("deals.lead")}
           </p>
         </div>
       </div>
@@ -97,13 +108,13 @@ const SmartDealsPage = () => {
           {loading && (
             <div className="flex flex-col items-center justify-center py-16 gap-4">
               <Loader2 className="w-8 h-8 animate-spin text-brand" />
-              <p className="text-muted-foreground">Loading deals...</p>
+              <p className="text-muted-foreground">{t("deals.loading")}</p>
             </div>
           )}
 
           {error && !loading && (
             <div className="text-center py-16">
-              <p className="text-red-500 text-lg mb-2">Error loading products</p>
+              <p className="text-red-500 text-lg mb-2">{t("common.loadingError")}</p>
               <p className="text-muted-foreground">{error}</p>
             </div>
           )}
@@ -114,7 +125,7 @@ const SmartDealsPage = () => {
               {sections.length > 1 && (
                 <div className="flex flex-wrap justify-center gap-2 mb-10">
                   <button type="button" onClick={() => selectRoom(null)} className={chipClass(activeRoom === null)}>
-                    All Deals
+                    {t("deals.all")}
                     <span className={`text-xs ${activeRoom === null ? "text-primary-foreground/70" : "text-muted-foreground"}`}>
                       ({totalDeals})
                     </span>
@@ -126,7 +137,7 @@ const SmartDealsPage = () => {
                       onClick={() => selectRoom(section.id)}
                       className={chipClass(activeRoom === section.id)}
                     >
-                      {section.label}
+                      {t(section.label)}
                       <span className={`text-xs ${activeRoom === section.id ? "text-primary-foreground/70" : "text-muted-foreground"}`}>
                         ({section.products.length})
                       </span>
@@ -144,9 +155,9 @@ const SmartDealsPage = () => {
                     <div key={section.id} id={`deals-${section.id}`} className="scroll-mt-24">
                       <div className="flex flex-wrap items-baseline justify-between gap-2 mb-6 border-b border-border pb-3">
                         <h2 className="text-2xl font-bold text-foreground">
-                          {section.label}
+                          {t(section.label)}
                           <span className="ml-2 text-sm font-normal text-muted-foreground">
-                            {section.products.length} {section.products.length === 1 ? "deal" : "deals"}
+                            {t(section.products.length === 1 ? "deals.countOne" : "deals.countMany", { count: section.products.length })}
                           </span>
                         </h2>
                         {hasMore ? (
@@ -155,14 +166,14 @@ const SmartDealsPage = () => {
                             onClick={() => selectRoom(section.id)}
                             className="text-sm font-medium text-brand-accent hover:underline whitespace-nowrap"
                           >
-                            See all {section.products.length} {section.label} deals →
+                            {t(section.seeAll, { count: section.products.length })}
                           </button>
                         ) : (
                           <Link
                             to={section.href}
                             className="text-sm font-medium text-brand-accent hover:underline whitespace-nowrap"
                           >
-                            Shop all {section.label} →
+                            {t(section.shopAll)}
                           </Link>
                         )}
                       </div>
@@ -180,7 +191,7 @@ const SmartDealsPage = () => {
 
           {!loading && !error && totalDeals === 0 && (
             <div className="text-center py-16">
-              <p className="text-muted-foreground text-lg">No products on sale at the moment.</p>
+              <p className="text-muted-foreground text-lg">{t("deals.none")}</p>
             </div>
           )}
         </div>

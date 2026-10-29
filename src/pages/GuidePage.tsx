@@ -1,4 +1,5 @@
 import { Link, useParams } from "@/i18n/router";
+import { useLocale } from "@/i18n/LocaleContext";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Seo } from "@/components/Seo";
@@ -10,6 +11,7 @@ import NotFound from "./NotFound";
 // content identical to what guideBody() emits (headings, paragraphs, FAQs).
 const GuidePage = () => {
   const { slug } = useParams<{ slug: string }>();
+  const { t } = useLocale();
   const guide = getGuide(slug);
   if (!guide) return <NotFound />;
 
@@ -31,7 +33,7 @@ const GuidePage = () => {
           <p className="text-sm text-muted-foreground mb-3">
             <Link to="/" className="hover:underline">Forgali</Link>
             {" / "}
-            <Link to="/guides" className="hover:underline">Buying Guides</Link>
+            <Link to="/guides" className="hover:underline">{t("footer.buyingGuides")}</Link>
           </p>
           <h1 className="text-3xl md:text-5xl font-bold text-foreground mb-4">{guide.h1}</h1>
           <p className="text-muted-foreground text-base md:text-lg">{guide.lead}</p>
@@ -73,7 +75,7 @@ const GuidePage = () => {
 
           {guide.faqs.length ? (
             <section className="mb-10">
-              <h2 className="text-2xl font-bold mb-4 text-brand">Frequently Asked Questions</h2>
+              <h2 className="text-2xl font-bold mb-4 text-brand">{t("common.faq")}</h2>
               {guide.faqs.map((faq) => (
                 <div key={faq.q} className="mb-5 last:mb-0">
                   <h3 className="font-semibold mb-1">{faq.q}</h3>
@@ -85,7 +87,7 @@ const GuidePage = () => {
 
           {shop.length ? (
             <section className="mb-10 bg-brand-tint rounded-lg p-6">
-              <h2 className="text-xl font-bold mb-3">Shop the pieces in this guide</h2>
+              <h2 className="text-xl font-bold mb-3">{t("guide.shopPieces")}</h2>
               <p className="flex flex-wrap gap-x-4 gap-y-1">
                 {shop.map((link) => (
                   <Link
@@ -98,14 +100,14 @@ const GuidePage = () => {
                 ))}
               </p>
               <p className="text-sm text-muted-foreground mt-3">
-                Free Canada-wide shipping · 30-day returns · 5-year limited warranty
+                {t("guide.trust")}
               </p>
             </section>
           ) : null}
 
           {others.length ? (
             <section>
-              <h2 className="text-xl font-bold mb-3">More buying guides</h2>
+              <h2 className="text-xl font-bold mb-3">{t("guide.more")}</h2>
               <ul className="space-y-2">
                 {others.map((g) => (
                   <li key={g.slug}>
@@ -118,7 +120,7 @@ const GuidePage = () => {
             </section>
           ) : null}
 
-          <p className="text-xs text-muted-foreground mt-10">Last updated {guide.updated}.</p>
+          <p className="text-xs text-muted-foreground mt-10">{t("guide.lastUpdated", { date: guide.updated })}</p>
         </div>
       </article>
 

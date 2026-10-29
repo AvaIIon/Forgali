@@ -1,4 +1,5 @@
 import { Link } from "@/i18n/router";
+import { useLocale } from "@/i18n/LocaleContext";
 import { cdnImage, cdnSrcSet } from "@/lib/imageProxy";
 
 const BRAND_IMG =
@@ -9,26 +10,23 @@ const BRAND_IMG =
 // the top of the page, so this block is copy + image only to avoid repeating
 // them.
 export const BrandStatement = () => {
+  const { t } = useLocale();
   return (
     <section className="py-16 px-4 bg-brand-tint/60">
       <div className="max-w-rail mx-auto grid grid-cols-1 items-center gap-10 md:grid-cols-2 md:gap-14">
         <div className="text-center md:text-left">
-          <h2 className="mb-4 text-3xl font-bold">Furniture Built to Live With</h2>
+          <h2 className="mb-4 text-3xl font-bold">{t("brand.title")}</h2>
           <p className="mx-auto mb-6 max-w-xl leading-relaxed text-muted-foreground md:mx-0">
-            We design solid wood pieces for real life — the kind that looks great in
-            your space, holds up to everyday use, and skips the &ldquo;how is it{" "}
-            <em>that</em> expensive?&rdquo; price tag. Good design and real quality
-            shouldn&rsquo;t feel out of reach, so ours are designed smart, priced
-            fair, and made to last.
+            {t("brand.body1")}<em>{t("brand.bodyEm")}</em>{t("brand.body2")}
           </p>
           <div className="flex flex-col items-center gap-3 md:items-start">
             <Link to="/category/dining">
               <button className="rounded-full bg-brand px-8 py-3 text-sm font-medium text-white transition-colors hover:bg-brand-hover">
-                Shop the Collection
+                {t("brand.cta")}
               </button>
             </Link>
             <Link to="/about" className="text-sm font-medium text-muted-foreground hover:text-brand-accent hover:underline">
-              Learn more about Forgali →
+              {t("brand.learnMore")}
             </Link>
           </div>
         </div>
@@ -37,7 +35,7 @@ export const BrandStatement = () => {
             src={cdnImage(BRAND_IMG, 900)}
             srcSet={cdnSrcSet(BRAND_IMG, [600, 900, 1200])}
             sizes="(max-width: 768px) 100vw, 50vw"
-            alt="Plank & Beam Arcata solid wood console table"
+            alt={t("brand.alt")}
             loading="lazy"
             className="h-full w-full object-cover"
           />

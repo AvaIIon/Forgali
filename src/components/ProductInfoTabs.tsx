@@ -1,4 +1,6 @@
 import { Link } from "@/i18n/router";
+import { useLocale } from "@/i18n/LocaleContext";
+import { dimensionLabel, dimensionUnit } from "@/i18n/messages";
 import { Check, Truck, RotateCcw, Wrench } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ConvertedProduct } from "@/services/shopifyService";
@@ -17,28 +19,29 @@ import { ConvertedProduct } from "@/services/shopifyService";
  * renders even when a product has no spec data at all.
  */
 
-const DELIVERY_WINDOW = "12-18 business days";
-
 interface Props {
   product: ConvertedProduct;
 }
 
 export const ProductInfoTabs = ({ product }: Props) => {
+  const { t, locale } = useLocale();
   const specs = product.specs || {};
 
   // Extra rows come after the physical dimensions so the table always reads
   // Length / Width / Height / Weight first, the way the spec sheet does.
   const extraRows = [
-    specs.material && { label: "Material", value: specs.material },
-    specs.weightCapacity && { label: "Weight capacity", value: specs.weightCapacity },
-    specs.recommendedMattress && { label: "Recommended mattress", value: specs.recommendedMattress },
-    specs.assembly && { label: "Assembly", value: specs.assembly },
+    specs.material && { label: t("pdp.material"), value: specs.material },
+    specs.weightCapacity && { label: t("pdp.weightCapacity"), value: specs.weightCapacity },
+    specs.recommendedMattress && { label: t("pdp.recommendedMattress"), value: specs.recommendedMattress },
+    specs.assembly && { label: t("pdp.assembly"), value: specs.assembly },
   ].filter(Boolean) as Array<{ label: string; value: string }>;
 
+  // The dimension table's labels/units are English JSON in every language
+  // (see dimensionLabel in src/i18n/messages.ts); values pass through as-is.
   const rows = [
     ...(specs.dimensionTable ?? []).map(r => ({
-      label: r.label,
-      value: r.unit ? `${r.value} ${r.unit}` : r.value,
+      label: dimensionLabel(locale, r.label),
+      value: r.unit ? `${r.value} ${dimensionUnit(locale, r.unit)}` : r.value,
     })),
     ...extraRows,
   ];
@@ -64,19 +67,19 @@ export const ProductInfoTabs = ({ product }: Props) => {
           <TabsList className="h-auto w-full justify-between gap-1 overflow-x-auto rounded-none border-b border-border bg-transparent p-0 sm:justify-center sm:gap-10">
             {hasDetails && (
               <TabsTrigger value="details" className={triggerClass}>
-                Details
+                {t("pdp.tabDetails")}
               </TabsTrigger>
             )}
             {description && (
               <TabsTrigger value="description" className={triggerClass}>
-                Description
+                {t("pdp.tabDescription")}
               </TabsTrigger>
             )}
             {/* All three labels have to fit 375px without the strip scrolling,
                 or the last tab is simply never seen on a phone. */}
             <TabsTrigger value="shipping" className={triggerClass}>
-              <span className="sm:hidden">Shipping</span>
-              <span className="hidden sm:inline">Shipping Information</span>
+              <span className="sm:hidden">{t("pdp.tabShipping")}</span>
+              <span className="hidden sm:inline">{t("pdp.tabShippingLong")}</span>
             </TabsTrigger>
           </TabsList>
 
@@ -128,42 +131,42 @@ export const ProductInfoTabs = ({ product }: Props) => {
               <div className="flex items-start gap-3">
                 <Truck className="mt-0.5 h-5 w-5 flex-shrink-0 text-brand-positive" />
                 <div>
-                  <p className="text-sm font-semibold">Free Canada-wide shipping</p>
+                  <p className="text-sm font-semibold">{t("pdp.freeShippingTitle")}</p>
                   <p className="mt-1 text-sm text-muted-foreground">
-                    Standard delivery is {DELIVERY_WINDOW} from the day your order is placed.
+                    {t("pdp.freeShippingBody", { window: t("pdp.deliveryWindow") })}
                   </p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
                 <RotateCcw className="mt-0.5 h-5 w-5 flex-shrink-0 text-brand-positive" />
                 <div>
-                  <p className="text-sm font-semibold">30-day returns</p>
+                  <p className="text-sm font-semibold">{t("pdp.returnsLower")}</p>
                   <p className="mt-1 text-sm text-muted-foreground">
-                    Return an unused item in its original packaging within 30 days of delivery.
+                    {t("pdp.returnsBody")}
                   </p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
                 <Wrench className="mt-0.5 h-5 w-5 flex-shrink-0 text-brand-positive" />
                 <div>
-                  <p className="text-sm font-semibold">Flat-packed for assembly</p>
+                  <p className="text-sm font-semibold">{t("pdp.flatPackTitle")}</p>
                   <p className="mt-1 text-sm text-muted-foreground">
-                    Hardware, tools and step-by-step instructions are included in the box.
+                    {t("pdp.flatPackBody")}
                   </p>
                 </div>
               </div>
             </div>
             <p className="mt-6 text-sm">
               <Link to="/shipping" className="text-brand-accent hover:underline">
-                Shipping details
+                {t("pdp.shippingDetails")}
               </Link>
               {" · "}
               <Link to="/returns" className="text-brand-accent hover:underline">
-                Returns policy
+                {t("pdp.returnsPolicy")}
               </Link>
               {" · "}
               <Link to="/assembly" className="text-brand-accent hover:underline">
-                Assembly guide
+                {t("pdp.assemblyGuide")}
               </Link>
             </p>
           </TabsContent>

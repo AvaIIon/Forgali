@@ -4,6 +4,7 @@ import { Footer } from "@/components/Footer";
 import { Mail, Phone, Clock, Globe, Check, Copy, ExternalLink, ArrowLeft } from "lucide-react";
 import { Seo } from "@/components/Seo";
 import { seoProps } from "@/lib/staticPageSeo";
+import { useLocale } from "@/i18n/LocaleContext";
 
 const RECIPIENT = "daniel@forgali.com";
 const PHONE_DISPLAY = "(647) 527-2110";
@@ -22,6 +23,7 @@ const WEB3FORMS_ENDPOINT = "https://api.web3forms.com/submit";
 type SendState = "idle" | "sending" | "sent" | "error";
 
 const ContactPage = () => {
+  const { t } = useLocale();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
@@ -37,8 +39,8 @@ const ContactPage = () => {
   // believes the message was sent. The handoff panel therefore always appears,
   // carrying the message as copyable text plus webmail compose links. It also
   // doubles as the recovery path when a real send fails.
-  const subject = `Website enquiry from ${name || "a customer"}`;
-  const plainBody = `Name: ${name}\nEmail: ${email}\n\n${message}`;
+  const subject = t("contact.subject", { name: name || t("contact.aCustomer") });
+  const plainBody = `${t("contact.bodyName")}${name}\n${t("contact.bodyEmail")}${email}\n\n${message}`;
   const q = encodeURIComponent;
 
   const mailtoHref = `mailto:${RECIPIENT}?subject=${q(subject)}&body=${q(plainBody)}`;
@@ -91,7 +93,7 @@ const ContactPage = () => {
   };
 
   const handleCopy = async () => {
-    const full = `To: ${RECIPIENT}\nSubject: ${subject}\n\n${plainBody}`;
+    const full = `${t("contact.copyTo")}${RECIPIENT}\n${t("contact.copySubject")}${subject}\n\n${plainBody}`;
     try {
       await navigator.clipboard.writeText(full);
     } catch {
@@ -121,10 +123,10 @@ const ContactPage = () => {
       <div className="bg-gradient-to-b from-brand-tint to-white py-12 px-4">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-            Contact Us
+            {t("contact.title")}
           </h1>
           <p className="text-muted-foreground text-base md:text-lg max-w-2xl mx-auto">
-            Our friendly team is here to help you find the perfect bed for your family.
+            {t("contact.lead")}
           </p>
         </div>
       </div>
@@ -134,35 +136,35 @@ const ContactPage = () => {
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
             <div className="bg-brand-tint rounded-lg p-6">
               <Mail className="w-8 h-8 text-brand mb-4" />
-              <h3 className="font-bold text-lg mb-2">Email</h3>
+              <h3 className="font-bold text-lg mb-2">{t("contact.email")}</h3>
               <a href="mailto:daniel@forgali.com" className="text-brand-accent hover:underline">daniel@forgali.com</a>
-              <p className="text-sm text-muted-foreground mt-2">We'll respond within 24 hours</p>
+              <p className="text-sm text-muted-foreground mt-2">{t("contact.respond24")}</p>
             </div>
 
             <div className="bg-brand-tint rounded-lg p-6">
               <Phone className="w-8 h-8 text-brand mb-4" />
-              <h3 className="font-bold text-lg mb-2">Phone</h3>
+              <h3 className="font-bold text-lg mb-2">{t("contact.phone")}</h3>
               <a href={`tel:${PHONE_E164}`} className="text-brand-accent hover:underline">{PHONE_DISPLAY}</a>
-              <p className="text-sm text-muted-foreground mt-2">Monday to Friday, 9:00 AM to 5:00 PM EST</p>
+              <p className="text-sm text-muted-foreground mt-2">{t("contact.hoursLine")}</p>
             </div>
 
             <div className="bg-brand-tint rounded-lg p-6">
               <Clock className="w-8 h-8 text-brand mb-4" />
-              <h3 className="font-bold text-lg mb-2">Support Hours</h3>
-              <p className="text-muted-foreground">Monday - Friday</p>
-              <p className="text-muted-foreground">9:00 AM - 5:00 PM EST</p>
+              <h3 className="font-bold text-lg mb-2">{t("contact.supportHours")}</h3>
+              <p className="text-muted-foreground">{t("contact.monFri")}</p>
+              <p className="text-muted-foreground">{t("contact.hours")}</p>
             </div>
 
             <div className="bg-brand-tint rounded-lg p-6">
               <Globe className="w-8 h-8 text-brand mb-4" />
-              <h3 className="font-bold text-lg mb-2">Online Only</h3>
-              <p className="text-muted-foreground">100% online store with no retail showroom</p>
-              <p className="text-sm text-muted-foreground mt-2">Serving all of Canada with free shipping</p>
+              <h3 className="font-bold text-lg mb-2">{t("contact.onlineOnly")}</h3>
+              <p className="text-muted-foreground">{t("contact.onlineBody")}</p>
+              <p className="text-sm text-muted-foreground mt-2">{t("contact.servingCanada")}</p>
             </div>
           </div>
 
           <div className="bg-background border border-border rounded-lg p-8">
-            <h2 className="text-2xl font-bold mb-6">Send us a message</h2>
+            <h2 className="text-2xl font-bold mb-6">{t("contact.formTitle")}</h2>
 
             {status === "sent" ? (
               <div role="status" aria-live="polite" className="space-y-5">
@@ -171,11 +173,9 @@ const ContactPage = () => {
                     <Check className="w-4 h-4 text-white" />
                   </div>
                   <div>
-                    <p className="font-bold">Thanks — your message is on its way</p>
+                    <p className="font-bold">{t("contact.sentTitle")}</p>
                     <p className="text-sm text-muted-foreground mt-1">
-                      It's landed in our inbox and we'll reply to{" "}
-                      <span className="font-medium text-foreground">{email}</span> within 24
-                      hours, Monday to Friday.
+                      {t("contact.sentBody1")}<span className="font-medium text-foreground">{email}</span>{t("contact.sentBody2")}
                     </p>
                   </div>
                 </div>
@@ -184,7 +184,7 @@ const ContactPage = () => {
                   onClick={resetForm}
                   className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
                 >
-                  <ArrowLeft className="w-4 h-4" /> Send another message
+                  <ArrowLeft className="w-4 h-4" /> {t("contact.sendAnother")}
                 </button>
               </div>
             ) : handedOff ? (
@@ -196,20 +196,16 @@ const ContactPage = () => {
                   <div>
                     {status === "error" ? (
                       <>
-                        <p className="font-bold">We couldn't send that automatically</p>
+                        <p className="font-bold">{t("contact.errorTitle")}</p>
                         <p className="text-sm text-muted-foreground mt-1">
-                          Sorry — something went wrong on our end. Your message is safe and
-                          still written out below; here are three ways to get it to{" "}
-                          <span className="font-medium text-foreground">{RECIPIENT}</span>.
+                          {t("contact.errorBody1")}<span className="font-medium text-foreground">{RECIPIENT}</span>{t("contact.errorBody2")}
                         </p>
                       </>
                     ) : (
                       <>
-                        <p className="font-bold">Your message is ready to send</p>
+                        <p className="font-bold">{t("contact.readyTitle")}</p>
                         <p className="text-sm text-muted-foreground mt-1">
-                          We've opened your email app with this message addressed to{" "}
-                          <span className="font-medium text-foreground">{RECIPIENT}</span>.
-                          Press send there and we'll reply within 24 hours.
+                          {t("contact.readyBody1")}<span className="font-medium text-foreground">{RECIPIENT}</span>{t("contact.readyBody2")}
                         </p>
                       </>
                     )}
@@ -218,12 +214,10 @@ const ContactPage = () => {
 
                 <div className="bg-brand-tint border-l-4 border-brand rounded-lg p-5">
                   <p className="font-medium text-sm mb-1">
-                    {status === "error" ? "Send it yourself" : "Nothing opened?"}
+                    {status === "error" ? t("contact.sendYourself") : t("contact.nothingOpened")}
                   </p>
                   <p className="text-sm text-muted-foreground mb-4">
-                    {status === "error"
-                      ? "Pick whichever is easiest — your message is already written."
-                      : "That's normal if you read your mail in a browser. Use one of these instead — your message is already written."}
+                    {status === "error" ? t("contact.pickEasiest") : t("contact.normalBrowser")}
                   </p>
 
                   <div className="flex flex-wrap gap-3">
@@ -233,7 +227,7 @@ const ContactPage = () => {
                       className="inline-flex items-center gap-2 bg-brand text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-brand-hover transition-colors"
                     >
                       {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-                      {copied ? "Copied" : "Copy message"}
+                      {copied ? t("contact.copied") : t("contact.copyMessage")}
                     </button>
                     <a
                       href={gmailHref}
@@ -241,7 +235,7 @@ const ContactPage = () => {
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-2 bg-background border border-border px-4 py-2 rounded-lg text-sm font-medium hover:bg-background/60 transition-colors"
                     >
-                      Open in Gmail <ExternalLink className="w-3.5 h-3.5" />
+                      {t("contact.openGmail")} <ExternalLink className="w-3.5 h-3.5" />
                     </a>
                     <a
                       href={outlookHref}
@@ -249,12 +243,12 @@ const ContactPage = () => {
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-2 bg-background border border-border px-4 py-2 rounded-lg text-sm font-medium hover:bg-background/60 transition-colors"
                     >
-                      Open in Outlook <ExternalLink className="w-3.5 h-3.5" />
+                      {t("contact.openOutlook")} <ExternalLink className="w-3.5 h-3.5" />
                     </a>
                   </div>
 
                   <p className="text-xs text-muted-foreground mt-4">
-                    Or write to us directly at{" "}
+                    {t("contact.writeDirectly")}{" "}
                     <a href={`mailto:${RECIPIENT}`} className="text-brand-accent hover:underline">
                       {RECIPIENT}
                     </a>
@@ -270,21 +264,21 @@ const ContactPage = () => {
                   }}
                   className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
                 >
-                  <ArrowLeft className="w-4 h-4" /> Back to edit my message
+                  <ArrowLeft className="w-4 h-4" /> {t("contact.backEdit")}
                 </button>
               </div>
             ) : (
               <form className="space-y-4" onSubmit={handleSubmit}>
                 <div>
-                  <label htmlFor="contact-name" className="block text-sm font-medium mb-2">Name</label>
+                  <label htmlFor="contact-name" className="block text-sm font-medium mb-2">{t("contact.name")}</label>
                   <input id="contact-name" type="text" required value={name} onChange={(e) => setName(e.target.value)} className="w-full px-4 py-2 border border-border rounded-lg" />
                 </div>
                 <div>
-                  <label htmlFor="contact-email" className="block text-sm font-medium mb-2">Email</label>
+                  <label htmlFor="contact-email" className="block text-sm font-medium mb-2">{t("contact.email")}</label>
                   <input id="contact-email" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} className="w-full px-4 py-2 border border-border rounded-lg" />
                 </div>
                 <div>
-                  <label htmlFor="contact-message" className="block text-sm font-medium mb-2">Message</label>
+                  <label htmlFor="contact-message" className="block text-sm font-medium mb-2">{t("contact.message")}</label>
                   <textarea id="contact-message" rows={5} required value={message} onChange={(e) => setMessage(e.target.value)} className="w-full px-4 py-2 border border-border rounded-lg" />
                 </div>
 
@@ -305,15 +299,13 @@ const ContactPage = () => {
                   disabled={status === "sending"}
                   className="bg-brand text-white px-8 py-3 rounded-lg font-medium hover:bg-brand-hover transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
                 >
-                  {status === "sending" ? "Sending…" : "Send Message"}
+                  {status === "sending" ? t("contact.sending") : t("contact.send")}
                 </button>
                 <p className="text-xs text-muted-foreground">
-                  {WEB3FORMS_ACCESS_KEY
-                    ? "We'll reply within 24 hours, Monday to Friday."
-                    : "This opens your email app with the message ready to send."}{" "}
-                  Prefer to reach us directly? Email{" "}
+                  {WEB3FORMS_ACCESS_KEY ? t("contact.replyNote") : t("contact.opensMailApp")}{" "}
+                  {t("contact.preferDirect")}{" "}
                   <a href={`mailto:${RECIPIENT}`} className="text-brand-accent hover:underline">{RECIPIENT}</a>{" "}
-                  or call{" "}
+                  {t("contact.orCall")}{" "}
                   <a href={`tel:${PHONE_E164}`} className="text-brand-accent hover:underline">{PHONE_DISPLAY}</a>.
                 </p>
               </form>

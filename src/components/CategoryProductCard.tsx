@@ -39,17 +39,17 @@ export const CategoryProductCard = ({ product }: CategoryProductCardProps) => {
       <div className="relative isolate aspect-square overflow-hidden rounded-lg mb-3 bg-secondary">
         {product.badge === "new" && (
           <span className="absolute top-3 left-3 bg-brand text-white text-xs font-semibold px-3 py-1.5 rounded-full z-10">
-            NEW
+            {t("product.new")}
           </span>
         )}
         {product.badge === "bestseller" && (
           <span className="absolute top-3 left-3 bg-brand text-white text-xs font-semibold px-3 py-1.5 rounded-full z-10">
-            BEST SELLER
+            {t("product.bestSeller")}
           </span>
         )}
         {product.badge === "sale" && (
           <span className="absolute top-3 left-3 bg-primary text-primary-foreground text-xs font-semibold px-3 py-1.5 rounded-full z-10">
-            SALE
+            {t("product.sale")}
           </span>
         )}
         <img

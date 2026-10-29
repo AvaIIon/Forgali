@@ -3,6 +3,7 @@ import { Search, User, ShoppingCart, Menu, ChevronDown, LogOut } from "lucide-re
 import { Input } from "@/components/ui/input";
 import { Link, useNavigate } from "@/i18n/router";
 import { useLocale } from "@/i18n/LocaleContext";
+import type { MessageKey } from "@/i18n/messages";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { useCart } from "@/context/CartContext";
 import { useCustomer } from "@/context/CustomerContext";
@@ -40,58 +41,86 @@ import { cdnImage, cdnSrcSet } from "@/lib/imageProxy";
 // Category imagery is served from Forgali's own Shopify CDN — the previous
 // bedsmart.ca hotlinks (via a free no-SLA proxy) coupled the storefront to the
 // sister brand and leaked "max-and-lily" in the network tab.
-const navItems = [
+//
+// Every label is a dictionary key (src/i18n/messages.ts) rendered through t():
+// `label` is the menu entry, `shopAll`/`shop`/`alt` the panel's "Shop All …"
+// link, image caption and image alt for the category.
+interface NavItem {
+  label: MessageKey;
+  href: string;
+  highlight?: boolean;
+  // The four below exist together on the dropdown categories only.
+  image?: string;
+  shopAll?: MessageKey;
+  shop?: MessageKey;
+  alt?: MessageKey;
+  subcategories?: Array<{ name: MessageKey; href: string }>;
+}
+
+const navItems: NavItem[] = [
   {
-    label: "Dining",
+    label: "nav.dining",
     href: "/category/dining",
     image: "https://cdn.shopify.com/s/files/1/0972/6492/6995/files/3400388400-155__1.jpg?v=1783608444",
+    shopAll: "nav.dining.shopAll",
+    shop: "nav.dining.shop",
+    alt: "nav.dining.alt",
     subcategories: [
-      { name: "Dining Tables", href: "/category/dining?subcategory=dining-tables" },
-      { name: "Dining Chairs", href: "/category/dining?subcategory=dining-chairs" },
-      { name: "Dining Benches", href: "/category/dining?subcategory=dining-benches" },
-      { name: "Bar & Counter Chairs", href: "/category/dining?subcategory=bar-counter-chairs" },
-      { name: "Dining Sets", href: "/category/dining?subcategory=dining-sets" },
+      { name: "nav.diningTables", href: "/category/dining?subcategory=dining-tables" },
+      { name: "nav.diningChairs", href: "/category/dining?subcategory=dining-chairs" },
+      { name: "nav.diningBenches", href: "/category/dining?subcategory=dining-benches" },
+      { name: "nav.barCounterChairs", href: "/category/dining?subcategory=bar-counter-chairs" },
+      { name: "nav.diningSets", href: "/category/dining?subcategory=dining-sets" },
     ]
   },
   {
-    label: "Living",
+    label: "nav.living",
     href: "/category/living",
     image: "https://cdn.shopify.com/s/files/1/0972/6492/6995/files/2600567600-016__1.jpg?v=1783608423",
+    shopAll: "nav.living.shopAll",
+    shop: "nav.living.shop",
+    alt: "nav.living.alt",
     subcategories: [
-      { name: "Coffee Tables", href: "/category/living?subcategory=coffee-tables" },
-      { name: "Console Tables", href: "/category/living?subcategory=console-tables" },
-      { name: "Side Tables", href: "/category/living?subcategory=side-tables" },
-      { name: "Sideboards", href: "/category/living?subcategory=sideboards" },
-      { name: "TV Stands", href: "/category/living?subcategory=tv-stands" },
-      { name: "Shelves", href: "/category/living?subcategory=shelves" },
+      { name: "nav.coffeeTables", href: "/category/living?subcategory=coffee-tables" },
+      { name: "nav.consoleTables", href: "/category/living?subcategory=console-tables" },
+      { name: "nav.sideTables", href: "/category/living?subcategory=side-tables" },
+      { name: "nav.sideboards", href: "/category/living?subcategory=sideboards" },
+      { name: "nav.tvStands", href: "/category/living?subcategory=tv-stands" },
+      { name: "nav.shelves", href: "/category/living?subcategory=shelves" },
     ]
   },
   {
-    label: "Bedroom",
+    label: "nav.bedroom",
     href: "/category/bedroom",
     image: "https://cdn.shopify.com/s/files/1/0972/6492/6995/files/88ebbdad-195271-181__2.jpg?v=1773962026",
+    shopAll: "nav.bedroom.shopAll",
+    shop: "nav.bedroom.shop",
+    alt: "nav.bedroom.alt",
     subcategories: [
-      { name: "Bunk Beds", href: "/category/bunk-beds" },
-      { name: "Loft Beds", href: "/category/loft-beds" },
-      { name: "Single Beds", href: "/category/single-beds" },
-      { name: "Beds with Slide", href: "/category/loft-beds?subcategory=loft-with-slide" },
-      { name: "Beds with Stairs", href: "/category/bunk-beds?subcategory=with-stairs" },
-      { name: "Toddler & Floor Beds", href: "/category/single-beds?subcategory=floor-bed" },
+      { name: "nav.bunkBeds", href: "/category/bunk-beds" },
+      { name: "nav.loftBeds", href: "/category/loft-beds" },
+      { name: "nav.singleBeds", href: "/category/single-beds" },
+      { name: "nav.bedsWithSlide", href: "/category/loft-beds?subcategory=loft-with-slide" },
+      { name: "nav.bedsWithStairs", href: "/category/bunk-beds?subcategory=with-stairs" },
+      { name: "nav.toddlerFloorBeds", href: "/category/single-beds?subcategory=floor-bed" },
     ]
   },
   {
-    label: "Storage & Accessories",
+    label: "nav.storage",
     href: "/category/accessories",
     image: "https://cdn.shopify.com/s/files/1/0972/6492/6995/files/99a332ac-solid-wood-max-and-lily-6-drawer-dresser-in-white-finish.jpg?v=1773961846",
+    shopAll: "nav.storage.shopAll",
+    shop: "nav.storage.shop",
+    alt: "nav.storage.alt",
     subcategories: [
-      { name: "Mattresses", href: "/category/mattresses" },
-      { name: "Dressers & Storage", href: "/category/accessories?subcategory=storage" },
-      { name: "Nightstands", href: "/category/accessories?subcategory=nightstands" },
-      { name: "Desks", href: "/category/accessories?subcategory=desks" },
-      { name: "Bookcases & Shelves", href: "/category/accessories?subcategory=bookcases-shelves" },
+      { name: "nav.mattresses", href: "/category/mattresses" },
+      { name: "nav.dressersStorage", href: "/category/accessories?subcategory=storage" },
+      { name: "nav.nightstands", href: "/category/accessories?subcategory=nightstands" },
+      { name: "nav.desks", href: "/category/accessories?subcategory=desks" },
+      { name: "nav.bookcasesShelves", href: "/category/accessories?subcategory=bookcases-shelves" },
     ]
   },
-  { label: "Smart Deals", href: "/smart-deals", highlight: true },
+  { label: "nav.smartDeals", href: "/smart-deals", highlight: true },
 ];
 
 export const Header = () => {
@@ -137,9 +166,9 @@ export const Header = () => {
       {/* Top banner — the universal risk-reversal (applies to the bed traffic
           that actually lands here). */}
       <div className="bg-primary text-primary-foreground text-center py-2.5 text-xs sm:text-sm font-medium px-4">
-        <span className="whitespace-nowrap">Free Canada-Wide Shipping</span>
+        <span className="whitespace-nowrap">{t("common.freeShipping")}</span>
         {" · "}
-        <span className="whitespace-nowrap">30-Day Returns</span>
+        <span className="whitespace-nowrap">{t("common.returns30")}</span>
       </div>
 
       {/* Main header */}
@@ -152,14 +181,14 @@ export const Header = () => {
               <SheetTrigger asChild>
                 <button
                   className="md:hidden flex items-center justify-center w-10 h-10 rounded-full hover:bg-muted transition-colors"
-                  aria-label="Open menu"
+                  aria-label={t("header.openMenu")}
                 >
                   <Menu className="w-5 h-5" />
                 </button>
               </SheetTrigger>
               <SheetContent side="left" className="w-[300px] sm:w-[360px] overflow-y-auto bg-background">
                 <SheetHeader>
-                  <SheetTitle className="text-left">Menu</SheetTitle>
+                  <SheetTitle className="text-left">{t("header.menu")}</SheetTitle>
                 </SheetHeader>
                 <form onSubmit={handleSearchSubmit} className="relative mt-4" role="search">
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
@@ -182,12 +211,12 @@ export const Header = () => {
                               to={item.href}
                               className="flex-1 py-3 text-sm font-medium hover:text-brand-accent transition-colors"
                             >
-                              {item.label}
+                              {t(item.label)}
                             </Link>
                           </SheetClose>
                           <CollapsibleTrigger
                             className="p-3 text-muted-foreground"
-                            aria-label={`Expand ${item.label}`}
+                            aria-label={t("header.expand", { label: t(item.label) })}
                           >
                             <ChevronDown className="w-4 h-4 transition-transform [[data-state=open]_&]:rotate-180" />
                           </CollapsibleTrigger>
@@ -199,7 +228,7 @@ export const Header = () => {
                                 to={sub.href}
                                 className="block py-2 text-sm text-muted-foreground hover:text-brand-accent transition-colors"
                               >
-                                {sub.name}
+                                {t(sub.name)}
                               </Link>
                             </SheetClose>
                           ))}
@@ -213,7 +242,7 @@ export const Header = () => {
                             item.highlight ? "text-brand-accent" : ""
                           }`}
                         >
-                          {item.label}
+                          {t(item.label)}
                         </Link>
                       </SheetClose>
                     )
@@ -240,7 +269,7 @@ export const Header = () => {
           </div>
 
           {/* Logo - Center */}
-          <Link to="/" className="flex flex-col items-center justify-center gap-1 shrink-0" aria-label="Forgali home">
+          <Link to="/" className="flex flex-col items-center justify-center gap-1 shrink-0" aria-label={t("header.home")}>
             <img
               src="/forgali-logo-dark.png"
               alt="Forgali"
@@ -249,7 +278,7 @@ export const Header = () => {
               height={335}
             />
             <p className="hidden sm:block text-[10px] text-muted-foreground tracking-[0.2em]">
-              SOLID WOOD FURNITURE
+              {t("common.tagline")}
             </p>
           </Link>
 
@@ -269,7 +298,7 @@ export const Header = () => {
                 <DropdownMenuTrigger asChild>
                   <button
                     className="flex items-center justify-center w-10 h-10 rounded-full bg-muted hover:bg-muted/70 transition-colors text-sm font-semibold text-brand-accent"
-                    aria-label="Your account"
+                    aria-label={t("header.yourAccount")}
                   >
                     {(customer.firstName?.[0] || customer.email[0]).toUpperCase()}
                   </button>
@@ -277,14 +306,14 @@ export const Header = () => {
                 <DropdownMenuContent align="end" className="w-56">
                   <div className="px-2 py-1.5 text-sm">
                     <div className="font-medium">
-                      {customer.firstName ? `${customer.firstName} ${customer.lastName ?? ""}`.trim() : "Your Account"}
+                      {customer.firstName ? `${customer.firstName} ${customer.lastName ?? ""}`.trim() : t("header.yourAccountTitle")}
                     </div>
                     <div className="text-xs text-muted-foreground truncate">{customer.email}</div>
                   </div>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={customerLogout} className="cursor-pointer">
                     <LogOut className="w-4 h-4 mr-2" />
-                    Sign Out
+                    {t("header.signOut")}
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -292,7 +321,7 @@ export const Header = () => {
               <button
                 onClick={() => setIsLoginDialogOpen(true)}
                 className="flex items-center justify-center w-10 h-10 rounded-full hover:bg-muted transition-colors"
-                aria-label="Sign in to your account"
+                aria-label={t("header.signIn")}
               >
                 <User className="w-5 h-5 text-foreground cursor-pointer" />
               </button>
@@ -300,7 +329,11 @@ export const Header = () => {
             <button
               onClick={() => setIsCartOpen(true)}
               className="relative"
-              aria-label={`Open cart${totalItems > 0 ? `, ${totalItems} item${totalItems === 1 ? "" : "s"}` : ""}`}
+              aria-label={
+                totalItems > 0
+                  ? t(totalItems === 1 ? "header.openCartOne" : "header.openCartMany", { count: totalItems })
+                  : t("header.openCart")
+              }
             >
               <ShoppingCart className="w-5 h-5 text-foreground cursor-pointer" />
               {totalItems > 0 && (
@@ -336,7 +369,7 @@ export const Header = () => {
                           item.highlight ? 'text-brand-accent font-medium' : ''
                         }`}
                       >
-                        {item.label}
+                        {t(item.label)}
                       </NavigationMenuTrigger>
                       <NavigationMenuContent>
                         {/* border/shadow/rounding come from the shared viewport */}
@@ -345,7 +378,7 @@ export const Header = () => {
                             {/* Subcategories */}
                             <div className="space-y-4">
                               <h3 className="font-semibold text-sm text-muted-foreground uppercase tracking-wider">
-                                {item.label}
+                                {t(item.label)}
                               </h3>
                               <ul className="space-y-2">
                                 {item.subcategories.map((sub) => (
@@ -355,7 +388,7 @@ export const Header = () => {
                                         to={sub.href}
                                         className="block text-sm py-1 hover:text-brand-accent transition-colors"
                                       >
-                                        {sub.name}
+                                        {t(sub.name)}
                                       </Link>
                                     </NavigationMenuLink>
                                   </li>
@@ -365,7 +398,7 @@ export const Header = () => {
                                 to={item.href}
                                 className="inline-block text-sm font-medium text-brand-accent hover:underline mt-2"
                               >
-                                Shop All {item.label} →
+                                {t(item.shopAll)}
                               </Link>
                             </div>
                             {/* Featured Image — links to the category like everything else in the panel */}
@@ -379,12 +412,12 @@ export const Header = () => {
                                     src={cdnImage(item.image, 600)}
                                     srcSet={cdnSrcSet(item.image, [400, 600, 900])}
                                     sizes="300px"
-                                    alt={`Shop ${item.label}`}
+                                    alt={t(item.alt)}
                                     className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                                   />
                                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                                   <div className="absolute bottom-4 left-4 text-white">
-                                    <p className="font-semibold group-hover:underline">Shop {item.label} →</p>
+                                    <p className="font-semibold group-hover:underline">{t(item.shop)}</p>
                                   </div>
                                 </Link>
                               </NavigationMenuLink>
@@ -400,7 +433,7 @@ export const Header = () => {
                         ${item.highlight ? 'text-brand-accent font-medium' : ''}
                       `}
                     >
-                      {item.label}
+                      {t(item.label)}
                     </Link>
                   )}
                 </NavigationMenuItem>

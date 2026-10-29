@@ -40,15 +40,15 @@ export const CartDrawer = () => {
     <Sheet open={isCartOpen} onOpenChange={setIsCartOpen}>
       <SheetContent className="w-full sm:max-w-lg bg-background">
         <SheetHeader>
-          <SheetTitle className="text-xl font-bold">Shopping Cart</SheetTitle>
+          <SheetTitle className="text-xl font-bold">{t("cart.title")}</SheetTitle>
         </SheetHeader>
         
         <div className="flex flex-col h-full">
           {items.length === 0 ? (
             <div className="flex-1 flex flex-col items-center justify-center py-12">
-              <p className="text-muted-foreground mb-4">Your cart is empty</p>
+              <p className="text-muted-foreground mb-4">{t("cart.empty")}</p>
               <Button onClick={() => setIsCartOpen(false)} variant="outline">
-                Continue Shopping
+                {t("common.continueShopping")}
               </Button>
             </div>
           ) : (
@@ -69,7 +69,7 @@ export const CartDrawer = () => {
                       {item.unavailable ? (
                         <p className="text-xs text-destructive flex items-center gap-1 mt-1">
                           <AlertTriangle className="w-3 h-3" />
-                          No longer available — please remove
+                          {t("cart.unavailableRemove")}
                         </p>
                       ) : (
                         <p className="text-brand-accent font-bold mt-1">
@@ -79,7 +79,7 @@ export const CartDrawer = () => {
                       <div className="flex items-center gap-2 mt-2">
                         <button
                           onClick={() => updateQuantity(item.product.id, item.quantity - 1, item.variantId)}
-                          aria-label={`Decrease quantity of ${item.product.name}`}
+                          aria-label={t("cart.decrease", { name: item.product.name })}
                           className="p-1 hover:bg-secondary rounded"
                         >
                           <Minus className="w-4 h-4" />
@@ -87,14 +87,14 @@ export const CartDrawer = () => {
                         <span className="w-8 text-center text-sm">{item.quantity}</span>
                         <button
                           onClick={() => updateQuantity(item.product.id, item.quantity + 1, item.variantId)}
-                          aria-label={`Increase quantity of ${item.product.name}`}
+                          aria-label={t("cart.increase", { name: item.product.name })}
                           className="p-1 hover:bg-secondary rounded"
                         >
                           <Plus className="w-4 h-4" />
                         </button>
                         <button
                           onClick={() => removeFromCart(item.product.id, item.variantId)}
-                          aria-label={`Remove ${item.product.name} from cart`}
+                          aria-label={t("cart.remove", { name: item.product.name })}
                           className="ml-auto p-1 hover:bg-destructive/10 text-destructive rounded"
                         >
                           <Trash2 className="w-4 h-4" />
@@ -108,7 +108,7 @@ export const CartDrawer = () => {
                     below the fold on short viewports */}
                 {crossSells.length > 0 && (
                   <div className="border-t border-border pt-3">
-                    <h4 className="text-sm font-semibold mb-2">Complete the room</h4>
+                    <h4 className="text-sm font-semibold mb-2">{t("cart.completeRoom")}</h4>
                     <div className="space-y-1">
                       {crossSells.map(ref => (
                         <button
@@ -139,7 +139,7 @@ export const CartDrawer = () => {
 
               <div className="border-t border-border pt-4 pb-6 space-y-4">
                 <div className="flex justify-between items-center">
-                  <span className="font-medium">Subtotal</span>
+                  <span className="font-medium">{t("cart.subtotal")}</span>
                   <span className="text-xl font-bold">
                     {money(getTotalPrice())}
                   </span>
@@ -150,10 +150,10 @@ export const CartDrawer = () => {
                     reads before the payment page and has to carry them. */}
                 <div className="space-y-1">
                   <p className="text-sm text-muted-foreground">
-                    Free shipping · arrives in 12-18 business days · taxes calculated at checkout
+                    {t("cart.shippingNote")}
                   </p>
                   <p className="text-xs text-muted-foreground">
-                    Or pay in 4 interest-free payments with Afterpay.
+                    {t("cart.afterpay")}
                   </p>
                 </div>
                 {isShopifyConfigured() ? (
@@ -162,17 +162,15 @@ export const CartDrawer = () => {
                     disabled={isCheckoutLoading}
                     className="w-full bg-brand-positive hover:bg-brand-positive-hover text-white py-6 text-lg font-semibold"
                   >
-                    {isCheckoutLoading ? "Processing..." : "Checkout"}
+                    {isCheckoutLoading ? t("processing") : t("cart.checkout")}
                   </Button>
                 ) : (
                   <div className="space-y-2">
                     <Button disabled className="w-full py-6 text-lg font-semibold">
-                      Checkout temporarily unavailable
+                      {t("common.checkoutUnavailable")}
                     </Button>
                     <p className="text-sm text-muted-foreground">
-                      We can't start the secure checkout right now. Please try again shortly, or
-                      email <a href="mailto:daniel@forgali.com" className="underline">daniel@forgali.com</a> and
-                      we'll complete your order by email. Your cart is saved.
+                      {t("common.checkoutUnavailableBody1")}<a href="mailto:daniel@forgali.com" className="underline">daniel@forgali.com</a>{t("common.checkoutUnavailableBody2")}
                     </p>
                   </div>
                 )}
@@ -181,7 +179,7 @@ export const CartDrawer = () => {
                   className="w-full"
                   onClick={() => setIsCartOpen(false)}
                 >
-                  Continue Shopping
+                  {t("common.continueShopping")}
                 </Button>
               </div>
             </>

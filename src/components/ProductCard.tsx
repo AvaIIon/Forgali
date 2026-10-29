@@ -38,11 +38,11 @@ export const ProductCard = ({
       <div className="relative aspect-square overflow-hidden rounded-lg mb-3 bg-secondary">
         {savings ? (
           <span className="absolute top-3 left-3 save-badge">
-            save ${savings}
+            {t("product.saveBadge", { amount: savings })}
           </span>
         ) : null}
         {badge === "new" && (
-          <span className="absolute top-3 left-3 new-badge">NEW</span>
+          <span className="absolute top-3 left-3 new-badge">{t("product.new")}</span>
         )}
         <img
           src={cdnImage(imageSrc, 600)}

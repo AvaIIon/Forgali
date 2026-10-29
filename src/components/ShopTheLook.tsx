@@ -79,7 +79,7 @@ const HotspotPopover = ({
     <Popover>
       <PopoverTrigger asChild>
         <button
-          aria-label={`Shop ${title}`}
+          aria-label={t("look.shopItem", { title })}
           style={{ top: coords.top, left: coords.left }}
           // after:-inset-2.5 expands the tap target to ~48px (mobile guideline)
           // while the visible dot stays 28px
@@ -119,7 +119,7 @@ const HotspotPopover = ({
               to={`/product/${spot.handle}`}
               className="mt-2 inline-block text-sm font-semibold text-brand-accent hover:underline"
             >
-              Shop Now →
+              {t("look.shopNow")}
             </Link>
           </div>
         </div>
@@ -193,11 +193,11 @@ export const ShopTheLook = () => {
   };
 
   return (
-    <section aria-label="Shop the Look" className="py-16">
+    <section aria-label={t("look.aria")} className="py-16">
       <div className="mx-auto mb-10 max-w-rail px-4 text-center">
-        <h2 className="text-3xl font-bold">Made for Real Gatherings</h2>
+        <h2 className="text-3xl font-bold">{t("look.title")}</h2>
         <p className="mt-2 text-lg text-muted-foreground">
-          Shop the look — tap a number to shop the piece
+          {t("look.lead")}
         </p>
       </div>
 
@@ -206,7 +206,7 @@ export const ShopTheLook = () => {
           <source media="(max-width: 767px)" srcSet={lookMobile} />
           <img
             src={lookDesktop}
-            alt="Plank & Beam dining room — Lido oval dining table with Sereno dining chairs and an Arcata console table"
+            alt={t("look.alt")}
             loading="lazy"
             className="absolute inset-0 h-full w-full object-cover"
           />
@@ -249,25 +249,24 @@ export const ShopTheLook = () => {
           className="rounded-full bg-brand px-8 py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-hover disabled:opacity-70"
         >
           {lookState === "adding"
-            ? "Adding the look…"
+            ? t("look.adding")
             : lookState === "added"
-              ? "Look added to cart ✓"
+              ? t("look.added")
               : lookState === "partial"
-                ? `Added ${HOTSPOTS.length - missingPieces.length} of ${HOTSPOTS.length} pieces`
-                : `Add the Whole Look to Cart · ${money(lookTotal)}`}
+                ? t("look.partial", { added: HOTSPOTS.length - missingPieces.length, total: HOTSPOTS.length })
+                : t("look.addAll", { total: money(lookTotal) })}
         </button>
         <p className="mt-2 text-xs text-muted-foreground">
-          Adds the table, one chair, and the console in the finishes shown.
+          {t("look.note")}
         </p>
         {lookState === "partial" && (
           <p role="status" className="mt-2 text-sm text-muted-foreground">
-            Currently unavailable: {missingPieces.join(", ")} — the rest of the
-            look is in your cart.
+            {t("look.partialNote", { pieces: missingPieces.join(", ") })}
           </p>
         )}
         {lookState === "error" && (
           <p role="alert" className="mt-2 text-sm text-red-500">
-            Couldn&rsquo;t add the look — try the pieces individually.
+            {t("look.error")}
           </p>
         )}
       </div>
