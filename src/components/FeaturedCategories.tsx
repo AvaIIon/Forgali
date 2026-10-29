@@ -1,37 +1,40 @@
 import { Link } from "@/i18n/router";
+import { useLocale } from "@/i18n/LocaleContext";
+import type { MessageKey } from "@/i18n/messages";
 import { cdnImage, cdnSrcSet, CARD_SIZES } from "@/lib/imageProxy";
 
 // Mirrors the top-nav category structure: Dining · Living · Bedroom ·
 // Storage & Accessories. Bedroom is the aggregate category (bunk/loft/single
 // have tabs on its category page). All imagery on Forgali's own Shopify CDN.
-const categories = [
+const categories: Array<{ name: MessageKey; href: string; image: string }> = [
   {
-    name: "Dining",
+    name: "nav.dining",
     href: "/category/dining",
     image: "https://cdn.shopify.com/s/files/1/0972/6492/6995/files/3400388400-155__1.jpg?v=1783608444",
   },
   {
-    name: "Living",
+    name: "nav.living",
     href: "/category/living",
     image: "https://cdn.shopify.com/s/files/1/0972/6492/6995/files/2600567600-016__1.jpg?v=1783608423",
   },
   {
-    name: "Bedroom",
+    name: "nav.bedroom",
     href: "/category/bedroom",
     image: "https://cdn.shopify.com/s/files/1/0972/6492/6995/files/88ebbdad-195271-181__2.jpg?v=1773962026",
   },
   {
-    name: "Storage & Accessories",
+    name: "nav.storage",
     href: "/category/accessories",
     image: "https://cdn.shopify.com/s/files/1/0972/6492/6995/files/99a332ac-solid-wood-max-and-lily-6-drawer-dresser-in-white-finish.jpg?v=1773961846",
   },
 ];
 
 export const FeaturedCategories = () => {
+  const { t } = useLocale();
   return (
     <section className="py-16 px-4 bg-brand-tint/30">
       <div className="max-w-rail mx-auto">
-        <h2 className="text-3xl font-bold text-center mb-12">Shop By Category</h2>
+        <h2 className="text-3xl font-bold text-center mb-12">{t("home.shopByCategory")}</h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
           {categories.map((category) => (
             <Link 
@@ -44,12 +47,12 @@ export const FeaturedCategories = () => {
                   src={cdnImage(category.image, 600)}
                   srcSet={cdnSrcSet(category.image, [300, 450, 600, 900])}
                   sizes={CARD_SIZES}
-                  alt={category.name}
+                  alt={t(category.name)}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                 <div className="absolute bottom-4 left-4 right-4">
-                  <h3 className="text-white font-semibold text-lg">{category.name}</h3>
+                  <h3 className="text-white font-semibold text-lg">{t(category.name)}</h3>
                 </div>
               </div>
             </Link>

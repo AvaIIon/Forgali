@@ -1,4 +1,6 @@
 import { Link, useParams, useSearchParams } from "@/i18n/router";
+import { useLocale } from "@/i18n/LocaleContext";
+import { subcategoryName, type MessageKey } from "@/i18n/messages";
 import { ConvertedProduct } from "@/services/shopifyService";
 import { categorySubcategories, productMatchesSubcategory } from "@/lib/subcategories";
 
@@ -12,6 +14,7 @@ interface SubcategoryTabsProps {
 export const SubcategoryTabs = ({ products }: SubcategoryTabsProps) => {
   const { category } = useParams<{ category: string }>();
   const [searchParams] = useSearchParams();
+  const { t, locale } = useLocale();
   const selectedSubcategory = searchParams.get('subcategory');
 
   if (!category) return null;
@@ -19,10 +22,10 @@ export const SubcategoryTabs = ({ products }: SubcategoryTabsProps) => {
   // "bedroom" aggregates the bed categories — its tabs link to real category
   // pages instead of ?subcategory filters.
   if (category === 'bedroom') {
-    const bedCategories = [
-      { href: '/category/bunk-beds', name: 'Bunk Beds' },
-      { href: '/category/loft-beds', name: 'Loft Beds' },
-      { href: '/category/single-beds', name: 'Single Beds' },
+    const bedCategories: Array<{ href: string; name: MessageKey }> = [
+      { href: '/category/bunk-beds', name: 'nav.bunkBeds' },
+      { href: '/category/loft-beds', name: 'nav.loftBeds' },
+      { href: '/category/single-beds', name: 'nav.singleBeds' },
     ];
     return (
       <div className="border-b border-border bg-background sticky top-0 z-30">
@@ -32,7 +35,7 @@ export const SubcategoryTabs = ({ products }: SubcategoryTabsProps) => {
               to="/category/bedroom"
               className="px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors bg-brand text-white"
             >
-              Shop All Bedroom
+              {t("tabs.shopAllBedroom")}
             </Link>
             {bedCategories.map((sub) => (
               <Link
@@ -40,7 +43,7 @@ export const SubcategoryTabs = ({ products }: SubcategoryTabsProps) => {
                 to={sub.href}
                 className="px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors bg-brand-tint text-foreground hover:bg-brand-tint-hover"
               >
-                {sub.name}
+                {t(sub.name)}
               </Link>
             ))}
           </div>
@@ -63,7 +66,7 @@ export const SubcategoryTabs = ({ products }: SubcategoryTabsProps) => {
                   : 'bg-brand-tint text-foreground hover:bg-brand-tint-hover'
               }`}
             >
-              Shop All Mattresses
+              {t("tabs.shopAllMattresses")}
             </Link>
           </div>
         </div>
@@ -87,7 +90,7 @@ export const SubcategoryTabs = ({ products }: SubcategoryTabsProps) => {
                 : 'bg-brand-tint text-foreground hover:bg-brand-tint-hover'
             }`}
           >
-            Shop All
+            {t("tabs.shopAll")}
           </Link>
           {subcategories.map((sub) => (
             <Link
@@ -99,7 +102,7 @@ export const SubcategoryTabs = ({ products }: SubcategoryTabsProps) => {
                   : 'bg-brand-tint text-foreground hover:bg-brand-tint-hover'
               }`}
             >
-              {sub.name}
+              {subcategoryName(locale, sub.slug, sub.name)}
             </Link>
           ))}
         </div>

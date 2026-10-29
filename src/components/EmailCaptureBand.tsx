@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { Loader2, Mail } from "lucide-react";
 import { subscribeEmail } from "@/services/shopifyService";
+import { useLocale } from "@/i18n/LocaleContext";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
 // Pre-footer newsletter email capture. Submitting the form is the express
 // consent (CASL): the copy states exactly what the signup is.
 export const EmailCaptureBand = () => {
+  const { t } = useLocale();
   const [email, setEmail] = useState("");
   const [state, setState] = useState<"idle" | "loading" | "done" | "already" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
@@ -16,7 +18,7 @@ export const EmailCaptureBand = () => {
     const trimmed = email.trim();
     if (!EMAIL_RE.test(trimmed)) {
       setState("error");
-      setErrorMsg("Please enter a valid email address.");
+      setErrorMsg(t("newsletter.invalidEmail"));
       return;
     }
     setState("loading");
@@ -26,35 +28,32 @@ export const EmailCaptureBand = () => {
         setState(res.alreadySubscribed ? "already" : "done");
       } else {
         setState("error");
-        setErrorMsg(res.message || "Something went wrong — please try again.");
+        setErrorMsg(res.message || t("common.somethingWrong"));
       }
     } catch {
       setState("error");
-      setErrorMsg("Something went wrong — please try again.");
+      setErrorMsg(t("common.somethingWrong"));
     }
   };
 
   return (
-    <section aria-label="Email signup" className="bg-brand px-4 py-14 text-white">
+    <section aria-label={t("newsletter.aria")} className="bg-brand px-4 py-14 text-white">
       <div className="mx-auto max-w-2xl text-center">
         <h2 className="text-2xl font-bold md:text-3xl">
-          Join the Forgali List
+          {t("newsletter.title")}
         </h2>
         <p className="mx-auto mt-3 max-w-xl text-white/85">
-          News, offers, and early access to new arrivals — straight to your
-          inbox.
+          {t("newsletter.lead")}
         </p>
 
         {state === "done" || state === "already" ? (
           <p role="status" className="mt-6 rounded-full bg-white/15 px-6 py-3 text-sm font-medium">
-            {state === "done"
-              ? "You're in! Watch your inbox for news and offers."
-              : "This email already has a Forgali account — you're on the list."}
+            {state === "done" ? t("newsletter.done") : t("newsletter.already")}
           </p>
         ) : (
           <form onSubmit={submit} className="mx-auto mt-6 flex max-w-md flex-col gap-3 sm:flex-row">
             <label htmlFor="newsletter-email" className="sr-only">
-              Email address
+              {t("newsletter.emailLabel")}
             </label>
             <div className="relative flex-1">
               <Mail className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-white/60" />
@@ -62,7 +61,7 @@ export const EmailCaptureBand = () => {
                 id="newsletter-email"
                 type="email"
                 autoComplete="email"
-                placeholder="Your email address"
+                placeholder={t("newsletter.placeholder")}
                 value={email}
                 onChange={(e) => {
                   setEmail(e.target.value);
@@ -79,7 +78,7 @@ export const EmailCaptureBand = () => {
               {state === "loading" ? (
                 <Loader2 className="mx-auto h-4 w-4 animate-spin" />
               ) : (
-                "Subscribe"
+                t("newsletter.subscribe")
               )}
             </button>
           </form>

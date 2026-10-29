@@ -6,6 +6,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
+import { useLocale } from "@/i18n/LocaleContext";
+import type { MessageKey } from "@/i18n/messages";
 import { ConvertedProduct } from "@/services/shopifyService";
 import { useMemo } from "react";
 
@@ -27,22 +29,29 @@ interface CategoryFiltersProps {
   category?: string;
 }
 
-const priceRanges = [
-  { value: 'under-500', label: 'Under $500' },
-  { value: '500-1000', label: '$500 - $1,000' },
-  { value: '1000-2000', label: '$1,000 - $2,000' },
-  { value: 'over-2000', label: 'Over $2,000' },
+// Labels are dictionary keys (src/i18n/messages.ts); the values are what the
+// filters match against, so they stay English.
+const priceRanges: { value: string; label: MessageKey }[] = [
+  { value: 'under-500', label: 'filter.under500' },
+  { value: '500-1000', label: 'filter.500to1000' },
+  { value: '1000-2000', label: 'filter.1000to2000' },
+  { value: 'over-2000', label: 'filter.over2000' },
 ];
 
-const bedSizes = ['Twin', 'Full', 'Queen', 'Twin XL'];
+const bedSizes: { value: string; label: MessageKey }[] = [
+  { value: 'Twin', label: 'filter.sizeTwin' },
+  { value: 'Full', label: 'filter.sizeFull' },
+  { value: 'Queen', label: 'filter.sizeQueen' },
+  { value: 'Twin XL', label: 'filter.sizeTwinXl' },
+];
 // Bed Size only makes sense where products HAVE bed sizes — on Dining/Living
 // it guaranteed an empty result for any selection.
 const BED_SIZE_CATEGORIES = new Set(['bunk-beds', 'loft-beds', 'single-beds', 'bedroom', 'mattresses']);
 
-const sortOptions: { value: SortOption; label: string }[] = [
-  { value: 'featured', label: 'Featured' },
-  { value: 'price-low', label: 'Price: Low to High' },
-  { value: 'price-high', label: 'Price: High to Low' },
+const sortOptions: { value: SortOption; label: MessageKey }[] = [
+  { value: 'featured', label: 'sort.featured' },
+  { value: 'price-low', label: 'sort.priceLow' },
+  { value: 'price-high', label: 'sort.priceHigh' },
 ];
 
 export const CategoryFilters = ({
@@ -53,7 +62,8 @@ export const CategoryFilters = ({
   products,
   category,
 }: CategoryFiltersProps) => {
-  
+  const { t } = useLocale();
+
   // Get unique finishes from products
   const availableFinishes = useMemo(() => {
     const finishSet = new Set<string>();
@@ -80,7 +90,9 @@ export const CategoryFilters = ({
   };
 
   const hasActiveFilters = filters.priceRange || filters.finish || filters.bedSize;
-  const currentSortLabel = sortOptions.find(o => o.value === sortBy)?.label || 'Sort by';
+  const currentSortLabel = t(sortOptions.find(o => o.value === sortBy)?.label ?? 'filter.sortBy');
+  const currentPriceLabel = priceRanges.find(p => p.value === filters.priceRange)?.label;
+  const currentBedSizeLabel = bedSizes.find(s => s.value === filters.bedSize)?.label;
 
   return (
     <div className="flex flex-wrap items-center justify-between gap-4 py-6 px-4 max-w-rail mx-auto border-b border-border">
@@ -92,7 +104,7 @@ export const CategoryFilters = ({
               variant="outline" 
               className={`rounded-full px-4 py-2 h-auto text-sm font-normal ${filters.priceRange ? 'bg-brand text-white border-brand' : ''}`}
             >
-              {filters.priceRange ? priceRanges.find(p => p.value === filters.priceRange)?.label : 'Price'}
+              {currentPriceLabel ? t(currentPriceLabel) : t('filter.price')}
               <ChevronDown className="w-4 h-4 ml-1.5" />
             </Button>
           </DropdownMenuTrigger>
@@ -103,7 +115,7 @@ export const CategoryFilters = ({
                 onClick={() => handlePriceChange(range.value)}
                 className={filters.priceRange === range.value ? 'bg-brand/10' : ''}
               >
-                {range.label}
+                {t(range.label)}
               </DropdownMenuItem>
             ))}
           </DropdownMenuContent>
@@ -117,18 +129,18 @@ export const CategoryFilters = ({
               variant="outline" 
               className={`rounded-full px-4 py-2 h-auto text-sm font-normal ${filters.bedSize ? 'bg-brand text-white border-brand' : ''}`}
             >
-              {filters.bedSize || 'Bed Size'}
+              {currentBedSizeLabel ? t(currentBedSizeLabel) : t('filter.bedSize')}
               <ChevronDown className="w-4 h-4 ml-1.5" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="start">
             {bedSizes.map((size) => (
               <DropdownMenuItem
-                key={size}
-                onClick={() => handleBedSizeChange(size)}
-                className={filters.bedSize === size ? 'bg-brand/10' : ''}
+                key={size.value}
+                onClick={() => handleBedSizeChange(size.value)}
+                className={filters.bedSize === size.value ? 'bg-brand/10' : ''}
               >
-                {size}
+                {t(size.label)}
               </DropdownMenuItem>
             ))}
           </DropdownMenuContent>
@@ -143,7 +155,7 @@ export const CategoryFilters = ({
                 variant="outline" 
                 className={`rounded-full px-4 py-2 h-auto text-sm font-normal ${filters.finish ? 'bg-brand text-white border-brand' : ''}`}
               >
-                {filters.finish || 'Finish'}
+                {filters.finish || t('filter.finish')}
                 <ChevronDown className="w-4 h-4 ml-1.5" />
               </Button>
             </DropdownMenuTrigger>
@@ -170,7 +182,7 @@ export const CategoryFilters = ({
             className="rounded-full px-3 py-1 h-auto text-sm text-muted-foreground hover:text-foreground"
           >
             <X className="w-4 h-4 mr-1" />
-            Clear
+            {t('filter.clear')}
           </Button>
         )}
       </div>
@@ -190,7 +202,7 @@ export const CategoryFilters = ({
               onClick={() => onSortChange(option.value)}
               className={sortBy === option.value ? 'bg-brand/10' : ''}
             >
-              {option.label}
+              {t(option.label)}
             </DropdownMenuItem>
           ))}
         </DropdownMenuContent>
