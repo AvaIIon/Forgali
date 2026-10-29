@@ -10,6 +10,17 @@ exposes them (`useLocale()` → `locale`, `lp()` for paths, `t()` for UI strings
 
 - Components and pages import `Link`/`useNavigate` from `@/i18n/router`, which
   prefixes internal paths automatically. Keep writing locale-free paths.
+- Every shopper-visible UI string (header, footer, cart, product page, checkout,
+  static pages, homepage sections, `aria-label`/`alt`/`placeholder` text and the
+  inline `<Seo>` titles) is a key in `src/i18n/messages.ts`, rendered through
+  `t(key)`; `t(key, { count })` fills `{count}`-style placeholders and plurals
+  are separate keys picked at the call site. English values are the strings the
+  English pages always rendered; the `fr` object is typed from `en`, so a key
+  missing in French fails `tsc`. The same file carries the small slug-keyed
+  French maps for subcategory tabs, category names and the product dimension
+  table, plus the option-label overrides. Editorial copy in `src/lib/*` (category
+  SEO, guides, static-page SEO, subcategory names, site FAQs) is still
+  English-only and renders as such under `/fr` until Phase 4.
 - `shopifyService.ts` adds `@inContext(language: …)` to every Storefront
   operation from the URL prefix, so Shopify returns its French translations
   and `cartCreate` hands back a French checkout.
