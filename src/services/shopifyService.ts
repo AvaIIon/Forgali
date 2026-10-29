@@ -846,7 +846,11 @@ export const createShopifyCart = async () => {
 // could silently drop items and check out a subset). totalQuantity lets the
 // caller verify nothing was dropped before redirecting to checkout.
 export const createShopifyCartWithLines = async (
-  lines: Array<{ merchandiseId: string; quantity: number }>
+  lines: Array<{ merchandiseId: string; quantity: number }>,
+  // Cart attributes ride along to the order (note attributes) and to the
+  // checkout pixel (event.data.checkout.attributes). Used for the Google Ads
+  // click IDs — see src/lib/adClick.ts.
+  attributes: Array<{ key: string; value: string }> = []
 ) => {
   const data = await shopifyFetch<{
     cartCreate: {
@@ -860,7 +864,7 @@ export const createShopifyCartWithLines = async (
         userErrors { field message }
       }
     }`,
-    { input: { lines } }
+    { input: attributes.length > 0 ? { lines, attributes } : { lines } }
   );
 
   if (data.cartCreate.userErrors.length > 0) {

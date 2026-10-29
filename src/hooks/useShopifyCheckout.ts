@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useCart, CHECKOUT_CART_KEY } from "@/context/CartContext";
 import { createShopifyCartWithLines } from "@/services/shopifyService";
+import { adClickCartAttributes } from "@/lib/adClick";
 
 /**
  * Starts the Shopify handoff from wherever the shopper asked to check out.
@@ -40,7 +41,9 @@ export const useShopifyCheckout = () => {
 
       // One atomic cartCreate with all lines (sequential per-line adds could
       // drop an item and check out a subset without the customer noticing).
-      const cart = await createShopifyCartWithLines(lines);
+      // The Google Ads click IDs go along as cart attributes so the checkout
+      // pixel can attribute the purchase (src/lib/adClick.ts).
+      const cart = await createShopifyCartWithLines(lines, adClickCartAttributes());
 
       const expectedQuantity = items.reduce((n, i) => n + i.quantity, 0);
       if (cart.totalQuantity !== expectedQuantity) {
