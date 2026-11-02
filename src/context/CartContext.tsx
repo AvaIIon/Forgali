@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect, useCallback, useRef, ReactNode } from "react";
 import { ConvertedProduct, fetchVariantStates, fetchCartStatus, isShopifyConfigured } from "@/services/shopifyService";
+import { trackPinterest } from "@/lib/pinterest";
 
 const CART_STORAGE_KEY = "forgali_cart";
 // Cart id recorded at checkout handoff; on the next visit we ask Shopify
@@ -159,6 +160,19 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
       return [...prev, { product, quantity, selectedFinish, variantId: resolvedVariantId, unitPrice }];
     });
     setIsCartOpen(true);
+    trackPinterest("addtocart", {
+      value: unitPrice * quantity,
+      order_quantity: quantity,
+      currency: "CAD",
+      line_items: [{
+        product_id: product.handle,
+        product_name: product.name,
+        product_price: unitPrice,
+        product_quantity: quantity,
+        product_category: product.productType,
+        product_variant_id: resolvedVariantId,
+      }],
+    });
   };
 
   const removeFromCart = (productId: string, variantId?: string) => {

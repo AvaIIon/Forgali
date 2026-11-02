@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Link, useSearchParams } from "@/i18n/router";
 import { Loader2, SearchX } from "lucide-react";
 import { Header } from "@/components/Header";
@@ -7,6 +8,7 @@ import { useShopifyProductSearch } from "@/hooks/useShopifyProducts";
 import { Seo } from "@/components/Seo";
 import { useLocale } from "@/i18n/LocaleContext";
 import type { MessageKey } from "@/i18n/messages";
+import { trackPinterest } from "@/lib/pinterest";
 
 const POPULAR_CATEGORIES: Array<{ label: MessageKey; href: string }> = [
   { label: "nav.bunkBeds", href: "/category/bunk-beds" },
@@ -21,6 +23,10 @@ const SearchPage = () => {
   const [searchParams] = useSearchParams();
   const query = searchParams.get("q") ?? "";
   const { results, loading, error } = useShopifyProductSearch(query);
+
+  useEffect(() => {
+    if (query.trim()) trackPinterest("search", { search_query: query.trim() });
+  }, [query]);
 
   return (
     <div className="min-h-screen bg-background">

@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link, useParams, useSearchParams } from "@/i18n/router";
 import { Loader2 } from "lucide-react";
 import { Header } from "@/components/Header";
@@ -14,6 +14,7 @@ import { productMatchesSubcategory } from "@/lib/subcategories";
 import { faqPageJsonLd, getBedSeo } from "@/lib/categorySeo";
 import { categoryInfoMap } from "@/lib/categoryInfo";
 import { useLocale } from "@/i18n/LocaleContext";
+import { trackPinterest } from "@/lib/pinterest";
 
 // Category info for headers lives in @/lib/categoryInfo — shared with
 // middleware.ts so the edge and the SPA agree on which categories exist.
@@ -111,6 +112,15 @@ const CategoryPage = () => {
     );
     return sorted;
   }, [filteredProducts, sortBy]);
+
+  // Pinterest 'viewcategory' — per category/subcategory view, not per filter change.
+  useEffect(() => {
+    if (!categoryInfo) return;
+    trackPinterest("viewcategory", {
+      line_items: [{ product_category: subcategory ? `${category}/${subcategory}` : category }],
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [category, subcategory]);
 
   // Unknown category → real 404 content with noindex (after all hooks).
   if (!categoryInfo) {

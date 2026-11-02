@@ -14,6 +14,7 @@ import { getVariantImages, ConvertedProduct } from "@/services/shopifyService";
 import { getFinishColor } from "@/lib/finishColors";
 import { cdnImage, cdnSrcSet, CARD_SIZES } from "@/lib/imageProxy";
 import { categorySubcategories, productMatchesSubcategory } from "@/lib/subcategories";
+import { trackPinterest } from "@/lib/pinterest";
 
 const MAX_QUANTITY = 10;
 
@@ -96,6 +97,21 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [imageErrors, setImageErrors] = useState<Set<number>>(new Set());
+
+  // Pinterest 'pagevisit' — once per product (this view is keyed by product.id).
+  // Priced like the feed: the variant the page auto-selects on load.
+  useEffect(() => {
+    const shown = product.variants.find(v => v.availableForSale) ?? product.variants[0];
+    trackPinterest("pagevisit", {
+      line_items: [{
+        product_id: product.handle,
+        product_name: product.name,
+        product_price: shown?.price ?? product.price,
+        product_category: product.productType,
+      }],
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Resolve the product's subcategory with the SAME matcher the tabs use, so
   // the breadcrumb can never link to a tab that would render empty.

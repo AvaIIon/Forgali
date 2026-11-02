@@ -1,5 +1,9 @@
 // Generates public/google-feed.xml — a Google Merchant Center product feed
 // (RSS 2.0 with the g: namespace) from the Storefront API at build time.
+// The same URL is the Pinterest catalog's data source: Pinterest reads the
+// Google RSS format, and its tag events send product_id = handle, which is
+// <g:id> here — keep the two equal or catalog ads can't match a visit to a
+// product.
 //
 // Same contract as generate-sitemap.mjs: runs in npm `prebuild`, best-effort —
 // any failure exits 0 so a feed hiccup can NEVER break a deploy; the committed
@@ -58,6 +62,7 @@ async function fetchProducts() {
         description(truncateAt: 4900)
         seo { title description }
         featuredImage { url }
+        images(first: 11) { nodes { url } }
         variants(first: 25) { nodes { price { amount currencyCode } availableForSale } }
       } } }`;
     const controller = new AbortController();
@@ -105,18 +110,29 @@ async function main() {
       const brand = /plank\s*(?:\+|&|and)\s*beam/i.test(p.title) ? "Plank & Beam"
         : /maxtrix/i.test(p.title) ? "Maxtrix"
         : "Forgali";
+      // Up to 10 extra photos (both Google and Pinterest cap it there);
+      // Pinterest turns each one into its own product Pin.
+      const extraImages = (p.images?.nodes ?? [])
+        .map((img) => img.url)
+        .filter((url) => url && url !== p.featuredImage.url)
+        .slice(0, 10)
+        .map((url) => `\n    <g:additional_image_link>${esc(url)}</g:additional_image_link>`)
+        .join("");
+      const googleCategory = GOOGLE_CATEGORY[(p.productType || "").toLowerCase()];
       return `  <item>
     <g:id>${esc(p.handle)}</g:id>
     <g:title>${esc(p.title)}</g:title>
     <g:description>${esc((p.description || p.title).slice(0, 4900))}</g:description>
     <g:link>${SITE}/product/${esc(p.handle)}</g:link>
-    <g:image_link>${esc(p.featuredImage.url)}</g:image_link>
+    <g:image_link>${esc(p.featuredImage.url)}</g:image_link>${extraImages}
     <g:price>${price}</g:price>
     <g:availability>${v.availableForSale ? "in stock" : "out of stock"}</g:availability>
     <g:condition>new</g:condition>
     <g:brand>${esc(brand)}</g:brand>
     <g:identifier_exists>false</g:identifier_exists>
-    <g:product_type>${esc(p.productType || "Furniture")}</g:product_type>
+    <g:product_type>${esc(p.productType || "Furniture")}</g:product_type>${googleCategory ? `
+    <g:google_product_category>${googleCategory}</g:google_product_category>` : ""}
+    <g:custom_label_0>${feedRoom(p)}</g:custom_label_0>
     <g:shipping>
       <g:country>CA</g:country>
       <g:service>Standard</g:service>
@@ -238,6 +254,49 @@ ${items.join("\n")}
     Object.entries(cats).map(([k, v]) => `${k}=${v.length}`).join(" ")
   );
 }
+
+// Google product taxonomy IDs by Shopify productType (lowercased), checked
+// against taxonomy-with-ids.en-US.txt (version 2021-09-21). Types missing here
+// ("Accessory" covers desks, drawers and guard rails alike) get no category
+// rather than a wrong one — Merchant Center and Pinterest then infer it.
+const GOOGLE_CATEGORY = {
+  "dining table": 4355, // Furniture > Tables > Kitchen & Dining Room Tables
+  "outdoor table": 2684, // Furniture > Outdoor Furniture > Outdoor Tables
+  "dining chair": 5886, // Furniture > Chairs > Kitchen & Dining Room Chairs
+  "counter chair": 1463, // Furniture > Chairs > Table & Bar Stools
+  "bar chair": 1463,
+  "bar stool": 1463,
+  "counter stool": 1463,
+  "dining bench": 6850, // Furniture > Benches > Kitchen & Dining Benches
+  "dining set": 6347, // Furniture > Furniture Sets > Kitchen & Dining Furniture Sets
+  "coffee table": 1395, // Furniture > Tables > Accent Tables > Coffee Tables
+  "console table": 1602, // Furniture > Tables > Accent Tables > Sofa Tables
+  "side table": 1549, // Furniture > Tables > Accent Tables > End Tables
+  "end table": 1549,
+  "sideboard": 447, // Furniture > Cabinets & Storage > Buffets & Sideboards
+  "tv stand": 457, // Furniture > Entertainment Centers & TV Stands
+  "media console": 457,
+  "shelf": 6372, // Furniture > Shelving > Wall Shelves & Ledges (the Camden mantels)
+  "bookshelf": 465, // Furniture > Shelving > Bookcases & Standing Shelves
+  "entryway bench": 6851, // Furniture > Benches > Storage & Entryway Benches
+  "outdoor bench": 5044, // Furniture > Outdoor Furniture > Outdoor Seating > Outdoor Benches
+  "bunk bed": 505764, // Furniture > Beds & Accessories > Beds & Bed Frames
+  "loft bed": 505764,
+  "bed": 505764,
+  "mattress": 2696, // Furniture > Beds & Accessories > Mattresses
+  "dresser": 4195, // Furniture > Cabinets & Storage > Dressers
+  "nightstand": 462, // Furniture > Tables > Nightstands
+};
+
+// custom_label_0: the room a product sells into. Pinterest and Google can both
+// build product groups on it, so a campaign can be "dining + living only"
+// without listing every productType.
+const feedRoom = (p) => {
+  const category = categorize(p);
+  return category === "dining" || category === "living" || category === "mattresses"
+    ? category
+    : "bedroom";
+};
 
 // Port of the SPA's getCategoryFromProduct — see the comment above its caller.
 const DINING_TYPES = ['dining table', 'dining chair', 'dining set', 'dining bench', 'counter chair', 'bar chair', 'bar stool', 'counter stool', 'outdoor table'];
