@@ -70,6 +70,14 @@
          an <img> inside <noscript> inside <head> is an HTML parse error that
          hard-fails the Vite build. Do not move it back up here. -->
 
+    <!-- Pinterest domain claim for forgali.com (business account "Forgali",
+         daniel@forgali.com). Pinterest re-checks this tag in the raw homepage
+         HTML, so keep it here, OUTSIDE the routehead markers, for as long as
+         the website stays claimed.
+         The Pinterest tag itself is NOT in this file: it loads from
+         src/lib/pinterest.ts (initPinterestTag in main.tsx). -->
+    <meta name="p:domain_verify" content="1624827260664e9c179181be105d4e7b"/>
+
     <!-- Contentsquare tag (Hotjar's platform): session replay + heatmaps for
          project "Forgali" (tag e834394607057, dashboard at app.contentsquare.com).
          Same rules as the tags above: keep OUTSIDE the routehead markers, and CSP
