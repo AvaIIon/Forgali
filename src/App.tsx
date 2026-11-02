@@ -9,6 +9,7 @@ import { CustomerProvider } from "@/context/CustomerContext";
 import { CartDrawer } from "@/components/CartDrawer";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import { MetaPixel } from "@/components/MetaPixel";
+import { PinterestTag } from "@/components/PinterestTag";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import CategoryPage from "./pages/CategoryPage";
@@ -66,6 +67,7 @@ const App = () => (
         <LocaleProvider>
           <ScrollToTop />
           <MetaPixel />
+          <PinterestTag />
           <CustomerProvider>
             <CartProvider>
               <TooltipProvider>
