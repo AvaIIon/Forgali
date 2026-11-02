@@ -13,15 +13,21 @@
 // order as note attributes and reach the pixel as
 // event.data.checkout.attributes, where the pixel replays them into the
 // cookies gtag reads before sending the conversion.
+//
+// Pinterest has the same problem with the same fix: its ads append ?epik=,
+// the Pinterest tag keeps it in an _epik cookie on forgali.com only, and the
+// "Pinterest Checkout" custom pixel replays the epik attribute into _epik
+// before it sends the checkout event (see src/lib/pinterest.ts).
 
 const STORAGE_KEY = 'forgali_ad_click';
 const MAX_AGE_MS = 90 * 24 * 60 * 60 * 1000;
-const CLICK_PARAMS = ['gclid', 'gbraid', 'wbraid'] as const;
+const CLICK_PARAMS = ['gclid', 'gbraid', 'wbraid', 'epik'] as const;
 type ClickParam = (typeof CLICK_PARAMS)[number];
 type StoredClick = { ids: Partial<Record<ClickParam, string>>; ts: number };
 
-// Click IDs are URL-safe tokens; anything else is not one and is dropped.
-const CLICK_ID = /^[A-Za-z0-9_-]{1,200}$/;
+// Click IDs are URL-safe tokens (epik is base64, so it may also carry + / = .);
+// anything else is not one and is dropped.
+const CLICK_ID = /^[A-Za-z0-9_\-+/=.]{1,500}$/;
 
 const readStoredClick = (): StoredClick | null => {
   try {
