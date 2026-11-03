@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { useLocale } from "@/i18n/LocaleContext";
 import type { MessageKey } from "@/i18n/messages";
 import { ConvertedProduct } from "@/services/shopifyService";
+import { finishFamily } from "@/lib/finishFamilies";
 import { useMemo } from "react";
 
 // "Newest" (reversed API order, not recency) and "Highest Rated" (fabricated
@@ -64,11 +65,12 @@ export const CategoryFilters = ({
 }: CategoryFiltersProps) => {
   const { t } = useLocale();
 
-  // Get unique finishes from products
+  // Unique finish FAMILIES from products ("Black" covers Black Wirebrush,
+  // Noir…) — see @/lib/finishFamilies
   const availableFinishes = useMemo(() => {
     const finishSet = new Set<string>();
     products.forEach(p => {
-      p.finishes.forEach(f => finishSet.add(f));
+      p.finishes.forEach(f => finishSet.add(finishFamily(f)));
     });
     return Array.from(finishSet).sort();
   }, [products]);
