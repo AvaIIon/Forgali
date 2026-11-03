@@ -34,12 +34,22 @@ import { cdnImage, cdnSrcSet } from "./src/lib/imageProxy";
 import { faqPageJsonLd, getBedSeo } from "./src/lib/categorySeo";
 import { categorySubcategories } from "./src/lib/subcategories";
 import { SITE_FAQS } from "./src/lib/siteFaqs";
-import { GUIDES, GUIDES_INDEX_SEO, getGuide, guideJsonLd, relatedLinks, type Guide } from "./src/lib/guides";
+import {
+  GUIDES,
+  GUIDES_INDEX_SEO,
+  GUIDE_PICKS_MAX,
+  GUIDE_PICKS_PER_VIEW,
+  getGuide,
+  guideJsonLd,
+  guideShopViews,
+  relatedLinks,
+  type Guide,
+} from "./src/lib/guides";
 import {
   STATIC_PAGE_SEO,
   type StaticPagePath,
 } from "./src/lib/staticPageSeo";
-import { MESSAGES } from "./src/i18n/messages";
+import { EN_MESSAGES } from "./src/i18n/messages";
 import {
   HERO_DESKTOP,
   HERO_DESKTOP_MEDIA,
@@ -140,6 +150,15 @@ type ProductMeta = {
   // strings this file produced before these fields existed.
   st?: string;
   sd?: string;
+  // Body-SSR extras (all optional; see generate-feed.mjs): specs.overview when
+  // it differs from d, first highlights, dimension rows as [label, value],
+  // material, subcategory slug for the breadcrumb, curated related handles.
+  o?: string;
+  h?: string[];
+  x?: string[][]; // [label, value] pairs
+  m?: string;
+  s?: string;
+  r?: string[];
 };
 
 // Module scope runs OUTSIDE the handler's try/catch — a wrong-shape (but
@@ -483,12 +502,45 @@ function categoryBody(category: string, subcategory: string | null): string | nu
   ].join("\n");
 }
 
+// Price as the category cards show it (cheapest buyable, "From" when prices
+// vary) — for the related-product and guide link lists.
+const cardPrice = (m: ProductMeta): string =>
+  m.l ? ` — ${m.f ? "From " : ""}${money(m.l)}` : "";
+
+function productLinkList(handles: string[]): string {
+  const items = handles
+    .filter((h) => hasOwn(META, h))
+    .map(
+      (h) =>
+        `<li style="margin:6px 0;"><a href="/product/${esc(h)}" style="text-decoration:underline;">${esc(META[h].t)}</a>${esc(cardPrice(META[h]))}</li>`
+    );
+  return items.length
+    ? `<ul style="list-style:disc;padding-left:20px;margin:0 0 24px;">${items.join("")}</ul>`
+    : "";
+}
+
+const H2 = `style="font-size:1.25rem;font-weight:700;margin:24px 0 8px;"`;
+
+// Mirrors ProductPage + ProductInfoTabs: breadcrumb with the subcategory hop,
+// the Description tab's text, the Details tab's dimension rows and highlights,
+// and the cross-sell block. Before this the pre-hydration body stopped at a
+// 500-character description — half of most products' copy, and none of the
+// Details tab — which is all a crawler that defers rendering ever saw.
 function productBody(handle: string, m: ProductMeta): string | null {
-  const cat = HANDLE_CATEGORY.get(handle);
-  const crumb =
-    cat && hasOwn(categoryInfoMap, cat)
-      ? ` › <a href="/category/${esc(cat)}" style="text-decoration:underline;">${esc(categoryInfoMap[cat].title)}</a>`
-      : "";
+  const found = HANDLE_CATEGORY.get(handle);
+  const cat = found !== undefined && hasOwn(categoryInfoMap, found) ? found : null;
+  // The subcategory hop only renders for a view that has products (the tabs'
+  // own guard), so it can never point at a URL that now redirects.
+  const sub =
+    cat && m.s && hasOwn(CATS, `${cat}|${m.s}`) && hasOwn(categorySubcategories, cat)
+      ? categorySubcategories[cat].find((s) => s.slug === m.s)
+      : undefined;
+  const crumb = cat
+    ? ` › <a href="/category/${esc(cat)}" style="text-decoration:underline;">${esc(categoryInfoMap[cat].title)}</a>` +
+      (sub
+        ? ` › <a href="/category/${esc(cat)}?subcategory=${esc(sub.slug)}" style="text-decoration:underline;">${esc(sub.name)}</a>`
+        : "")
+    : "";
   // Sized, not original. This <img> renders at 480px but sat in the SSR HTML
   // with the raw Shopify URL, so the preload scanner pulled a 690KB original
   // ~80ms into the load — before the bundle even ran — and it competed with
@@ -503,20 +555,82 @@ function productBody(handle: string, m: ProductMeta): string | null {
     ? `<p style="margin:0 0 8px;font-size:1.25rem;font-weight:700;">${esc(money(m.p))}</p>`
     : "";
   const stock = `<p style="margin:0 0 16px;">${m.a ? "In stock" : "Out of stock"} — ships free anywhere in Canada.</p>`;
-  const desc = m.d
-    ? `<p style="margin:0 0 16px;line-height:1.6;">${esc(m.d)}</p>`
+  // Description tab: specs.overview when authored, else the Shopify
+  // description. Newlines render as line breaks there.
+  const text = m.o ?? m.d;
+  const desc = text
+    ? `<h2 ${H2}>${esc(EN["pdp.tabDescription"])}</h2>` +
+      text
+        .split("\n")
+        .filter(Boolean)
+        .map((p) => `<p style="margin:0 0 12px;line-height:1.6;">${esc(p)}</p>`)
+        .join("")
     : "";
+  // Details tab: dimension rows (then material) beside the highlights.
+  const rows: string[][] = [...(m.x ?? []), ...(m.m ? [[EN["pdp.material"], m.m]] : [])];
+  const details =
+    rows.length || m.h?.length
+      ? `<h2 ${H2}>${esc(EN["pdp.tabDetails"])}</h2>` +
+        (rows.length
+          ? `<dl style="margin:0 0 16px;">${rows
+              .map(
+                ([k, v]) =>
+                  `<div style="display:flex;gap:16px;padding:6px 0;border-bottom:1px solid #e5e7eb;"><dt style="font-weight:600;min-width:140px;">${esc(k)}</dt><dd style="margin:0;">${esc(v)}</dd></div>`
+              )
+              .join("")}</dl>`
+          : "") +
+        (m.h?.length
+          ? `<ul style="list-style:disc;padding-left:20px;margin:0 0 16px;">${m.h
+              .map((h) => `<li style="margin:6px 0;line-height:1.6;">${esc(h)}</li>`)
+              .join("")}</ul>`
+          : "")
+      : "";
+  // Cross-sells, ProductPage's precedence: the curated custom.related_products
+  // set ("Complete the Room"), else the first four other products in the
+  // category ("You May Also Like"). The fallback reads CATS (available-first)
+  // while the hydrated page reads catalog order, so the four can differ when
+  // the category has out-of-stock items.
+  const curated = (m.r ?? []).filter((h) => hasOwn(META, h));
+  const fallback =
+    cat && CATS_OK && hasOwn(CATS, cat) ? CATS[cat].filter((h) => h !== handle).slice(0, 4) : [];
+  const related = curated.length
+    ? `<h2 ${H2}>${esc(EN["pdp.completeRoom"])}</h2><p style="margin:0 0 8px;">${esc(EN["pdp.completeRoomLead"])}</p>${productLinkList(curated)}`
+    : fallback.length
+      ? `<h2 ${H2}>${esc(EN["pdp.youMayAlsoLike"])}</h2>${productLinkList(fallback)}`
+      : "";
   return [
     `<div style="max-width:800px;margin:0 auto;padding:32px 16px;font-family:system-ui,sans-serif;">`,
-    `<p style="margin:0 0 16px;"><a href="/" style="text-decoration:underline;">Forgali</a>${crumb}</p>`,
+    `<p style="margin:0 0 16px;"><a href="/" style="text-decoration:underline;">${esc(EN["pdp.home"])}</a>${crumb}</p>`,
     `<h1 style="font-size:1.75rem;font-weight:700;margin:0 0 8px;">${esc(m.t)}</h1>`,
     price,
     stock,
     img,
     desc,
+    details,
+    related,
     `<p style="margin:0;">${esc(TRUST_LINE)}</p>`,
     `</div>`,
   ].join("\n");
+}
+
+// Same rule as GuidePage.tsx: the first GUIDE_PICKS_PER_VIEW products of each
+// view the guide links to, GUIDE_PICKS_MAX in all.
+function guidePicks(g: Guide): string[] {
+  if (!CATS_OK) return [];
+  const out: string[] = [];
+  for (const v of guideShopViews(g)) {
+    const key = `${v.category}|${v.subcategory}`;
+    if (!hasOwn(CATS, key)) continue;
+    let n = 0;
+    for (const h of CATS[key]) {
+      if (n >= GUIDE_PICKS_PER_VIEW) break;
+      if (out.includes(h)) continue;
+      out.push(h);
+      n++;
+      if (out.length >= GUIDE_PICKS_MAX) return out;
+    }
+  }
+  return out;
 }
 
 // Static routes: exact head from the shared table, plus a body of the page's
@@ -616,10 +730,12 @@ function guideBody(g: Guide): string {
       ].join("\n")
     : "";
   const shop = relatedLinks(g);
+  // Category links, then the actual pieces — until now a guide linked to no
+  // product at all, so the products it was written to sell got no link from it.
   const shopHtml = shop.length
     ? `<h2 style="font-size:1.2rem;font-weight:700;margin:32px 0 8px;">Shop the pieces in this guide</h2>\n<p style="margin:0 0 12px;">${shop
         .map((l) => `<a href="${esc(l.href)}" style="text-decoration:underline;">${esc(l.label)}</a>`)
-        .join(" · ")}</p>`
+        .join(" · ")}</p>\n${productLinkList(guidePicks(g))}`
     : "";
   const others = GUIDES.filter((o) => o.slug !== g.slug)
     .slice(0, 4)
@@ -673,7 +789,7 @@ function guidesIndexBody(): string {
 // HTML. heroImage.ts keeps the URLs identical to Hero.tsx's, so React reuses
 // the cached file.
 // ---------------------------------------------------------------------------
-const EN = MESSAGES.en;
+const EN = EN_MESSAGES;
 
 function homeHead(): Head {
   return {
