@@ -196,9 +196,6 @@ export const ShopTheLook = () => {
     <section aria-label={t("look.aria")} className="py-16">
       <div className="mx-auto mb-10 max-w-rail px-4 text-center">
         <h2 className="text-3xl font-bold">{t("look.title")}</h2>
-        <p className="mt-2 text-lg text-muted-foreground">
-          {t("look.lead")}
-        </p>
       </div>
 
       <div className="relative w-full overflow-hidden aspect-[2/3] md:aspect-[16/5]">
