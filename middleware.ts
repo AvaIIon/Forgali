@@ -39,6 +39,13 @@ import {
   STATIC_PAGE_SEO,
   type StaticPagePath,
 } from "./src/lib/staticPageSeo";
+import { MESSAGES } from "./src/i18n/messages";
+import {
+  HERO_DESKTOP,
+  HERO_DESKTOP_MEDIA,
+  HERO_MOBILE,
+  HERO_MOBILE_MEDIA,
+} from "./src/lib/heroImage";
 import {
   FR_INDEXABLE,
   HREFLANG,
@@ -49,10 +56,14 @@ import {
   type Locale,
 } from "./src/i18n/locale";
 
-// "/" is deliberately NOT matched: the shell fetch below requests the origin
-// root, so matching it would recurse. Homepage keeps its static head.
+// "/" IS matched. The shell fetch below requests the origin root, so it sends
+// SHELL_FETCH_HEADER and the handler passes that request straight through —
+// without it, matching "/" would recurse. (/index.html can't be used instead:
+// Vercel 308s it back to "/".) Before this, the homepage served the bare shell
+// to every non-JS crawler: no description, no canonical, no H1, no links.
 export const config = {
   matcher: [
+    "/",
     "/product/:path*",
     "/category/:path*",
     // Static routes. They were left out of the original matcher and so kept
@@ -239,6 +250,8 @@ interface Head {
   image?: string;
   type?: "website" | "product";
   jsonLd?: Record<string, unknown>[];
+  /** Raw tags appended after the managed ones (no data-rh: Helmet leaves them be). */
+  extra?: string[];
 }
 
 // Mirrors src/components/Seo.tsx tag-for-tag. data-rh="true" hands ownership
@@ -284,6 +297,7 @@ function renderHead(h: Head, locale: Locale): string {
       `<script type="application/ld+json" data-rh="true">${JSON.stringify(block).replace(/</g, "\\u003c")}</script>`
     );
   }
+  lines.push(...(h.extra ?? []));
   return lines.join("\n    ");
 }
 
@@ -648,6 +662,117 @@ function guidesIndexBody(): string {
   ].join("\n");
 }
 
+// ---------------------------------------------------------------------------
+// Homepage (English). Head mirrors Index.tsx's <Seo>; body mirrors what the
+// hydrated page shows — the hero (same photo, same H1 and lead), the four
+// FeaturedCategories tiles with the filtered views the header menu opens,
+// BrandStatement, and the buying guides — as plain inline-styled HTML.
+// The hero is painted here on purpose: the SPA only requests its photo once
+// the bundle has run, which is what put mobile LCP at ~11 s. Preloading the
+// same URLs and painting them before hydration starts that download from the
+// HTML. heroImage.ts keeps the URLs identical to Hero.tsx's, so React reuses
+// the cached file.
+// ---------------------------------------------------------------------------
+const EN = MESSAGES.en;
+
+function homeHead(): Head {
+  return {
+    title: EN["home.seoTitle"],
+    description: EN["home.seoDescription"],
+    path: "/",
+    extra: [
+      `<link rel="preload" as="image" href="${esc(HERO_MOBILE)}" media="${HERO_MOBILE_MEDIA}" fetchpriority="high"/>`,
+      `<link rel="preload" as="image" href="${esc(HERO_DESKTOP)}" media="${HERO_DESKTOP_MEDIA}" fetchpriority="high"/>`,
+    ],
+  };
+}
+
+// FeaturedCategories.tsx order and labels. Bedroom's children are their own
+// categories (bunk/loft/single), the rest are ?subcategory= views — listed only
+// when the generated catalogue has products for them, like categoryBody's nav.
+const HOME_CATEGORIES: Array<{ slug: string; label: string; children?: string[] }> = [
+  { slug: "dining", label: EN["nav.dining"] },
+  { slug: "living", label: EN["nav.living"] },
+  { slug: "bedroom", label: EN["nav.bedroom"], children: ["bunk-beds", "loft-beds", "single-beds"] },
+  { slug: "accessories", label: EN["nav.storage"], children: ["mattresses"] },
+];
+
+const PILL =
+  "display:inline-block;padding:10px 24px;border-radius:9999px;font-size:14px;font-weight:500;text-decoration:none;margin:0 12px 12px 0;";
+
+function homeBody(): string {
+  const categories = HOME_CATEGORIES.map((c) => {
+    const children = (c.children ?? [])
+      .filter((slug) => hasOwn(categoryInfoMap, slug))
+      .map(
+        (slug) =>
+          `<a href="/category/${esc(slug)}" style="text-decoration:underline;">${esc(categoryInfoMap[slug].title)}</a>`
+      );
+    const subs =
+      CATS_OK && hasOwn(categorySubcategories, c.slug)
+        ? categorySubcategories[c.slug]
+            .filter((s) => hasOwn(CATS, `${c.slug}|${s.slug}`))
+            .map(
+              (s) =>
+                `<a href="/category/${esc(c.slug)}?subcategory=${esc(s.slug)}" style="text-decoration:underline;">${esc(s.name)}</a>`
+            )
+        : [];
+    const links = [...children, ...subs];
+    return [
+      `<li style="margin:12px 0;line-height:1.6;">`,
+      `<a href="/category/${esc(c.slug)}" style="text-decoration:underline;font-weight:700;">${esc(c.label)}</a>`,
+      links.length ? `<br>${links.join(" · ")}` : "",
+      `</li>`,
+    ].join("");
+  }).join("");
+
+  const guides = GUIDES.map(
+    (g) => `<li style="margin:6px 0;"><a href="/guides/${esc(g.slug)}" style="text-decoration:underline;">${esc(g.h1)}</a></li>`
+  ).join("");
+
+  // Stand-in for Header.tsx at its rendered heights (36+73px on phones,
+  // 40+84+41px from md up), so the hero sits where the hydrated one will and
+  // nothing jumps when React swaps it in. The desktop row carries the same
+  // top-level menu links.
+  const nav = [
+    ...HOME_CATEGORIES.map((c) => ({ href: `/category/${c.slug}`, label: c.label })),
+    { href: "/smart-deals", label: EN["nav.smartDeals"] },
+  ]
+    .map((l) => `<a href="${esc(l.href)}" style="color:#1f2937;text-decoration:none;margin:0 14px;">${esc(l.label)}</a>`)
+    .join("");
+
+  return [
+    // 600px tall on phones, 700px from md up — Hero.tsx's h-[600px] md:h-[700px].
+    `<style>.fg-hero{height:600px}.fg-hero-text{left:32px}.fg-bar{height:36px}.fg-logo{height:73px}.fg-nav{display:none}.fg-h1{font-size:1.875rem}.fg-lead{font-size:1rem}@media (min-width:768px){.fg-h1{font-size:2.25rem}.fg-lead{font-size:1.125rem}.fg-hero{height:700px}.fg-hero-text{left:64px}.fg-bar{height:40px}.fg-logo{height:84px}.fg-nav{display:flex}}</style>`,
+    `<div class="fg-bar" style="display:flex;align-items:center;justify-content:center;background:#281f26;color:#fff;font:12px Manrope,system-ui,sans-serif;">${esc(EN["common.freeShipping"])} · ${esc(EN["common.returns30"])}</div>`,
+    `<div class="fg-logo" style="display:flex;align-items:center;justify-content:center;background:#fff;"><a href="/"><img src="/forgali-logo-dark.png" alt="Forgali" width="140" height="28" style="display:block;height:28px;width:auto;"/></a></div>`,
+    `<div class="fg-nav" style="height:41px;align-items:center;justify-content:center;background:#fff;font:14px Manrope,system-ui,sans-serif;">${nav}</div>`,
+    `<div class="fg-hero" style="position:relative;width:100%;overflow:hidden;background:#3b3b3b;">`,
+    `<picture><source media="${HERO_MOBILE_MEDIA}" srcset="${esc(HERO_MOBILE)}"/>`,
+    `<img src="${esc(HERO_DESKTOP)}" alt="${esc(EN["hero.alt"])}" fetchpriority="high" style="display:block;width:100%;height:100%;object-fit:cover;"/></picture>`,
+    `<div style="position:absolute;inset:0;background:linear-gradient(to right,rgba(0,0,0,.6),rgba(0,0,0,.3),rgba(0,0,0,0));"></div>`,
+    `<div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.5),rgba(0,0,0,0) 50%);"></div>`,
+    `<div class="fg-hero-text" style="position:absolute;bottom:64px;right:32px;max-width:576px;color:#fff;font-family:Manrope,system-ui,sans-serif;">`,
+    `<p style="display:inline-block;margin:0 0 8px;padding:4px 12px;border-radius:4px;background:#1f2937;font-size:12px;font-weight:600;">${esc(EN["hero.kicker"])}</p>`,
+    `<h1 class="fg-h1" style="line-height:1.2;font-weight:700;margin:0 0 12px;">${esc(EN["hero.title"])}</h1>`,
+    `<p class="fg-lead" style="line-height:1.5;margin:0 0 24px;text-shadow:0 1px 8px rgba(0,0,0,.5);">${esc(EN["hero.lead"])}</p>`,
+    `<a href="/category/dining" style="${PILL}background:#1f2937;color:#fff;">${esc(EN["hero.ctaDining"])}</a>`,
+    `<a href="/category/bedroom" style="${PILL}background:#fff;color:#1f2937;border:1px solid #1f2937;">${esc(EN["hero.ctaBeds"])}</a>`,
+    `</div>`,
+    `</div>`,
+    `<div style="max-width:1100px;margin:0 auto;padding:32px 16px;font-family:system-ui,sans-serif;">`,
+    `<p style="margin:0 0 24px;">${esc(TRUST_LINE)}</p>`,
+    `<h2 style="font-size:1.5rem;font-weight:700;margin:0 0 8px;">${esc(EN["home.shopByCategory"])}</h2>`,
+    `<ul style="list-style:none;padding:0;margin:0 0 32px;">${categories}</ul>`,
+    `<h2 style="font-size:1.5rem;font-weight:700;margin:0 0 8px;">${esc(EN["brand.title"])}</h2>`,
+    `<p style="margin:0 0 12px;line-height:1.6;">${esc(EN["brand.body1"] + EN["brand.bodyEm"] + EN["brand.body2"])}</p>`,
+    `<p style="margin:0 0 32px;"><a href="/category/dining" style="text-decoration:underline;">${esc(EN["brand.cta"])}</a> · <a href="/about" style="text-decoration:underline;">${esc(EN["brand.learnMore"])}</a></p>`,
+    `<h2 style="font-size:1.5rem;font-weight:700;margin:0 0 8px;"><a href="/guides" style="text-decoration:underline;">${esc(GUIDES_INDEX_SEO.h1)}</a></h2>`,
+    `<ul style="list-style:disc;padding-left:20px;margin:0;">${guides}</ul>`,
+    `</div>`,
+  ].join("\n");
+}
+
 // One decoded, slash-free segment after the prefix, or null when the URL isn't
 // shaped like a page this middleware should touch (deeper paths, empty, bad
 // percent-encoding — all pass through).
@@ -677,9 +802,16 @@ function localizeBodyLinks(body: string, locale: Locale): string {
 }
 const NOINDEX_META = `<meta name="robots" content="noindex, follow" data-rh="true"/>`;
 
+// Marks the shell request so the handler serves it untouched. "/" is in the
+// matcher, so without this the shell fetch would hit this middleware again.
+const SHELL_FETCH_HEADER = "x-forgali-shell";
+
 async function fetchShell(origin: string): Promise<string | null> {
   if (shellCache) return shellCache;
-  const res = await fetch(`${origin}/`, { signal: timeoutSignal(3000) });
+  const res = await fetch(`${origin}/`, {
+    headers: { [SHELL_FETCH_HEADER]: "1" },
+    signal: timeoutSignal(3000),
+  });
   if (!res.ok) return null;
   const text = await res.text();
   if (!text.includes(START_MARK) || !text.includes(END_MARK)) return null;
@@ -704,6 +836,8 @@ async function notFound(origin: string): Promise<Response> {
 export default async function middleware(request: Request) {
   try {
     if (request.method !== "GET" && request.method !== "HEAD") return;
+    // Our own shell fetch (fetchShell) — serve the static index.html as is.
+    if (request.headers.get(SHELL_FETCH_HEADER)) return;
 
     const { pathname: rawPathname, origin, searchParams } = new URL(request.url);
     // "/fr/…" → locale fr + the English-shaped path every builder below expects.
@@ -712,7 +846,10 @@ export default async function middleware(request: Request) {
     let head: Head | null = null;
     let body: string | null = null;
 
-    if (hasOwn(STATIC_PAGE_SEO, pathname)) {
+    if (pathname === "/" && locale === "en") {
+      head = homeHead();
+      body = homeBody();
+    } else if (hasOwn(STATIC_PAGE_SEO, pathname)) {
       const key = pathname as StaticPagePath;
       head = staticHead(key);
       body = staticBody(key);
@@ -749,6 +886,23 @@ export default async function middleware(request: Request) {
         return notFound(origin);
       }
       const subcategory = searchParams.get("subcategory");
+      // A filter view with no products (?subcategory=multi-bunk), an empty
+      // one (?subcategory=) or a made-up slug renders an empty grid with a 200
+      // — 49 Soft 404s in Search Console as of 2026-11-03. Send those to the
+      // parent category. The generator only emits "cat|sub" keys for views
+      // that have products, so a missing key means an empty view; CATS_OK
+      // keeps a degraded build from redirecting real ones.
+      if (subcategory !== null && CATS_OK && !hasOwn(CATS, `${category}|${subcategory}`)) {
+        const target = new URL(request.url);
+        target.searchParams.delete("subcategory");
+        return new Response(null, {
+          status: 301,
+          headers: {
+            location: target.pathname + target.search,
+            "cache-control": "public, max-age=0, s-maxage=3600",
+          },
+        });
+      }
       head = categoryHead(category, subcategory);
       // Subcategory views get the FILTERED list under their own copy (see
       // categoryBody) — they used to get no body at all, which is why they sit

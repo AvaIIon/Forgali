@@ -1007,6 +1007,26 @@
       "permanent": true
     },
     {
+      "source": "/living-room.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/dining-room.html",
+      "destination": "/category/dining",
+      "permanent": true
+    },
+    {
+      "source": "/leather-furniture.html",
+      "destination": "/category/living",
+      "permanent": true
+    },
+    {
+      "source": "/home-office.html",
+      "destination": "/category/accessories",
+      "permanent": true
+    },
+    {
       "source": "/marsden.html",
       "destination": "/category/bedroom",
       "permanent": true
