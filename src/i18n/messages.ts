@@ -143,7 +143,7 @@ const en = {
   "home.loadErrorTail": " instead.",
   "home.shopAll": "Shop All →",
   "home.shopByCategory": "Shop By Category",
-  "hero.alt": "Solid wood dining room with Plank & Beam oval table and upholstered chairs",
+  "hero.alt": "Solid wood breakfast nook with a Plank & Beam Risa corner banquette and Verso round dining table",
   "hero.kicker": "SOLID WOOD FOR EVERY ROOM",
   "hero.title": "Solid Wood Furniture Families Trust, from Bedroom to Dining Room",
   "hero.lead": "Solid-wood dining, living, and kids’ bedroom pieces — free shipping across Canada.",
@@ -807,7 +807,7 @@ const fr: Record<keyof typeof en, string> = {
   "home.loadErrorTail": ".",
   "home.shopAll": "Tout voir →",
   "home.shopByCategory": "Magasiner par catégorie",
-  "hero.alt": "Salle à manger en bois massif avec table ovale Plank & Beam et chaises rembourrées",
+  "hero.alt": "Coin repas en bois massif avec banquette d'angle Risa et table ronde Verso de Plank & Beam",
   "hero.kicker": "DU BOIS MASSIF POUR CHAQUE PIÈCE",
   "hero.title": "Des meubles en bois massif auxquels les familles font confiance, de la chambre à la salle à manger",
   "hero.lead":
