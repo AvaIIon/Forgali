@@ -47,6 +47,33 @@ const esc = (s) =>
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;");
 
+// Cut at a word boundary, never mid-word; "" stays "".
+const clampText = (s, max) => (s.length > max ? s.slice(0, max).replace(/\s+\S*$/, "") : s);
+// specs.highlights is a JSON string list — same rule as parseStringList in
+// src/services/shopifyService.ts.
+const parseList = (raw) => {
+  try {
+    const v = JSON.parse(raw || "[]");
+    return Array.isArray(v) ? v.filter((s) => typeof s === "string").map((s) => s.trim()).filter(Boolean) : [];
+  } catch {
+    return [];
+  }
+};
+// specs.dimension_table rows → [label, "value unit"] pairs: parseDimensionTable
+// plus the value/unit join ProductInfoTabs renders.
+const parseDims = (raw) => {
+  try {
+    const v = JSON.parse(raw || "[]");
+    if (!Array.isArray(v)) return [];
+    return v
+      .filter((r) => r && typeof r.label === "string" && typeof r.value === "string")
+      .map((r) => [r.label.trim(), r.unit ? `${r.value.trim()} ${String(r.unit).trim()}` : r.value.trim()])
+      .filter((r) => r[0] && r[1]);
+  } catch {
+    return [];
+  }
+};
+
 async function fetchProducts() {
   const url = `https://${domain}/api/${API_VERSION}/graphql.json`;
   const header = "X-Shopify-Storefront-Access-Token";
@@ -64,6 +91,8 @@ async function fetchProducts() {
         featuredImage { url }
         images(first: 11) { nodes { url } }
         variants(first: 25) { nodes { price { amount currencyCode } availableForSale } }
+        specs: metafields(identifiers: [{namespace: "specs", key: "overview"}, {namespace: "specs", key: "highlights"}, {namespace: "specs", key: "dimension_table"}, {namespace: "specs", key: "material"}]) { key value }
+        related: metafield(namespace: "custom", key: "related_products") { references(first: 4) { nodes { ... on Product { handle } } } }
       } } }`;
     const controller = new AbortController();
     const t = setTimeout(() => controller.abort(), 15000);
@@ -164,12 +193,34 @@ ${items.join("\n")}
   // 25-variant fetch cap). Committed copy is the fallback when this doesn't run.
   // Keys are short on purpose — this file is bundled into the edge middleware,
   // which has a hard size budget. t=title, d=description (trimmed), i=image,
-  // p=price, c=currency, a=availableForSale.
+  // p=price, c=currency, a=availableForSale. Body-SSR extras (productBody in
+  // middleware.ts, mirroring ProductPage + ProductInfoTabs): o=specs.overview
+  // when it differs from the description, h=first highlights, x=dimension
+  // rows, m=material, s=subcategory slug (breadcrumb), r=curated
+  // custom.related_products handles ("Complete the Room").
   const meta = {};
   for (const p of products) {
     if (p.handle === "checkout-test-item") continue;
     const v = selectedVariant(p);
     const rawD = String(p.description || "").replace(/\s+/g, " ").trim();
+    const mfs = Object.fromEntries((p.specs || []).filter(Boolean).map((m) => [m.key, m.value]));
+    // Single newlines kept: the Description tab renders them as line breaks.
+    const rawO = String(mfs.overview || "").replace(/[ \t]+/g, " ").replace(/\s*\n\s*/g, "\n").trim();
+    // The dining & living products carry the same text in both fields; the
+    // beds carry two different texts. Store one copy when they match (d is
+    // then the full text and o is omitted), both when they don't — with d
+    // capped at 500 as before, since only the body shows the whole thing.
+    const sameText = rawO && rawO.replace(/\s+/g, " ").startsWith(rawD.slice(0, 200));
+    const d = sameText ? clampText(rawD, 1600) : clampText(rawD, 500);
+    const overview = sameText ? "" : clampText(rawO, 1600);
+    const highlights = parseList(mfs.highlights).slice(0, 3).map((s) => clampText(s, 160));
+    const dims = parseDims(mfs.dimension_table);
+    const material = String(mfs.material || "").trim();
+    const category = categorize(p);
+    // First matching tab in the category's own order — breadcrumbSub in
+    // ProductPage.tsx resolves it the same way.
+    const sub = (SUBCATEGORIES[category] || []).find((s) => matchesSubcategory(p, s)) || null;
+    const related = (p.related?.references?.nodes || []).map((n) => n?.handle).filter(Boolean);
     // Authored Shopify SEO fields (st/sd) ride along only when non-empty —
     // middleware falls back to the derived strings exactly like ProductPage,
     // so a product without them renders precisely what it does today.
@@ -187,9 +238,9 @@ ${items.join("\n")}
       .filter((n) => Number.isFinite(n) && n > 0);
     meta[p.handle] = {
       t: p.title,
-      // Cap at 500 chars on a word boundary — enough for the meta-description
-      // slice and a sane JSON-LD description without bloating the edge bundle.
-      d: rawD.length > 500 ? rawD.slice(0, 500).replace(/\s+\S*$/, "") : rawD,
+      // Word-boundary capped (see sameText above): the pre-hydration body shows
+      // the whole text, the meta description slices the first 160.
+      d,
       i: p.featuredImage?.url ?? null,
       p: v ? Number(v.price.amount).toFixed(2) : null,
       c: v?.price?.currencyCode || "CAD",
@@ -198,6 +249,12 @@ ${items.join("\n")}
       f: amounts.length ? Math.max(...amounts) > Math.min(...amounts) : false,
       ...(st ? { st } : {}),
       ...(sd ? { sd } : {}),
+      ...(overview ? { o: overview } : {}),
+      ...(highlights.length ? { h: highlights } : {}),
+      ...(dims.length ? { x: dims } : {}),
+      ...(material ? { m: material } : {}),
+      ...(sub ? { s: sub } : {}),
+      ...(related.length ? { r: related } : {}),
     };
   }
   const metaOut = join(dirname(fileURLToPath(import.meta.url)), "..", "src", "data", "product-meta.json");
