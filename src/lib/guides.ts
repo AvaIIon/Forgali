@@ -528,6 +528,20 @@ export const relatedLinks = (g: Guide) =>
     .map((k) => RELATED_LINKS[k]);
 
 /**
+ * The subcategory views a guide shops from, as (category, slug) pairs, so
+ * GuidePage and middleware.ts pick the same products to show under "Shop the
+ * pieces in this guide": the first GUIDE_PICKS_PER_VIEW of each view, in the
+ * category's own (available-first) order, GUIDE_PICKS_MAX in all.
+ */
+export const guideShopViews = (g: Guide): Array<{ category: string; subcategory: string }> =>
+  relatedLinks(g).flatMap((l) => {
+    const m = l.href.match(/^\/category\/([a-z-]+)\?subcategory=([a-z-]+)$/);
+    return m ? [{ category: m[1], subcategory: m[2] }] : [];
+  });
+export const GUIDE_PICKS_PER_VIEW = 3;
+export const GUIDE_PICKS_MAX = 8;
+
+/**
  * Article + BreadcrumbList + FAQPage for one guide. Shared by GuidePage and
  * middleware.ts so the injected and hydrated schema are byte-identical.
  */
