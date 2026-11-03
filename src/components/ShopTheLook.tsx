@@ -6,53 +6,49 @@ import { useShopifyProducts, getProductByHandle } from "@/hooks/useShopifyProduc
 import { useCart } from "@/context/CartContext";
 import { fetchShopifyProductByHandle, convertShopifyProduct } from "@/services/shopifyService";
 import { cdnImage, getProxiedImage } from "@/lib/imageProxy";
-import lookDesktop from "@/assets/shop-the-look-dining.jpg";
-import lookMobile from "@/assets/shop-the-look-dining-mobile.jpg";
+// The look photo is cropped by Shopify's CDN (crop=region) straight from the
+// Risa Banquette's own product image, so no copy lives in src/assets.
+// Hotspot positions are percentages of these exact crops — if either crop
+// changes, the coordinates must be redone.
+const LOOK_PHOTO =
+  "https://cdn.shopify.com/s/files/1/0972/6492/6995/files/2700336007-p05__2.jpg?v=1783708283";
+const lookDesktop = `${LOOK_PHOTO}&crop=region&crop_left=0&crop_top=1020&crop_width=2000&crop_height=625`;
+const lookMobile = `${LOOK_PHOTO}&width=1000&height=1500&crop=region&crop_left=145&crop_top=0&crop_width=1333&crop_height=2000`;
 
-// Hotspot positions are percentages of the exact image crops committed to
-// src/assets — if either image is re-cropped, the coordinates must be redone.
 // The static title/price/image values are fallbacks so the section renders
 // even if the Storefront fetch fails; live catalog data replaces them once
-// the shared products cache loads.
+// the shared products cache loads. `options` + `lookPrice` describe the exact
+// variant in the photo, which is what "Add the Whole Look" puts in the cart.
 const HOTSPOTS = [
   {
     number: 1,
-    handle: "sereno-dining-chair",
-    title: "Plank & Beam Sereno Dining Chair",
-    price: 352.9,
-    originalPrice: 390,
-    fromPrice: true, // sold as Individual / Set of 2 / Set of 4
-    sku: "2800333000-412", // the exact variant in the photo (Antique White / Individual)
+    handle: "risa-banquette",
+    title: "Plank & Beam Risa Banquette",
+    price: 794.9,
+    originalPrice: 880,
+    fromPrice: true, // four finishes, with or without cushions
+    sku: "2700336007-P05", // the exact variant in the photo (Pecan / Cream cushions)
+    options: { Finish: "Pecan", "Cushion Addition": "Cream" } as Record<string, string>,
+    lookPrice: 1024.9,
     image:
-      "https://cdn.shopify.com/s/files/1/0972/6492/6995/files/2800333000-412__1_16c4c3ec-7f03-4a05-b47d-e4ace0f43fd7.jpg?v=1783608474",
-    desktop: { top: "75%", left: "25%" },
-    mobile: { top: "62%", left: "15%" },
+      "https://cdn.shopify.com/s/files/1/0972/6492/6995/files/2700336000-007__1.jpg?v=1783608427",
+    desktop: { top: "56%", left: "22%" },
+    mobile: { top: "68%", left: "21%" },
   },
   {
     number: 2,
-    handle: "lido-oval-dining-table-72",
-    title: 'Plank & Beam Lido Oval Dining Table - 72"',
-    price: 847.9,
-    originalPrice: 930,
-    fromPrice: false,
-    sku: "3500331000-008", // Walnut — the finish in the photo
+    handle: "verso-round-dining-table-47",
+    title: 'Plank & Beam Verso Round Dining Table - 47"',
+    price: 440.9,
+    originalPrice: 490,
+    fromPrice: true, // Black is priced below Pecan and Blonde
+    sku: "2900306000-007", // Pecan — the finish in the photo
+    options: { Finish: "Pecan" } as Record<string, string>,
+    lookPrice: 670.9,
     image:
-      "https://cdn.shopify.com/s/files/1/0972/6492/6995/files/3500331000-008__1_db9af7f1-9e95-481c-82f1-76410c00573b.jpg?v=1783608485",
-    desktop: { top: "41%", left: "38%" },
-    mobile: { top: "49%", left: "38%" },
-  },
-  {
-    number: 3,
-    handle: "arcata-console-table-56",
-    title: 'Plank & Beam Arcata Console Table - 56"',
-    price: 600.9,
-    originalPrice: 660,
-    fromPrice: false,
-    sku: "2600425900-014", // Cerused White — the finish in the photo
-    image:
-      "https://cdn.shopify.com/s/files/1/0972/6492/6995/files/2600425900-014__1_25f566d3-2d94-4b5f-a5dc-1a1fe4172f1b.jpg?v=1783608426",
-    desktop: { top: "50%", left: "83%" },
-    mobile: { top: "46%", left: "90%" },
+      "https://cdn.shopify.com/s/files/1/0972/6492/6995/files/2900306000-007__1_eba921e7-237e-49aa-b44e-63af1dc7b0f9.jpg?v=1783608513",
+    desktop: { top: "27%", left: "52%" },
+    mobile: { top: "60%", left: "66%" },
   },
 ];
 
@@ -137,6 +133,13 @@ export const ShopTheLook = () => {
 
   const resolved = HOTSPOTS.map((spot) => {
     const live = getProductByHandle(products, spot.handle);
+    // The whole-look total charges the photographed variant, not the "From"
+    // price. The list cache has no SKUs, so match the variant by its options.
+    const liveVariant = live?.variants.find((v) =>
+      Object.entries(spot.options).every(([name, value]) =>
+        v.options.some((o) => o.name === name && o.value === value)
+      )
+    );
     // Resolve as a UNIT: once live data has loaded it wins for EVERY field,
     // including its absences. Field-by-field nullish fallback would re-apply
     // the hardcoded compare-at after a sale ends (live.originalPrice
@@ -148,6 +151,7 @@ export const ShopTheLook = () => {
           price: live.price,
           originalPrice: live.originalPrice,
           image: live.image || spot.image,
+          lookPrice: liveVariant?.price ?? spot.lookPrice,
         }
       : {
           spot,
@@ -155,12 +159,13 @@ export const ShopTheLook = () => {
           price: spot.price,
           originalPrice: spot.originalPrice,
           image: spot.image,
+          lookPrice: spot.lookPrice,
         };
   });
 
-  const lookTotal = resolved.reduce((sum, r) => sum + r.price, 0);
+  const lookTotal = resolved.reduce((sum, r) => sum + r.lookPrice, 0);
 
-  // Add the three photographed variants to the cart. Fetches each product by
+  // Add the photographed variants to the cart. Fetches each product by
   // handle (the list cache has no SKUs) and matches the EXACT variant in the
   // photo by SKU. No silent substitution: if the photographed piece is
   // missing or sold out we skip it and say so, rather than adding a
