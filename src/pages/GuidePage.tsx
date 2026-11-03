@@ -1,9 +1,22 @@
+import { useMemo } from "react";
 import { Link, useParams } from "@/i18n/router";
 import { useLocale } from "@/i18n/LocaleContext";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Seo } from "@/components/Seo";
-import { GUIDES, getGuide, guideJsonLd, relatedLinks } from "@/lib/guides";
+import { CategoryProductCard } from "@/components/CategoryProductCard";
+import { useShopifyProducts } from "@/hooks/useShopifyProducts";
+import {
+  GUIDES,
+  GUIDE_PICKS_MAX,
+  GUIDE_PICKS_PER_VIEW,
+  getGuide,
+  guideJsonLd,
+  guideShopViews,
+  relatedLinks,
+} from "@/lib/guides";
+import { productMatchesSubcategory } from "@/lib/subcategories";
+import type { ConvertedProduct } from "@/services/shopifyService";
 import NotFound from "./NotFound";
 
 // One buying guide. All copy comes from src/lib/guides.ts; middleware.ts
@@ -13,6 +26,28 @@ const GuidePage = () => {
   const { slug } = useParams<{ slug: string }>();
   const { t } = useLocale();
   const guide = getGuide(slug);
+  // Pieces for "Shop the pieces in this guide": the same rule as guidePicks()
+  // in middleware.ts, over the live catalogue sorted available-first like the
+  // category grids. Hooks run before the not-found return.
+  const { products } = useShopifyProducts();
+  const picks = useMemo(() => {
+    if (!guide) return [];
+    const sorted = [...products].sort(
+      (a, b) => Number(b.availableForSale) - Number(a.availableForSale)
+    );
+    const out: ConvertedProduct[] = [];
+    for (const v of guideShopViews(guide)) {
+      let n = 0;
+      for (const p of sorted) {
+        if (n >= GUIDE_PICKS_PER_VIEW) break;
+        if (p.category !== v.category || out.includes(p) || !productMatchesSubcategory(p, v.subcategory)) continue;
+        out.push(p);
+        n++;
+        if (out.length >= GUIDE_PICKS_MAX) return out;
+      }
+    }
+    return out;
+  }, [products, guide]);
   if (!guide) return <NotFound />;
 
   const shop = relatedLinks(guide);
@@ -99,6 +134,13 @@ const GuidePage = () => {
                   </Link>
                 ))}
               </p>
+              {picks.length ? (
+                <div className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-6">
+                  {picks.map((p) => (
+                    <CategoryProductCard key={p.id} product={p} />
+                  ))}
+                </div>
+              ) : null}
               <p className="text-sm text-muted-foreground mt-3">
                 {t("guide.trust")}
               </p>
