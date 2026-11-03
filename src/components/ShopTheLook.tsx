@@ -47,7 +47,7 @@ const HOTSPOTS = [
     lookPrice: 670.9,
     image:
       "https://cdn.shopify.com/s/files/1/0972/6492/6995/files/2900306000-007__1_eba921e7-237e-49aa-b44e-63af1dc7b0f9.jpg?v=1783608513",
-    desktop: { top: "27%", left: "52%" },
+    desktop: { top: "36%", left: "52%" },
     mobile: { top: "60%", left: "66%" },
   },
 ];
