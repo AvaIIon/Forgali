@@ -1,21 +1,17 @@
 import { Link } from "@/i18n/router";
 import { useLocale } from "@/i18n/LocaleContext";
-
-// Plank & Beam Risa breakfast nook — the same photo the Shop the Look section
-// makes shoppable further down the page, cropped by Shopify's CDN
-// (crop=region). The mobile crop is byte-identical to Shop the Look's, so the
-// browser reuses it from cache.
-const HERO_PHOTO =
-  "https://cdn.shopify.com/s/files/1/0972/6492/6995/files/2700336007-p05__2.jpg?v=1783708283";
-const heroDining = `${HERO_PHOTO}&crop=region&crop_left=0&crop_top=960&crop_width=2000&crop_height=900`;
-const heroDiningMobile = `${HERO_PHOTO}&width=1000&height=1500&crop=region&crop_left=145&crop_top=0&crop_width=1333&crop_height=2000`;
+import {
+  HERO_DESKTOP as heroDining,
+  HERO_MOBILE as heroDiningMobile,
+  HERO_MOBILE_MEDIA,
+} from "@/lib/heroImage";
 
 export const Hero = () => {
   const { t } = useLocale();
   return (
     <section className="relative w-full h-[600px] md:h-[700px] overflow-hidden">
       <picture>
-        <source media="(max-width: 767px)" srcSet={heroDiningMobile} />
+        <source media={HERO_MOBILE_MEDIA} srcSet={heroDiningMobile} />
         <img
           src={heroDining}
           alt={t("hero.alt")}
@@ -34,9 +30,11 @@ export const Hero = () => {
         <span className="inline-block bg-primary text-primary-foreground text-xs font-semibold px-3 py-1 rounded mb-2">
           {t("hero.kicker")}
         </span>
-        <h2 className="text-white text-3xl md:text-4xl font-bold mb-3">
+        {/* The page's one H1. The homepage had none at all (every section
+            title is an H2), so Google had no main heading to read. */}
+        <h1 className="text-white text-3xl md:text-4xl font-bold mb-3">
           {t("hero.title")}
-        </h2>
+        </h1>
         <p className="text-white/90 text-base md:text-lg mb-6 [text-shadow:0_1px_8px_rgba(0,0,0,0.5)]">
           {t("hero.lead")}
         </p>
