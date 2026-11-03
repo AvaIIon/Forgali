@@ -11,6 +11,7 @@ import { SubcategoryTabs } from "@/components/SubcategoryTabs";
 import { useShopifyProductsByCategory } from "@/hooks/useShopifyProducts";
 import { ProductCategory } from "@/services/shopifyService";
 import { productMatchesSubcategory } from "@/lib/subcategories";
+import { productHasFinishFamily } from "@/lib/finishFamilies";
 import { faqPageJsonLd, getBedSeo } from "@/lib/categorySeo";
 import { categoryInfoMap } from "@/lib/categoryInfo";
 import { useLocale } from "@/i18n/LocaleContext";
@@ -43,15 +44,19 @@ const CategoryPage = () => {
   // Fetch products from Shopify
   const { products: allCategoryProducts, loading, error } = useShopifyProductsByCategory(validCategory);
   
-  // Filter by subcategory and other filters
+  // Filter by subcategory using tag matching. The Finish dropdown is built
+  // from this list too, so a tab only offers finishes it actually has.
+  const subcategoryProducts = useMemo(
+    () => subcategory
+      ? allCategoryProducts.filter(p => productMatchesSubcategory(p, subcategory))
+      : allCategoryProducts,
+    [allCategoryProducts, subcategory]
+  );
+
+  // Filter by other filters
   const filteredProducts = useMemo(() => {
-    let result = allCategoryProducts;
-    
-    // Filter by subcategory using tag matching
-    if (subcategory) {
-      result = result.filter(p => productMatchesSubcategory(p, subcategory));
-    }
-    
+    let result = subcategoryProducts;
+
     // Filter by price range
     if (filters.priceRange) {
       result = result.filter(p => {
@@ -65,10 +70,11 @@ const CategoryPage = () => {
       });
     }
     
-    // Filter by finish
+    // Filter by finish family — "Black" also matches Black Wirebrush, Noir…
     if (filters.finish) {
-      result = result.filter(p => 
-        p.finishes.some(f => f.toLowerCase() === filters.finish?.toLowerCase()) ||
+      const family = filters.finish;
+      result = result.filter(p =>
+        productHasFinishFamily(p.finishes, family) ||
         p.tags.some(t => t.toLowerCase() === filters.finish?.toLowerCase())
       );
     }
@@ -88,7 +94,7 @@ const CategoryPage = () => {
     }
 
     return result;
-  }, [allCategoryProducts, subcategory, filters]);
+  }, [subcategoryProducts, filters]);
 
   // Sort products. "Highest Rated" (fabricated ratings) and "Newest" (was
   // just reversed API order, not recency) are gone.
@@ -183,7 +189,7 @@ const CategoryPage = () => {
         onFilterChange={setFilters}
         sortBy={sortBy}
         onSortChange={setSortBy}
-        products={allCategoryProducts}
+        products={subcategoryProducts}
         category={validCategory}
       />
       
