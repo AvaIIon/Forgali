@@ -1355,6 +1355,9 @@ const fr: Record<keyof typeof en, string> = {
 export type MessageKey = keyof typeof en;
 export type MessageVars = Record<string, string | number>;
 export const MESSAGES: Record<Locale, Record<MessageKey, string>> = { en, fr };
+// English alone, for middleware.ts: importing MESSAGES would carry the French
+// half into the edge bundle, which has a size budget.
+export const EN_MESSAGES: Record<MessageKey, string> = en;
 
 /** Fill `{name}` placeholders; unknown names are left as written. */
 export const interpolate = (template: string, vars?: MessageVars): string =>
