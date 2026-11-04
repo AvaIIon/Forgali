@@ -9,6 +9,7 @@ import { Seo } from "@/components/Seo";
 import { useLocale } from "@/i18n/LocaleContext";
 import type { MessageKey } from "@/i18n/messages";
 import { trackPinterest } from "@/lib/pinterest";
+import { trackMeta } from "@/lib/meta";
 
 const POPULAR_CATEGORIES: Array<{ label: MessageKey; href: string }> = [
   { label: "nav.bunkBeds", href: "/category/bunk-beds" },
@@ -25,7 +26,9 @@ const SearchPage = () => {
   const { results, loading, error } = useShopifyProductSearch(query);
 
   useEffect(() => {
-    if (query.trim()) trackPinterest("search", { search_query: query.trim() });
+    if (!query.trim()) return;
+    trackPinterest("search", { search_query: query.trim() });
+    trackMeta("Search", { search_string: query.trim() });
   }, [query]);
 
   return (

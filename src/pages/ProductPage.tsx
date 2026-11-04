@@ -15,6 +15,7 @@ import { getFinishColor } from "@/lib/finishColors";
 import { cdnImage, cdnSrcSet, CARD_SIZES } from "@/lib/imageProxy";
 import { categorySubcategories, productMatchesSubcategory } from "@/lib/subcategories";
 import { trackPinterest } from "@/lib/pinterest";
+import { trackMeta } from "@/lib/meta";
 
 const MAX_QUANTITY = 10;
 
@@ -109,6 +110,14 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
         product_price: shown?.price ?? product.price,
         product_category: product.productType,
       }],
+    });
+    trackMeta("ViewContent", {
+      value: shown?.price ?? product.price,
+      currency: "CAD",
+      content_type: "product",
+      content_ids: [product.handle],
+      content_name: product.name,
+      content_category: product.productType,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
