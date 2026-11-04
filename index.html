@@ -51,7 +51,9 @@
          This snippet fires PageView on the initial HTML load ONLY — SPA route
          changes are handled by src/components/MetaPixel.tsx.
          The Purchase event does NOT live in this repo: checkout runs on
-         Shopify's domain, so purchases are sent server-side from meta-bot. -->
+         Shopify's domain, so it fires from the "Meta Checkout" Shopify custom
+         pixel (admin → Settings → Customer events). Shopping events on this
+         side (ViewContent, AddToCart, Search) are src/lib/meta.ts. -->
     <!-- Meta Pixel Code -->
     <script>
       !function(f,b,e,v,n,t,s)
