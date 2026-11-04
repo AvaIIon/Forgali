@@ -18,10 +18,16 @@
 // the Pinterest tag keeps it in an _epik cookie on forgali.com only, and the
 // "Pinterest Checkout" custom pixel replays the epik attribute into _epik
 // before it sends the checkout event (see src/lib/pinterest.ts).
+//
+// Meta too: its ads append ?fbclid=, and the "Meta Checkout" custom pixel
+// replays two attributes before it sends Purchase — "fbc", the click in the
+// format Meta's _fbc cookie uses (fb.1.<click ms>.<fbclid>), and "fbp", the
+// _fbp browser ID the Meta pixel set on forgali.com, so the checkout events
+// and the site's page views count as one visitor (see src/lib/meta.ts).
 
 const STORAGE_KEY = 'forgali_ad_click';
 const MAX_AGE_MS = 90 * 24 * 60 * 60 * 1000;
-const CLICK_PARAMS = ['gclid', 'gbraid', 'wbraid', 'epik'] as const;
+const CLICK_PARAMS = ['gclid', 'gbraid', 'wbraid', 'epik', 'fbclid'] as const;
 type ClickParam = (typeof CLICK_PARAMS)[number];
 type StoredClick = { ids: Partial<Record<ClickParam, string>>; ts: number };
 
@@ -65,13 +71,27 @@ export const captureAdClick = (): void => {
   }
 };
 
-/** Cart attributes for cartCreate; empty when the visit had no ad click. */
+// The Meta pixel's browser ID cookie: fb.1.<ms>.<random digits>.
+const FBP = /(?:^|;\s*)_fbp=(fb\.\d\.\d{10,13}\.\d{1,20})(?:;|$)/;
+
+/** Cart attributes for cartCreate; empty when the visit had no ad click and no Meta browser ID. */
 export const adClickCartAttributes = (): Array<{ key: string; value: string }> => {
   if (typeof window === 'undefined') return [];
+  const attributes: Array<{ key: string; value: string }> = [];
   const stored = readStoredClick();
-  if (!stored) return [];
-  return CLICK_PARAMS.filter(param => stored.ids[param]).map(param => ({
-    key: param,
-    value: stored.ids[param] as string,
-  }));
+  if (stored) {
+    for (const param of CLICK_PARAMS) {
+      const value = stored.ids[param];
+      if (!value) continue;
+      if (param === 'fbclid') attributes.push({ key: 'fbc', value: `fb.1.${stored.ts}.${value}` });
+      else attributes.push({ key: param, value });
+    }
+  }
+  try {
+    const fbp = FBP.exec(document.cookie);
+    if (fbp) attributes.push({ key: 'fbp', value: fbp[1] });
+  } catch {
+    /* cookies unavailable — the checkout pixel still matches on email/phone */
+  }
+  return attributes;
 };

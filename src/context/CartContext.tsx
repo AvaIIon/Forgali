@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect, useCallback, useRef, ReactNode } from "react";
 import { ConvertedProduct, fetchVariantStates, fetchCartStatus, isShopifyConfigured } from "@/services/shopifyService";
 import { trackPinterest } from "@/lib/pinterest";
+import { trackMeta } from "@/lib/meta";
 
 const CART_STORAGE_KEY = "forgali_cart";
 // Cart id recorded at checkout handoff; on the next visit we ask Shopify
@@ -172,6 +173,15 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         product_category: product.productType,
         product_variant_id: resolvedVariantId,
       }],
+    });
+    trackMeta("AddToCart", {
+      value: unitPrice * quantity,
+      currency: "CAD",
+      content_type: "product",
+      content_ids: [product.handle],
+      contents: [{ id: product.handle, quantity, item_price: unitPrice }],
+      content_name: product.name,
+      content_category: product.productType,
     });
   };
 
