@@ -24,8 +24,10 @@ declare global {
  *
  * Purchase is NOT tracked in this repo and cannot be. Checkout runs on Shopify's
  * domain (kjrq9s-yp.myshopify.com), so fbq can never observe it from forgali.com —
- * purchases are sent server-side from meta-bot instead. Same split as the Google
- * Ads tag above it in index.html.
+ * InitiateCheckout, AddPaymentInfo and Purchase fire from the "Meta Checkout"
+ * Shopify custom pixel instead. Same split as the Google Ads tag in index.html.
+ * The shopping events this side can see (ViewContent, AddToCart, Search) are
+ * src/lib/meta.ts.
  */
 export const MetaPixel = () => {
   const { pathname } = useLocation();
