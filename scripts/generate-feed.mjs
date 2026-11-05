@@ -90,7 +90,7 @@ async function fetchProducts() {
         seo { title description }
         featuredImage { url }
         images(first: 11) { nodes { url } }
-        variants(first: 25) { nodes { price { amount currencyCode } availableForSale } }
+        variants(first: 25) { nodes { sku price { amount currencyCode } availableForSale } }
         specs: metafields(identifiers: [{namespace: "specs", key: "overview"}, {namespace: "specs", key: "highlights"}, {namespace: "specs", key: "dimension_table"}, {namespace: "specs", key: "material"}]) { key value }
         related: metafield(namespace: "custom", key: "related_products") { references(first: 4) { nodes { ... on Product { handle } } } }
       } } }`;
@@ -197,7 +197,8 @@ ${items.join("\n")}
   // middleware.ts, mirroring ProductPage + ProductInfoTabs): o=specs.overview
   // when it differs from the description, h=first highlights, x=dimension
   // rows, m=material, s=subcategory slug (breadcrumb), r=curated
-  // custom.related_products handles ("Complete the Room").
+  // custom.related_products handles ("Complete the Room"), k=SKU of the same
+  // selectedVariant() as p (Product JSON-LD `sku`).
   const meta = {};
   for (const p of products) {
     if (p.handle === "checkout-test-item") continue;
@@ -249,6 +250,7 @@ ${items.join("\n")}
       f: amounts.length ? Math.max(...amounts) > Math.min(...amounts) : false,
       ...(st ? { st } : {}),
       ...(sd ? { sd } : {}),
+      ...(v?.sku && String(v.sku).trim() ? { k: String(v.sku).trim() } : {}),
       ...(overview ? { o: overview } : {}),
       ...(highlights.length ? { h: highlights } : {}),
       ...(dims.length ? { x: dims } : {}),
