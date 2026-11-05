@@ -44,3 +44,4 @@ exposes them (`useLocale()` → `locale`, `lp()` for paths, `t()` for UI strings
   only Shopify's own "no such article" answer becomes a real 404.
 - `scripts/generate-sitemap.mjs` lists `/blog` and every published post on each
   deploy; the `/blog` page links them regardless.
+- Post dates come from each article's Shopify visibility date. The sitemap only picks up new posts on the next deploy, so redeploy after publishing.
