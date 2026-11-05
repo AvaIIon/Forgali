@@ -31,3 +31,16 @@ exposes them (`useLocale()` → `locale`, `lp()` for paths, `t()` for UI strings
   (meta + the `/fr/:path*` X-Robots-Tag rule in `vercel.json`) and no hreflang
   is emitted. Flip it and delete that header rule to go live.
 
+
+## Blog (`/blog`)
+
+- Posts are Shopify blog articles (admin > Content > Blog posts, blog "News",
+  handle `news`). Publishing, editing, scheduling or hiding a post needs no
+  deploy; a French translation in Translate & Adapt shows on `/fr/blog`.
+- `src/lib/blog.ts` is the one module that knows the Storefront shape; the SPA
+  (`BlogIndexPage`, `BlogPostPage` via `hooks/useBlog.ts`) and `middleware.ts`
+  both read it. The middleware fetches the post at the edge per request (short
+  budget, fail-open to the plain shell) and renders head + body for crawlers;
+  only Shopify's own "no such article" answer becomes a real 404.
+- `scripts/generate-sitemap.mjs` lists `/blog` and every published post on each
+  deploy; the `/blog` page links them regardless.
