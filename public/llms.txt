@@ -22,3 +22,4 @@
 - FAQs: https://www.forgali.com/faqs
 - Shipping: https://www.forgali.com/shipping
 - Returns: https://www.forgali.com/returns
+- Blog: https://www.forgali.com/blog

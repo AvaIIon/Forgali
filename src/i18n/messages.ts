@@ -107,6 +107,7 @@ const en = {
   "footer.assemblyGuide": "Assembly Guide",
   "footer.buyingGuides": "Buying Guides",
   "footer.aboutForgali": "About Forgali",
+  "footer.blog": "Blog",
   "footer.warranty": "Warranty",
   "footer.safetyStandards": "Safety Standards",
   "footer.privacy": "Privacy Policy",
@@ -351,6 +352,15 @@ const en = {
   "guide.trust": "Free Canada-wide shipping · 30-day returns · 5-year limited warranty",
   "guide.more": "More buying guides",
   "guide.lastUpdated": "Last updated {date}.",
+
+  // --- blog (posts come from Shopify; see src/lib/blog.ts) -----------------
+  "blog.by": "By {name}",
+  "blog.more": "More from the blog",
+  "blog.all": "All posts",
+  "blog.empty": "No posts yet. The first articles are on their way.",
+  "blog.emptyGuides": "In the meantime, our buying guides answer the most common sizing questions.",
+  "blog.emptyCta": "Read the buying guides",
+  "blog.loadError": "We couldn't load the blog right now. Please try again in a moment.",
 
   // --- contact page -------------------------------------------------------
   "contact.subject": "Website enquiry from {name}",
@@ -771,6 +781,7 @@ const fr: Record<keyof typeof en, string> = {
   "footer.assemblyGuide": "Guide d'assemblage",
   "footer.buyingGuides": "Guides d'achat",
   "footer.aboutForgali": "À propos de Forgali",
+  "footer.blog": "Blogue",
   "footer.warranty": "Garantie",
   "footer.safetyStandards": "Normes de sécurité",
   "footer.privacy": "Politique de confidentialité",
@@ -1016,6 +1027,15 @@ const fr: Record<keyof typeof en, string> = {
   "guide.trust": "Livraison gratuite partout au Canada · Retours sous 30 jours · Garantie limitée de 5 ans",
   "guide.more": "Autres guides d'achat",
   "guide.lastUpdated": "Dernière mise à jour : {date}.",
+
+  // --- blog -----------------------------------------------------------------
+  "blog.by": "Par {name}",
+  "blog.more": "Autres articles du blogue",
+  "blog.all": "Tous les articles",
+  "blog.empty": "Aucun article pour le moment. Les premiers arrivent bientôt.",
+  "blog.emptyGuides": "En attendant, nos guides d'achat répondent aux questions de dimensions les plus fréquentes.",
+  "blog.emptyCta": "Lire les guides d'achat",
+  "blog.loadError": "Impossible de charger le blogue pour l'instant. Veuillez réessayer dans un moment.",
 
   // --- contact page -------------------------------------------------------
   "contact.subject": "Demande du site Web de {name}",

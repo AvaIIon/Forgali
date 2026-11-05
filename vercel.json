@@ -2717,6 +2717,10 @@
       "destination": "/index.html"
     },
     {
+      "source": "/blog/:path*",
+      "destination": "/index.html"
+    },
+    {
       "source": "/fr",
       "destination": "/index.html"
     },
@@ -2730,6 +2734,10 @@
     },
     {
       "source": "/fr/guides/:path*",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/fr/blog/:path*",
       "destination": "/index.html"
     },
     {

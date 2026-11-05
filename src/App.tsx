@@ -29,6 +29,8 @@ import PrivacyPage from "./pages/PrivacyPage";
 import TermsPage from "./pages/TermsPage";
 import GuidesIndexPage from "./pages/GuidesIndexPage";
 import GuidePage from "./pages/GuidePage";
+import BlogIndexPage from "./pages/BlogIndexPage";
+import BlogPostPage from "./pages/BlogPostPage";
 
 // One route tree, mounted twice: at "/" for English and at "/fr" for French
 // (src/i18n/locale.ts). Pages never see the prefix: <Link>/useNavigate from
@@ -53,6 +55,8 @@ const pageRoutes = (
     <Route path="terms" element={<TermsPage />} />
     <Route path="guides" element={<GuidesIndexPage />} />
     <Route path="guides/:slug" element={<GuidePage />} />
+    <Route path="blog" element={<BlogIndexPage />} />
+    <Route path="blog/:handle" element={<BlogPostPage />} />
     {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
     <Route path="*" element={<NotFound />} />
   </>

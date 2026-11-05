@@ -57,6 +57,8 @@ const STATIC_ROUTES = [
   ["/guides/console-table-behind-sofa", "0.6"],
   ["/guides/solid-pine-furniture-care", "0.6"],
   ["/guides/plank-and-beam-finishes", "0.6"],
+  // Blog index; the posts themselves are fetched below (they live in Shopify).
+  ["/blog", "0.7"],
   ["/smart-deals", "0.8"],
   ["/about", "0.6"],
   ["/contact", "0.6"],
@@ -124,13 +126,39 @@ async function fetchHandles() {
   return [...new Set(handles)].sort();
 }
 
-function buildXml(handles) {
+// Blog posts live in Shopify (src/lib/blog.ts, blog handle "news"), so their
+// URLs are read from the same Storefront API at build time. Best-effort like
+// everything else here: a failure just leaves the posts out of this deploy's
+// sitemap (the /blog page still links every one of them).
+const BLOG_HANDLE = "news";
+
+async function fetchArticleHandles() {
+  const url = `https://${domain}/api/${API_VERSION}/graphql.json`;
+  const header = "X-Shopify-Storefront-Access-Token";
+  const query = `{ blog(handle: "${BLOG_HANDLE}") { articles(first: 250, sortKey: PUBLISHED_AT, reverse: true) {
+    edges { node { handle } } } } }`;
+  const controller = new AbortController();
+  const t = setTimeout(() => controller.abort(), 15000);
+  const res = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", [header]: token },
+    body: JSON.stringify({ query }),
+    signal: controller.signal,
+  });
+  clearTimeout(t);
+  const json = await res.json();
+  const edges = json?.data?.blog?.articles?.edges ?? [];
+  return [...new Set(edges.map((e) => e?.node?.handle).filter(Boolean))];
+}
+
+function buildXml(handles, articles = []) {
   // EXCLUDED_HANDLES is a "don't advertise to search engines" list, NOT a
   // "doesn't exist" list — so it is applied here and nowhere else. The handle
   // set middleware.ts consumes must stay complete, or a live-but-unlisted page
   // (the $2 payment fixture) would start answering 404 to real visitors.
   const rows = [
     ...STATIC_ROUTES.map(([loc, pri]) => ({ loc, pri })),
+    ...articles.map((h) => ({ loc: `/blog/${h}`, pri: "0.6" })),
     ...handles
       .filter((h) => !EXCLUDED_HANDLES.has(h))
       .map((h) => ({ loc: `/product/${h}`, pri: "0.6" })),
@@ -157,8 +185,12 @@ async function main() {
     console.warn("[sitemap] no product handles returned — keeping committed sitemap.xml");
     return;
   }
-  writeFileSync(out, buildXml(handles), "utf-8");
-  console.log(`[sitemap] wrote ${handles.length} products + ${STATIC_ROUTES.length} routes`);
+  const articles = await fetchArticleHandles().catch((err) => {
+    console.warn("[sitemap] blog posts skipped:", err?.message || err);
+    return [];
+  });
+  writeFileSync(out, buildXml(handles, articles), "utf-8");
+  console.log(`[sitemap] wrote ${handles.length} products + ${articles.length} blog posts + ${STATIC_ROUTES.length} routes`);
 
   // Same handle set, in the form middleware.ts needs to tell a live product URL
   // from a deleted one. Written from the SAME fetch as the sitemap so the two can
