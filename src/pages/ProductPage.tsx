@@ -16,6 +16,7 @@ import { cdnImage, cdnSrcSet, CARD_SIZES } from "@/lib/imageProxy";
 import { categorySubcategories, productMatchesSubcategory } from "@/lib/subcategories";
 import { trackPinterest } from "@/lib/pinterest";
 import { trackMeta } from "@/lib/meta";
+import { OFFER_TERMS_JSONLD } from "@/lib/merchantPolicy";
 
 const MAX_QUANTITY = 10;
 
@@ -314,7 +315,8 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
   const isMattress = product.category === "mattresses";
 
   // Product JSON-LD for rich results (no reviews/aggregateRating — the site
-  // has no review system).
+  // has no review system). Shipping and return terms come from
+  // merchantPolicy.ts, the same object middleware.ts injects pre-hydration.
   const productJsonLd = {
     "@context": "https://schema.org/",
     "@type": "Product",
@@ -322,6 +324,8 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
     image: product.images.length ? product.images.slice(0, 8) : [product.image],
     description: product.description,
     brand: { "@type": "Brand", name: "Forgali" },
+    // The resolved variant's SKU — the one whose price is shown below.
+    ...(resolvedVariant?.sku ? { sku: resolvedVariant.sku } : {}),
     offers: {
       "@type": "Offer",
       url: `https://www.forgali.com/product/${product.handle}`,
@@ -332,6 +336,7 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
       availability: product.availableForSale
         ? "https://schema.org/InStock"
         : "https://schema.org/OutOfStock",
+      ...OFFER_TERMS_JSONLD,
     },
   };
 
