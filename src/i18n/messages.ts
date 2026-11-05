@@ -686,7 +686,7 @@ const en = {
   "about.sendMessage": "Send us a message →",
   "about.noteTitle": "A note about older listings",
   "about.noteBody":
-    "Forgali's earlier chapter as Forgali Design Centre — a custom-furniture showroom in Mississauga — is permanently closed, as is the former Concord location. Directory entries that still show a showroom at 2111 Dunwin Dr., a Concord address, or phone numbers such as (905) 820-2020 or (905) 820-9461 are out of date: those locations are closed and the numbers are no longer in service. Forgali operates entirely online today. Our current phone number is (647) 527-2110, and you can also reach us by email:",
+    "Forgali's earlier chapter as Forgali Design Centre — a custom-furniture showroom in Mississauga — is permanently closed, as is the former Concord location. Directory entries that still show a showroom at 2111 Dunwin Dr., a Concord or Vaughan address (Keele Street, Rivermede Road), or phone numbers such as (905) 820-2020 or (905) 820-9461 are out of date: those locations are closed and the numbers are no longer in service. Forgali operates entirely online today. Our current phone number is (647) 527-2110, and you can also reach us by email:",
   "about.ctaBody":
     "Real solid wood, priced fairly, shipped free across Canada. Have a look — and if you're stuck between two finishes or not sure a loft will clear your ceiling, just email us.",
   "about.shopBeds": "Shop Beds",
@@ -1366,7 +1366,7 @@ const fr: Record<keyof typeof en, string> = {
   "about.sendMessage": "Écrivez-nous →",
   "about.noteTitle": "Une note sur les anciennes fiches",
   "about.noteBody":
-    "L'ancien chapitre de Forgali sous le nom de Forgali Design Centre, une salle de montre de meubles sur mesure à Mississauga, est fermé définitivement, tout comme l'ancien emplacement de Concord. Les fiches d'annuaire qui affichent encore une salle de montre au 2111 Dunwin Dr., une adresse à Concord ou des numéros de téléphone comme le (905) 820-2020 ou le (905) 820-9461 sont périmées : ces emplacements sont fermés et les numéros ne sont plus en service. Forgali fonctionne aujourd'hui entièrement en ligne. Notre numéro de téléphone actuel est le (647) 527-2110, et vous pouvez aussi nous joindre par courriel :",
+    "L'ancien chapitre de Forgali sous le nom de Forgali Design Centre, une salle de montre de meubles sur mesure à Mississauga, est fermé définitivement, tout comme l'ancien emplacement de Concord. Les fiches d'annuaire qui affichent encore une salle de montre au 2111 Dunwin Dr., une adresse à Concord ou à Vaughan (rue Keele, chemin Rivermede) ou des numéros de téléphone comme le (905) 820-2020 ou le (905) 820-9461 sont périmées : ces emplacements sont fermés et les numéros ne sont plus en service. Forgali fonctionne aujourd'hui entièrement en ligne. Notre numéro de téléphone actuel est le (647) 527-2110, et vous pouvez aussi nous joindre par courriel :",
   "about.ctaBody":
     "Du vrai bois massif, à prix juste, livré gratuitement partout au Canada. Jetez un coup d'œil, et si vous hésitez entre deux finis ou si vous n'êtes pas certain qu'un lit mezzanine passera sous votre plafond, écrivez-nous simplement.",
   "about.shopBeds": "Magasiner les lits",
