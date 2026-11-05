@@ -4,6 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+    <!-- Per-build stamp: scripts/generate-build-id.mjs writes the id, the
+         forgali-build-stamp plugin in vite.config.ts fills it in here, and
+         middleware.ts only trusts (and caches) a shell whose stamp matches its
+         own build — so a deploy can never serve the previous deployment's shell.
+         Keep OUTSIDE the routehead markers. -->
+    <meta name="forgali-build" content="%FORGALI_BUILD%" />
+
     <!-- Google tag: Ads conversion tracking (AW-18359088538) + GA4 (G-FJSKKZF4H4,
          property 550865487, account "Forgali" under daniel@forgali.com).
          One gtag.js instance serves both targets; each gets its own config line.
