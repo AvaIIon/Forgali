@@ -51,6 +51,7 @@ export const Footer = () => {
             <h4 className="font-bold mb-4">{t("footer.company")}</h4>
             <ul className="space-y-2 text-sm text-background/70">
               <li><Link to="/about" className="hover:text-background">{t("footer.aboutForgali")}</Link></li>
+              <li><Link to="/blog" className="hover:text-background">{t("footer.blog")}</Link></li>
               <li><Link to="/warranty" className="hover:text-background">{t("footer.warranty")}</Link></li>
               <li><Link to="/safety-standards" className="hover:text-background">{t("footer.safetyStandards")}</Link></li>
             </ul>
