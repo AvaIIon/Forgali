@@ -29,6 +29,7 @@
 import handles from "./src/data/product-handles.json";
 import productMeta from "./src/data/product-meta.json";
 import categoryProducts from "./src/data/category-products.json";
+import buildId from "./src/data/build-id.json";
 import { categoryInfoMap } from "./src/lib/categoryInfo";
 import { cdnImage, cdnSrcSet } from "./src/lib/imageProxy";
 import { faqPageJsonLd, getBedSeo } from "./src/lib/categorySeo";
@@ -149,6 +150,24 @@ const END_MARK = "<!-- routehead:end -->";
 // warnings, no duplicate UI. If the shell ever stops containing this exact
 // string, body injection silently skips (head injection still runs).
 const ROOT_MARK = '<div id="root"></div>';
+
+// Per-build stamp shared with index.html (scripts/generate-build-id.mjs writes
+// it, vite.config.ts stamps it into the shell). fetchShell() only trusts — and
+// only caches — a shell carrying this exact value. Why: on 2026-11-04 a fresh
+// isolate fetched "/" while the production alias was still switching
+// deployments, got the PREVIOUS deployment's shell, cached it for its lifetime,
+// and every page it rendered sat in the CDN for an hour pointing at a bundle
+// that no longer existed — visitors got the pre-hydration HTML and no app.
+// Same module-scope guard as KNOWN/META: a bad file must not crash the isolate.
+const BUILD_ID: string = (() => {
+  try {
+    const id = (buildId as { id?: unknown })?.id;
+    return typeof id === "string" ? id : "";
+  } catch {
+    return "";
+  }
+})();
+const BUILD_STAMP = `name="forgali-build" content="${BUILD_ID}"`;
 
 type ProductMeta = {
   t: string; // title
@@ -1019,13 +1038,18 @@ const SHELL_FETCH_HEADER = "x-forgali-shell";
 
 async function fetchShell(origin: string): Promise<string | null> {
   if (shellCache) return shellCache;
-  const res = await fetch(`${origin}/`, {
+  // The build id in the query keeps a CDN copy of "/" from one deployment from
+  // ever answering the next deployment's shell fetch (static serving ignores it).
+  const res = await fetch(`${origin}/?shell=${encodeURIComponent(BUILD_ID || "x")}`, {
     headers: { [SHELL_FETCH_HEADER]: "1" },
     signal: timeoutSignal(3000),
   });
   if (!res.ok) return null;
   const text = await res.text();
   if (!text.includes(START_MARK) || !text.includes(END_MARK)) return null;
+  // Another deployment's shell (alias still switching, or a CDN copy): serve
+  // this request as the plain shell, try again on the next one, cache nothing.
+  if (BUILD_ID && !text.includes(BUILD_STAMP)) return null;
   shellCache = text;
   return text;
 }
@@ -1185,6 +1209,7 @@ export default async function middleware(request: Request) {
         "content-language": HREFLANG[locale],
         "cache-control": "public, max-age=0, s-maxage=3600",
         "x-routehead": "1", // deploy canary: proves this response was rewritten
+        ...(BUILD_ID ? { "x-shell-build": BUILD_ID } : {}), // canary: which build's shell this is
         ...(bodyInjected ? { "x-routebody": "1" } : {}), // canary: body SSR ran
       },
     });
