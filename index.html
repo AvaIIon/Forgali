@@ -112,12 +112,14 @@
     <meta name="author" content="Forgali" />
     <meta property="og:site_name" content="Forgali" />
 
-    <!-- Sitewide brand identity (site name + logo) for Google. Lives OUTSIDE the
+    <!-- Sitewide brand identity (site name + logo + profiles + return policy) for
+         Google. sameAs and hasMerchantReturnPolicy duplicate src/lib/merchantPolicy.ts
+         by hand (this block is static) — change both together. Lives OUTSIDE the
          routehead markers so it survives middleware.ts head injection and never
          collides with per-route JSON-LD (Helmet/middleware emit their own blocks;
          multiple ld+json scripts per page are valid). -->
     <script type="application/ld+json">
-      {"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://www.forgali.com/#website","url":"https://www.forgali.com/","name":"Forgali","publisher":{"@id":"https://www.forgali.com/#organization"}},{"@type":"OnlineStore","@id":"https://www.forgali.com/#organization","name":"Forgali","url":"https://www.forgali.com/","logo":"https://cdn.shopify.com/s/files/1/0972/6492/6995/files/forgali-logo-dark.png?v=1787862589","email":"daniel@forgali.com","telephone":"+1-647-527-2110","contactPoint":{"@type":"ContactPoint","contactType":"customer service","telephone":"+1-647-527-2110","email":"daniel@forgali.com","availableLanguage":["English"]},"areaServed":{"@type":"Country","name":"Canada"}}]}
+      {"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://www.forgali.com/#website","url":"https://www.forgali.com/","name":"Forgali","publisher":{"@id":"https://www.forgali.com/#organization"}},{"@type":"OnlineStore","@id":"https://www.forgali.com/#organization","name":"Forgali","url":"https://www.forgali.com/","logo":"https://cdn.shopify.com/s/files/1/0972/6492/6995/files/forgali-logo-dark.png?v=1787862589","email":"daniel@forgali.com","telephone":"+1-647-527-2110","contactPoint":{"@type":"ContactPoint","contactType":"customer service","telephone":"+1-647-527-2110","email":"daniel@forgali.com","availableLanguage":["English"]},"areaServed":{"@type":"Country","name":"Canada"},"sameAs":["https://www.facebook.com/Forgali/","https://www.pinterest.com/0nikphs1whppw6r7bgid0mtd3slnjf/"],"hasMerchantReturnPolicy":{"@type":"MerchantReturnPolicy","@id":"https://www.forgali.com/returns#policy","name":"Forgali 30-day returns","url":"https://www.forgali.com/returns","applicableCountry":"CA","returnPolicyCountry":"CA","returnPolicyCategory":"https://schema.org/MerchantReturnFiniteReturnWindow","merchantReturnDays":30,"itemCondition":"https://schema.org/NewCondition","returnMethod":"https://schema.org/ReturnByMail","returnFees":"https://schema.org/ReturnShippingFees","returnLabelSource":"https://schema.org/ReturnLabelCustomerResponsibility","refundType":"https://schema.org/FullRefund","restockingFee":20,"customerRemorseReturnFees":"https://schema.org/ReturnShippingFees","customerRemorseReturnLabelSource":"https://schema.org/ReturnLabelCustomerResponsibility","itemDefectReturnFees":"https://schema.org/FreeReturn"}}]}
     </script>
 
     <!-- Everything between the routehead markers is REPLACED per-URL by

@@ -35,6 +35,7 @@ import { cdnImage, cdnSrcSet } from "./src/lib/imageProxy";
 import { faqPageJsonLd, getBedSeo } from "./src/lib/categorySeo";
 import { categorySubcategories } from "./src/lib/subcategories";
 import { SITE_FAQS } from "./src/lib/siteFaqs";
+import { OFFER_TERMS_JSONLD } from "./src/lib/merchantPolicy";
 import {
   GUIDES,
   GUIDES_INDEX_SEO,
@@ -196,6 +197,7 @@ type ProductMeta = {
   m?: string;
   s?: string;
   r?: string[];
+  k?: string; // SKU of the same selectedVariant() the price comes from
 };
 
 // Module scope runs OUTSIDE the handler's try/catch — a wrong-shape (but
@@ -358,8 +360,9 @@ function renderHead(h: Head, locale: Locale): string {
 }
 
 // Mirrors ProductPage.tsx: title/description fallback, Product JSON-LD with
-// brand Forgali, first-variant price, NO review/rating data (owner rule — the
-// visible review counts are generated and must never reach structured data).
+// brand Forgali, first-variant price + SKU, the shared shipping/returns terms
+// (merchantPolicy.ts), NO review/rating data (owner rule — the visible review
+// counts are generated and must never reach structured data).
 function productHead(handle: string, m: ProductMeta): Head {
   const description =
     m.sd ||
@@ -375,6 +378,7 @@ function productHead(handle: string, m: ProductMeta): Head {
     // mirror that (an empty description stays empty, never the title).
     description: m.d,
     brand: { "@type": "Brand", name: "Forgali" },
+    ...(m.k ? { sku: m.k } : {}),
     ...(m.p
       ? {
           offers: {
@@ -385,6 +389,7 @@ function productHead(handle: string, m: ProductMeta): Head {
             availability: m.a
               ? "https://schema.org/InStock"
               : "https://schema.org/OutOfStock",
+            ...OFFER_TERMS_JSONLD,
           },
         }
       : {}),
