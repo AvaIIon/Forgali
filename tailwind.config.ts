@@ -104,5 +104,6 @@ export default {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  // typography: `prose` classes for the blog post body (src/pages/BlogPostPage.tsx).
+  plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],
 } satisfies Config;

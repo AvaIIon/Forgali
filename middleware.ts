@@ -46,10 +46,22 @@ import {
   type Guide,
 } from "./src/lib/guides";
 import {
+  BLOG_INDEX_SEO,
+  articleDescription,
+  articleJsonLd,
+  articlePath,
+  articleTitleTag,
+  blogIndexJsonLd,
+  fetchBlogArticle,
+  fetchBlogArticles,
+  formatPostDate,
+  type BlogArticle,
+} from "./src/lib/blog";
+import {
   STATIC_PAGE_SEO,
   type StaticPagePath,
 } from "./src/lib/staticPageSeo";
-import { EN_MESSAGES } from "./src/i18n/messages";
+import { EN_MESSAGES, interpolate } from "./src/i18n/messages";
 import {
   HERO_DESKTOP,
   HERO_DESKTOP_MEDIA,
@@ -94,6 +106,10 @@ export const config = {
     // being read by crawlers, so they get head + body like the categories.
     "/guides",
     "/guides/:path*",
+    // Blog (src/lib/blog.ts): posts live in Shopify, read at the edge per
+    // request so crawlers and link previews get the real article.
+    "/blog",
+    "/blog/:path*",
     // French (src/i18n/locale.ts): same routes under /fr. The prefix is
     // stripped in the handler and the same head/body builders run; while
     // FR_INDEXABLE is false they emit noindex instead of a canonical.
@@ -115,6 +131,8 @@ export const config = {
     "/fr/terms",
     "/fr/guides",
     "/fr/guides/:path*",
+    "/fr/blog",
+    "/fr/blog/:path*",
   ],
 };
 
@@ -755,6 +773,83 @@ function guideBody(g: Guide): string {
   ].join("\n");
 }
 
+// ---------------------------------------------------------------------------
+// Blog (src/lib/blog.ts). The posts live in Shopify, not in this repo, so
+// these are the only routes that read the Storefront API at the edge: one
+// short-budget request per page view, and the response is CDN-cached like
+// every other rewritten page. A failed read falls through to the plain shell,
+// which the SPA fills from the same query; only Shopify's own "no such
+// article" answer becomes a real 404. Same contract as guideBody otherwise:
+// plain inline-styled HTML mirroring what the pages render.
+// ---------------------------------------------------------------------------
+const BLOG_FETCH_MS = 2500;
+
+function blogIndexHead(locale: Locale): Head {
+  const s = BLOG_INDEX_SEO[locale];
+  return { title: s.title, description: s.description, path: s.path, jsonLd: blogIndexJsonLd(locale) };
+}
+
+function blogIndexBody(posts: BlogArticle[], locale: Locale): string {
+  const s = BLOG_INDEX_SEO[locale];
+  const items = posts.length
+    ? `<ul style="list-style:none;padding:0;margin:0;">${posts
+        .map((p) => {
+          const img = p.image
+            ? `<img src="${esc(cdnImage(p.image.url, 800))}" alt="${esc(p.image.alt || p.title)}" loading="lazy" style="max-width:100%;height:auto;border-radius:8px;margin:0 0 8px;">`
+            : "";
+          const excerpt = p.excerpt ? `<p style="margin:0;line-height:1.6;">${esc(p.excerpt)}</p>` : "";
+          return `<li style="margin:0 0 28px;">${img}<p style="font-size:0.8rem;margin:0 0 4px;">${esc(formatPostDate(p.publishedAt, locale))}</p><h2 style="font-size:1.2rem;font-weight:700;margin:0 0 6px;"><a href="${esc(articlePath(p))}" style="text-decoration:underline;">${esc(p.title)}</a></h2>${excerpt}</li>`;
+        })
+        .join("\n")}</ul>`
+    : `<p style="margin:0 0 12px;line-height:1.6;">${esc(EN_MESSAGES["blog.empty"])} ${esc(EN_MESSAGES["blog.emptyGuides"])}</p>\n<p style="margin:0;"><a href="/guides" style="text-decoration:underline;">${esc(EN_MESSAGES["blog.emptyCta"])}</a></p>`;
+  return [
+    `<div style="max-width:960px;margin:0 auto;padding:32px 16px;font-family:system-ui,sans-serif;">`,
+    `<h1 style="font-size:2rem;font-weight:700;margin:0 0 8px;">${esc(s.h1)}</h1>`,
+    `<p style="margin:0 0 24px;line-height:1.6;">${esc(s.lead)}</p>`,
+    items,
+    `</div>`,
+  ].join("\n");
+}
+
+function blogPostHead(a: BlogArticle): Head {
+  return {
+    title: articleTitleTag(a),
+    description: articleDescription(a),
+    path: articlePath(a),
+    image: a.image?.url,
+    jsonLd: articleJsonLd(a),
+  };
+}
+
+function blogPostBody(a: BlogArticle, others: BlogArticle[], locale: Locale): string {
+  const byline = [formatPostDate(a.publishedAt, locale), a.author ? interpolate(EN_MESSAGES["blog.by"], { name: a.author }) : ""]
+    .filter(Boolean)
+    .join(" · ");
+  const img = a.image
+    ? `<img src="${esc(cdnImage(a.image.url, 1200))}" alt="${esc(a.image.alt || a.title)}"${a.image.width ? ` width="${a.image.width}"` : ""}${a.image.height ? ` height="${a.image.height}"` : ""} style="max-width:100%;height:auto;border-radius:8px;margin:0 0 24px;">`
+    : "";
+  const more = others
+    .filter((o) => o.handle !== a.handle)
+    .slice(0, 4)
+    .map((o) => `<li style="margin:4px 0;"><a href="${esc(articlePath(o))}" style="text-decoration:underline;">${esc(o.title)}</a> · ${esc(formatPostDate(o.publishedAt, locale))}</li>`)
+    .join("");
+  return [
+    `<div style="max-width:800px;margin:0 auto;padding:32px 16px;font-family:system-ui,sans-serif;line-height:1.6;">`,
+    `<p style="margin:0 0 16px;"><a href="/" style="text-decoration:underline;">Forgali</a> › <a href="/blog" style="text-decoration:underline;">${esc(EN_MESSAGES["footer.blog"])}</a></p>`,
+    `<h1 style="font-size:2rem;font-weight:700;margin:0 0 8px;">${esc(a.title)}</h1>`,
+    byline ? `<p style="font-size:0.9rem;margin:0 0 20px;">${esc(byline)}</p>` : "",
+    img,
+    // The article body as authored in Shopify admin — the store's own HTML,
+    // not visitor input — spliced in unescaped, exactly as BlogPostPage renders it.
+    `<div>${a.contentHtml}</div>`,
+    more
+      ? `<h2 style="font-size:1.2rem;font-weight:700;margin:32px 0 8px;">${esc(EN_MESSAGES["blog.more"])}</h2><ul style="list-style:disc;padding-left:20px;margin:0;">${more}</ul>`
+      : "",
+    `<p style="margin:24px 0 0;"><a href="/blog" style="text-decoration:underline;">${esc(EN_MESSAGES["blog.all"])}</a></p>`,
+    `</div>`,
+  ].join("\n");
+}
+
 function guidesIndexHead(): Head {
   return {
     title: GUIDES_INDEX_SEO.title,
@@ -980,6 +1075,26 @@ export default async function middleware(request: Request) {
       if (!g) return notFound(origin);
       head = guideHead(g);
       body = guideBody(g);
+    } else if (pathname === "/blog" || pathname === "/blog/") {
+      head = blogIndexHead(locale);
+      // A failed read ships the head over the plain shell; the SPA fetches the
+      // same list after hydration.
+      const posts = await fetchBlogArticles(locale, { timeoutMs: BLOG_FETCH_MS }).catch(() => null);
+      body = posts ? blogIndexBody(posts, locale) : null;
+    } else if (pathname.startsWith("/blog/")) {
+      const handle = segmentAfter("/blog/", pathname);
+      if (!handle) return;
+      // A failed article read throws into the outer catch → plain shell. The
+      // list is only for the "more from the blog" links, so it may fail alone.
+      const [post, others] = await Promise.all([
+        fetchBlogArticle(handle, locale, { timeoutMs: BLOG_FETCH_MS }),
+        fetchBlogArticles(locale, { timeoutMs: BLOG_FETCH_MS }).catch((): BlogArticle[] => []),
+      ]);
+      // Shopify answered and has no visible post by that handle (hidden,
+      // deleted or mistyped) → real 404, like an unknown guide slug.
+      if (!post) return notFound(origin);
+      head = blogPostHead(post);
+      body = blogPostBody(post, others, locale);
     } else if (pathname.startsWith("/product/")) {
       const handle = segmentAfter("/product/", pathname);
       if (!handle) return;
