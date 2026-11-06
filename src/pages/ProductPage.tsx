@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import { useLocale } from "@/i18n/LocaleContext";
 import { categoryName, optionNameLabel, optionValueLabel, subcategoryName } from "@/i18n/messages";
 import { useParams, Link } from "@/i18n/router";
@@ -8,6 +8,7 @@ import { Seo } from "@/components/Seo";
 import { Check, Truck, Shield, Lock, RotateCcw, Minus, Plus, Loader2, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ProductInfoTabs } from "@/components/ProductInfoTabs";
+import { SizeCompare } from "@/components/SizeCompare";
 import { useCart } from "@/context/CartContext";
 import { useShopifyProduct, useShopifyProducts, getRelatedProducts } from "@/hooks/useShopifyProducts";
 import { getVariantImages, ConvertedProduct } from "@/services/shopifyService";
@@ -285,6 +286,22 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
 
   const canPurchase = !!resolvedVariant && resolvedVariant.availableForSale;
 
+  // Mobile sticky Add to Cart. Shows once the real buy row has scrolled up out
+  // of view, so a phone shopper deep in the photos or the Details tab can buy
+  // without scrolling back. Hidden while the buy row is on screen (no doubled
+  // button) and on lg+ where the buy box sits beside the gallery anyway.
+  const buyRowRef = useRef<HTMLDivElement>(null);
+  const [showStickyBuy, setShowStickyBuy] = useState(false);
+  useEffect(() => {
+    const el = buyRowRef.current;
+    if (!el || typeof IntersectionObserver === "undefined") return;
+    const io = new IntersectionObserver(([entry]) => {
+      setShowStickyBuy(!entry.isIntersecting && entry.boundingClientRect.top < 0);
+    });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
   const handleAddToCart = () => {
     if (product && resolvedVariant && canPurchase) {
       // Label the cart line with the FULL variant (e.g. "Blonde / Set of 4"),
@@ -341,7 +358,7 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background pb-24 lg:pb-0">
       <Seo
         title={product.seoTitle || `${product.name} | Forgali`}
         description={
@@ -536,7 +553,7 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
             })}
 
             {/* Quantity & Add to Cart */}
-            <div className="flex items-center gap-4">
+            <div ref={buyRowRef} className="flex items-center gap-4">
               <div className="flex items-center border border-border rounded-lg">
                 <button
                   onClick={() => setQuantity(Math.max(1, quantity - 1))}
@@ -599,13 +616,9 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
             </div>
 
             {/* Trust Badges */}
-            <div className="grid grid-cols-3 gap-4 pt-4 border-t border-border">
-              <div className="text-center space-y-2">
-                <div className="w-12 h-12 mx-auto bg-secondary rounded-full flex items-center justify-center">
-                  <Truck className="w-6 h-6 text-brand" />
-                </div>
-                <p className="text-xs font-medium">{t("pdp.fastShipping")}</p>
-              </div>
+            {/* No "Fast Shipping" badge: delivery is 12-18 business days (the
+                cart says so), and "fast" here contradicted it at checkout. */}
+            <div className="grid grid-cols-2 gap-4 pt-4 border-t border-border">
               <div className="text-center space-y-2">
                 <div className="w-12 h-12 mx-auto bg-secondary rounded-full flex items-center justify-center">
                   <Shield className="w-6 h-6 text-brand" />
@@ -619,6 +632,8 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
                 <p className="text-xs font-medium">{t("common.secureCheckout")}</p>
               </div>
             </div>
+
+            <SizeCompare product={product} allProducts={allProducts} />
           </div>
         </div>
       </div>
@@ -709,6 +724,41 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
       )}
 
       <Footer />
+
+      {/* Mobile sticky Add to Cart (see buyRowRef above). z-40 keeps it under
+          the cart drawer (z-50) that opens on add. */}
+      <div
+        className={`fixed inset-x-0 bottom-0 z-40 lg:hidden border-t border-border bg-background/95 backdrop-blur px-4 pt-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] shadow-[0_-4px_12px_rgba(0,0,0,0.06)] transition-transform duration-200 ${
+          showStickyBuy ? "translate-y-0" : "translate-y-full pointer-events-none"
+        }`}
+        aria-hidden={!showStickyBuy}
+      >
+        <div className="flex items-center gap-3 max-w-rail mx-auto">
+          <div className="min-w-0 flex-1">
+            <p className="text-lg font-bold text-brand-accent leading-tight">{money(displayPrice)}</p>
+            {resolvedVariant && resolvedVariant.title !== "Default Title" && (
+              <p className="text-xs text-muted-foreground truncate">
+                {resolvedVariant.options
+                  .filter(o => o.value !== "Default Title")
+                  .map(o => valueLabel(o.name, o.value))
+                  .join(" / ")}
+              </p>
+            )}
+          </div>
+          <Button
+            onClick={handleAddToCart}
+            disabled={!canPurchase}
+            tabIndex={showStickyBuy ? 0 : -1}
+            className={`px-6 py-5 text-base font-semibold rounded-lg ${
+              canPurchase
+                ? "bg-brand-positive hover:bg-brand-positive-hover text-white"
+                : "bg-gray-200 text-gray-400 cursor-not-allowed"
+            }`}
+          >
+            {canPurchase ? t("pdp.addToCart") : resolvedVariant ? t("pdp.outOfStock") : t("pdp.unavailable")}
+          </Button>
+        </div>
+      </div>
     </div>
   );
 };

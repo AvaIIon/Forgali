@@ -1147,6 +1147,36 @@ const parseDimensionTable = (raw: string): DimensionRow[] | undefined => {
   }
 };
 
+// Dimension tables for a handful of products in ONE round trip. The catalogue
+// list query carries no specs metafields (it would bloat the 300-product load),
+// so the PDP's "Compare sizes" block asks for just its siblings' tables here.
+// One aliased product(handle:) field per handle: the Storefront `products`
+// search ignores "handle:" filters and returns unrelated products.
+export const fetchDimensionTables = async (
+  handles: string[]
+): Promise<Record<string, DimensionRow[]>> => {
+  if (handles.length === 0) return {};
+  const vars = handles.map((_, i) => `$h${i}: String!`).join(', ');
+  const fields = handles
+    .map(
+      (_, i) =>
+        `p${i}: product(handle: $h${i}) { handle dimensionTable: metafield(namespace: "specs", key: "dimension_table") { value } }`
+    )
+    .join('\n');
+  const data = await shopifyFetch<
+    Record<string, { handle: string; dimensionTable: { value: string } | null } | null>
+  >(
+    `query getDimensionTables(${vars}) {\n${fields}\n}`,
+    Object.fromEntries(handles.map((h, i) => [`h${i}`, h]))
+  );
+  const out: Record<string, DimensionRow[]> = {};
+  for (const node of Object.values(data)) {
+    const rows = node?.dimensionTable?.value ? parseDimensionTable(node.dimensionTable.value) : undefined;
+    if (node && rows) out[node.handle] = rows;
+  }
+  return out;
+};
+
 const parseStringList = (raw: string): string[] | undefined => {
   try {
     const parsed = JSON.parse(raw);
