@@ -72,7 +72,7 @@ const ShippingPage = () => {
           <div>
             <h2 className="text-2xl font-bold mb-4">{t("shipping.questionsTitle")}</h2>
             <p className="text-muted-foreground">
-              {t("shipping.questions1")} <a href="mailto:daniel@forgali.com" className="text-brand-accent hover:underline">daniel@forgali.com</a>{t("shipping.questions2")}{" "}
+              {t("shipping.questions1")} <a href="mailto:support@forgali.com" className="text-brand-accent hover:underline">support@forgali.com</a>{t("shipping.questions2")}{" "}
               <Link to="/returns" className="text-brand-accent hover:underline">{t("shipping.returnsPolicyLink")}</Link>.
             </p>
           </div>

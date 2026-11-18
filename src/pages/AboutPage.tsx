@@ -275,10 +275,10 @@ const AboutPage = () => {
             <Mail className="w-8 h-8 text-brand mb-3" />
             <h3 className="font-bold text-lg mb-1">
               <a
-                href="mailto:daniel@forgali.com"
+                href="mailto:support@forgali.com"
                 className="text-brand-accent hover:underline"
               >
-                daniel@forgali.com
+                support@forgali.com
               </a>
             </h3>
             <p className="text-sm text-muted-foreground">
@@ -298,10 +298,10 @@ const AboutPage = () => {
             <p className="text-sm text-muted-foreground">
               {t("about.noteBody")}{" "}
               <a
-                href="mailto:daniel@forgali.com"
+                href="mailto:support@forgali.com"
                 className="text-brand-accent hover:underline"
               >
-                daniel@forgali.com
+                support@forgali.com
               </a>
               .
             </p>

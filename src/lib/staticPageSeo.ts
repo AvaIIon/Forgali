@@ -40,7 +40,7 @@ export const STATIC_PAGE_SEO = {
       "Shipping is free Canada-wide on all orders.",
       "Standard delivery takes 12-18 business days.",
       "No duties or brokerage fees on delivery.",
-      "Inspect your delivery on arrival and report any damage to daniel@forgali.com.",
+      "Inspect your delivery on arrival and report any damage to support@forgali.com.",
     ],
   },
   "/returns": {
@@ -54,7 +54,7 @@ export const STATIC_PAGE_SEO = {
       "Returns are accepted on new, unused, unassembled items within 30 days of delivery.",
       "Return shipping is the customer's responsibility and a restocking fee of up to 20% may apply.",
       "If an item arrives damaged, defective or incorrect, we cover return shipping and waive the restocking fee.",
-      "Request a return authorization by emailing daniel@forgali.com.",
+      "Request a return authorization by emailing support@forgali.com.",
     ],
   },
   "/contact": {
@@ -103,7 +103,7 @@ export const STATIC_PAGE_SEO = {
     lead: "A 5-year limited warranty covering manufacturing defects, supported from Canada.",
     facts: [
       "Forgali furniture carries a 5-year limited warranty against manufacturing defects.",
-      "Claims are handled by email at daniel@forgali.com with your order number.",
+      "Claims are handled by email at support@forgali.com with your order number.",
     ],
   },
   "/safety-standards": {
@@ -129,7 +129,7 @@ export const STATIC_PAGE_SEO = {
     facts: [
       "All beds require assembly and ship with step-by-step instructions and the necessary hardware.",
       "Most beds can be assembled in 1-2 hours with basic tools.",
-      "Replacement instructions and parts are available by emailing daniel@forgali.com.",
+      "Replacement instructions and parts are available by emailing support@forgali.com.",
     ],
   },
   "/smart-deals": {

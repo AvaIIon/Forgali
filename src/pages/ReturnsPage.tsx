@@ -45,7 +45,7 @@ const ReturnsPage = () => {
             </p>
             <ol className="list-decimal list-inside space-y-2 text-muted-foreground mb-3">
               <li>
-                {t("returns.step1a")} <a href="mailto:daniel@forgali.com" className="text-brand-accent hover:underline">daniel@forgali.com</a>{t("returns.step1b")}
+                {t("returns.step1a")} <a href="mailto:support@forgali.com" className="text-brand-accent hover:underline">support@forgali.com</a>{t("returns.step1b")}
               </li>
               <li>
                 {t("returns.step2")}
@@ -76,7 +76,7 @@ const ReturnsPage = () => {
           <div>
             <h2 className="text-2xl font-bold mb-4">{t("returns.contactTitle")}</h2>
             <p className="text-muted-foreground">
-              {t("returns.contact1")} <a href="mailto:daniel@forgali.com" className="text-brand-accent hover:underline">daniel@forgali.com</a>{t("returns.contact2")}{" "}
+              {t("returns.contact1")} <a href="mailto:support@forgali.com" className="text-brand-accent hover:underline">support@forgali.com</a>{t("returns.contact2")}{" "}
               <Link to="/shipping" className="text-brand-accent hover:underline">{t("returns.shippingLink")}</Link>{t("returns.and")}{" "}
               <Link to="/warranty" className="text-brand-accent hover:underline">{t("returns.warrantyLink")}</Link>{t("returns.pages")}
             </p>
