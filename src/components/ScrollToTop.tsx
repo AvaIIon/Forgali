@@ -6,17 +6,21 @@ import { useLocation, useNavigationType } from "react-router-dom";
  * a "You May Also Like" card at the bottom of a product page previously landed
  * the customer at the bottom of the next page). Back/forward (POP) navigations
  * are left alone so the browser can restore the previous scroll position, and
- * query-only changes (Smart Deals ?room= tabs) don't trigger a jump.
+ * query-only changes (Smart Deals ?room= tabs) don't trigger a jump. A link
+ * navigated with state { keepScroll: true } (the product page's size row, where
+ * the other size is another product but reads as a variant switch) also stays
+ * put.
  */
 export const ScrollToTop = () => {
-  const { pathname } = useLocation();
+  const { pathname, state } = useLocation();
   const navigationType = useNavigationType();
+  const keepScroll = Boolean((state as { keepScroll?: boolean } | null)?.keepScroll);
 
   useEffect(() => {
-    if (navigationType !== "POP") {
+    if (navigationType !== "POP" && !keepScroll) {
       window.scrollTo(0, 0);
     }
-  }, [pathname, navigationType]);
+  }, [pathname, navigationType, keepScroll]);
 
   return null;
 };
