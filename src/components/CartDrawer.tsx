@@ -170,7 +170,7 @@ export const CartDrawer = () => {
                       {t("common.checkoutUnavailable")}
                     </Button>
                     <p className="text-sm text-muted-foreground">
-                      {t("common.checkoutUnavailableBody1")}<a href="mailto:daniel@forgali.com" className="underline">daniel@forgali.com</a>{t("common.checkoutUnavailableBody2")}
+                      {t("common.checkoutUnavailableBody1")}<a href="mailto:support@forgali.com" className="underline">support@forgali.com</a>{t("common.checkoutUnavailableBody2")}
                     </p>
                   </div>
                 )}
