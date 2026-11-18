@@ -62,7 +62,7 @@ const TermsPage = () => {
             <h2 className="text-2xl font-bold text-foreground mb-3">{t("terms.contactTitle")}</h2>
             <p>
               {t("terms.contactBody")}{" "}
-              <a href="mailto:daniel@forgali.com" className="text-brand-accent hover:underline">daniel@forgali.com</a>.
+              <a href="mailto:support@forgali.com" className="text-brand-accent hover:underline">support@forgali.com</a>.
               {" "}{t("terms.seeAlso")} <Link to="/privacy" className="text-brand-accent hover:underline">{t("footer.privacy")}</Link>.
             </p>
           </div>

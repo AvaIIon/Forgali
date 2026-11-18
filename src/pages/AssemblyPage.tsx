@@ -52,7 +52,7 @@ const AssemblyPage = () => {
             <h2 className="text-2xl font-bold mb-4">{t("assembly.instructionsTitle")}</h2>
             <p className="text-muted-foreground mb-3">
               {t("assembly.instructions1")}{" "}
-              <a href="mailto:daniel@forgali.com" className="text-brand-accent hover:underline">daniel@forgali.com</a>{" "}
+              <a href="mailto:support@forgali.com" className="text-brand-accent hover:underline">support@forgali.com</a>{" "}
               {t("assembly.instructions2")}
             </p>
             <p className="text-muted-foreground">

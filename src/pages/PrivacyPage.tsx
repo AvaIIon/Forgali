@@ -67,7 +67,7 @@ const PrivacyPage = () => {
             <h2 className="text-2xl font-bold text-foreground mb-3">{t("privacy.contactTitle")}</h2>
             <p>
               {t("privacy.contactBody")}{" "}
-              <a href="mailto:daniel@forgali.com" className="text-brand-accent hover:underline">daniel@forgali.com</a>.
+              <a href="mailto:support@forgali.com" className="text-brand-accent hover:underline">support@forgali.com</a>.
               {" "}{t("terms.seeAlso")} <Link to="/terms" className="text-brand-accent hover:underline">{t("footer.terms")}</Link>.
             </p>
           </div>
