@@ -542,6 +542,36 @@ export const GUIDE_PICKS_PER_VIEW = 3;
 export const GUIDE_PICKS_MAX = 8;
 
 /**
+ * Guides for a product page: the guides whose "Shop" links include the
+ * product's breadcrumb subcategory, topped up (dining and living only) from
+ * the category's general sizing, finish and care guides, PRODUCT_GUIDES_MAX
+ * in all. Bed categories get none — the guides are dining & living copy.
+ * Shared by ProductPage and middleware.ts so the hydrated page and the crawler
+ * body list the same guides in the same order. Why: Search Console (2026-11-17)
+ * has the guides earning 1,255 impressions at positions 13–60 with inbound
+ * links only from the category pages and the footer; the 298 product pages
+ * carried none.
+ */
+export const PRODUCT_GUIDES_MAX = 3;
+const PRODUCT_GUIDE_FALLBACK: Record<string, string[]> = {
+  dining: ["dining-table-size", "plank-and-beam-finishes", "solid-pine-furniture-care"],
+  living: ["coffee-table-size", "plank-and-beam-finishes", "solid-pine-furniture-care"],
+};
+export const guidesForProduct = (category: string | null, subcategory: string | null): Guide[] => {
+  const out: Guide[] = subcategory ? GUIDES.filter((g) => g.related.includes(subcategory)) : [];
+  const fallback =
+    category && Object.prototype.hasOwnProperty.call(PRODUCT_GUIDE_FALLBACK, category)
+      ? PRODUCT_GUIDE_FALLBACK[category]
+      : [];
+  for (const slug of fallback) {
+    if (out.length >= PRODUCT_GUIDES_MAX) break;
+    const g = getGuide(slug);
+    if (g && !out.includes(g)) out.push(g);
+  }
+  return out.slice(0, PRODUCT_GUIDES_MAX);
+};
+
+/**
  * Article + BreadcrumbList + FAQPage for one guide. Shared by GuidePage and
  * middleware.ts so the injected and hydrated schema are byte-identical.
  */

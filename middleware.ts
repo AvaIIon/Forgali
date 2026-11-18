@@ -45,6 +45,7 @@ import {
   getGuide,
   guideJsonLd,
   guideShopViews,
+  guidesForProduct,
   relatedLinks,
   type Guide,
 } from "./src/lib/guides";
@@ -659,6 +660,18 @@ function productBody(handle: string, m: ProductMeta): string | null {
     : fallback.length
       ? `<h2 ${H2}>${esc(EN["pdp.youMayAlsoLike"])}</h2>${productLinkList(fallback)}`
       : "";
+  // Buying guides (src/lib/guides.ts): the same list ProductPage renders. Keyed
+  // by m.s, which generate-feed.mjs resolves with the tabs' matcher — the same
+  // matcher the hydrated page uses for its breadcrumb subcategory.
+  const guides = guidesForProduct(cat, m.s ?? null);
+  const guideLinks = guides.length
+    ? `<h2 ${H2}>${esc(EN["pdp.buyingGuides"])}</h2><ul style="list-style:disc;padding-left:20px;margin:0 0 16px;">${guides
+        .map(
+          (g) =>
+            `<li style="margin:6px 0;"><a href="/guides/${esc(g.slug)}" style="text-decoration:underline;">${esc(g.h1)}</a></li>`
+        )
+        .join("")}</ul>`
+    : "";
   return [
     `<div style="max-width:800px;margin:0 auto;padding:32px 16px;font-family:system-ui,sans-serif;">`,
     `<p style="margin:0 0 16px;"><a href="/" style="text-decoration:underline;">${esc(EN["pdp.home"])}</a>${crumb}</p>`,
@@ -669,6 +682,7 @@ function productBody(handle: string, m: ProductMeta): string | null {
     img,
     desc,
     details,
+    guideLinks,
     related,
     `<p style="margin:0;">${esc(TRUST_LINE)}</p>`,
     `</div>`,

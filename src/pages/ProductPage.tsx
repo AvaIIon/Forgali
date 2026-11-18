@@ -18,6 +18,7 @@ import { categorySubcategories, productMatchesSubcategory } from "@/lib/subcateg
 import { trackPinterest } from "@/lib/pinterest";
 import { trackMeta } from "@/lib/meta";
 import { OFFER_TERMS_JSONLD } from "@/lib/merchantPolicy";
+import { guidesForProduct } from "@/lib/guides";
 
 const MAX_QUANTITY = 10;
 
@@ -137,6 +138,14 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
         productMatchesSubcategory(product, sub.slug)
       ) ?? null,
     [product]
+  );
+
+  // Buying guides for this piece (src/lib/guides.ts): the same list
+  // middleware.ts prints in the crawler body, keyed by the breadcrumb
+  // subcategory so the two never disagree.
+  const buyingGuides = useMemo(
+    () => guidesForProduct(product.category, breadcrumbSub?.slug ?? null),
+    [product.category, breadcrumbSub]
   );
 
   // Every real product option gets a selector (finish swatches, size/quantity/
@@ -706,6 +715,26 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
           and per-product highlights, which are far too wide to read squeezed
           beside the buy box. */}
       <ProductInfoTabs product={product} />
+
+      {/* Buying guides — the sizing, finish and care guides behind this piece.
+          Also the product pages' only inbound links to /guides (Search
+          Console 2026-11-17: the guides rank 13–60 on their queries). */}
+      {buyingGuides.length > 0 && (
+        <section className="py-10">
+          <div className="max-w-rail mx-auto px-4">
+            <h2 className="text-xl font-bold mb-3">{t("pdp.buyingGuides")}</h2>
+            <ul className="space-y-2">
+              {buyingGuides.map((g) => (
+                <li key={g.slug}>
+                  <Link to={`/guides/${g.slug}`} className="text-brand-accent underline hover:text-foreground">
+                    {g.h1}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      )}
 
       {/* Complete the Room — curated same-style pieces (bed↔dresser↔
           nightstand, table↔chairs↔console per family) */}
