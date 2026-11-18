@@ -53,14 +53,14 @@ const BED_SEO: Record<string, CategorySeo> = {
   "single-beds": {
     seoTitle: "Single Beds Canada – Solid Wood, Free Shipping | Forgali",
     seoDescription:
-      "Shop 24 solid-wood single beds in Twin, Full and Queen, from $265. Free Canada-wide shipping and 30-day returns. Find a platform, house or trundle bed today.",
+      "Shop 24 solid-wood single beds in Twin, Full and Queen, from $268. Free Canada-wide shipping and 30-day returns. Find a platform, house or trundle bed today.",
     h1: "Single Beds Canada",
-    lead: "24 solid-wood single beds — platform, house and trundle styles in Twin, Full and Queen, from $265.",
+    lead: "24 solid-wood single beds — platform, house and trundle styles in Twin, Full and Queen, from $268.",
   },
   "bedroom": {
     seoTitle: "Kids Beds Canada – Solid Wood, Free Shipping | Forgali",
     seoDescription:
-      "Shop kids beds in Canada from $265 — solid-wood bunk, loft and single beds with free Canada-wide shipping and easy 30-day returns. Find the right fit today.",
+      "Shop kids beds in Canada from $268 — solid-wood bunk, loft and single beds with free Canada-wide shipping and easy 30-day returns. Find the right fit today.",
     h1: "Kids Beds Canada",
     lead: "122 solid-wood bunk, loft and single beds — including a wide range of Max & Lily, shipped across Canada.",
   },
@@ -142,9 +142,9 @@ const BED_SEO: Record<string, CategorySeo> = {
   },
   "dining|dining-tables": {
     seoTitle: "Solid Wood Dining Tables Canada - Free Shipping | Forgali",
-    seoDescription: "28 solid wood dining tables from $317 CAD: 48 to 94 inch rectangular, 38 and 47 inch round, oval and counter height. Free Canada-wide shipping, 30-day returns.",
+    seoDescription: "28 solid wood dining tables from $426 CAD: 48 to 94 inch rectangular, 38 and 47 inch round, oval and counter height. Free Canada-wide shipping, 30-day returns.",
     h1: "Solid Wood Dining Tables Canada",
-    lead: "28 Plank & Beam dining and kitchen tables in knot-free solid wood, from $317 CAD with free shipping across Canada.",
+    lead: "28 Plank & Beam dining and kitchen tables in knot-free solid wood, from $426 CAD with free shipping across Canada.",
     intro: "Every table here is built from knot-free solid wood with hand-applied, low-VOC finishes, so you get real wood grain without the price of a custom maker. Rectangular tables run from 48 inches up to 94 inches, round tables come in 38 and 47 inch sizes, and there are two oval tables and two counter-height tables for smaller rooms.\n\nThe Classic collection is a farmhouse style with a textured wirebrush finish. Modern has clean square legs, Mid-Century Modern has tapered legs, Verso has crossed Scandinavian-style legs, Contour has rounded edges, Lido has a slatted pedestal base and Camden is a rustic plank look. All of them share Pecan, Walnut, Blonde and Black finishes, with Coastal White and wirebrushed options on Classic and Modern.",
     sections: [
       {
@@ -158,7 +158,7 @@ const BED_SEO: Record<string, CategorySeo> = {
       },
       {
         h2: "Matching benches and chairs",
-        body: "Each table collection has a matching bench in the same finish: a 60-inch bench fits the 72-inch tables and the 83 and 85-inch benches fit the 94-inch tables. Chairs with wood seats start at $169 and upholstered chairs from $317, or choose a ready-made set with the table and seating priced together.",
+        body: "Each table collection has a matching bench in the same finish: a 60-inch bench fits the 72-inch tables and the 83 and 85-inch benches fit the 94-inch tables. Chairs start at $454 in both wood-seat and upholstered styles, the Smythe dining stool at $312, or choose a ready-made set with the table and seating priced together.",
         links: [
           { label: "Dining benches", href: "/category/dining?subcategory=dining-benches" },
           { label: "Dining chairs", href: "/category/dining?subcategory=dining-chairs" },
@@ -175,43 +175,65 @@ const BED_SEO: Record<string, CategorySeo> = {
     ],
   },
   "dining|round-dining-tables": {
-    seoTitle: "Round & Oval Dining Tables Canada - Solid Wood | Forgali",
-    seoDescription: "Solid pine round dining tables in 38 and 47 inch sizes plus 62 and 72 inch oval tables, from $353 CAD. Free Canada-wide shipping, 30-day returns.",
-    h1: "Round & Oval Solid Wood Dining Tables",
-    lead: "Six round tables in 38 and 47 inch sizes and two oval tables, all solid wood, from $353 CAD with free shipping across Canada.",
-    intro: "A round table is the easiest way to seat four in a small dining area or kitchen. There are no corners to walk around, everyone faces each other, and a 47-inch round takes less floor space than a 60-inch rectangle while seating the same four people. The 38-inch Lido and Verso rounds suit breakfast nooks and condos where a table for two to four needs to fit.\n\nThe round tables come in the Classic, Verso, Contour and Lido collections, and the oval tables in Verso and Lido. Classic uses four legs, Verso has crossed legs, Contour has rounded edges and Lido sits on a slatted pedestal base so nobody gets a leg in the way. The Contour and Lido rounds and both ovals come in Pecan, Walnut, Blonde and Black, the Classic round in wirebrushed Pecan, Walnut, Blonde and Black or Coastal White, and the 38-inch Verso round in Pecan or Blonde.",
+    seoTitle: "Round Dining Tables Canada - Solid Wood & Oval | Forgali",
+    seoDescription: "Solid wood round dining tables in 38 and 47 inch sizes and 62 and 72 inch ovals, from $426 CAD. Seats four to six. Free Canada-wide shipping, 30-day returns.",
+    h1: "Round Dining Tables in Solid Wood",
+    lead: "Six round tables in 38 and 47 inch sizes and two oval tables, all solid wood, from $426 CAD with free shipping across Canada.",
+    intro: "A round table is the easiest way to seat four in a small dining area or kitchen. There are no corners to walk around, everyone faces each other, and a 47-inch round takes less floor space than a 60-inch rectangle while seating the same four people. The 38-inch Lido and Verso rounds suit breakfast nooks and condos where a table for two to four needs to fit.\n\nThe round tables come in the Classic, Verso, Contour and Lido collections, and the oval tables in Verso and Lido. Classic uses four legs, Verso has crossed legs, Contour has rounded edges and Lido sits on a slatted pedestal base so nobody gets a leg in the way. The Contour and Lido rounds and both ovals come in Pecan, Walnut, Blonde and Black, the Classic round in wirebrushed Pecan, Blonde, Seashell and Black or Coastal White, the 47-inch Verso round in Pecan, Blonde or Black and the 38-inch Verso round in Pecan or Blonde.",
     sections: [
+      {
+        h2: "Round wood dining tables, not veneer",
+        body: "Every round table here has a solid wood top. The Classic, Verso and Contour rounds are knot-free solid pine, the Verso on rubberwood legs, and the Lido round and oval tables pair a solid pine top with a rubberwood and engineered-core pedestal. All eight stand 30 inches high, the standard dining height, and the finishes are hand-applied and low-VOC, so the table can go straight into a kitchen.",
+        links: [
+          { label: "Finishes compared", href: "/guides/plank-and-beam-finishes" },
+          { label: "Caring for solid pine", href: "/guides/solid-pine-furniture-care" },
+        ],
+      },
       {
         h2: "Round or oval?",
         body: "Choose a 38-inch round for two to four people, a 47-inch round for four, a 62-inch oval for four with more elbow room, or a 72-inch oval to seat six. The oval tables fit a narrow dining room better than a round table of the same capacity because they keep the width down.",
         links: [
           { label: "All dining tables", href: "/category/dining?subcategory=dining-tables" },
-          { label: "Kitchen tables for small spaces", href: "/category/dining?subcategory=kitchen-tables" },
+          { label: "Dining table size guide", href: "/guides/dining-table-size" },
         ],
       },
       {
-        h2: "Chairs that fit a round table",
-        body: "Round tables work best with armless chairs so four can tuck in all the way around. The Lido spindle-back chair was designed for the Lido tables, and the Windsor, Elio, Brio and Sereno chairs match the other collections in the same finishes.",
-        links: [{ label: "Dining chairs", href: "/category/dining?subcategory=dining-chairs" }],
+        h2: "Small round dinette tables",
+        body: "For a breakfast nook or a condo kitchen, the 38-inch tables are the dinette size: the Verso round at $530 CAD and the Lido round at $653 CAD each seat two every day and four when needed, on under 8 square feet of floor. Step up to 47 inches when four people eat together most nights.",
+        links: [{ label: "Kitchen tables for small spaces", href: "/category/dining?subcategory=kitchen-tables" }],
+      },
+      {
+        h2: "Round dining table sets and chairs",
+        body: "There is no boxed round set, so build your own: a 47-inch round seats four armless chairs, and the Lido spindle-back chair was designed for the Lido tables. The Windsor, Elio, Brio and Sereno chairs match the other collections in the same finishes, and most are sold in sets of two or four so the whole table arrives together.",
+        links: [
+          { label: "Dining chairs", href: "/category/dining?subcategory=dining-chairs" },
+          { label: "Ready-made dining sets", href: "/category/dining?subcategory=dining-sets" },
+        ],
       },
     ],
     faqs: [
       { q: "How many people fit around a 47-inch round table?", a: "Four comfortably. A 38-inch round seats two to four, and the 72-inch oval seats six." },
-      { q: "Are the round tables solid wood?", a: "The Classic, Verso and Contour rounds are knot-free solid wood. The Lido round and oval tables combine solid wood with rubberwood and an engineered core in the pedestal." },
+      { q: "How much room does a 47-inch round table need?", a: "Allow about 36 inches from the table edge to the wall or the next piece of furniture so chairs can pull out, which means a space roughly 10 feet across for a 47-inch round and about 9 feet across for a 38-inch round." },
+      { q: "Are the round tables solid wood?", a: "Yes. The Classic, Verso and Contour rounds have knot-free solid pine tops, and the Lido round and oval tables combine a solid pine top with rubberwood and an engineered core in the pedestal." },
       { q: "Do the round tables have a pedestal base?", a: "The Lido tables do, with a slatted pedestal that leaves the legroom clear. The Classic and Contour round tables stand on legs, and the Verso rounds on a crossed-leg base." },
       { q: "Does shipping to Canada cost extra?", a: "No. Shipping is free to any address in Canada." },
     ],
   },
   "dining|kitchen-tables": {
-    seoTitle: "Kitchen Tables for Small Spaces Canada - Solid Wood | Forgali",
-    seoDescription: "48-inch solid wood kitchen tables for four, from $317 CAD, in Classic, Modern, Mid-Century Modern and Verso styles. Free Canada-wide shipping, 30-day returns.",
-    h1: "Solid Wood Kitchen Tables for Small Spaces",
-    lead: "Four 48-inch kitchen tables in knot-free solid wood, each seating four, from $317 CAD with free shipping across Canada.",
-    intro: "A 48-inch table is the standard size for an eat-in kitchen, a condo dining nook or an apartment. It seats four with everyday elbow room and still leaves space to walk past. These four tables are the 48-inch versions of the Classic, Modern, Mid-Century Modern and Verso dining collections, so the same finishes are available on the matching benches and chairs if you add seating later.\n\nAll four are knot-free solid wood with hand-applied, low-VOC finishes. The Classic table has a textured wirebrush finish and a farmhouse look, Modern has square legs, Mid-Century Modern has tapered legs and Verso has crossed legs. Finishes are Pecan, Walnut, Blonde, Black and Coastal White depending on the collection.",
+    seoTitle: "Small Kitchen Tables Canada - Solid Wood, 48 Inch | Forgali",
+    seoDescription: "Small 48-inch solid wood kitchen tables that seat four, from $426 CAD, in Classic, Modern, Mid-Century Modern and Verso styles. Free Canada-wide shipping.",
+    h1: "Small Kitchen Tables for Two to Four",
+    lead: "Four 48-inch kitchen tables in knot-free solid wood, each seating four, from $426 CAD with free shipping across Canada.",
+    intro: "A 48-inch table is the standard size for an eat-in kitchen, a condo dining nook or an apartment. It seats four with everyday elbow room and still leaves space to walk past. These four tables are the 48-inch versions of the Classic, Modern, Mid-Century Modern and Verso dining collections, so the same finishes are available on the matching benches and chairs if you add seating later.\n\nAll four are knot-free solid wood with hand-applied, low-VOC finishes. The Classic table has a textured wirebrush finish and a farmhouse look, Modern has square legs, Mid-Century Modern has tapered legs and Verso has crossed legs. Finishes are Pecan, Walnut, Blonde, Black, Seashell and Coastal White depending on the collection.",
     sections: [
       {
+        h2: "Small kitchen tables for two to four",
+        body: "The Modern, Verso and Mid-Century Modern tables are 48 by 32 inches, which seats two along each long side, or two people with the ends free. The Mid-Century Modern table at $426 CAD is the lightest of the four at 45 pounds and comes in Black; the Verso from $454 CAD comes in Pecan, Walnut, Blonde or Black; and the Modern at $566 CAD and the Classic at $583 CAD add the wirebrushed finishes and Coastal White.",
+        links: [{ label: "Dining table size guide", href: "/guides/dining-table-size" }],
+      },
+      {
         h2: "Fitting a table into a small kitchen",
-        body: "Measure the floor space first. A 48-inch table needs roughly 48 by 30 inches of floor plus 30 to 36 inches on each side where chairs pull out. If that is too tight, a 38-inch round table seats two to three in less space, and a bench along a wall side saves another foot of clearance.",
+        body: "Measure the floor space first. A 48-inch table needs roughly 48 by 32 inches of floor plus 30 to 36 inches on each side where chairs pull out. If that is too tight, a 38-inch round table seats two to three in less space, and a bench along a wall side saves another foot of clearance.",
         links: [
           { label: "Round dining tables", href: "/category/dining?subcategory=round-dining-tables" },
           { label: "48-inch dining benches", href: "/category/dining?subcategory=dining-benches" },
@@ -219,7 +241,7 @@ const BED_SEO: Record<string, CategorySeo> = {
       },
       {
         h2: "Counter height kitchen tables",
-        body: "The Classic and Modern counter height tables are 41 inches long and stand at counter height, which works as a breakfast bar, a homework station or a standing-height workspace in an open kitchen. Pair them with 24-inch counter stools.",
+        body: "The Classic counter height dining table is 41.5 inches square and 36 inches high, from $454 CAD, which works as a breakfast bar, a homework station or a standing-height workspace in an open kitchen, and the counter height dining set adds four chairs. Pair the table with 24 to 26 inch counter stools.",
         links: [
           { label: "All dining tables", href: "/category/dining?subcategory=dining-tables" },
           { label: "Counter stools", href: "/category/dining?subcategory=counter-stools" },
@@ -228,6 +250,7 @@ const BED_SEO: Record<string, CategorySeo> = {
     ],
     faqs: [
       { q: "How many people does a 48-inch kitchen table seat?", a: "Four, one on each side or two per long side. For six people, move up to a 60 or 72-inch dining table." },
+      { q: "What is the smallest kitchen table you sell?", a: "The 38-inch round tables from the Verso and Lido collections, which seat two to four. The 48-inch tables here seat four." },
       { q: "Can I use a bench with a 48-inch table?", a: "Yes. A 46 to 49-inch bench seats two along one side of a 48-inch table. It sits flush with the table edge rather than tucking underneath." },
       { q: "Is the kitchen table solid wood?", a: "Yes. All four 48-inch tables are knot-free solid wood with low-VOC finishes." },
       { q: "Is shipping included?", a: "Yes. Every table ships free anywhere in Canada." },
@@ -235,9 +258,9 @@ const BED_SEO: Record<string, CategorySeo> = {
   },
   "dining|dining-chairs": {
     seoTitle: "Solid Wood Dining Chairs Canada - Free Shipping | Forgali",
-    seoDescription: "19 Plank & Beam dining chairs from $169 CAD: Windsor, spindle-back, upholstered, slipcovered and armchairs, sold singly or in sets of 2 and 4. Free Canada-wide shipping.",
+    seoDescription: "19 Plank & Beam dining chairs and stools from $312 CAD: Windsor, spindle-back, upholstered, slipcovered and armchairs, sold singly or in sets of 2 and 4. Free Canada-wide shipping.",
     h1: "Solid Wood Dining Chairs",
-    lead: "19 dining chairs on solid rubberwood and hardwood frames, from $169 CAD, sold individually or in sets of two and four with free shipping across Canada.",
+    lead: "19 dining chairs on solid rubberwood and hardwood frames, from $312 CAD for the Smythe dining stool and $454 for a chair, sold individually or in sets of two and four with free shipping across Canada.",
     intro: "Plank & Beam dining chairs are built on solid rubberwood or hardwood frames with low-VOC finishes, in the same Pecan, Walnut, Blonde and Black finishes as the tables. The Windsor and Lido chairs are all-wood spindle backs, the Lido rated to 400 pounds. The Elio, Brio, Loar and Sereno chairs add an upholstered seat in Ivory, Sesame, Toffee, Terracotta, Marine or Evergreen. The Chesnee chair wears a machine-washable twill slipcover in five colours, and the Ernesto armchair is fully upholstered in microsuede for the head of the table.\n\nMost chairs are sold individually, and the Windsor, Lido and Solid Wood chairs also come in sets of two and four at a lower per-chair price. The 18-inch Smythe stool is a backless option for a kitchen table or a kids' end of the table.",
     sections: [
       {
@@ -259,7 +282,7 @@ const BED_SEO: Record<string, CategorySeo> = {
     ],
     faqs: [
       { q: "Are the dining chairs solid wood?", a: "The frames are solid rubberwood or hardwood. The Windsor chair is all hardwood, the Lido is solid rubberwood with a 400-pound weight rating, and the upholstered chairs have a cushioned seat on a rubberwood frame." },
-      { q: "Do the chairs come in sets?", a: "Yes. The Windsor, Lido and Solid Wood chairs are sold in sets of two from $530 and sets of four from $831. Other chairs are sold individually, and the Ernesto armchair and Chesnee come in sets of two." },
+      { q: "Do the chairs come in sets?", a: "Yes. The Windsor, Lido and Solid Wood chairs are sold in sets of two from $530 and sets of four from $909. Other chairs are sold individually, and the Ernesto armchair and Chesnee come in sets of two." },
       { q: "Can the Chesnee slipcover be washed?", a: "Yes. The twill slipcover slips off and is machine washable. Short and long slipcover versions are available in Chocolate, Bone, Concrete, Ocean Blue and Sand." },
       { q: "Do the chairs match the tables?", a: "Yes. Chairs come in the same Pecan, Walnut, Blonde and Black finishes as the dining tables, so a Lido chair matches a Lido table and a Windsor chair matches the Classic or Modern tables." },
       { q: "Is assembly required?", a: "Yes, with hardware and instructions included. Chairs go together quickly." },
@@ -267,9 +290,9 @@ const BED_SEO: Record<string, CategorySeo> = {
   },
   "dining|dining-benches": {
     seoTitle: "Solid Wood Dining Benches Canada - Free Shipping | Forgali",
-    seoDescription: "13 solid wood dining benches from 46 to 85 inches plus the Risa corner banquette, from $211 CAD. Free Canada-wide shipping and 30-day returns.",
+    seoDescription: "13 solid wood dining benches from 46 to 85 inches plus the Risa corner banquette, from $326 CAD. Free Canada-wide shipping and 30-day returns.",
     h1: "Solid Wood Dining Benches",
-    lead: "13 dining benches in knot-free solid wood, from 46 to 85 inches long, plus the Risa corner banquette, from $211 CAD with free shipping across Canada.",
+    lead: "13 dining benches in knot-free solid wood, from 46 to 85 inches long, plus the Risa corner banquette, from $326 CAD with free shipping across Canada.",
     intro: "A bench seats more people per foot than chairs, tucks fully under the table when nobody is sitting on it, and costs less than two chairs. These benches are the matching seating for the Classic, Modern, Mid-Century Modern, Verso, Contour and Camden dining tables, in the same Pecan, Walnut, Blonde, Black, Coastal White and wirebrushed finishes.\n\nLengths run from 46 inches for a 48-inch kitchen table, through 58 to 61 inches for the 72-inch tables, up to 83 and 85 inches for the 94-inch tables. The Risa banquette is the one piece with a back: a 63 by 63 inch solid pine and hardwood corner bench for a breakfast nook, with an optional Cream or Onyx cushion. There is also a Modern outdoor bench finished for a covered patio.",
     sections: [
       {
@@ -301,9 +324,9 @@ const BED_SEO: Record<string, CategorySeo> = {
   },
   "dining|bar-counter-chairs": {
     seoTitle: "Counter & Bar Stools Canada - Solid Wood | Forgali",
-    seoDescription: "13 solid wood counter and bar stools from $186 CAD: 24 to 26 inch counter height and 30 to 31 inch bar height, backless or with backs, upholstered options. Free Canada-wide shipping.",
+    seoDescription: "13 solid wood counter and bar stools from $341 CAD: 24 to 26 inch counter height and 30 to 31 inch bar height, backless or with backs, upholstered options. Free Canada-wide shipping.",
     h1: "Counter & Bar Stools Canada",
-    lead: "13 counter and bar stools on solid rubberwood and hardwood frames, from $186 CAD, with free shipping across Canada.",
+    lead: "13 counter and bar stools on solid rubberwood and hardwood frames, from $341 CAD, with free shipping across Canada.",
     intro: "Counter stools are 24 to 26 inches to the seat and fit a standard 36-inch kitchen counter or island. Bar stools are 30 to 31 inches to the seat for a 42-inch bar. Plank & Beam makes both heights in the same designs, so you can match stools to a kitchen island and a home bar in one finish.\n\nThe Smythe and Beryl stools are backless with a contoured seat and tuck fully under the counter. The Solid Wood, Elio, Sereno, Brio and Loar chairs have backs, and the Elio, Sereno, Brio and Loar add an upholstered seat in Ivory, Sesame, Toffee, Terracotta, Marine or Evergreen. Finishes are Pecan, Walnut, Blonde and Black, with Antique White on the Sereno. Most are sold individually, and the Smythe, Beryl and Solid Wood stools come in sets of two and four.",
     sections: [
       {
@@ -317,7 +340,7 @@ const BED_SEO: Record<string, CategorySeo> = {
       },
       {
         h2: "Backless or with a back?",
-        body: "Backless stools like the Smythe and Beryl cost less, from $186, and disappear under the counter when not in use, which keeps a small kitchen open. Stools with backs are better for longer sitting, homework at the island or a breakfast bar that doubles as the dining table. The Loar upholstered counter chair is the most comfortable in the range for that.",
+        body: "Backless stools like the Smythe and Beryl cost less, from $341, and disappear under the counter when not in use, which keeps a small kitchen open. Stools with backs are better for longer sitting, homework at the island or a breakfast bar that doubles as the dining table. The Loar upholstered counter chair is the most comfortable in the range for that.",
         links: [
           { label: "Counter height dining tables", href: "/category/dining?subcategory=kitchen-tables" },
           { label: "Dining chairs", href: "/category/dining?subcategory=dining-chairs" },
@@ -333,54 +356,77 @@ const BED_SEO: Record<string, CategorySeo> = {
     ],
   },
   "dining|counter-stools": {
-    seoTitle: "Counter Stools Canada - Solid Wood, 24 to 26 Inch | Forgali",
-    seoDescription: "Eight solid wood counter stools with 24 to 26 inch seats for 36-inch counters and islands, backless or with backs, from $186 CAD. Free Canada-wide shipping.",
-    h1: "Counter Stools Canada",
-    lead: "Eight counter height stools with 24 to 26 inch seats, from $186 CAD, with free shipping across Canada.",
-    intro: "A counter stool seats you at a standard 36-inch kitchen counter or island with about 10 inches of legroom. These eight are the counter height versions of the Plank & Beam stool range: the backless Smythe and Beryl at 24 inches, the Solid Wood counter chair and Elio and Sereno chairs at 24 inches, the Brio at 25 inches and the Loar upholstered counter chair at 26 inches.\n\nAll are built on solid rubberwood or knot-free solid wood frames with low-VOC finishes in Pecan, Walnut, Blonde and Black. The Elio, Sereno, Brio and Loar add an upholstered seat, and the Smythe, Beryl and Solid Wood stools are available in sets of two and four.",
+    seoTitle: "Counter Height Stools Canada - Solid Wood | Forgali",
+    seoDescription: "Eight counter height stools and chairs with 24 to 26 inch seats for 36-inch counters, backless or with backs, from $341 CAD. Free Canada-wide shipping.",
+    h1: "Counter Height Stools and Chairs",
+    lead: "Eight counter height stools with 24 to 26 inch seats, backless or with a back, from $341 CAD, with free shipping across Canada.",
+    intro: "A counter stool seats you at a standard 36-inch kitchen counter or island with about 10 inches of legroom. These eight are the counter height versions of the Plank & Beam stool range: the backless Smythe and Beryl at 24 inches, the Solid Wood counter chair and Elio and Sereno chairs at 24 inches, the Brio at 25 inches and the Loar upholstered counter chair at 26 inches.\n\nAll are built on wood frames with low-VOC finishes in Pecan, Walnut, Blonde and Black. The Elio, Sereno, Brio and Loar add an upholstered seat, and the Smythe and Beryl are available in sets of two and four.",
     sections: [
       {
-        h2: "Backless counter stools",
-        body: "The Smythe and Beryl counter stools have a contoured wood seat with no back, so they slide fully under the counter and keep a small kitchen looking open. They are the least expensive stools in the range, from $186 each or less per stool in a set of four.",
+        h2: "How tall are counter height stools?",
+        body: "A counter height stool has a seat 24 to 26 inches off the floor, which is right for a 35 to 37 inch counter, and almost every kitchen counter and island is 36 inches. That leaves 10 to 12 inches between the seat and the underside of the counter. If your surface measures 41 to 43 inches it is a bar, and you need the 30-inch bar stools instead.",
         links: [
-          { label: "All counter and bar stools", href: "/category/dining?subcategory=bar-counter-chairs" },
-          { label: "Bar stools for 42-inch bars", href: "/category/dining?subcategory=bar-stools" },
           { label: "Counter vs bar height guide", href: "/guides/counter-vs-bar-height-stools" },
+          { label: "Bar stools for 42-inch bars", href: "/category/dining?subcategory=bar-stools" },
         ],
       },
       {
-        h2: "Counter stools with backs",
-        body: "The Solid Wood counter chair is an all-wood design with a back. The Elio, Sereno and Brio add a cushioned seat, and the Loar upholstered counter chair has the fullest padding for an island that doubles as the family table. Pair any of them with the Classic or Modern counter height table.",
+        h2: "Backless counter stools",
+        body: "The Smythe and Beryl counter stools have a contoured seat with no back, so they slide fully under the counter and keep a small kitchen looking open. They are the least expensive stools in the range, from $341 CAD each or less per stool in a set of four.",
+        links: [{ label: "All counter and bar stools", href: "/category/dining?subcategory=bar-counter-chairs" }],
+      },
+      {
+        h2: "Counter height chairs with backs",
+        body: "The Solid Wood counter chair is an all-wood design with a back. The Elio, Sereno and Brio add a cushioned seat, and the Loar upholstered counter chair has the fullest padding for an island that doubles as the family table. Pair any of them with the Classic counter height table.",
         links: [{ label: "Counter height tables", href: "/category/dining?subcategory=kitchen-tables" }],
+      },
+      {
+        h2: "Wood counter stools",
+        body: "The Smythe is solid rubberwood through and through, with a contoured wood seat, and the Solid Wood counter chair is knot-free solid wood with a shaped back. The Beryl, Elio, Sereno and Brio put an upholstered seat on a rubberwood frame, in vegan leather or boucle, and the Loar pairs rubberwood legs with vegan leather. Frames are wood on every stool; the only metal is the Beryl's footrest.",
+        links: [{ label: "Dining chairs in the same finishes", href: "/category/dining?subcategory=dining-chairs" }],
       },
     ],
     faqs: [
       { q: "What counter height do these stools fit?", a: "A 36-inch counter or island, which is the standard height. The seats are 24 to 26 inches off the floor, leaving about 10 to 12 inches of legroom." },
+      { q: "What is the difference between a counter stool and a counter height chair?", a: "Only the back. Both have a 24 to 26 inch seat for a 36-inch counter; a counter height chair adds a backrest for longer sitting." },
       { q: "How many counter stools fit at an island?", a: "Allow 24 inches of counter per stool. A 6-foot island seats three, an 8-foot island seats four." },
-      { q: "Are the counter stools solid wood?", a: "Yes. Frames are solid rubberwood or knot-free solid wood with low-VOC finishes, and the upholstered models have a cushioned seat on that frame." },
-      { q: "Can I buy counter stools in a set?", a: "Yes. The Smythe and Beryl come in sets of two and four, and the Solid Wood counter chair in a set of two. The Elio, Sereno, Brio and Loar are sold individually." },
+      { q: "Are the counter stools solid wood?", a: "The Smythe is solid rubberwood and the Solid Wood counter chair is knot-free solid wood. The Beryl, Elio, Sereno and Brio have rubberwood frames under their upholstered seats, and the Loar has rubberwood legs on an engineered wood frame. All use low-VOC finishes." },
+      { q: "Can I buy counter stools in a set?", a: "Yes. The Smythe and Beryl come in sets of two and four, and the Solid Wood, Elio, Sereno, Brio and Loar in sets of two." },
     ],
   },
   "dining|bar-stools": {
-    seoTitle: "Wood Bar Stools Canada - 30 Inch Seat, Free Shipping | Forgali",
-    seoDescription: "Five solid wood bar stools with 30 to 31 inch seats for 42-inch bars, backless or with backs, from $204 CAD. Free Canada-wide shipping and 30-day returns.",
-    h1: "Wood Bar Stools Canada",
-    lead: "Five bar height stools with 30 to 31 inch seats for a 42-inch bar, from $204 CAD, with free shipping across Canada.",
-    intro: "Bar stools are taller than counter stools: the seat sits 30 to 31 inches off the floor to fit a 42-inch home bar, a raised breakfast bar or a pub-height table. These five are the bar height versions of the Plank & Beam range, so each one has a counter height twin if you also have a 36-inch island to seat.\n\nThe Smythe and Beryl bar stools are backless with a contoured seat and sell from $204. The Solid Wood bar height chair has a back, and the Sereno bar chair adds an upholstered seat in Ivory. All are solid rubberwood or knot-free solid wood with low-VOC finishes in Pecan, Walnut, Blonde and Black, and the Smythe, Beryl and Solid Wood stools are sold in sets of two and four.",
+    seoTitle: "Wooden Bar Stools Canada - 30 Inch Seat | Forgali",
+    seoDescription: "Five wooden bar stools with 30 to 31 inch seats for 42-inch bars, backless or with backs, from $363 CAD. Free Canada-wide shipping and 30-day returns.",
+    h1: "Wooden Bar Stools, 30 to 31 Inch Seat",
+    lead: "Five bar height stools with 30 to 31 inch seats for a 42-inch bar, from $363 CAD, with free shipping across Canada.",
+    intro: "Bar stools are taller than counter stools: the seat sits 30 to 31 inches off the floor to fit a 42-inch home bar, a raised breakfast bar or a pub-height table. These five are the bar height versions of the Plank & Beam range, so each one has a counter height twin if you also have a 36-inch island to seat.\n\nThe Smythe and Beryl bar stools are backless with a contoured seat and sell from $363 CAD. The Solid Wood bar height chair has a back, and the Sereno bar chair adds an upholstered seat in Ivory. Finishes are low-VOC Pecan, Walnut, Blonde and Black, and the Smythe and Beryl are sold in sets of two and four, the Solid Wood chair and the Sereno in sets of two.",
     sections: [
+      {
+        h2: "30-inch bar stools",
+        body: "The Smythe and Sereno bar stools and the Solid Wood bar height chair all have a 30-inch seat, and the Beryl sits at 31 inches. Any of them fits a 41 to 43 inch bar with 11 to 12 inches of legroom. The Beryl is the wood-and-metal option, with a solid rubberwood base, a vegan leather seat and a metal footrest; the Smythe is solid rubberwood, the Solid Wood chair is knot-free solid wood, and the Sereno puts an upholstered seat on a solid rubberwood frame.",
+        links: [{ label: "All counter and bar stools", href: "/category/dining?subcategory=bar-counter-chairs" }],
+      },
       {
         h2: "Check your bar height before you order",
         body: "Measure from the floor to the underside of the bar. A 30 to 31 inch seat is right for a 41 to 43 inch bar. If your surface is 36 inches, which is most kitchen counters, you need a counter stool instead, and a bar stool will leave your knees against the counter.",
         links: [
           { label: "Counter stools for 36-inch counters", href: "/category/dining?subcategory=counter-stools" },
-          { label: "All counter and bar stools", href: "/category/dining?subcategory=bar-counter-chairs" },
           { label: "Counter vs bar height guide", href: "/guides/counter-vs-bar-height-stools" },
+        ],
+      },
+      {
+        h2: "Bar stools, counter stools or dining stools?",
+        body: "Three heights, three uses. A 30 to 31 inch bar stool is for a 42-inch bar, a 24 to 26 inch counter stool is for a 36-inch kitchen counter or island, and an 18-inch dining stool like the Smythe dining stool is for a standard 30-inch table. The Smythe comes in all three heights and the Beryl in counter and bar height, so an island and a bar in the same kitchen can match.",
+        links: [
+          { label: "Counter stools", href: "/category/dining?subcategory=counter-stools" },
+          { label: "Dining chairs and stools", href: "/category/dining?subcategory=dining-chairs" },
         ],
       },
     ],
     faqs: [
       { q: "What bar height do these stools fit?", a: "A 42-inch bar. The seats are 30 to 31 inches off the floor, which leaves 11 to 12 inches of legroom at that height." },
-      { q: "Are the bar stools solid wood?", a: "Yes. The Smythe, Beryl and Sereno are solid rubberwood and the Solid Wood bar height chair is knot-free solid wood, all with low-VOC finishes." },
+      { q: "Are the bar stools solid wood?", a: "The Smythe is solid rubberwood, the Solid Wood bar height chair is knot-free solid wood, and the Sereno has a solid rubberwood frame under its upholstered seat. The Beryl has a solid rubberwood base with a vegan leather seat and a metal footrest. All use low-VOC finishes." },
+      { q: "Do you have wood and metal bar stools?", a: "The Beryl bar stool pairs a solid rubberwood base and vegan leather seat with a metal footrest. The other four are all wood apart from the Sereno's upholstered seat." },
       { q: "Do the bar stools come with backs?", a: "The Solid Wood bar height chair and the Sereno bar chair have backs. The Smythe and Beryl are backless so they tuck under the bar." },
       { q: "Is there a matching counter height version?", a: "Yes. Every bar stool here has a 24 to 26 inch counter height version in the same finishes." },
     ],
@@ -461,9 +507,9 @@ const BED_SEO: Record<string, CategorySeo> = {
   },
   "living|coffee-tables": {
     seoTitle: "Solid Wood Coffee Tables Canada - Free Shipping | Forgali",
-    seoDescription: "26 solid wood coffee tables from $229 CAD: rectangular 40 to 54 inch, round 30 to 36 inch, square, and tables with a storage shelf. Free Canada-wide shipping, 30-day returns.",
+    seoDescription: "26 solid wood coffee tables from $327 CAD: rectangular 40 to 54 inch, round 30 to 36 inch, square, and tables with a storage shelf. Free Canada-wide shipping, 30-day returns.",
     h1: "Solid Wood Coffee Tables",
-    lead: "26 Plank & Beam coffee tables in knot-free solid wood, rectangular, round and square, from $229 CAD with free shipping across Canada.",
+    lead: "26 Plank & Beam coffee tables in knot-free solid wood, rectangular, round and square, from $327 CAD with free shipping across Canada.",
     intro: "A coffee table is the one piece every sofa needs, and these are built to take daily use: knot-free solid wood tops and legs with hand-applied, low-VOC finishes, assembled from a single-panel top that bolts straight to the legs. Rectangular tables come in 40, 45, 48 and 54 inch lengths, round tables in 30, 34 and 36 inches, and there is a 36-inch square Forma table.\n\nThe Classic collection is a traditional four-leg table, Modern has square legs and a version with a storage shelf, Mid-Century Modern has tapered legs, Verso has crossed legs, Contour has rounded edges, Forma has a rounded top with a lower shelf and Arcata is a waterfall design in oak veneer. Finishes are Pecan, Walnut, Blonde and Black, with Coastal White and wirebrushed options on Classic and Modern.",
     sections: [
       {
@@ -494,33 +540,46 @@ const BED_SEO: Record<string, CategorySeo> = {
   },
   "living|round-coffee-tables": {
     seoTitle: "Round Coffee Tables Canada - Solid Wood | Forgali",
-    seoDescription: "Seven solid wood round coffee tables in 30, 34 and 36 inch sizes, from $229 CAD, in Classic, Mid-Century Modern, Verso, Contour and Forma styles. Free Canada-wide shipping.",
+    seoDescription: "Seven solid wood round coffee tables, 30 to 36 inches, from $341 CAD, in Classic, Mid-Century Modern, Verso, Contour and Forma styles. Free Canada-wide shipping.",
     h1: "Round Solid Wood Coffee Tables",
-    lead: "Seven round coffee tables in knot-free solid wood, 30 to 36 inches across, from $229 CAD with free shipping across Canada.",
-    intro: "A round coffee table has no corners to catch a shin, which matters with small children and in a room where people walk past the sofa. It also suits a sectional or an L-shaped seating arrangement, because everyone reaches it from the same distance. These seven are the round versions of the Classic, Mid-Century Modern, Verso, Contour and Forma collections.\n\nThe 30-inch Classic, Verso and Contour rounds fit a loveseat or a small living room. The 36-inch Classic, Mid-Century Modern and Verso rounds suit a full-size sofa, and the 34-inch Forma round has a lower shelf for storage. All are knot-free solid wood with low-VOC finishes in Pecan, Walnut, Blonde and Black, plus Coastal White and wirebrushed options on the Classic.",
+    lead: "Seven round coffee tables in knot-free solid wood, 30 to 36 inches across, from $341 CAD with free shipping across Canada.",
+    intro: "A round coffee table has no corners to catch a shin, which matters with small children and in a room where people walk past the sofa. It also suits a sectional or an L-shaped seating arrangement, because everyone reaches it from the same distance. These seven are the round versions of the Classic, Mid-Century Modern, Verso, Contour and Forma collections.\n\nThe 30-inch Classic, Verso and Contour rounds fit a loveseat or a small living room. The 36-inch Classic, Mid-Century Modern and Verso rounds suit a full-size sofa, and the 34-inch Forma round has a lower shelf for storage. All are knot-free solid wood with low-VOC finishes in Pecan, Walnut, Blonde and Black, with Coastal White on the Verso rounds and wirebrushed Pecan, Blonde, Seashell and Black on the Classic.",
     sections: [
       {
         h2: "Which size round coffee table?",
         body: "Keep 14 to 18 inches between the table edge and the sofa. A 30-inch round sits well in front of a loveseat or a 72-inch sofa, and a 36-inch round in front of an 84 to 90 inch sofa or inside the corner of a sectional. If the room is long and narrow, a rectangular coffee table will fill the space better.",
         links: [
           { label: "All coffee tables", href: "/category/living?subcategory=coffee-tables" },
-          { label: "Round side tables", href: "/category/living?subcategory=side-tables" },
           { label: "Coffee table size guide", href: "/guides/coffee-table-size" },
         ],
       },
+      {
+        h2: "What the round coffee tables are made of",
+        body: "Every top is knot-free solid pine. The Classic, Contour, Mid-Century Modern and Forma rounds are solid pine through the legs as well, and the Verso rounds put a solid pine top on solid hardwood legs. Heights run from 15 inches on the Contour to 17.75 inches on the Classic, Verso and Mid-Century Modern rounds and 18 inches on the Forma, which is level with most sofa seats. The finishes are hand-applied and low-VOC, and every table ships free anywhere in Canada.",
+        links: [
+          { label: "Finishes compared", href: "/guides/plank-and-beam-finishes" },
+          { label: "Caring for solid pine", href: "/guides/solid-pine-furniture-care" },
+        ],
+      },
+      {
+        h2: "Round coffee table sets",
+        body: "Pair a round coffee table with the side table from the same collection for a set that matches without buying a suite. The Classic, Contour, Forma and Mid-Century Modern side tables stand 24 inches high, and the Verso round side table is a 24-inch round at 17.75 inches high, the same height as the Verso coffee tables, so it doubles as a second small table beside the sofa. Side tables start at $298 CAD.",
+        links: [{ label: "Side tables", href: "/category/living?subcategory=side-tables" }],
+      },
     ],
     faqs: [
-      { q: "Are the round coffee tables solid wood?", a: "Yes. All seven are knot-free solid wood with hand-applied, low-VOC finishes." },
+      { q: "Are the round coffee tables solid wood?", a: "Yes. All seven have knot-free solid pine tops, on solid pine or solid hardwood legs, with hand-applied, low-VOC finishes." },
       { q: "What sizes do the round coffee tables come in?", a: "30 inches in Classic, Verso and Contour, 34 inches in Forma, and 36 inches in Classic, Mid-Century Modern and Verso." },
+      { q: "How tall are the round coffee tables?", a: "15 inches for the Contour, 17.75 inches for the Classic, Verso and Mid-Century Modern rounds, and 18 inches for the Forma." },
       { q: "Is there a round coffee table with storage?", a: "The 34-inch Forma round has a lower shelf. The other round tables are open underneath." },
       { q: "Does shipping cost extra in Canada?", a: "No. Shipping is free to any address in Canada." },
     ],
   },
   "living|console-tables": {
     seoTitle: "Solid Wood Console Tables Canada - Free Shipping | Forgali",
-    seoDescription: "23 solid wood console tables from 36 to 66 inches wide, from $158 CAD, for entryways, hallways and behind the sofa. Free Canada-wide shipping and 30-day returns.",
+    seoDescription: "23 solid wood console tables from 36 to 66 inches wide, from $211 CAD, for entryways, hallways and behind the sofa. Free Canada-wide shipping and 30-day returns.",
     h1: "Solid Wood Console Tables",
-    lead: "23 Plank & Beam console tables in knot-free solid wood, 36 to 66 inches wide, from $158 CAD with free shipping across Canada.",
+    lead: "23 Plank & Beam console tables in knot-free solid wood, 36 to 66 inches wide, from $211 CAD with free shipping across Canada.",
     intro: "A console table is the narrow table that goes against a wall in an entryway, down a hallway or behind a sofa. These 23 run from 36 inches, which fits a condo entry, up to 66 inches for a wide hallway or the back of a sectional. Four of them add a lower shelf or closed storage for shoes, baskets and mail.\n\nThe Classic consoles start at $158, the lowest price in the range. Verso has crossed legs, Mid-Century Modern has tapered legs, Contour and Forma have rounded tops, Camden is a rustic plank style, Grande is a heavier wirebrushed design and Arcata is an arched waterfall console in oak veneer. Finishes are Pecan, Walnut, Blonde and Black, with Coastal White, Seashell and White on Classic and Modern, rustic finishes on Camden and Cashew, Cerused White, Hazelnut and Noir on Arcata.",
     sections: [
       {
@@ -551,33 +610,51 @@ const BED_SEO: Record<string, CategorySeo> = {
   },
   "living|console-tables-with-storage": {
     seoTitle: "Console Tables with Storage Canada - Solid Wood | Forgali",
-    seoDescription: "Four solid wood console tables with a shelf or closed storage, 36 to 56 inches wide, from $158 CAD, for entryways and hallways. Free Canada-wide shipping.",
+    seoDescription: "Four solid wood console tables with a shelf or closed storage, 36 to 56 inches wide, from $300 CAD, for entryways and hallways. Free Canada-wide shipping.",
     h1: "Console Tables with Storage",
-    lead: "Four console tables with a lower shelf or closed storage, in knot-free solid wood, from $158 CAD with free shipping across Canada.",
+    lead: "Four console tables with a lower shelf or closed storage, in knot-free solid wood, from $300 CAD with free shipping across Canada.",
     intro: "An entryway console with storage gives shoes, baskets and bags somewhere to go instead of the floor. These four add storage to the standard console table: the Classic console with shelf in 36 and 46 inch widths has a full solid wood lower shelf, the 46-inch Mid-Century Modern console with storage has closed cabinets behind pull-down doors, and the 56-inch Grande console with shelf is a wider wirebrushed design with an open lower shelf.\n\nAll four are knot-free solid wood with hand-applied, low-VOC finishes. The Classic consoles come in Pecan, Walnut, Seashell, Black and White, the Mid-Century Modern in Pecan, Walnut and Black, and the Grande in Pecan or Black wirebrush.",
     sections: [
       {
-        h2: "Open shelf or closed storage?",
-        body: "An open shelf is the right choice for baskets, a few pairs of everyday shoes and anything you want to grab on the way out. Closed storage, like the pull-down cabinets on the Mid-Century Modern console, hides the clutter in a hallway you see from the living room. If you need seating too, an entryway bench next to the console covers both.",
+        h2: "Solid wood console tables",
+        body: "All four are real wood rather than veneer over particleboard: the Classic consoles with shelf are knot-free solid pine, and the Mid-Century Modern and Grande consoles are knot-free solid wood with a solid top and legs. That matters more on a console than on most pieces, because an entryway table takes keys, wet gloves and bags every day, and solid wood can be touched up where a laminate cannot.",
+        links: [
+          { label: "Finishes compared", href: "/guides/plank-and-beam-finishes" },
+          { label: "Caring for solid pine", href: "/guides/solid-pine-furniture-care" },
+        ],
+      },
+      {
+        h2: "Console table with drawers or doors?",
+        body: "None of these four has a drawer. The 46-inch Mid-Century Modern console has two cabinets with pull-down doors that hide what is inside, and the Classic and Grande consoles have an open lower shelf for baskets and shoes. If a hallway needs more closed storage than that, the sideboards give you two or three doors with adjustable shelves at 49 and 59 inches wide.",
         links: [
           { label: "All console tables", href: "/category/living?subcategory=console-tables" },
-          { label: "Entryway benches", href: "/category/living?subcategory=entryway" },
-          { label: "Sideboards for larger storage", href: "/category/living?subcategory=sideboards" },
+          { label: "Sideboards", href: "/category/living?subcategory=sideboards" },
         ],
+      },
+      {
+        h2: "Open shelf or closed storage?",
+        body: "An open shelf is the right choice for baskets, a few pairs of everyday shoes and anything you want to grab on the way out. Closed storage, like the pull-down cabinets on the Mid-Century Modern console, hides the clutter in a hallway you see from the living room. If you need seating too, an entryway bench next to the console covers both.",
+        links: [{ label: "Entryway benches", href: "/category/living?subcategory=entryway" }],
+      },
+      {
+        h2: "Sizes: 36, 46 and 56 inches wide",
+        body: "The Classic console with shelf comes in 36 and 46 inch widths, 12 inches deep and 32 inches high. The Mid-Century Modern console is 46 inches wide, 12.75 inches deep and 32 inches high, and the Grande is 56 inches wide, 12 inches deep and 30 inches high. At 12 to 13 inches deep they take less floor than most hall furniture, which is what keeps a walkway clear.",
+        links: [{ label: "Console table sizing guide", href: "/guides/console-table-behind-sofa" }],
       },
     ],
     faqs: [
       { q: "Which console table has closed storage?", a: "The 46-inch Mid-Century Modern console with storage has cabinets with pull-down doors. The Classic consoles with shelf and the Grande console with shelf have an open lower shelf." },
+      { q: "Do any of these console tables have drawers?", a: "No. The Mid-Century Modern console has closed cabinets behind pull-down doors, and the Classic and Grande consoles have an open shelf. For more closed storage, the sideboards have two or three doors with adjustable shelves." },
       { q: "Are these console tables solid wood?", a: "Yes. All four are knot-free solid wood with low-VOC finishes, and the Classic and Grande shelves are solid wood too." },
-      { q: "What is the narrowest console table with storage?", a: "The 36-inch Classic console with shelf, which fits a condo or apartment entryway and starts at $158." },
+      { q: "What is the narrowest console table with storage?", a: "The 36-inch Classic console with shelf, which fits a condo or apartment entryway and starts at $300 CAD." },
       { q: "Is shipping included in Canada?", a: "Yes. Shipping is free to any address in Canada." },
     ],
   },
   "living|side-tables": {
     seoTitle: "Solid Wood Side Tables Canada - Free Shipping | Forgali",
-    seoDescription: "13 solid wood side and end tables from $193 CAD: 18 to 25 inch round and square tables, tables with a shelf or storage, and a 32-inch corner table. Free Canada-wide shipping.",
+    seoDescription: "13 solid wood side and end tables from $298 CAD: 18 to 25 inch round and square tables, tables with a shelf or storage, and a 32-inch corner table. Free Canada-wide shipping.",
     h1: "Solid Wood Side & End Tables",
-    lead: "13 side and end tables in knot-free solid wood, 18 to 32 inches, from $193 CAD with free shipping across Canada.",
+    lead: "13 side and end tables in knot-free solid wood, 18 to 32 inches, from $298 CAD with free shipping across Canada.",
     intro: "A side table goes at the end of a sofa or beside an armchair and should sit level with the arm, which for most sofas means 22 to 26 inches high. These 13 are sized for that: round tables at 24 inches, square tables at 20 inches, rectangular tables at 23 to 25 inches, the 18-inch Mid-Century Modern side table with storage, which is the one melamine piece in the range, and the 32-inch Modern square corner table for the gap between two sofas in an L.\n\nEach one matches a coffee table from the same collection in the same finish: Classic, Modern, Mid-Century Modern, Verso, Contour and Forma, in Pecan, Walnut, Blonde and Black with Coastal White and wirebrushed options on Classic and Modern. All but the storage side table are solid wood with hand-applied, low-VOC finishes.",
     sections: [
       {
@@ -627,9 +704,9 @@ const BED_SEO: Record<string, CategorySeo> = {
   },
   "living|tv-stands": {
     seoTitle: "Solid Wood TV Stands Canada - Fits 65 Inch TV | Forgali",
-    seoDescription: "Three solid pine TV stands for screens up to 65 inches, with two doors, adjustable shelves and cord cutouts, from $654 CAD. Free Canada-wide shipping.",
+    seoDescription: "Three solid pine TV stands for screens up to 65 inches, with two doors, adjustable shelves and cord cutouts, from $707 CAD. Free Canada-wide shipping.",
     h1: "Solid Wood TV Stands",
-    lead: "Three media consoles in knot-free solid pine, sized for TVs up to 65 inches, from $654 CAD with free shipping across Canada.",
+    lead: "Three media consoles in knot-free solid pine, sized for TVs up to 65 inches, from $707 CAD with free shipping across Canada.",
     intro: "Each of these TV stands is built from knot-free solid pine with engineered wood back panels, and is designed to hold a television up to 65 inches. Two doors hide a cable box, console or router on shelves that adjust to three heights, an open middle shelf holds a soundbar or a record player, and cord cutouts in the back keep the cables out of sight.\n\nThe Mid-Century Modern TV stand has tapered legs and slatted doors, the Modern TV stand has soft-close doors and the Contour TV stand has slatted doors with rounded corners. Each matches the sideboard and coffee table of the same collection, in low-VOC Pecan, Walnut, Blonde or Black.",
     sections: [
       {
@@ -651,9 +728,9 @@ const BED_SEO: Record<string, CategorySeo> = {
   },
   "living|shelves": {
     seoTitle: "Fireplace Mantel Shelf Canada - Solid Pine | Forgali",
-    seoDescription: "Camden floating mantel shelves in 100 percent solid pine, 48, 60 and 72 inches, in Rustic Barnwood or Rustic Honey, from $317 CAD. Free Canada-wide shipping.",
+    seoDescription: "Camden floating mantel shelves in 100 percent solid pine, 48, 60 and 72 inches, in Rustic Barnwood or Rustic Honey, from $341 CAD. Free Canada-wide shipping.",
     h1: "Fireplace Mantel Shelves",
-    lead: "Three Camden floating mantels in 100 percent solid pine, 48, 60 and 72 inches long, from $317 CAD with free shipping across Canada.",
+    lead: "Three Camden floating mantels in 100 percent solid pine, 48, 60 and 72 inches long, from $341 CAD with free shipping across Canada.",
     intro: "The Camden mantel is a solid pine beam that mounts to the wall on a wooden bracket with four screws, so it works as a fireplace mantel or as a floating shelf on any blank wall. The pine is left with its knots and grain showing and finished in Rustic Barnwood, a grey weathered look, or Rustic Honey, a warm natural tone.\n\nChoose the 48-inch mantel for a fireplace up to about 42 inches wide, the 60-inch for a standard fireplace opening, and the 72-inch for a wide fireplace or a feature wall. The Camden console table and dining pieces come in the same rustic finishes.",
     sections: [
       {
@@ -712,6 +789,28 @@ const BED_SEO: Record<string, CategorySeo> = {
           { label: "Sideboards", href: "/category/living?subcategory=sideboards" },
           { label: "TV stands", href: "/category/living?subcategory=tv-stands" },
           { label: "Mid-century dining tables", href: "/category/dining?subcategory=dining-tables" },
+        ],
+      },
+      {
+        h2: "Mid-century modern bench",
+        body: "The entryway bench comes in 41 and 56 inch lengths, 16.5 inches deep and 17.5 inches high, in solid pine and birch with the same tapered legs as the rest of the collection. It is the one piece in the range with colours beyond the wood tones: Clay, Teal, Natural and White on both sizes, and Yellow on the 56-inch. From $176 CAD for the 56-inch bench and $290 CAD for the 41-inch.",
+        links: [{ label: "Entryway benches", href: "/category/living?subcategory=entryway" }],
+      },
+      {
+        h2: "Mid-century modern console table",
+        body: "The 46-inch console with storage is 12.75 inches deep and 32 inches high, with two cabinets behind pull-down doors, in Pecan, Walnut or Black from $398 CAD. It is sized for an entryway wall or the space behind a sofa.",
+        links: [
+          { label: "Console tables with storage", href: "/category/living?subcategory=console-tables-with-storage" },
+          { label: "Console table sizing guide", href: "/guides/console-table-behind-sofa" },
+        ],
+      },
+      {
+        h2: "Mid-century modern side tables and coffee tables",
+        body: "Four side tables: a 20-inch square, 23 and 24 inch rectangular tables and an 18-inch side table with a storage cabinet, 24 to 25.5 inches high, from $298 CAD. Three coffee tables: the 36-inch round in Black or Walnut and the 40 and 48 inch rectangular tables, all 17.75 inches high, from $327 CAD.",
+        links: [
+          { label: "Side tables", href: "/category/living?subcategory=side-tables" },
+          { label: "Round coffee tables", href: "/category/living?subcategory=round-coffee-tables" },
+          { label: "Coffee table size guide", href: "/guides/coffee-table-size" },
         ],
       },
     ],

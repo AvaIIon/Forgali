@@ -119,7 +119,7 @@ export const GUIDES: Guide[] = [
         h2: "What a bench does better",
         paragraphs: [
           "Seating. A 60-inch bench takes three adults or four children on one side of a 72-inch table, where chairs give you three at most. When nobody is sitting on it, the bench slides fully under the table, which in a small room means the floor is clear and nobody trips over chair legs.",
-          "Price. A 60-inch solid wood bench starts at $211 CAD. Two chairs in the same finish start at $317 each. Over a table that seats six, two benches instead of six chairs saves a meaningful amount and a lot of storage.",
+          "Price. A 60-inch solid wood bench starts at $326 CAD. Two chairs in the same finish start at $454 each. Over a table that seats six, two benches instead of six chairs saves a meaningful amount and a lot of storage.",
           "Kids. Children slide onto a bench without help, there is nothing to tip over backwards, and a wood bench wipes clean.",
         ],
         links: [{ label: "Solid wood dining benches", href: "/category/dining?subcategory=dining-benches" }],
@@ -155,7 +155,7 @@ export const GUIDES: Guide[] = [
     faqs: [
       { q: "How many people can sit on a dining bench?", a: "Two on a 46 to 49 inch bench, three on a 58 to 61 inch bench and four on an 83 or 85 inch bench. Children fit one more than adults." },
       { q: "Is a dining bench comfortable?", a: "For a normal meal, yes. For a two-hour dinner, a chair with a back is more comfortable, which is why most people put the bench on the wall side and chairs on the open side." },
-      { q: "Are benches cheaper than chairs?", a: "Yes. A 60-inch bench from $211 CAD replaces three chairs that start at $317 each." },
+      { q: "Are benches cheaper than chairs?", a: "Yes. A 60-inch bench from $326 CAD replaces three chairs that start at $454 each." },
       { q: "Do any dining benches have a back?", a: "The Risa corner banquette has a backrest and an optional cushion. The straight benches are backless so they tuck under the table." },
     ],
     related: ["dining-benches", "dining-chairs", "dining-sets"],
@@ -220,18 +220,25 @@ export const GUIDES: Guide[] = [
     description: "The one measurement that decides whether you need a 24-inch counter stool or a 30-inch bar stool, how many stools fit an island, and backless versus stools with backs.",
     h1: "Counter Height vs Bar Height Stools",
     lead: "Measure from the floor to the underside of your counter. If it is 36 inches you need counter stools; if it is 42 inches you need bar stools. Everything else follows from that number.",
-    updated: "2026-10-22",
+    updated: "2026-11-18",
     sections: [
       {
-        h2: "The measurement",
+        h2: "How to measure for bar stools and counter stools",
         paragraphs: [
           "Kitchen counters and most islands are 36 inches high, and take a counter stool with a seat 24 to 26 inches off the floor. A raised bar, a pub table or a bar-height island is 42 inches high, and takes a bar stool with a 30 to 31 inch seat. The rule is 10 to 12 inches between the top of the seat and the underside of the counter, which is the space your thighs need.",
-          "Get it wrong in either direction and the stools are unusable: a bar stool at a 36-inch counter pins your knees, and a counter stool at a 42-inch bar leaves you with your chin on the counter. Every Plank & Beam stool is sold in both heights, so measure first and then choose the style.",
+          "Get it wrong in either direction and the stools are unusable: a bar stool at a 36-inch counter pins your knees, and a counter stool at a 42-inch bar leaves you with your chin on the counter. The Smythe, Beryl, Sereno and Solid Wood stools are sold in both heights, so measure first and then choose the style.",
         ],
         links: [
           { label: "Counter stools, 24 to 26 inch seat", href: "/category/dining?subcategory=counter-stools" },
           { label: "Bar stools, 30 to 31 inch seat", href: "/category/dining?subcategory=bar-stools" },
         ],
+      },
+      {
+        h2: "How tall are counter height stools and bar stools?",
+        paragraphs: [
+          "Counter height stools have a seat 24 to 26 inches off the floor. In the Plank & Beam range the Smythe, Beryl, Elio, Sereno and Solid Wood counter stools sit at 24 inches, the Brio at 25 and the Loar at 26, all for a 36-inch counter or island. Bar stools have a seat 30 to 31 inches off the floor: the Smythe, Sereno and Solid Wood bar stools at 30 inches and the Beryl at 31, all for a 42-inch bar. For a standard 30-inch dining table, the 18-inch Smythe dining stool is the third height.",
+        ],
+        links: [{ label: "Dining chairs and stools", href: "/category/dining?subcategory=dining-chairs" }],
       },
       {
         h2: "How many stools fit",
@@ -242,7 +249,7 @@ export const GUIDES: Guide[] = [
       {
         h2: "Backless or with a back?",
         paragraphs: [
-          "Backless stools like the Smythe and Beryl slide completely under the counter, which keeps a small kitchen looking open and keeps the walkway clear. They are also the least expensive, from $186 CAD. They suit an island people perch at for breakfast or a drink.",
+          "Backless stools like the Smythe and Beryl slide completely under the counter, which keeps a small kitchen looking open and keeps the walkway clear. They are also the least expensive, from $341 CAD. They suit an island people perch at for breakfast or a drink.",
           "Stools with a back, like the Solid Wood counter chair, the Elio, Sereno and Brio, and the Loar upholstered counter chair, are for an island that is the real table: homework, long breakfasts, guests who sit while you cook. An upholstered seat adds comfort for the same reason.",
         ],
       },
@@ -258,8 +265,8 @@ export const GUIDES: Guide[] = [
       },
     ],
     faqs: [
-      { q: "What height stool for a 36-inch counter?", a: "A counter stool with a 24 to 26 inch seat. That leaves 10 to 12 inches of legroom under the counter." },
-      { q: "What height stool for a 42-inch bar?", a: "A bar stool with a 30 to 31 inch seat." },
+      { q: "How tall are counter height stools?", a: "24 to 26 inches at the seat, for a 36-inch counter or island. That leaves 10 to 12 inches of legroom under the counter." },
+      { q: "How tall are bar stools?", a: "30 to 31 inches at the seat, for a 42-inch bar. A 36-inch kitchen counter needs a 24 to 26 inch counter stool instead." },
       { q: "How much space between bar stools?", a: "24 inches centre to centre for stools without arms, 28 inches with arms. A 6-foot island takes three stools." },
       { q: "Are backless stools comfortable?", a: "For short sits, yes, and the contoured seat on the Smythe and Beryl helps. For sitting longer than a meal, choose a stool with a back." },
     ],
@@ -326,7 +333,7 @@ export const GUIDES: Guide[] = [
     description: "How wide and how tall a console table should be behind a sofa or in a hallway, the clearance to leave in an entryway, and when to choose a console with a shelf or cabinet.",
     h1: "Console Table Sizing: Behind a Sofa or in an Entryway",
     lead: "A console table is a narrow table for a wall or the back of a sofa. The width and height depend entirely on what it sits against, so measure that first.",
-    updated: "2026-10-22",
+    updated: "2026-11-18",
     sections: [
       {
         h2: "Behind a sofa",
@@ -335,6 +342,13 @@ export const GUIDES: Guide[] = [
           "Use it for lamps when the sofa floats in the middle of the room and there is no wall for a side table, or as the divider between a living area and a dining area in an open plan.",
         ],
         links: [{ label: "All solid wood console tables", href: "/category/living?subcategory=console-tables" }],
+      },
+      {
+        h2: "What is a sofa table?",
+        paragraphs: [
+          "A sofa table is a console table placed behind a couch, so the two names describe the same piece: a narrow table, 12 to 14 inches deep and 30 to 32 inches high, named for where it sits. Put it behind a sofa and it is a sofa table; put it in a hallway and it is a console or entryway table. The Plank & Beam consoles are 30 to 32 inches high, which puts the top level with or just below the back of most sofas.",
+        ],
+        links: [{ label: "Console tables with storage", href: "/category/living?subcategory=console-tables-with-storage" }],
       },
       {
         h2: "In an entryway or hallway",
@@ -365,6 +379,7 @@ export const GUIDES: Guide[] = [
       { q: "How long should a console table be behind a sofa?", a: "A few inches shorter than the sofa. A 56 or 66 inch console suits a standard 84 to 90 inch sofa, and a 46-inch console suits a loveseat." },
       { q: "How much space do you need in front of an entryway console?", a: "At least 36 inches of clear walkway, which rules out deep consoles in a narrow hallway." },
       { q: "Should a sofa table be taller than the sofa?", a: "No. Keep it level with or just below the sofa back." },
+      { q: "What is the table behind a couch called?", a: "A sofa table, which is a console table placed behind the sofa. It is the same narrow 30 to 32 inch high table that goes in an entryway, named for where it sits." },
       { q: "Which console tables have storage?", a: "The Classic console with shelf in 36 and 46 inches, the Grande console with shelf, and the Mid-Century Modern console with storage, which has cabinets with pull-down doors." },
     ],
     related: ["console-tables", "console-tables-with-storage", "entryway"],
