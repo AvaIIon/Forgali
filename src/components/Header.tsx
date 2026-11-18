@@ -167,8 +167,8 @@ export const Header = () => {
           front of the universal risk-reversal. On phones the sale line wraps
           and the shipping/returns pair drops to its own line. After Nov 30:
           remove the pill, the sale span and the break, and the two bf keys. */}
-      <div className="bg-primary text-primary-foreground text-center py-2.5 text-xs sm:text-sm font-medium px-4">
-        <span className="inline-block bg-brand-accent text-white text-[10px] sm:text-xs font-bold tracking-wider px-2 py-0.5 rounded-full mr-2 align-middle">
+      <div className="bg-brand-accent text-white text-center py-3 text-sm sm:text-base font-semibold px-4">
+        <span className="inline-block bg-primary text-primary-foreground text-xs sm:text-sm font-bold tracking-wider px-2.5 py-0.5 rounded-full mr-2 align-middle">
           {t("common.bfPill")}
         </span>
         <span>{t("common.bfBar")}</span>

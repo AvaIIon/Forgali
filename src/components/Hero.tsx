@@ -27,15 +27,15 @@ export const Hero = () => {
       <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/30 to-transparent" />
       <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
       <div className="absolute bottom-16 left-8 md:left-16 max-w-xl">
-        <span className="inline-block bg-primary text-primary-foreground text-xs font-semibold px-3 py-1 rounded mb-2">
+        <span className="inline-block bg-brand-accent text-white text-sm font-bold tracking-wide px-3.5 py-1.5 rounded mb-3">
           {t("hero.kicker")}
         </span>
         {/* The page's one H1. The homepage had none at all (every section
             title is an H2), so Google had no main heading to read. */}
-        <h1 className="text-white text-3xl md:text-4xl font-bold mb-3">
+        <h1 className="text-white text-4xl md:text-5xl font-bold mb-3">
           {t("hero.title")}
         </h1>
-        <p className="text-white/90 text-base md:text-lg mb-6 [text-shadow:0_1px_8px_rgba(0,0,0,0.5)]">
+        <p className="text-white text-lg md:text-xl font-medium mb-6 [text-shadow:0_1px_8px_rgba(0,0,0,0.5)]">
           {t("hero.lead")}
         </p>
         <div className="flex flex-wrap gap-3">
