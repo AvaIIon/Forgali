@@ -2,10 +2,11 @@ import { Link } from "@/i18n/router";
 import { useLocale } from "@/i18n/LocaleContext";
 import { Button } from "@/components/ui/button";
 
-// Every active dining piece carries a compare-at price (verified Aug 4 via the
-// Admin API: 100/100 on sale), so "every dining piece is on sale" is a claim
-// the catalog actually backs. Deepest dining markdown is ~11% — don't quote
-// "up to 30%" here; that figure comes from the bed lines.
+// Black Friday 2026 (Nov 18–30): the band carries the in-stock / before-Christmas
+// message with the risk-reversal (free shipping, 5-year warranty). No prices,
+// no lead times and no counts in this copy by Daniel's rule. The previous
+// "every dining piece is on sale" claim was true for only 55 of 86 dining
+// products by Nov 16, so it should not come back as-is after the sale.
 const BANNER_IMG =
   "https://cdn.shopify.com/s/files/1/0972/6492/6995/files/2872mc1008-150__1.jpg";
 
@@ -46,10 +47,10 @@ export const PromoBanner = () => {
               asChild
               className="bg-brand-accent-light text-brand font-semibold hover:bg-brand-accent-light-hover"
             >
-              <Link to="/smart-deals?room=dining">{t("promo.cta")}</Link>
+              <Link to="/category/dining">{t("promo.cta")}</Link>
             </Button>
             <Link
-              to="/category/dining"
+              to="/category/bedroom"
               className="text-sm font-medium text-white underline underline-offset-4 hover:text-brand-accent-light"
             >
               {t("promo.browse")}

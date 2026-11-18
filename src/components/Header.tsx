@@ -163,9 +163,17 @@ export const Header = () => {
 
   return (
     <header className="w-full">
-      {/* Top banner — the universal risk-reversal (applies to the bed traffic
-          that actually lands here). */}
+      {/* Top banner — Black Friday Nov 18–30 2026 (code FRIDAY at checkout) in
+          front of the universal risk-reversal. On phones the sale line wraps
+          and the shipping/returns pair drops to its own line. After Nov 30:
+          remove the pill, the sale span and the break, and the two bf keys. */}
       <div className="bg-primary text-primary-foreground text-center py-2.5 text-xs sm:text-sm font-medium px-4">
+        <span className="inline-block bg-brand-accent text-white text-[10px] sm:text-xs font-bold tracking-wider px-2 py-0.5 rounded-full mr-2 align-middle">
+          {t("common.bfPill")}
+        </span>
+        <span>{t("common.bfBar")}</span>
+        <span className="hidden sm:inline">{" · "}</span>
+        <br className="sm:hidden" />
         <span className="whitespace-nowrap">{t("common.freeShipping")}</span>
         {" · "}
         <span className="whitespace-nowrap">{t("common.returns30")}</span>
