@@ -60,14 +60,14 @@ export const STATIC_PAGE_SEO = {
   "/contact": {
     title: "Contact Forgali – Support for Orders & Delivery",
     description:
-      "Reach Forgali at (647) 527-2110 or daniel@forgali.com. A 100% online Canadian furniture store — no showroom. We respond within 24 hours.",
+      "Reach Forgali at (647) 527-2110 or support@forgali.com. A 100% online Canadian furniture store — no showroom. We respond within 24 hours.",
     path: "/contact",
     h1: "Contact Forgali",
-    lead: "Call (647) 527-2110 or email daniel@forgali.com. We respond within 24 hours, Monday to Friday.",
+    lead: "Call (647) 527-2110 or email support@forgali.com. We respond within 24 hours, Monday to Friday.",
     facts: [
       "Forgali's phone number is (647) 527-2110, answered Monday to Friday, 9:00 AM to 5:00 PM EST.",
       "Forgali is an online-only store: there is no retail showroom.",
-      "Email daniel@forgali.com for orders, delivery and product questions.",
+      "Email support@forgali.com for orders, delivery and product questions.",
     ],
   },
   "/faqs": {
