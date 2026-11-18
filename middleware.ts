@@ -36,6 +36,7 @@ import { faqPageJsonLd, getBedSeo } from "./src/lib/categorySeo";
 import { categorySubcategories } from "./src/lib/subcategories";
 import { SITE_FAQS } from "./src/lib/siteFaqs";
 import { OFFER_TERMS_JSONLD } from "./src/lib/merchantPolicy";
+import { findSizeSiblings, sizeLabel } from "./src/lib/sizeSiblings";
 import {
   GUIDES,
   GUIDES_INDEX_SEO,
@@ -568,6 +569,14 @@ const H2 = `style="font-size:1.25rem;font-weight:700;margin:24px 0 8px;"`;
 // and the cross-sell block. Before this the pre-hydration body stopped at a
 // 500-character description — half of most products' copy, and none of the
 // Details tab — which is all a crawler that defers rendering ever saw.
+// Other sizes of the same design are separate products (src/lib/sizeSiblings.ts);
+// the hydrated page shows them as a size row, this body as plain links.
+const SIZE_INPUTS = Object.keys(META).map((h) => ({
+  handle: h,
+  title: META[h].t,
+  category: HANDLE_CATEGORY.get(h) ?? null,
+}));
+
 function productBody(handle: string, m: ProductMeta): string | null {
   const found = HANDLE_CATEGORY.get(handle);
   const cat = found !== undefined && hasOwn(categoryInfoMap, found) ? found : null;
@@ -597,6 +606,16 @@ function productBody(handle: string, m: ProductMeta): string | null {
     ? `<p style="margin:0 0 8px;font-size:1.25rem;font-weight:700;">${esc(money(m.p))}</p>`
     : "";
   const stock = `<p style="margin:0 0 16px;">${m.a ? "In stock" : "Out of stock"} — ships free anywhere in Canada.</p>`;
+  const siblings = findSizeSiblings({ handle, title: m.t, category: HANDLE_CATEGORY.get(handle) ?? null }, SIZE_INPUTS);
+  const sizes = siblings.length
+    ? `<p style="margin:0 0 16px;">${esc(EN["pdp.alsoAvailableIn"])}: ${siblings
+        .map((s) =>
+          s.handle === handle
+            ? `<strong>${esc(sizeLabel(s.size, "en"))}</strong>`
+            : `<a href="/product/${esc(s.handle)}" style="text-decoration:underline;">${esc(sizeLabel(s.size, "en"))}</a>`
+        )
+        .join(" · ")}</p>`
+    : "";
   // Description tab: specs.overview when authored, else the Shopify
   // description. Newlines render as line breaks there.
   const text = m.o ?? m.d;
@@ -646,6 +665,7 @@ function productBody(handle: string, m: ProductMeta): string | null {
     `<h1 style="font-size:1.75rem;font-weight:700;margin:0 0 8px;">${esc(m.t)}</h1>`,
     price,
     stock,
+    sizes,
     img,
     desc,
     details,

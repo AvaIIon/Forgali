@@ -1,7 +1,7 @@
 import { useState, useMemo, useEffect } from "react";
 import { useLocale } from "@/i18n/LocaleContext";
 import { categoryName, optionNameLabel, optionValueLabel, subcategoryName } from "@/i18n/messages";
-import { useParams, Link } from "@/i18n/router";
+import { useParams, Link, useSearchParams } from "@/i18n/router";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Seo } from "@/components/Seo";
@@ -12,6 +12,7 @@ import { useCart } from "@/context/CartContext";
 import { useShopifyProduct, useShopifyProducts, getRelatedProducts } from "@/hooks/useShopifyProducts";
 import { getVariantImages, ConvertedProduct } from "@/services/shopifyService";
 import { getFinishColor } from "@/lib/finishColors";
+import { findSizeSiblings, isSizeLikeOption, sizeLabel } from "@/lib/sizeSiblings";
 import { cdnImage, cdnSrcSet, CARD_SIZES } from "@/lib/imageProxy";
 import { categorySubcategories, productMatchesSubcategory } from "@/lib/subcategories";
 import { trackPinterest } from "@/lib/pinterest";
@@ -96,6 +97,11 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
   const { products: allProducts } = useShopifyProducts();
   const { addToCart } = useCart();
 
+  // ?finish=Black is set by the size row's links, so switching 47" -> 38" keeps
+  // the finish the shopper had picked whenever that size comes in it.
+  const [searchParams] = useSearchParams();
+  const requestedFinish = searchParams.get("finish");
+
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [imageErrors, setImageErrors] = useState<Set<number>>(new Set());
@@ -143,7 +149,13 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
   );
 
   const [selections, setSelections] = useState<Record<string, string>>(() => {
-    const first = product.variants.find(v => v.availableForSale) ?? product.variants[0];
+    const wanted = requestedFinish?.trim().toLowerCase();
+    const hasWantedFinish = (v: ConvertedProduct["variants"][number]) =>
+      !!wanted && v.options.some(o => isFinishLike(o.name) && o.value.toLowerCase() === wanted);
+    const requested = wanted
+      ? product.variants.find(v => v.availableForSale && hasWantedFinish(v)) ?? product.variants.find(hasWantedFinish)
+      : undefined;
+    const first = requested ?? product.variants.find(v => v.availableForSale) ?? product.variants[0];
     const init: Record<string, string> = {};
     first?.options.forEach(o => {
       if (o.value !== "Default Title") init[o.name] = o.value;
@@ -196,6 +208,67 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
 
   const finishAxis = options.find(o => isFinishLike(o.name));
   const selectedFinishName = finishAxis ? selections[finishAxis.name] ?? "" : "";
+
+  // The same design in other sizes = OTHER Shopify products (lib/sizeSiblings).
+  // They render as one size row whose pills link across the products, and the
+  // product's own single-value size axis ("Table Size: Round - 47"") folds
+  // into that row instead of showing a lone pill.
+  const sizeSiblings = useMemo(() => {
+    const asInput = (p: ConvertedProduct) => ({
+      handle: p.handle,
+      title: p.matchName ?? p.name,
+      category: p.category,
+      product: p,
+    });
+    return findSizeSiblings(asInput(product), allProducts.map(asInput));
+  }, [product, allProducts]);
+  const ownSizeAxis =
+    sizeSiblings.length > 0 ? options.find(o => isSizeLikeOption(o.name) && o.values.length === 1) : undefined;
+  const currentSize = sizeSiblings.find(s => s.handle === product.handle);
+  // Carry the chosen finish over only when the other size comes in it;
+  // otherwise that page opens on its own default variant.
+  const siblingTo = (handle: string, sibling: ConvertedProduct) => {
+    const carries =
+      !!selectedFinishName &&
+      sibling.options.some(o => isFinishLike(o.name) && o.values.includes(selectedFinishName));
+    return {
+      pathname: `/product/${handle}`,
+      search: carries ? `?finish=${encodeURIComponent(selectedFinishName)}` : "",
+    };
+  };
+  const sizeRowLabel = ownSizeAxis ? optionLabel(ownSizeAxis.name) : t("pdp.size");
+  const sizeRow =
+    sizeSiblings.length > 0 && currentSize ? (
+      <div key="size-siblings" className="space-y-3">
+        <div className="flex items-center justify-between">
+          <span className="font-medium">{sizeRowLabel}{t("pdp.optionColon")}</span>
+          <span className="text-muted-foreground">{sizeLabel(currentSize.size, locale)}</span>
+        </div>
+        <div className="flex flex-wrap gap-2" role="group" aria-label={sizeRowLabel}>
+          {sizeSiblings.map(s =>
+            s.handle === product.handle ? (
+              <span
+                key={s.handle}
+                aria-current="page"
+                className="px-4 py-2 rounded-lg border text-sm font-medium border-brand bg-brand text-white"
+              >
+                {sizeLabel(s.size, locale)}
+              </span>
+            ) : (
+              <Link
+                key={s.handle}
+                to={siblingTo(s.handle, s.item.product)}
+                state={{ keepScroll: true }}
+                aria-label={`${sizeRowLabel}: ${sizeLabel(s.size, locale)}`}
+                className="px-4 py-2 rounded-lg border text-sm font-medium transition-colors border-border hover:border-muted-foreground"
+              >
+                {sizeLabel(s.size, locale)}
+              </Link>
+            )
+          )}
+        </div>
+      </div>
+    ) : null;
 
   // Reset the gallery whenever the RESOLVED finish changes — including when a
   // non-finish click snaps to a different finish (which the old per-click reset
@@ -479,8 +552,13 @@ const ProductView = ({ product, detailLoaded }: { product: ConvertedProduct; det
               )}
             </div>
 
+            {/* Size row (other sizes are other products) leads when the
+                product has no size axis of its own to take its place */}
+            {sizeRow && !ownSizeAxis ? sizeRow : null}
+
             {/* Option Selectors — one per real variant axis */}
             {options.map(option => {
+              if (option === ownSizeAxis) return sizeRow;
               const selectedValue = selections[option.name];
               if (isFinishLike(option.name)) {
                 return (
