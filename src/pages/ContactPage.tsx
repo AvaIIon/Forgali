@@ -6,15 +6,18 @@ import { Seo } from "@/components/Seo";
 import { seoProps } from "@/lib/staticPageSeo";
 import { useLocale } from "@/i18n/LocaleContext";
 
-const RECIPIENT = "daniel@forgali.com";
+const RECIPIENT = "support@forgali.com";
 const PHONE_DISPLAY = "(647) 527-2110";
 // tel: wants E.164 so mobile dialers and desktop click-to-call handlers both
 // resolve it; the display string stays formatted for people.
 const PHONE_E164 = "+16475272110";
 
-// Web3Forms posts the submission straight to RECIPIENT's inbox. The access key
-// is public by design — it names the destination mailbox and grants nothing
-// else — which is why it belongs in the source rather than a Vercel env var.
+// Web3Forms posts the submission to the mailbox its access key was issued for.
+// The key below was issued for daniel@forgali.com; to deliver form submissions
+// to RECIPIENT instead, request a new key for that address at web3forms.com
+// and paste it here. The key is public by design — it names the destination
+// mailbox and grants nothing else — which is why it belongs in the source
+// rather than a Vercel env var.
 // While it is empty the form falls back to the mail-client handoff below, so
 // an unconfigured build still reaches a human.
 const WEB3FORMS_ACCESS_KEY: string = "0119e47d-0a81-46d7-8e54-aa2c36803b48";
@@ -137,7 +140,7 @@ const ContactPage = () => {
             <div className="bg-brand-tint rounded-lg p-6">
               <Mail className="w-8 h-8 text-brand mb-4" />
               <h3 className="font-bold text-lg mb-2">{t("contact.email")}</h3>
-              <a href="mailto:daniel@forgali.com" className="text-brand-accent hover:underline">daniel@forgali.com</a>
+              <a href="mailto:support@forgali.com" className="text-brand-accent hover:underline">support@forgali.com</a>
               <p className="text-sm text-muted-foreground mt-2">{t("contact.respond24")}</p>
             </div>
 
