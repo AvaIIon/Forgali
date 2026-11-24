@@ -58,7 +58,7 @@ const PlankAndBeamPage = () => {
             </h1>
             <p className="text-lg mt-4 text-white/90">
               Solid wood dining and living furniture, now easy to buy at home.
-              Free Canada-wide shipping, prices in CAD, and returns handled
+              Free shipping, prices in CAD, and returns handled
               right here.
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
@@ -83,7 +83,7 @@ const PlankAndBeamPage = () => {
       <section className="max-w-rail mx-auto px-4 py-14">
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {[
-            { icon: Truck, title: "Free Canada-Wide Shipping", body: "Every order ships free across Canada, with pricing in CAD and no surprise duties or brokerage." },
+            { icon: Truck, title: "Free Shipping", body: "Every order ships free, with pricing in CAD and no surprise duties or brokerage." },
             { icon: RotateCcw, title: "Local 30-Day Returns", body: "Returns are handled here in Canada within 30 days, with no cross-border hassle." },
             { icon: TreePine, title: "Solid Wood", body: "Real solid wood dining and living pieces built to live with for years, not particleboard." },
           ].map((f) => (
@@ -123,7 +123,7 @@ const PlankAndBeamPage = () => {
             Coastal White to warm Pecan and Walnut, plus wirebrushed and rustic
             options, so it's easy to build a look that carries from the dining
             table through to the living room. Browse by room below, and every
-            order ships free across Canada with 30-day returns.
+            order ships free with 30-day returns.
           </p>
         </div>
       </section>
