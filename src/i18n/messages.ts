@@ -151,7 +151,7 @@ const en = {
   "hero.title": "Black Friday Sale",
   "hero.lead": "10% off every piece with code FRIDAY at checkout, Nov 18–30.",
   "hero.ctaDining": "Shop Dining & Living",
-  "hero.ctaBeds": "Shop Kids’ Beds",
+  "hero.ctaBeds": "Shop Bedroom",
   "brand.title": "Furniture Built to Live With",
   "brand.body1":
     "We design solid wood pieces for real life — the kind that looks great in your space, holds up to everyday use, and skips the “how is it ",
@@ -829,7 +829,7 @@ const fr: Record<keyof typeof en, string> = {
   "hero.title": "Soldes du Vendredi fou",
   "hero.lead": "10\u00a0% de rabais sur chaque pièce avec le code FRIDAY à la caisse, du 18 au 30 novembre.",
   "hero.ctaDining": "Magasiner la salle à manger et le salon",
-  "hero.ctaBeds": "Magasiner les lits pour enfants",
+  "hero.ctaBeds": "Magasiner la chambre",
   "brand.title": "Des meubles faits pour durer",
   "brand.body1":
     "Nous concevons des meubles en bois massif pour la vraie vie : ceux qui sont beaux dans votre espace, qui résistent à l'usage quotidien et qui n'ont pas l'étiquette de prix qui fait dire « c'est ",
