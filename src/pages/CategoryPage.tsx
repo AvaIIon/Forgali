@@ -233,7 +233,7 @@ const CategoryPage = () => {
           fold while giving the page real, indexable content for its term) */}
       {bedSeo?.intro && (
         <section className="border-t border-border bg-secondary/20 py-12 px-4">
-          <div className="max-w-3xl mx-auto">
+          <div className="max-w-rail mx-auto">
             <h2 className="text-2xl font-bold mb-4 text-brand">
               {t("category.about", { name: headerH1 })}
             </h2>
