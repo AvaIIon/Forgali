@@ -60,12 +60,12 @@ export const STATIC_PAGE_SEO = {
   "/contact": {
     title: "Contact Forgali – Support for Orders & Delivery",
     description:
-      "Reach Forgali at (647) 527-2110 or support@forgali.com. A 100% online Canadian furniture store — no showroom. We respond within 24 hours.",
+      "Reach Forgali at (365) 387-2345 or support@forgali.com. A 100% online Canadian furniture store — no showroom. We respond within 24 hours.",
     path: "/contact",
     h1: "Contact Forgali",
-    lead: "Call (647) 527-2110 or email support@forgali.com. We respond within 24 hours, Monday to Friday.",
+    lead: "Call (365) 387-2345 or email support@forgali.com. We respond within 24 hours, Monday to Friday.",
     facts: [
-      "Forgali's phone number is (647) 527-2110, answered Monday to Friday, 9:00 AM to 5:00 PM EST.",
+      "Forgali's phone number is (365) 387-2345, answered Monday to Friday, 9:00 AM to 5:00 PM EST.",
       "Forgali is an online-only store: there is no retail showroom.",
       "Email support@forgali.com for orders, delivery and product questions.",
     ],
@@ -91,7 +91,7 @@ export const STATIC_PAGE_SEO = {
       "The bedroom range covers bunk beds, loft beds and single beds, including a wide selection of Max & Lily.",
       "We also carry the Plank & Beam collection of dining and living room furniture.",
       "Shipping is free Canada-wide, returns are handled locally within 30 days, and orders carry a 5-year limited warranty.",
-      "Forgali operates entirely online — there is no retail showroom. The phone number is (647) 527-2110.",
+      "Forgali operates entirely online — there is no retail showroom. The phone number is (365) 387-2345.",
     ],
   },
   "/warranty": {
