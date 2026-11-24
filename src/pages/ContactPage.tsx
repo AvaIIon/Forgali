@@ -7,10 +7,10 @@ import { seoProps } from "@/lib/staticPageSeo";
 import { useLocale } from "@/i18n/LocaleContext";
 
 const RECIPIENT = "support@forgali.com";
-const PHONE_DISPLAY = "(647) 527-2110";
+const PHONE_DISPLAY = "(365) 387-2345";
 // tel: wants E.164 so mobile dialers and desktop click-to-call handlers both
 // resolve it; the display string stays formatted for people.
-const PHONE_E164 = "+16475272110";
+const PHONE_E164 = "+13653872345";
 
 // Web3Forms posts the submission to the mailbox its access key was issued for.
 // The key below was issued for daniel@forgali.com; to deliver form submissions
