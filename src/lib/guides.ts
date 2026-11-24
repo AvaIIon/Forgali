@@ -45,7 +45,7 @@ export const GUIDES: Guide[] = [
     description: "How to pick a dining table size for your room and your household: seats per length, round vs rectangular, clearance to walls, and which solid wood tables fit a condo, a kitchen or a full dining room.",
     h1: "What Size Dining Table Do You Need?",
     lead: "Measure the room, count the people you feed most weeks, and the right table length follows. This guide covers seats per size, round versus rectangular, and how much clearance to leave.",
-    updated: "2026-10-22",
+    updated: "2026-11-24",
     sections: [
       {
         h2: "Start with the room, not the table",
@@ -71,6 +71,22 @@ export const GUIDES: Guide[] = [
           { label: "All solid wood dining tables", href: "/category/dining?subcategory=dining-tables" },
           { label: "48-inch kitchen tables", href: "/category/dining?subcategory=kitchen-tables" },
         ],
+      },
+      {
+        h2: "Standard dining table dimensions",
+        paragraphs: [
+          "A standard dining table is 30 inches high and 32 to 38 inches wide, and the length sets how many people it seats. These are the sizes in the Plank & Beam range.",
+        ],
+        bullets: [
+          "48-inch kitchen tables: 48 by 32 inches.",
+          "60-inch tables: 60 by 32 inches.",
+          "72-inch tables: 72 by about 36 inches.",
+          "84-inch tables: 84 by 36 inches.",
+          "94-inch tables: 93.75 inches long and 35.75 to 37.75 inches wide.",
+          "Round tables: 38 or 47 inches across. Oval tables: 62 by 34.5 inches and 72 by 42 inches.",
+          "Counter height tables: about 41 inches square and 36 inches high.",
+        ],
+        links: [{ label: "Dining tables by size", href: "/category/dining?subcategory=dining-tables" }, { label: "Round and oval dining tables", href: "/category/dining?subcategory=round-dining-tables" }],
       },
       {
         h2: "Round or rectangular?",
@@ -104,6 +120,8 @@ export const GUIDES: Guide[] = [
       { q: "How much space do you need around a dining table?", a: "36 inches from the table edge to the wall or the next piece of furniture is the minimum for pulling out a chair and walking behind it. 42 to 48 inches is comfortable." },
       { q: "Is a round or rectangular table better for a small space?", a: "Round, up to four people. A 47-inch round seats four in a smaller footprint than a 60-inch rectangle and has no corners in the walkway. Past four people, rectangular tables use space more efficiently." },
       { q: "How many people fit at a 72-inch table?", a: "Six at 24 inches each, or up to eight with benches on both sides." },
+      { q: "What are standard dining table dimensions?", a: "30 inches high and 32 to 38 inches wide. Common lengths are 48 to 60 inches for four people, 72 inches for six and 84 to 94 inches for up to eight." },
+      { q: "How high is a dining table?", a: "A standard dining table is 30 inches high and takes chairs with a seat about 18 inches high. A counter height table is 36 inches high." },
     ],
     related: ["dining-tables", "round-dining-tables", "kitchen-tables", "dining-sets"],
   },
@@ -166,7 +184,7 @@ export const GUIDES: Guide[] = [
     description: "How a corner banquette fits a kitchen nook, which table shape to pair it with, how many people it seats, and what to look for in a solid wood banquette bench shipped in Canada.",
     h1: "Banquette Seating for a Breakfast Nook",
     lead: "A corner banquette turns the dead corner of a kitchen into seating for three or four, with a backrest, in a footprint that chairs could never use. Here is how to size one and what to put in front of it.",
-    updated: "2026-10-22",
+    updated: "2026-11-24",
     sections: [
       {
         h2: "Why a banquette works in a kitchen corner",
@@ -182,6 +200,14 @@ export const GUIDES: Guide[] = [
           "You need a clear corner of at least 63 by 63 inches, plus the table in front. Measure from the corner along both walls, and check that a window sill, a radiator or a baseboard heater does not sit in the way at seat height.",
         ],
         links: [{ label: "Plank & Beam Risa Banquette", href: "/product/risa-banquette" }],
+      },
+      {
+        h2: "Breakfast nook dimensions",
+        paragraphs: [
+          "Start with the banquette: the Risa needs 63 inches, or 5 feet 3 inches, along each wall. A 38-inch round table in front of it fits a nook of about 6 by 6 feet. A 47-inch round or a 48-inch kitchen table wants closer to 7 feet on the longer side.",
+          "Add 24 inches on any open side where a chair will sit, and 36 inches if people need to walk behind that chair. The seat is 17.75 inches high and the tables are 30 inches high, which leaves about 12 inches between seat and table top.",
+        ],
+        links: [{ label: "38 and 47 inch round tables", href: "/category/dining?subcategory=round-dining-tables" }],
       },
       {
         h2: "Which table goes with a banquette?",
@@ -210,7 +236,8 @@ export const GUIDES: Guide[] = [
       { q: "How many people does a corner banquette seat?", a: "The 63 by 63 inch Risa banquette seats three adults comfortably, or four with children, before you add chairs on the open side of the table." },
       { q: "What size table fits a corner banquette?", a: "A 38 or 47 inch round table, or a 48-inch kitchen table. Round tables are easier to slide in and out around." },
       { q: "Does the banquette come with a cushion?", a: "The cushion is optional, in Cream or Onyx. The bench is a finished solid wood seat on its own." },
-      { q: "Does it ship assembled?", a: "No. It ships in one box with all hardware and instructions, free." },
+      { q: "Does it ship assembled?", a: "No. It ships in one box with all hardware and instructions, free to any address in Canada." },
+      { q: "How much space does a breakfast nook need?", a: "About 6 by 6 feet for a 63-inch corner banquette with a 38-inch round table, plus 24 to 36 inches on any side where chairs go." },
     ],
     related: ["dining-benches", "round-dining-tables", "kitchen-tables"],
   },
@@ -220,7 +247,7 @@ export const GUIDES: Guide[] = [
     description: "The one measurement that decides whether you need a 24-inch counter stool or a 30-inch bar stool, how many stools fit an island, and backless versus stools with backs.",
     h1: "Counter Height vs Bar Height Stools",
     lead: "Measure from the floor to the underside of your counter. If it is 36 inches you need counter stools; if it is 42 inches you need bar stools. Everything else follows from that number.",
-    updated: "2026-11-18",
+    updated: "2026-11-24",
     sections: [
       {
         h2: "How to measure for bar stools and counter stools",
@@ -249,7 +276,7 @@ export const GUIDES: Guide[] = [
       {
         h2: "Backless or with a back?",
         paragraphs: [
-          "Backless stools like the Smythe and Beryl slide completely under the counter, which keeps a small kitchen looking open and keeps the walkway clear. They are also the least expensive, from $341 CAD. They suit an island people perch at for breakfast or a drink.",
+          "Backless stools like the Smythe and Beryl slide completely under the counter, which keeps a small kitchen looking open and keeps the walkway clear. They are also the least expensive, from $344 CAD. They suit an island people perch at for breakfast or a drink.",
           "Stools with a back, like the Solid Wood counter chair, the Elio, Sereno and Brio, and the Loar upholstered counter chair, are for an island that is the real table: homework, long breakfasts, guests who sit while you cook. An upholstered seat adds comfort for the same reason.",
         ],
       },
@@ -274,11 +301,11 @@ export const GUIDES: Guide[] = [
   },
   {
     slug: "coffee-table-size",
-    title: "Coffee Table Size Guide: Length, Height and Distance from the Sofa | Forgali",
+    title: "Coffee Table Size Guide: Dimensions, Height and Distance from the Sofa | Forgali",
     description: "How long a coffee table should be for your sofa, how high it should sit, how far from the seat, and when a round table beats a rectangular one.",
     h1: "Coffee Table Size Guide",
     lead: "The right coffee table is about two-thirds the length of your sofa, level with the seat cushion, and 14 to 18 inches in front of it. This guide turns those rules into a size you can order.",
-    updated: "2026-10-22",
+    updated: "2026-11-24",
     sections: [
       {
         h2: "Length: two-thirds of the sofa",
@@ -293,6 +320,20 @@ export const GUIDES: Guide[] = [
         paragraphs: [
           "A coffee table should be within an inch or two of the height of your sofa seat cushion, which is usually 16 to 18 inches. Level is easiest for setting down a drink; a touch lower looks lighter. Check the Details tab on each product for the exact height before you order, and measure your sofa seat with the cushions compressed.",
         ],
+      },
+      {
+        h2: "Standard coffee table dimensions",
+        paragraphs: [
+          "Most rectangular coffee tables are 40 to 54 inches long, 20 to 24 inches deep and 15 to 18 inches high. The Plank & Beam tables follow those standard sizes, so you can match one to your sofa by length alone.",
+        ],
+        bullets: [
+          "40-inch tables: about 40 by 20 inches, for a loveseat or an apartment sofa.",
+          "48-inch tables: 48 by 24 inches, for a 72 to 78 inch sofa.",
+          "54-inch tables: 54 by 24 inches, for a full three-seat sofa.",
+          "Round tables: 30, 34 or 36 inches across. The Forma square is 36 by 36 inches.",
+          "Height: 17.75 inches for the Classic, Verso, Mid-Century Modern and Forma tables, and 15 inches for the lower Modern and Contour tables.",
+        ],
+        links: [{ label: "Coffee tables by size", href: "/category/living?subcategory=coffee-tables" }],
       },
       {
         h2: "Distance: 14 to 18 inches from the sofa",
@@ -321,7 +362,8 @@ export const GUIDES: Guide[] = [
     ],
     faqs: [
       { q: "What size coffee table for an 84-inch sofa?", a: "About 54 inches long. Two-thirds of the sofa length is the rule, so a 48-inch table is fine with a 72-inch sofa and a 40-inch table with a loveseat." },
-      { q: "How high should a coffee table be?", a: "Within an inch or two of your sofa seat height, which is usually 16 to 18 inches. Check the exact height in each product's Details tab." },
+      { q: "How high should a coffee table be?", a: "Within an inch or two of your sofa seat height, which is usually 16 to 18 inches. The Classic, Verso, Mid-Century Modern and Forma coffee tables are 17.75 inches high, and the Modern and Contour tables are 15 inches." },
+      { q: "What are standard coffee table dimensions?", a: "40 to 54 inches long, 20 to 24 inches deep and 15 to 18 inches high for a rectangular table, and 30 to 36 inches across for a round one." },
       { q: "How far should a coffee table be from the sofa?", a: "14 to 18 inches from the front of the seat cushion to the edge of the table." },
       { q: "Round or rectangular coffee table with a sectional?", a: "Round. A 34 or 36 inch round sits inside the corner of a sectional and is reachable from both sides." },
     ],
@@ -333,7 +375,7 @@ export const GUIDES: Guide[] = [
     description: "How wide and how tall a console table should be behind a sofa or in a hallway, the clearance to leave in an entryway, and when to choose a console with a shelf or cabinet.",
     h1: "Console Table Sizing: Behind a Sofa or in an Entryway",
     lead: "A console table is a narrow table for a wall or the back of a sofa. The width and height depend entirely on what it sits against, so measure that first.",
-    updated: "2026-11-18",
+    updated: "2026-11-24",
     sections: [
       {
         h2: "Behind a sofa",
@@ -353,7 +395,7 @@ export const GUIDES: Guide[] = [
       {
         h2: "In an entryway or hallway",
         paragraphs: [
-          "The constraint in an entryway is the walkway. Leave at least 36 inches clear in front of the table, which in a typical 42 to 48 inch wide hallway means a console no deeper than about 12 to 14 inches, and in a narrow condo entry means a 36-inch console or nothing. Check the depth in the Details tab; the Classic and Verso consoles are the slimmest.",
+          "The constraint in an entryway is the walkway. Leave at least 36 inches clear in front of the table, which in a typical 42 to 48 inch wide hallway means a console no deeper than about 12 to 14 inches, and in a narrow condo entry means a 36-inch console or nothing. Every console in the range is 12 inches deep, apart from the 12.75-inch Mid-Century Modern console with storage, so all of them fit.",
           "Width is then about the wall: a 36-inch console fits beside most front doors, a 46-inch console suits a standard entry wall, and 56 or 66 inches fills a long hallway or a mudroom wall.",
         ],
         links: [
@@ -368,9 +410,10 @@ export const GUIDES: Guide[] = [
         ],
       },
       {
-        h2: "Height",
+        h2: "Console table height and standard sizes",
         paragraphs: [
-          "Console tables are around 30 inches high, roughly the same as a dining table, which is right for an entryway and for most sofa backs. If your sofa has a very low back, under 30 inches, measure before you buy so the table does not stand proud of it.",
+          "A standard console table is 30 to 32 inches high and 12 to 14 inches deep. In the Plank & Beam range every console is 12 inches deep, apart from the Mid-Century Modern console with storage at 12.75 inches, and 32 inches high, apart from the Grande console with shelf at 30 inches. Lengths are 36, 46, 47, 56 and 66 inches.",
+          "That height is right for an entryway and for most sofa backs. If your sofa has a very low back, under 32 inches, measure before you buy so the table does not stand proud of it.",
         ],
         links: [{ label: "Coffee table size guide", href: "/guides/coffee-table-size" }],
       },
@@ -381,6 +424,7 @@ export const GUIDES: Guide[] = [
       { q: "Should a sofa table be taller than the sofa?", a: "No. Keep it level with or just below the sofa back." },
       { q: "What is the table behind a couch called?", a: "A sofa table, which is a console table placed behind the sofa. It is the same narrow 30 to 32 inch high table that goes in an entryway, named for where it sits." },
       { q: "Which console tables have storage?", a: "The Classic console with shelf in 36 and 46 inches, the Grande console with shelf, and the Mid-Century Modern console with storage, which has cabinets with pull-down doors." },
+      { q: "How tall is a console table?", a: "30 to 32 inches. The Plank & Beam consoles are 32 inches high and 12 inches deep, apart from the Grande console with shelf, which is 30 inches high." },
     ],
     related: ["console-tables", "console-tables-with-storage", "entryway"],
   },
