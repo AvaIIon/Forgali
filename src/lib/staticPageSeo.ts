@@ -4,7 +4,7 @@
 // Why this exists: /product/* and /category/* have had their real head injected
 // into the initial HTML since 2026-08-04, but the static routes were never in
 // the middleware matcher. They therefore served the generic shell title
-// ("Forgali — Solid Wood Furniture for Every Room") and an empty <div id="root">
+// ("Forgali | Solid Wood Furniture for Every Room") and an empty <div id="root">
 // to anything that doesn't run JavaScript. Search Console on 2026-08-11 showed
 // exactly what that costs: /about ranking position 3.1 with 45 impressions and
 // ZERO clicks, /shipping position 4.8 with 28 and zero, /contact position 10.2
@@ -49,7 +49,7 @@ export const STATIC_PAGE_SEO = {
       "Forgali's return policy: 30-day returns on unused items, order changes and cancellations, and how we handle damaged or incorrect deliveries.",
     path: "/returns",
     h1: "Returns & Cancellations",
-    lead: "30-day returns on new, unused, unassembled items — handled here in Canada.",
+    lead: "30-day returns on new, unused, unassembled items, handled here in Canada.",
     facts: [
       "Returns are accepted on new, unused, unassembled items within 30 days of delivery.",
       "Return shipping is the customer's responsibility and a restocking fee of up to 20% may apply.",
@@ -60,7 +60,7 @@ export const STATIC_PAGE_SEO = {
   "/contact": {
     title: "Contact Forgali – Support for Orders & Delivery",
     description:
-      "Reach Forgali at (365) 387-2345 or support@forgali.com. A 100% online Canadian furniture store — no showroom. We respond within 24 hours.",
+      "Reach Forgali at (365) 387-2345 or support@forgali.com. A 100% online Canadian furniture store, no showroom. We respond within 24 hours.",
     path: "/contact",
     h1: "Contact Forgali",
     lead: "Call (365) 387-2345 or email support@forgali.com. We respond within 24 hours, Monday to Friday.",
@@ -85,19 +85,19 @@ export const STATIC_PAGE_SEO = {
       "Forgali is an online-only Canadian furniture store: solid wood bunk beds, loft beds and Plank & Beam dining and living furniture, shipped free across Canada with 30-day returns and a 5-year warranty.",
     path: "/about",
     h1: "About Forgali",
-    lead: "A Canadian online store for solid wood furniture — kids' beds and Plank & Beam dining and living.",
+    lead: "A Canadian online store for solid wood furniture: kids' beds and Plank & Beam dining and living.",
     facts: [
       "Forgali sells solid wood furniture online across Canada.",
       "The bedroom range covers bunk beds, loft beds and single beds, including a wide selection of Max & Lily.",
       "We also carry the Plank & Beam collection of dining and living room furniture.",
       "Shipping is free Canada-wide, returns are handled locally within 30 days, and orders carry a 5-year limited warranty.",
-      "Forgali operates entirely online — there is no retail showroom. The phone number is (365) 387-2345.",
+      "Forgali operates entirely online. There is no retail showroom. The phone number is (365) 387-2345.",
     ],
   },
   "/warranty": {
     title: "Warranty – Coverage & Claims | Forgali",
     description:
-      "What Forgali's limited warranty covers, what it doesn't, and how to make a claim on your solid wood furniture — backed by Canadian support.",
+      "What Forgali's limited warranty covers, what it doesn't, and how to make a claim on your solid wood furniture, backed by Canadian support.",
     path: "/warranty",
     h1: "Warranty",
     lead: "A 5-year limited warranty covering manufacturing defects, supported from Canada.",
@@ -109,10 +109,10 @@ export const STATIC_PAGE_SEO = {
   "/safety-standards": {
     title: "Bunk & Loft Bed Safety Standards | Forgali",
     description:
-      "How Forgali beds address Health Canada guidance: guardrails, low-VOC finishes, and structural integrity — plus safety tips for parents.",
+      "How Forgali beds address Health Canada guidance: guardrails, low-VOC finishes, and structural integrity, plus safety tips for parents.",
     path: "/safety-standards",
     h1: "Bunk & Loft Bed Safety Standards",
-    lead: "Guardrails, low-VOC finishes and solid wood construction — plus safety guidance for parents.",
+    lead: "Guardrails, low-VOC finishes and solid wood construction, plus safety guidance for parents.",
     facts: [
       "Our children's beds are manufactured and tested to applicable children's furniture safety standards.",
       "Finishes are low-VOC.",
