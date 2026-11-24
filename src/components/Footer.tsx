@@ -25,12 +25,15 @@ export const Footer = () => {
           <div>
             <h4 className="font-bold mb-4">{t("footer.shop")}</h4>
             <ul className="space-y-2 text-sm text-background/70">
-              <li><Link to="/category/bunk-beds" className="hover:text-background">{t("nav.bunkBeds")}</Link></li>
-              <li><Link to="/category/loft-beds" className="hover:text-background">{t("nav.loftBeds")}</Link></li>
-              <li><Link to="/category/single-beds" className="hover:text-background">{t("nav.singleBeds")}</Link></li>
-              <li><Link to="/category/dining" className="hover:text-background">{t("nav.dining")}</Link></li>
-              <li><Link to="/category/living" className="hover:text-background">{t("nav.living")}</Link></li>
-              <li><Link to="/category/accessories" className="hover:text-background">{t("footer.accessories")}</Link></li>
+              <li><Link to="/category/dining?subcategory=dining-tables" className="hover:text-background">{t("nav.diningTables")}</Link></li>
+              <li><Link to="/category/dining?subcategory=dining-chairs" className="hover:text-background">{t("nav.diningChairs")}</Link></li>
+              <li><Link to="/category/dining?subcategory=dining-sets" className="hover:text-background">{t("nav.diningSets")}</Link></li>
+              <li><Link to="/category/dining?subcategory=bar-counter-chairs" className="hover:text-background">{t("nav.barCounterChairs")}</Link></li>
+              <li><Link to="/category/living?subcategory=coffee-tables" className="hover:text-background">{t("nav.coffeeTables")}</Link></li>
+              <li><Link to="/category/living?subcategory=console-tables" className="hover:text-background">{t("nav.consoleTables")}</Link></li>
+              <li><Link to="/category/living?subcategory=sideboards" className="hover:text-background">{t("nav.sideboards")}</Link></li>
+              <li><Link to="/category/living?subcategory=tv-stands" className="hover:text-background">{t("nav.tvStands")}</Link></li>
+              <li><Link to="/category/bedroom" className="hover:text-background">{t("nav.bedroom")}</Link></li>
               <li><Link to="/smart-deals" className="hover:text-background">{t("nav.smartDeals")}</Link></li>
             </ul>
           </div>
