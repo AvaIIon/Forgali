@@ -9,6 +9,13 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { cdnImage } from "@/lib/imageProxy";
 
+// "Spend $1,000, get $50 off" nudge. The $50 is an automatic Shopify discount
+// (minimum subtotal $1,000) — keep these two numbers in step with it. The
+// nudge shows from SPEND_NUDGE_FROM up to the threshold, and not past it.
+const SPEND_THRESHOLD = 1000;
+const SPEND_REWARD = 50;
+const SPEND_NUDGE_FROM = 750;
+
 export const CartDrawer = () => {
   const { t, money } = useLocale();
   const { items, isCartOpen, setIsCartOpen, updateQuantity, removeFromCart, getTotalPrice, getItemKey, refreshCartLines } = useCart();
@@ -30,6 +37,13 @@ export const CartDrawer = () => {
     .filter(r => r.availableForSale && r.image && !inCart.has(r.handle))
     .filter((r, idx, arr) => arr.findIndex(x => x.handle === r.handle) === idx)
     .slice(0, 3);
+
+  const subtotal = getTotalPrice();
+  const spendRemaining = SPEND_THRESHOLD - subtotal;
+  // Only while they are close but not there yet: nothing at $1,000 and up
+  const showSpendNudge = subtotal >= SPEND_NUDGE_FROM && spendRemaining > 0;
+  // "$50", not "$50.00" ("50 $" in French)
+  const spendReward = money(SPEND_REWARD).replace(/[.,]00/, "");
 
   const goToProduct = (handle: string) => {
     setIsCartOpen(false);
@@ -138,10 +152,26 @@ export const CartDrawer = () => {
               </div>
 
               <div className="border-t border-border pt-4 pb-6 space-y-4">
+                {showSpendNudge && (
+                  <div className="rounded-lg bg-brand-tint p-3" role="status">
+                    <p className="text-sm font-medium">
+                      {t("cart.spendNudge", {
+                        remaining: money(spendRemaining),
+                        reward: spendReward,
+                      })}
+                    </p>
+                    <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-background">
+                      <div
+                        className="h-full rounded-full bg-brand-positive transition-all"
+                        style={{ width: `${(subtotal / SPEND_THRESHOLD) * 100}%` }}
+                      />
+                    </div>
+                  </div>
+                )}
                 <div className="flex justify-between items-center">
                   <span className="font-medium">{t("cart.subtotal")}</span>
                   <span className="text-xl font-bold">
-                    {money(getTotalPrice())}
+                    {money(subtotal)}
                   </span>
                 </div>
                 {/* The delivery window and the Afterpay note used to live on
