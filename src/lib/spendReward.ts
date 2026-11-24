@@ -8,6 +8,11 @@ export const SPEND_REWARD = 50;
 export const SPEND_NUDGE_FROM = 750;
 export const SPEND_REWARD_CODE = "CLAIM50";
 
+// "$50", not "$50.00" ("50 $" in French). Only the trailing cents go: an
+// unanchored match turned "$1,000.00" into "$10.00".
+export const wholeDollars = (formatted: string): string =>
+  formatted.replace(/[.,]00(?=\D*$)/, "");
+
 const CLAIMED_KEY = "forgali_spend_reward_claimed";
 
 export const isSpendRewardClaimed = (): boolean => {
