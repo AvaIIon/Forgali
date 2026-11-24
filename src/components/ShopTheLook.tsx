@@ -226,14 +226,14 @@ export const ShopTheLook = () => {
         </div>
       </div>
 
-      <div className="mx-auto mt-6 flex max-w-rail flex-wrap justify-center gap-x-8 gap-y-2 px-4">
+      <div className="mx-auto mt-6 flex w-fit max-w-full flex-col items-start gap-y-2 px-4 md:w-auto md:max-w-rail md:flex-row md:flex-wrap md:items-center md:justify-center md:gap-x-8">
         {resolved.map(({ spot, title, price }) => (
           <Link
             key={spot.handle}
             to={`/product/${spot.handle}`}
-            className="group inline-flex items-center gap-2 text-sm"
+            className="group inline-flex items-start gap-2 text-left text-sm"
           >
-            <span className="flex h-5 w-5 items-center justify-center rounded-full bg-brand text-[11px] font-semibold text-white">
+            <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-brand text-[11px] font-semibold text-white">
               {spot.number}
             </span>
             <span className="text-muted-foreground group-hover:text-foreground group-hover:underline">

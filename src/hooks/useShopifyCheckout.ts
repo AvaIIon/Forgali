@@ -33,7 +33,7 @@ export const useShopifyCheckout = () => {
         const variantId = item.variantId || item.product.variants?.[0]?.id;
         if (!variantId) {
           throw new Error(
-            `"${item.product.name}" can't be checked out — please remove it from your cart and add it again.`
+            `"${item.product.name}" can't be checked out. Please remove it from your cart and add it again.`
           );
         }
         return { merchandiseId: variantId, quantity: item.quantity };
@@ -77,8 +77,8 @@ export const useShopifyCheckout = () => {
         alert(errorMessage);
       } else {
         alert(
-          "We couldn't start the secure checkout. Please try again in a moment — " +
-          "if it keeps happening, email support@forgali.com and we'll take care of you."
+          "We couldn't start the secure checkout. Please try again in a moment. " +
+          "If it keeps happening, email support@forgali.com and we'll take care of you."
         );
       }
       setIsLoading(false);

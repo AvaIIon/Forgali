@@ -37,7 +37,7 @@ const en = {
   "common.shopDining": "Shop Dining",
   "common.shopLiving": "Shop Living",
   "common.shopBedroom": "Shop Bedroom",
-  "common.somethingWrong": "Something went wrong — please try again.",
+  "common.somethingWrong": "Something went wrong, please try again.",
   "common.checkoutUnavailable": "Checkout temporarily unavailable",
   "common.checkoutUnavailableBody1":
     "We can't start the secure checkout right now. Please try again shortly, or email ",
@@ -120,7 +120,7 @@ const en = {
   // --- cart drawer --------------------------------------------------------
   "cart.title": "Shopping Cart",
   "cart.empty": "Your cart is empty",
-  "cart.unavailableRemove": "No longer available — please remove",
+  "cart.unavailableRemove": "No longer available, please remove",
   "cart.decrease": "Decrease quantity of {name}",
   "cart.increase": "Increase quantity of {name}",
   "cart.remove": "Remove {name} from cart",
@@ -138,9 +138,9 @@ const en = {
   "product.sale": "SALE",
 
   // --- homepage sections --------------------------------------------------
-  "home.seoTitle": "Forgali — Solid Wood Furniture for Every Room",
+  "home.seoTitle": "Forgali | Solid Wood Furniture for Every Room",
   "home.seoDescription":
-    "Solid wood furniture families trust — kids' bunk and loft beds, dining tables and chairs, and living-room pieces. Free Canada-wide shipping.",
+    "Solid wood furniture families trust, kids' bunk and loft beds, dining tables and chairs, and living-room pieces. Free Canada-wide shipping.",
   "home.featured": "Featured Furniture",
   "home.loadError": "We couldn't load products right now.",
   "home.browseDining": "Browse the Dining collection",
@@ -152,10 +152,10 @@ const en = {
   "hero.title": "Black Friday Sale",
   "hero.lead": "10% off every piece with code FRIDAY at checkout, Nov 18–30.",
   "hero.ctaDining": "Shop Dining & Living",
-  "hero.ctaBeds": "Shop Bedroom",
+  "hero.ctaBeds": "Shop Kids’ Beds",
   "brand.title": "Furniture Built to Live With",
   "brand.body1":
-    "We design solid wood pieces for real life — the kind that looks great in your space, holds up to everyday use, and skips the “how is it ",
+    "We design solid wood pieces for real life, the kind that looks great in your space, holds up to everyday use, and skips the “how is it ",
   "brand.bodyEm": "that",
   "brand.body2":
     " expensive?” price tag. Good design and real quality shouldn’t feel out of reach, so ours are designed smart, priced fair, and made to last.",
@@ -165,7 +165,7 @@ const en = {
   "strip.warranty": "Warranty Coverage",
   "strip.safety": "Built to Safety Standards",
   "promo.alt":
-    "Plank & Beam solid wood dining set — natural oak table with walnut chairs in a sunlit dining room",
+    "Plank & Beam solid wood dining set, natural oak table with walnut chairs in a sunlit dining room",
   "promo.kicker": "In Stock Now",
   "promo.titleEm": "Here before",
   "promo.titleRest": " Christmas",
@@ -183,14 +183,14 @@ const en = {
   "look.partial": "Added {added} of {total} pieces",
   "look.addAll": "Add the Whole Look to Cart · {total}",
   "look.note": "Adds the banquette with cream cushions and the table, both in Pecan as shown.",
-  "look.partialNote": "Currently unavailable: {pieces} — the rest of the look is in your cart.",
-  "look.error": "Couldn’t add the look — try the pieces individually.",
+  "look.partialNote": "Currently unavailable: {pieces}. The rest of the look is in your cart.",
+  "look.error": "Couldn’t add the look, try the pieces individually.",
   "newsletter.invalidEmail": "Please enter a valid email address.",
   "newsletter.aria": "Email signup",
   "newsletter.title": "Join the Forgali List",
-  "newsletter.lead": "News, offers, and early access to new arrivals — straight to your inbox.",
+  "newsletter.lead": "News, offers, and early access to new arrivals, straight to your inbox.",
   "newsletter.done": "You're in! Watch your inbox for news and offers.",
-  "newsletter.already": "This email already has a Forgali account — you're on the list.",
+  "newsletter.already": "This email already has a Forgali account. You're on the list.",
   "newsletter.emailLabel": "Email address",
   "newsletter.placeholder": "Your email address",
   "newsletter.subscribe": "Subscribe",
@@ -230,9 +230,9 @@ const en = {
   "pdp.notFoundTitle": "We couldn't find that product",
   "pdp.errorTitle": "Something went wrong",
   "pdp.notFoundBody":
-    "It may have been renamed or is no longer available — but the rest of the collection is right here.",
+    "It may have been renamed or is no longer available, but the rest of the collection is right here.",
   "pdp.errorBody": "Please try again in a moment.",
-  "pdp.seoDescriptionFallback": "{name} — solid wood furniture with free Canada-wide shipping from Forgali.",
+  "pdp.seoDescriptionFallback": "{name}: solid wood furniture with free Canada-wide shipping from Forgali.",
   "pdp.home": "Home",
   "pdp.prevImage": "Previous image",
   "pdp.nextImage": "Next image",
@@ -289,7 +289,7 @@ const en = {
   // --- smart deals --------------------------------------------------------
   "deals.title": "Smart Deals",
   "deals.lead":
-    "Save on solid wood furniture for every room — dining, living, and bedroom. Sale prices with free Canada-wide shipping.",
+    "Save on solid wood furniture for every room, dining, living, and bedroom. Sale prices with free Canada-wide shipping.",
   "deals.loading": "Loading deals...",
   "deals.all": "All Deals",
   "deals.countOne": "{count} deal",
@@ -312,13 +312,13 @@ const en = {
   "checkout.step1": "Review your order summary on this page.",
   "checkout.step2": "Continue to our secure checkout to enter your contact details and shipping address.",
   "checkout.step3":
-    "Pay by credit card, PayPal, Apple Pay, or Google Pay — taxes are calculated there from your address.",
+    "Pay by credit card, PayPal, Apple Pay, or Google Pay, taxes are calculated there from your address.",
   "checkout.step4":
     "Want to spread it out? Choose Afterpay at the payment step to split your total into 4 interest-free payments.",
   "checkout.pci": "Payments are processed on our encrypted, PCI-compliant checkout.",
   "checkout.continue": "Continue to Secure Checkout",
   "checkout.orderSummary": "Order Summary",
-  "checkout.unavailable": "No longer available — ",
+  "checkout.unavailable": "No longer available, ",
   "checkout.remove": "remove",
   "checkout.shipping": "Shipping",
   "checkout.free": "FREE",
@@ -349,7 +349,7 @@ const en = {
   // --- 404 ----------------------------------------------------------------
   "notFound.seoTitle": "Page Not Found | Forgali",
   "notFound.title": "We couldn't find that page",
-  "notFound.body": "The link may be broken or the page may have moved — but there's plenty more to explore.",
+  "notFound.body": "The link may be broken or the page may have moved, but there's plenty more to explore.",
   "notFound.home": "Back to Home",
 
   // --- guides -------------------------------------------------------------
@@ -387,22 +387,22 @@ const en = {
   "contact.onlineBody": "100% online store with no retail showroom",
   "contact.servingCanada": "Serving all of Canada with free shipping",
   "contact.formTitle": "Send us a message",
-  "contact.sentTitle": "Thanks — your message is on its way",
+  "contact.sentTitle": "Thanks, your message is on its way",
   "contact.sentBody1": "It's landed in our inbox and we'll reply to ",
   "contact.sentBody2": " within 24 hours, Monday to Friday.",
   "contact.sendAnother": "Send another message",
   "contact.errorTitle": "We couldn't send that automatically",
   "contact.errorBody1":
-    "Sorry — something went wrong on our end. Your message is safe and still written out below; here are three ways to get it to ",
+    "Sorry, something went wrong on our end. Your message is safe and still written out below; here are three ways to get it to ",
   "contact.errorBody2": ".",
   "contact.readyTitle": "Your message is ready to send",
   "contact.readyBody1": "We've opened your email app with this message addressed to ",
   "contact.readyBody2": ". Press send there and we'll reply within 24 hours.",
   "contact.sendYourself": "Send it yourself",
   "contact.nothingOpened": "Nothing opened?",
-  "contact.pickEasiest": "Pick whichever is easiest — your message is already written.",
+  "contact.pickEasiest": "Pick whichever is easiest. Your message is already written.",
   "contact.normalBrowser":
-    "That's normal if you read your mail in a browser. Use one of these instead — your message is already written.",
+    "That's normal if you read your mail in a browser. Use one of these instead. Your message is already written.",
   "contact.copied": "Copied",
   "contact.copyMessage": "Copy message",
   "contact.openGmail": "Open in Gmail",
@@ -446,7 +446,7 @@ const en = {
   "terms.lead": "The terms that apply when you shop with us. Effective July 2026.",
   "terms.ordersTitle": "Orders & Acceptance",
   "terms.ordersBody":
-    "Placing an order is an offer to purchase. We confirm orders by email, and we reserve the right to decline or cancel an order — for example, if an item is unavailable or a pricing error occurs. Where we cancel an order you have paid for, we issue a full refund.",
+    "Placing an order is an offer to purchase. We confirm orders by email, and we reserve the right to decline or cancel an order, for example, if an item is unavailable or a pricing error occurs. Where we cancel an order you have paid for, we issue a full refund.",
   "terms.pricingTitle": "Pricing & Payment",
   "terms.pricingBody":
     "All prices are shown in Canadian dollars (CAD). Applicable taxes are calculated at checkout based on your shipping address. We make every effort to display accurate prices and product information; in the rare event of an error, we'll contact you before processing the affected order.",
@@ -469,18 +469,18 @@ const en = {
   "privacy.lead": "How we handle your information. Effective July 2026.",
   "privacy.collectTitle": "Information We Collect",
   "privacy.collect1":
-    "When you place an order, our checkout is handled by Shopify, which collects the information needed to process and ship your order — your name, email address, shipping and billing address, and payment details. Payment card information is processed by Shopify's PCI-compliant payment system; we never see or store your full card number.",
+    "When you place an order, our checkout is handled by Shopify, which collects the information needed to process and ship your order, your name, email address, shipping and billing address, and payment details. Payment card information is processed by Shopify's PCI-compliant payment system; we never see or store your full card number.",
   "privacy.collect2":
     "If you subscribe to our emails or create an account, we collect your email address (and name, if you provide it) so we can send order updates and, with your consent, marketing messages.",
   "privacy.useTitle": "How We Use Your Information",
   "privacy.use1": "To process, fulfil, and deliver your orders and provide customer support.",
   "privacy.use2": "To send transactional messages such as order and shipping confirmations.",
   "privacy.use3":
-    "To send marketing emails where you have given consent — you can unsubscribe at any time using the link in every email.",
+    "To send marketing emails where you have given consent, you can unsubscribe at any time using the link in every email.",
   "privacy.use4": "To operate, maintain, and improve our store.",
   "privacy.sharingTitle": "Sharing",
   "privacy.sharingBody":
-    "We share personal information only with the service providers who help us run the store — our e-commerce platform (Shopify), payment processors, and shipping carriers — and only as needed to serve you. We do not sell your personal information.",
+    "We share personal information only with the service providers who help us run the store, such as our e-commerce platform (Shopify), payment processors, and shipping carriers, and only as needed to serve you. We do not sell your personal information.",
   "privacy.choicesTitle": "Your Choices",
   "privacy.choicesBody":
     "You can unsubscribe from marketing emails at any time, and you may request access to, correction of, or deletion of your personal information by emailing us. We respond to privacy requests within a reasonable time.",
@@ -489,22 +489,22 @@ const en = {
 
   // --- shipping page ------------------------------------------------------
   "shipping.title": "Shipping Information",
-  "shipping.lead": "Solid wood furniture, shipped straight to your door — free, anywhere in Canada.",
-  "shipping.card1Body": "Every order ships free to any Canadian address — no minimums, no surprises at checkout.",
+  "shipping.lead": "Solid wood furniture, shipped straight to your door, free, anywhere in Canada.",
+  "shipping.card1Body": "Every order ships free to any Canadian address, no minimums, no surprises at checkout.",
   "shipping.card2Title": "Tracking on Every Order",
   "shipping.card2Body":
     "As soon as your order ships you'll receive a tracking number by email, so you can follow your delivery every step of the way.",
   "shipping.card3Title": "Check Your Boxes on Arrival",
   "shipping.card3Body":
-    "When your furniture arrives, inspect all boxes and note any visible damage at delivery — it makes resolving carrier issues much faster.",
-  "shipping.card4Title": "Heavy Boxes — Grab a Helper",
+    "When your furniture arrives, inspect all boxes and note any visible damage at delivery, it makes resolving carrier issues much faster.",
+  "shipping.card4Title": "Heavy Boxes: Grab a Helper",
   "shipping.card4Body":
     "Solid wood means large, heavy packages. Having two adults available makes moving boxes into your home much easier.",
   "shipping.timesTitle": "Processing & Delivery Times",
   "shipping.times1":
     "Most orders are processed and prepared for shipment within about one week, with standard delivery typically taking 12–18 business days in total. Transit times vary by destination.",
   "shipping.times2":
-    "All orders are subject to stock availability — if anything changes with your order, we'll email you right away.",
+    "All orders are subject to stock availability, if anything changes with your order, we'll email you right away.",
   "shipping.questionsTitle": "Questions About a Delivery?",
   "shipping.questions1": "Email",
   "shipping.questions2":
@@ -516,7 +516,7 @@ const en = {
   "returns.lead": "Straightforward policies, no fine-print games. Effective July 16, 2026.",
   "returns.changesTitle": "Order Changes & Cancellations",
   "returns.changes1a":
-    "Need to change a colour or size, or cancel altogether? Email us as soon as possible — we can accommodate changes and cancellations any time",
+    "Need to change a colour or size, or cancel altogether? Email us as soon as possible, we can accommodate changes and cancellations any time",
   "returns.changes1b": " before your order ships",
   "returns.changes1c":
     ". Once an order has shipped, it can no longer be changed or cancelled (but it can be returned, below).",
@@ -530,7 +530,7 @@ const en = {
   "returns.thirty1c": ". Here's how it works:",
   "returns.step1a": "Email",
   "returns.step1b":
-    " for a return authorization. Include a quick photo of the item — a phone picture is perfect. We just need a \"before\" image in case anything is damaged on the way back.",
+    " for a return authorization. Include a quick photo of the item. A phone picture is perfect. We just need a \"before\" image in case anything is damaged on the way back.",
   "returns.step2":
     "We'll reply with your return authorization number and the return address. Write the authorization number on the shipping label.",
   "returns.step3":
@@ -541,13 +541,13 @@ const en = {
   "returns.damaged1":
     "If your item arrives damaged or defective, or you received the wrong item, contact us with photos. In these cases ",
   "returns.damagedStrong": "we cover the return shipping, the restocking fee is waived",
-  "returns.damaged2": ", and we'll arrange a replacement or a full refund — whichever you prefer.",
+  "returns.damaged2": ", and we'll arrange a replacement or a full refund, whichever you prefer.",
   "returns.missingTitle": "Missing Parts",
   "returns.missingBody":
     "Missing a bolt bag or a panel? Email us with your order number and we'll get replacement parts moving. All claims for missing or damaged parts must be submitted within 30 days of delivery.",
   "returns.contactTitle": "Contact",
   "returns.contact1": "Email",
-  "returns.contact2": " — we respond within 24 hours. See also our",
+  "returns.contact2": ". We respond within 24 hours. See also our",
   "returns.shippingLink": "Shipping Information",
   "returns.and": " and",
   "returns.warrantyLink": "Warranty",
@@ -559,7 +559,7 @@ const en = {
     "Every Forgali piece arrives flat-packed with illustrated instructions and all the hardware you need. Here's how to make build day easy.",
   "assembly.tip1Title": "Bring a Second Pair of Hands",
   "assembly.tip1Text":
-    "Solid pine makes our furniture beautiful — and the boxes large and heavy. Two adults make moving and building far easier.",
+    "Solid pine makes our furniture beautiful, and the boxes large and heavy. Two adults make moving and building far easier.",
   "assembly.tip2Title": "Charge the Power Drill",
   "assembly.tip2Text":
     "Everything can be built with the included hand tools, but a power drill makes assembly noticeably faster.",
@@ -568,7 +568,7 @@ const en = {
     "Give yourself plenty of floor space to lay out panels and hardware before you start building.",
   "assembly.tip4Title": "Read Before You Build",
   "assembly.tip4Text":
-    "Skim the illustrated instructions first to understand the design — it prevents the classic backwards-headboard restart.",
+    "Skim the illustrated instructions first to understand the design, it prevents the classic backwards-headboard restart.",
   "assembly.tip5Title": "Set Aside 2–3 Hours",
   "assembly.tip5Text":
     "From nightstands to staircase bunks, assembly time varies. Most beds take a relaxed afternoon.",
@@ -576,13 +576,13 @@ const en = {
   "assembly.instructions1":
     "Printed step-by-step instructions are included in every box. If yours have gone missing, email",
   "assembly.instructions2":
-    "with your order number and the product name, and we'll send you the PDF for your exact model — usually within 24 hours.",
+    "with your order number and the product name, and we'll send you the PDF for your exact model, usually within 24 hours.",
   "assembly.missing1": "Missing hardware or a damaged part? See",
   "assembly.returnsLink": "Returns & Missing Parts",
-  "assembly.missing2": " — we'll ship replacements.",
+  "assembly.missing2": " and we'll ship replacements.",
   "assembly.safeTitle": "Build It Safe",
   "assembly.safe1":
-    "Follow the guardrail, mattress-height, and age recommendations in your instructions — they matter, especially for bunk and loft beds. Read more on our",
+    "Follow the guardrail, mattress-height, and age recommendations in your instructions, they matter, especially for bunk and loft beds. Read more on our",
   "assembly.safe2": " page.",
 
   // --- safety page --------------------------------------------------------
@@ -609,43 +609,43 @@ const en = {
   // --- about page ---------------------------------------------------------
   "about.title": "About Forgali",
   "about.lead":
-    "An online-only Canadian furniture store. Solid wood beds, dining and living pieces — over 300 of them — shipped free to your door, from Victoria to St. John's.",
+    "An online-only Canadian furniture store. Solid wood beds, dining and living pieces, over 300 of them, shipped free to your door, from Victoria to St. John's.",
   "about.storyTitle": "Our Story",
-  "about.story1a": "Forgali started in furniture the long way around — as",
+  "about.story1a": "Forgali started in furniture the long way around, as",
   "about.story1b":
     ", a custom-furniture showroom in the Greater Toronto Area. Years of building rooms for families taught us the same lesson over and over: the pieces people regret are almost never the ones made of real wood.",
   "about.story2":
-    "So we closed the showroom and rebuilt the business online. No floor space to pay for, no commissioned salesperson steering you toward this week's overstock — just a catalogue we've curated ourselves and delivered free anywhere in the country.",
+    "So we closed the showroom and rebuilt the business online. No floor space to pay for, no commissioned salesperson steering you toward this week's overstock, just a catalogue we've curated ourselves and delivered free anywhere in the country.",
   "about.story3":
-    "That last part matters more than it should. A lot of the solid wood furniture Canadians want is easy to find and painful to actually buy here — cross-border shipping fees, brokerage surprises, and return policies that quietly exclude Canada. We carry those pieces domestically so the price you see is the price you pay, and so a return is an email rather than an international shipping problem.",
+    "That last part matters more than it should. A lot of the solid wood furniture Canadians want is easy to find and painful to actually buy here, cross-border shipping fees, brokerage surprises, and return policies that quietly exclude Canada. We carry those pieces domestically so the price you see is the price you pay, and so a return is an email rather than an international shipping problem.",
   "about.storyAlt": "Solid wood twin high loft bed with desk in a child's room",
   "about.carryTitle": "What We Carry",
   "about.carryLead":
     "Two rooms, done properly, instead of a little of everything. Beds that grow with a child, and dining and living furniture built to the same standard.",
   "about.carry1Title": "Kids' & Family Beds",
   "about.carry1Body":
-    "Roughly 100 bunk and loft configurations — twin over twin right up to queen over queen, L-shaped, with stairs, trundles, desks, slides or under-bed drawers — plus platform beds in twin, full and queen.",
+    "Roughly 100 bunk and loft configurations (twin over twin right up to queen over queen, L-shaped, with stairs, trundles, desks, slides or under-bed drawers) plus platform beds in twin, full and queen.",
   "about.carry1Cta": "Shop bunk beds",
   "about.carry1Alt": "Solid wood Modern Farmhouse twin over twin bunk bed",
   "about.carry2Title": "Plank & Beam Dining & Living",
   "about.carry2Body":
-    "164 pieces from the Plank & Beam collection — dining tables, chairs, benches, bar and counter stools, coffee and console tables, sideboards and TV stands — with no border charges.",
+    "164 pieces from the Plank & Beam collection (dining tables, chairs, benches, bar and counter stools, coffee and console tables, sideboards and TV stands) with no border charges.",
   "about.carry2Cta": "Shop dining & living",
   "about.carry2Alt": "Plank & Beam solid wood dining table and chairs",
   "about.carry3Title": "Storage & Finishing Pieces",
   "about.carry3Body":
-    "Dressers and night stands in matching finishes, under-bed storage drawers, add-on guard rails, desks and low-profile mattresses sized for bunk and loft clearances — so a room gets finished properly instead of assembled from four different stores.",
+    "Dressers and night stands in matching finishes, under-bed storage drawers, add-on guard rails, desks and low-profile mattresses sized for bunk and loft clearances, so a room gets finished properly instead of assembled from four different stores.",
   "about.carry3Cta": "Shop storage & accessories",
   "about.carry3Alt": "Solid wood full over full bunk bed with under-bed storage drawers",
   "about.buildTitle": "What “Solid Wood” Means Here",
   "about.buildLead":
-    "Plenty of furniture is described as solid wood. These are the specifications behind ours — the things you'd want to know before putting a child on the top bunk.",
+    "Plenty of furniture is described as solid wood. These are the specifications behind ours, the things you'd want to know before putting a child on the top bunk.",
   "about.spec1Title": "Solid New Zealand Pine",
   "about.spec1Body":
     "Knot-free solid pine frames, not particleboard or veneer over MDF. It's the reason the boxes are heavy and the reason the bed is still standing when it gets handed down.",
   "about.spec2Title": "Low-VOC, GREENGUARD Gold Finishes",
   "about.spec2Body":
-    "Durable, non-toxic finishes. Many of the beds we carry are GREENGUARD Gold certified — independently tested for low chemical emissions in indoor air.",
+    "Durable, non-toxic finishes. Many of the beds we carry are GREENGUARD Gold certified, independently tested for low chemical emissions in indoor air.",
   "about.spec3Title": "400 lb Per Bed",
   "about.spec3Body":
     "Most of our bunks and lofts are rated to 400 lb per sleeping surface, on solid pine slats with a metal centre support bar. They hold toddlers, teenagers, and the parent reading at bedtime.",
@@ -657,7 +657,7 @@ const en = {
     "Children's beds are manufactured and tested to applicable children's furniture safety standards, and elevated beds ship with guardrails designed to standard spacing.",
   "about.spec6Title": "Beds That Change With the Room",
   "about.spec6Body":
-    "Most bunks separate into two standalone beds, and many lofts take a desk, a curtain or drawers underneath — one purchase that survives more than one phase of childhood.",
+    "Most bunks separate into two standalone beds, and many lofts take a desk, a curtain or drawers underneath, one purchase that survives more than one phase of childhood.",
   "about.safetyMore1": "More on guardrails, mattress sizing and safe setup on our",
   "about.safetyMore2": " page.",
   "about.howTitle": "How Buying From Us Works",
@@ -665,7 +665,7 @@ const en = {
     "No memberships, no delivery surcharges, no fine-print games. Here's the whole thing, start to finish.",
   "about.how1Title": "Free shipping, anywhere in Canada",
   "about.how1Body":
-    "Every order ships free to any Canadian address — no minimum, no surprise total at checkout, no duties or brokerage fees.",
+    "Every order ships free to any Canadian address, no minimum, no surprise total at checkout, no duties or brokerage fees.",
   "about.how1Link": "Shipping details",
   "about.how2Title": "Tracked from our door to yours",
   "about.how2Body":
@@ -681,7 +681,7 @@ const en = {
   "about.how4Link": "Returns & cancellations",
   "about.how5Title": "Five years of warranty behind it",
   "about.how5Body":
-    "A 5-year limited warranty against defects in materials and workmanship, and replacement parts — a bolt bag, a slat, a panel — sent out on request.",
+    "A 5-year limited warranty against defects in materials and workmanship, and replacement parts (a bolt bag, a slat, a panel) sent out on request.",
   "about.how5Link": "Warranty coverage",
   "about.findTitle": "Where to Find Us",
   "about.findBody":
@@ -691,9 +691,9 @@ const en = {
   "about.sendMessage": "Send us a message →",
   "about.noteTitle": "A note about older listings",
   "about.noteBody":
-    "Forgali's earlier chapter as Forgali Design Centre — a custom-furniture showroom in Mississauga — is permanently closed, as is the former Concord location. Directory entries that still show a showroom at 2111 Dunwin Dr., a Concord or Vaughan address (Keele Street, Rivermede Road), or phone numbers such as (905) 820-2020 or (905) 820-9461 are out of date: those locations are closed and the numbers are no longer in service. Forgali operates entirely online today. Our current phone number is (365) 387-2345, and you can also reach us by email:",
+    "Forgali's earlier chapter as Forgali Design Centre, a custom-furniture showroom in Mississauga, is permanently closed, as is the former Concord location. Directory entries that still show a showroom at 2111 Dunwin Dr., a Concord or Vaughan address (Keele Street, Rivermede Road), or phone numbers such as (905) 820-2020 or (905) 820-9461 are out of date: those locations are closed and the numbers are no longer in service. Forgali operates entirely online today. Our current phone number is (365) 387-2345, and you can also reach us by email:",
   "about.ctaBody":
-    "Real solid wood, priced fairly, shipped free across Canada. Have a look — and if you're stuck between two finishes or not sure a loft will clear your ceiling, just email us.",
+    "Real solid wood, priced fairly, shipped free across Canada. Have a look, and if you're stuck between two finishes or not sure a loft will clear your ceiling, just email us.",
   "about.shopBeds": "Shop Beds",
 } as const;
 
@@ -817,7 +817,7 @@ const fr: Record<keyof typeof en, string> = {
   "product.sale": "SOLDE",
 
   // --- homepage sections --------------------------------------------------
-  "home.seoTitle": "Forgali — Meubles en bois massif pour chaque pièce",
+  "home.seoTitle": "Forgali | Meubles en bois massif pour chaque pièce",
   "home.seoDescription":
     "Des meubles en bois massif auxquels les familles font confiance : lits superposés et lits mezzanine pour enfants, tables et chaises de salle à manger, meubles de salon. Livraison gratuite partout au Canada.",
   "home.featured": "Meubles en vedette",
@@ -831,7 +831,7 @@ const fr: Record<keyof typeof en, string> = {
   "hero.title": "Soldes du Vendredi fou",
   "hero.lead": "10\u00a0% de rabais sur chaque pièce avec le code FRIDAY à la caisse, du 18 au 30 novembre.",
   "hero.ctaDining": "Magasiner la salle à manger et le salon",
-  "hero.ctaBeds": "Magasiner la chambre",
+  "hero.ctaBeds": "Magasiner les lits pour enfants",
   "brand.title": "Des meubles faits pour durer",
   "brand.body1":
     "Nous concevons des meubles en bois massif pour la vraie vie : ceux qui sont beaux dans votre espace, qui résistent à l'usage quotidien et qui n'ont pas l'étiquette de prix qui fait dire « c'est ",

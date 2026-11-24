@@ -370,7 +370,7 @@ function productHead(handle: string, m: ProductMeta): Head {
     m.sd ||
     (m.d
       ? m.d.slice(0, 160)
-      : `${m.t} — solid wood furniture with free Canada-wide shipping from Forgali.`);
+      : `${m.t}: solid wood furniture with free Canada-wide shipping from Forgali.`);
   const jsonLd: Record<string, unknown> = {
     "@context": "https://schema.org/",
     "@type": "Product",
@@ -468,7 +468,7 @@ function categoryBody(category: string, subcategory: string | null): string | nu
       // Card price (cheapest buyable, "From" when prices vary) — NOT m.p, which
       // is the PDP's auto-selected variant and disagrees with the hydrated grid
       // on ~30% of products.
-      const price = m.l ? ` — ${m.f ? "From " : ""}${money(m.l)}` : "";
+      const price = m.l ? ` · ${m.f ? "From " : ""}${money(m.l)}` : "";
       return `<li style="margin:6px 0;"><a href="/product/${esc(h)}" style="text-decoration:underline;">${esc(m.t)}</a>${esc(price)}</li>`;
     });
   if (!items.length) return null;
@@ -549,7 +549,7 @@ function categoryBody(category: string, subcategory: string | null): string | nu
 // Price as the category cards show it (cheapest buyable, "From" when prices
 // vary) — for the related-product and guide link lists.
 const cardPrice = (m: ProductMeta): string =>
-  m.l ? ` — ${m.f ? "From " : ""}${money(m.l)}` : "";
+  m.l ? ` · ${m.f ? "From " : ""}${money(m.l)}` : "";
 
 function productLinkList(handles: string[]): string {
   const items = handles
@@ -606,7 +606,7 @@ function productBody(handle: string, m: ProductMeta): string | null {
   const price = m.p
     ? `<p style="margin:0 0 8px;font-size:1.25rem;font-weight:700;">${esc(money(m.p))}</p>`
     : "";
-  const stock = `<p style="margin:0 0 16px;">${m.a ? "In stock" : "Out of stock"} — ships free anywhere in Canada.</p>`;
+  const stock = `<p style="margin:0 0 16px;">${m.a ? "In stock" : "Out of stock"}. Ships free anywhere in Canada.</p>`;
   const siblings = findSizeSiblings({ handle, title: m.t, category: HANDLE_CATEGORY.get(handle) ?? null }, SIZE_INPUTS);
   const sizes = siblings.length
     ? `<p style="margin:0 0 16px;">${esc(EN["pdp.alsoAvailableIn"])}: ${siblings
