@@ -14,12 +14,12 @@ export const GuaranteeStrip = () => {
   const { t } = useLocale();
   return (
   <section className="border-y border-border bg-brand-tint">
-    <div className="max-w-rail mx-auto px-4 py-4 grid grid-cols-2 md:grid-cols-4 gap-3">
+    <div className="max-w-rail mx-auto px-4 py-4 grid grid-cols-2 md:grid-cols-4 gap-x-4 gap-y-3">
       {items.map(({ icon: Icon, label, href }) => (
         <Link
           key={href}
           to={href}
-          className="flex items-center justify-center gap-2 text-sm font-medium text-foreground/80 hover:text-brand-accent transition-colors"
+          className="flex items-center justify-start md:justify-center gap-2 text-sm font-medium leading-snug text-foreground/80 hover:text-brand-accent transition-colors"
         >
           <Icon className="w-5 h-5 text-brand shrink-0" />
           <span>{t(label)}</span>
