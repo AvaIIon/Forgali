@@ -126,6 +126,7 @@ const en = {
   "cart.remove": "Remove {name} from cart",
   "cart.completeRoom": "Complete the room",
   "cart.subtotal": "Subtotal",
+  "cart.spendNudge": "Add {remaining} more to get {reward} off your order.",
   "cart.shippingNote": "Free shipping · arrives in 12-18 business days · taxes calculated at checkout",
   "cart.afterpay": "Or pay in 4 interest-free payments with Afterpay.",
   "cart.checkout": "Checkout",
@@ -139,7 +140,7 @@ const en = {
   // --- homepage sections --------------------------------------------------
   "home.seoTitle": "Forgali | Solid Wood Furniture for Every Room",
   "home.seoDescription":
-    "Solid wood furniture families trust, kids' bunk and loft beds, dining tables and chairs, and living-room pieces. Free Canada-wide shipping.",
+    "Solid wood furniture families trust: bunk and loft beds, dining tables and chairs, and living-room pieces. Free Canada-wide shipping.",
   "home.featured": "Featured Furniture",
   "home.loadError": "We couldn't load products right now.",
   "home.browseDining": "Browse the Dining collection",
@@ -151,7 +152,7 @@ const en = {
   "hero.title": "Black Friday Sale",
   "hero.lead": "10% off every piece with code FRIDAY at checkout, Nov 18–30.",
   "hero.ctaDining": "Shop Dining & Living",
-  "hero.ctaBeds": "Shop Kids’ Beds",
+  "hero.ctaBeds": "Shop Bedroom",
   "brand.title": "Furniture Built to Live With",
   "brand.body1":
     "We design solid wood pieces for real life, the kind that looks great in your space, holds up to everyday use, and skips the “how is it ",
@@ -170,7 +171,7 @@ const en = {
   "promo.titleRest": " Christmas",
   "promo.body": "Free shipping across Canada, 5-year warranty.",
   "promo.cta": "Shop Dining & Living",
-  "promo.browse": "Shop kids’ beds →",
+  "promo.browse": "Shop bedroom →",
   "look.shopItem": "Shop {title}",
   "look.shopNow": "Shop Now →",
   "look.aria": "Shop the Look",
@@ -621,7 +622,7 @@ const en = {
   "about.carryTitle": "What We Carry",
   "about.carryLead":
     "Two rooms, done properly, instead of a little of everything. Beds that grow with a child, and dining and living furniture built to the same standard.",
-  "about.carry1Title": "Kids' & Family Beds",
+  "about.carry1Title": "Bunk, Loft & Platform Beds",
   "about.carry1Body":
     "Roughly 100 bunk and loft configurations (twin over twin right up to queen over queen, L-shaped, with stairs, trundles, desks, slides or under-bed drawers) plus platform beds in twin, full and queen.",
   "about.carry1Cta": "Shop bunk beds",
@@ -804,6 +805,7 @@ const fr: Record<keyof typeof en, string> = {
   "cart.remove": "Retirer {name} du panier",
   "cart.completeRoom": "Complétez la pièce",
   "cart.subtotal": "Sous-total",
+  "cart.spendNudge": "Ajoutez {remaining} de plus pour obtenir {reward} de rabais sur votre commande.",
   "cart.shippingNote": "Livraison gratuite · arrive en 12 à 18 jours ouvrables · taxes calculées à la caisse",
   "cart.afterpay": "Ou payez en 4 versements sans intérêts avec Afterpay.",
   "cart.checkout": "Passer à la caisse",
@@ -817,7 +819,7 @@ const fr: Record<keyof typeof en, string> = {
   // --- homepage sections --------------------------------------------------
   "home.seoTitle": "Forgali | Meubles en bois massif pour chaque pièce",
   "home.seoDescription":
-    "Des meubles en bois massif auxquels les familles font confiance : lits superposés et lits mezzanine pour enfants, tables et chaises de salle à manger, meubles de salon. Livraison gratuite partout au Canada.",
+    "Des meubles en bois massif auxquels les familles font confiance : lits superposés et lits mezzanine, tables et chaises de salle à manger, meubles de salon. Livraison gratuite partout au Canada.",
   "home.featured": "Meubles en vedette",
   "home.loadError": "Impossible de charger les produits pour le moment.",
   "home.browseDining": "Parcourez plutôt la collection Salle à manger",
@@ -829,7 +831,7 @@ const fr: Record<keyof typeof en, string> = {
   "hero.title": "Soldes du Vendredi fou",
   "hero.lead": "10\u00a0% de rabais sur chaque pièce avec le code FRIDAY à la caisse, du 18 au 30 novembre.",
   "hero.ctaDining": "Magasiner la salle à manger et le salon",
-  "hero.ctaBeds": "Magasiner les lits pour enfants",
+  "hero.ctaBeds": "Magasiner la chambre",
   "brand.title": "Des meubles faits pour durer",
   "brand.body1":
     "Nous concevons des meubles en bois massif pour la vraie vie : ceux qui sont beaux dans votre espace, qui résistent à l'usage quotidien et qui n'ont pas l'étiquette de prix qui fait dire « c'est ",
@@ -848,7 +850,7 @@ const fr: Record<keyof typeof en, string> = {
   "promo.titleRest": " Noël",
   "promo.body": "Livraison gratuite partout au Canada, garantie de 5\u00a0ans.",
   "promo.cta": "Magasiner la salle à manger et le salon",
-  "promo.browse": "Magasiner les lits pour enfants →",
+  "promo.browse": "Magasiner la chambre →",
   "look.shopItem": "Magasiner {title}",
   "look.shopNow": "Magasiner →",
   "look.aria": "Magasiner le look",
@@ -1303,7 +1305,7 @@ const fr: Record<keyof typeof en, string> = {
   "about.carryTitle": "Ce que nous offrons",
   "about.carryLead":
     "Deux pièces, faites comme il faut, plutôt qu'un peu de tout. Des lits qui grandissent avec l'enfant, et des meubles de salle à manger et de salon construits selon la même norme.",
-  "about.carry1Title": "Lits pour enfants et pour la famille",
+  "about.carry1Title": "Lits superposés, mezzanine et plateforme",
   "about.carry1Body":
     "Une centaine de configurations de lits superposés et de lits mezzanine (simple sur simple jusqu'à grand lit sur grand lit, en L, avec escalier, lit gigogne, bureau, glissoire ou tiroirs sous le lit), plus des lits plateforme en format simple, double et grand lit (queen).",
   "about.carry1Cta": "Magasiner les lits superposés",
