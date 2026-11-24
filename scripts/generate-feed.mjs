@@ -175,7 +175,7 @@ async function main() {
 <channel>
   <title>Forgali</title>
   <link>${SITE}</link>
-  <description>Solid wood furniture for every room, free Canada-wide shipping.</description>
+  <description>Solid wood furniture for every room, free shipping.</description>
 ${items.join("\n")}
 </channel>
 </rss>
