@@ -32,7 +32,7 @@ const categories: Array<{ name: MessageKey; href: string; image: string }> = [
 export const FeaturedCategories = () => {
   const { t } = useLocale();
   return (
-    <section className="py-16 px-4 bg-brand-tint/30">
+    <section className="py-16 px-4">
       <div className="max-w-rail mx-auto">
         <h2 className="text-3xl font-bold text-center mb-12">{t("home.shopByCategory")}</h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
