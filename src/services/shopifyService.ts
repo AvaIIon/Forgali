@@ -601,7 +601,7 @@ async function shopifyFetch<T>(query: string, variables?: Record<string, any>): 
     
     if (response.status === 401) {
       errorMessage = 'Shopify API Authentication Failed (401). Please check:\n' +
-        '1. The public Storefront token in src/services/shopifyService.ts is still valid — Shopify admin > Headless > Forgali Headless > Storefront API\n' +
+        '1. The public Storefront token in src/services/shopifyService.ts is still valid: Shopify admin > Headless > Forgali Headless > Storefront API\n' +
         '2. It has the required permissions: unauthenticated_read_product_listings, unauthenticated_write_checkouts, unauthenticated_read_checkouts\n' +
         '3. The store domain is correct (format: your-store.myshopify.com)';
     } else if (response.status === 402) {
@@ -1520,7 +1520,7 @@ export const subscribeEmail = async (
     return { ok: false, message: errs.map(e => e.message).join(' ') };
   }
   if (!data.customerCreate.customer) {
-    return { ok: false, message: 'Signup did not complete — please try again.' };
+    return { ok: false, message: 'Signup did not complete. Please try again.' };
   }
   return { ok: true, alreadySubscribed: false };
 };
