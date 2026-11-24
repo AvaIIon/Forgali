@@ -65,11 +65,46 @@ const BED_SEO: Record<string, CategorySeo> = {
     lead: "122 solid-wood bunk, loft and single beds, including a wide range of Max & Lily, with free shipping.",
   },
   "loft-beds|low-loft": {
-    seoTitle: "Low Loft Beds – Solid Wood, Free Shipping | Forgali",
+    seoTitle: "Low Loft Beds Canada - Solid Wood Twin | Forgali",
     seoDescription:
-      "Low loft beds sit close to the floor for younger kids, with room to play or store underneath. Solid wood, free shipping. Shop the collection.",
+      "16 solid wood twin low loft beds, 35 to 50 inches high, with a ladder, stairs, slide, desk or storage, from $544. Free shipping and 30-day returns.",
     h1: "Low Loft Beds",
-    lead: "Loft beds that sit close to the floor, an easy first step up for younger children.",
+    lead: "16 twin low loft beds in solid wood, 35 to 50 inches high, with a ladder, stairs, slide, desk or storage, from $544 with free shipping.",
+    intro: "A low loft bed raises one twin bed about four feet off the floor. That is high enough to use the space underneath for storage, a play area or a desk, and low enough for a younger child to climb into and for a parent to reach the mattress.\n\nAll 16 low loft beds here are Twin size and solid wood, most of them solid New Zealand pine. Choose an angled ladder, a staircase, a slide, a pull-out desk, bookcases, or curtains that close off the space below.",
+    sections: [
+      {
+        h2: "How tall is a low loft bed?",
+        body: "Most of the low loft beds stand 48.25 to 50.3 inches high overall. The Play and Store low loft is 41.5 inches and the Soren ultra low loft is 34.75 inches, the lowest in the range. The slide models list more than 33 inches of height under the bed. The high loft beds, for comparison, are 68 to 70 inches.",
+        links: [
+          { label: "High loft beds", href: "/category/loft-beds?subcategory=high-loft" },
+          { label: "Ceiling height and what fits underneath", href: "/blog/low-loft-or-high-loft-ceiling-height-and-what-fits-underneath" },
+        ],
+      },
+      {
+        h2: "Twin low loft beds with stairs, a slide or a desk",
+        body: "Four low lofts have a staircase, from $771, and three have a slide, from $642. Three have a desk: the twin low loft with desk at $697, with a desk and bookcases at $1,216, and with a desk and two dressers at $2,291. The plain twin low loft with angled ladder is the lowest price, at $544.",
+        links: [
+          { label: "Loft beds with a desk", href: "/category/loft-beds?subcategory=loft-with-desk" },
+          { label: "Loft beds with a slide", href: "/category/loft-beds?subcategory=loft-with-slide" },
+          { label: "Low bunk beds", href: "/category/bunk-beds?subcategory=low-bunk" },
+        ],
+      },
+      {
+        h2: "Is there a full size low loft bed?",
+        body: "Not in this range. Every low loft bed here is Twin. The Full size loft beds are the three full high lofts, about 68 inches high, from $1,009.",
+        links: [
+          { label: "All loft beds", href: "/category/loft-beds" },
+        ],
+      },
+    ],
+    faqs: [
+      { q: "How tall is a low loft bed?", a: "48.25 to 50.3 inches overall for most models here, 41.5 inches for the Play and Store low loft and 34.75 inches for the Soren ultra low loft." },
+      { q: "Will a low loft bed fit under an 8-foot ceiling?", a: "Yes. A 50-inch low loft leaves about 46 inches between the top of the frame and a 96-inch ceiling." },
+      { q: "Do low loft beds come in Full size?", a: "No. All 16 low loft beds are Twin. Full size is available in three of the high loft beds." },
+      { q: "How much weight does a low loft bed hold?", a: "Most of the low loft beds list a 400 lb weight capacity. Check the product page for the model you choose." },
+      { q: "What mattress fits a low loft bed?", a: "A standard twin mattress. Several models list 14-inch guardrails and recommend a mattress 8 inches thick or less, so check the product page for yours. No box spring is needed because the slats are included." },
+      { q: "Is shipping free?", a: "Yes. Every loft bed ships free, with 30-day returns on unused items." },
+    ],
   },
   "loft-beds|mid-loft": {
     seoTitle: "Mid Loft Beds – Solid Wood, Free Shipping | Forgali",
@@ -93,11 +128,53 @@ const BED_SEO: Record<string, CategorySeo> = {
     lead: "Bed plus a built-in desk and bookcase in one footprint, ideal for small and shared rooms.",
   },
   "bunk-beds|low-bunk": {
-    seoTitle: "Low Bunk Beds – Solid Wood, Free Shipping | Forgali",
+    seoTitle: "Low Bunk Beds Canada - Solid Wood, Twin & Full | Forgali",
     seoDescription:
-      "Shop low bunk beds in Twin and Full, a lower height younger kids can climb more easily. Solid wood with free shipping. Browse the collection.",
+      "12 solid wood low bunk beds about 50 inches high, in twin over twin and twin over full, with a ladder or stairs, from $656. Free shipping and 30-day returns.",
     h1: "Low Bunk Beds",
-    lead: "Bunks that sit closer to the floor, a reassuring first bunk for younger children.",
+    lead: "12 low bunk beds in solid wood, about 50 inches high, in twin over twin and twin over full, from $656 with free shipping.",
+    intro: "A low bunk bed, sometimes called a lowline bunk bed, stacks two beds in a frame about 50 inches high, where the standard bunk beds in the range stand 63 to 70 inches. The top bunk is easier to climb into and easier to make, the frame fits under a lower ceiling, and the bottom bed sits close to the floor.\n\nThese 12 low bunks are solid wood, most of them solid New Zealand pine. Ten are twin over twin and two are twin over full. Choose a ladder on the front or on the end, a staircase, an L-shaped layout, or curtains that turn the bottom bunk into a hideaway.",
+    sections: [
+      {
+        h2: "How low is a low bunk bed?",
+        body: "The low bunk beds here stand 48.25 to 50.5 inches high overall, more than a foot lower than a standard bunk bed. On most of the Max & Lily low bunks the bottom bed sits about 2 inches off the floor and the top bunk has guardrails about 14 inches tall. That lower height is why a low bunk is the usual first bunk bed for younger children.",
+        links: [
+          { label: "All bunk beds", href: "/category/bunk-beds" },
+          { label: "Twin over twin bunk beds", href: "/category/bunk-beds?subcategory=twin-over-twin" },
+          { label: "Low loft beds", href: "/category/loft-beds?subcategory=low-loft" },
+        ],
+      },
+      {
+        h2: "Low bunk beds for low ceilings and small rooms",
+        body: "A standard 8-foot ceiling is 96 inches, so a 50-inch low bunk leaves about 46 inches between the top of the frame and the ceiling. The classic twin over twin low bunk measures 81.5 by 54.25 inches. For a narrow room, the ladder-on-end low bunk is 42.8 inches wide and 89.8 inches long, and the Modern Farmhouse low bunk is 43.5 inches wide, so either one sits flat along a wall.",
+        links: [
+          { label: "Ceiling height and what fits under a loft", href: "/blog/low-loft-or-high-loft-ceiling-height-and-what-fits-underneath" },
+        ],
+      },
+      {
+        h2: "Low bunk beds with stairs",
+        body: "Four of the low bunks have a staircase in place of the ladder, from $955. Stairs are easier to climb than rungs, and the staircase on the twin over twin and twin over full models has storage built in. Allow for the extra length: the twin over twin low bunk with staircase is 99.5 inches long and 42.5 inches wide.",
+        links: [
+          { label: "Bunk beds with stairs", href: "/category/bunk-beds?subcategory=with-stairs" },
+          { label: "L-shaped bunk beds", href: "/category/bunk-beds?subcategory=l-shaped" },
+        ],
+      },
+      {
+        h2: "Twin over twin or twin over full?",
+        body: "Ten of the 12 low bunks are twin over twin, from $656. The two twin over full low bunks, from $899, put a full size bed on the bottom for an older child or a guest, and are about 56 inches wide.",
+        links: [
+          { label: "Twin over full bunk beds", href: "/category/bunk-beds?subcategory=twin-over-full" },
+        ],
+      },
+    ],
+    faqs: [
+      { q: "How tall is a low bunk bed?", a: "The low bunk beds in this range are 48.25 to 50.5 inches high overall. The standard height bunk beds are 63 to 70 inches." },
+      { q: "What is a lowline bunk bed?", a: "Lowline is another name for a low bunk bed: a bunk with a shorter frame, about 50 inches high here, and a bottom bed that sits close to the floor." },
+      { q: "Will a low bunk bed fit under an 8-foot ceiling?", a: "Yes. A low bunk about 50 inches high leaves about 46 inches between the top of the frame and a 96-inch ceiling." },
+      { q: "How much weight does a low bunk bed hold?", a: "Most of the low bunk beds list a 400 lb weight capacity per bed. Check the product page for the model you choose." },
+      { q: "Do low bunk beds need a box spring?", a: "No. Slat rolls are included, and the mattresses sit directly on the slats." },
+      { q: "Is shipping free?", a: "Yes. Every bunk bed ships free, with 30-day returns on unused items." },
+    ],
   },
   "dining": {
     seoTitle: "Plank & Beam Dining Furniture Canada | Forgali",
@@ -118,6 +195,15 @@ const BED_SEO: Record<string, CategorySeo> = {
           { label: "Counter stools", href: "/category/dining?subcategory=counter-stools" },
           { label: "Bar stools", href: "/category/dining?subcategory=bar-stools" },
           { label: "Dining sets", href: "/category/dining?subcategory=dining-sets" },
+        ],
+      },
+      {
+        h2: "Dining table sets",
+        body: "The 14 dining sets pair a solid wood table with its seating in one order, from $1,238. A 72-inch table with two benches is the lowest price, in the Mid-Century Modern, Classic, Modern and Contour collections. Sets with a bench and four chairs start at $1,503, and sets with six chairs start at $1,698. For a smaller room there is a 41-inch counter height table with four chairs, and for eight people a 94-inch Classic table with two benches.",
+        links: [
+          { label: "All dining sets", href: "/category/dining?subcategory=dining-sets" },
+          { label: "Dining table size guide", href: "/guides/dining-table-size" },
+          { label: "Bench or chairs?", href: "/guides/dining-bench-vs-chairs" },
         ],
       },
       {
@@ -142,9 +228,9 @@ const BED_SEO: Record<string, CategorySeo> = {
   },
   "dining|dining-tables": {
     seoTitle: "Solid Wood Dining Tables Canada - Free Shipping | Forgali",
-    seoDescription: "28 solid wood dining tables from $426 CAD: 48 to 94 inch rectangular, 38 and 47 inch round, oval and counter height. Free shipping, 30-day returns.",
+    seoDescription: "28 solid wood dining tables from $432 CAD: 48 to 94 inch rectangular, 38 and 47 inch round, oval and counter height. Free shipping, 30-day returns.",
     h1: "Solid Wood Dining Tables Canada",
-    lead: "28 Plank & Beam dining and kitchen tables in knot-free solid wood, from $426 CAD with free shipping.",
+    lead: "28 Plank & Beam dining and kitchen tables in knot-free solid wood, from $432 CAD with free shipping.",
     intro: "Every table here is built from knot-free solid wood with hand-applied, low-VOC finishes, so you get real wood grain without the price of a custom maker. Rectangular tables run from 48 inches up to 94 inches, round tables come in 38 and 47 inch sizes, and there are two oval tables and two counter-height tables for smaller rooms.\n\nThe Classic collection is a farmhouse style with a textured wirebrush finish. Modern has clean square legs, Mid-Century Modern has tapered legs, Verso has crossed Scandinavian-style legs, Contour has rounded edges, Lido has a slatted pedestal base and Camden is a rustic plank look. All of them share Pecan, Walnut, Blonde and Black finishes, with Coastal White and wirebrushed options on Classic and Modern.",
     sections: [
       {
@@ -176,9 +262,9 @@ const BED_SEO: Record<string, CategorySeo> = {
   },
   "dining|round-dining-tables": {
     seoTitle: "Round Dining Tables Canada - Solid Wood & Oval | Forgali",
-    seoDescription: "Solid wood round dining tables in 38 and 47 inch sizes and 62 and 72 inch ovals, from $426 CAD. Seats four to six. Free shipping, 30-day returns.",
+    seoDescription: "Solid wood round dining tables in 38 and 47 inch sizes and 62 and 72 inch ovals, from $432 CAD. Seats four to six. Free shipping, 30-day returns.",
     h1: "Round Dining Tables in Solid Wood",
-    lead: "Six round tables in 38 and 47 inch sizes and two oval tables, all solid wood, from $426 CAD with free shipping.",
+    lead: "Six round tables in 38 and 47 inch sizes and two oval tables, all solid wood, from $432 CAD with free shipping.",
     intro: "A round table is the easiest way to seat four in a small dining area or kitchen. There are no corners to walk around, everyone faces each other, and a 47-inch round takes less floor space than a 60-inch rectangle while seating the same four people. The 38-inch Lido and Verso rounds suit breakfast nooks and condos where a table for two to four needs to fit.\n\nThe round tables come in the Classic, Verso, Contour and Lido collections, and the oval tables in Verso and Lido. Classic uses four legs, Verso has crossed legs, Contour has rounded edges and Lido sits on a slatted pedestal base so nobody gets a leg in the way. The Contour and Lido rounds and both ovals come in Pecan, Walnut, Blonde and Black, the Classic round in wirebrushed Pecan, Blonde, Seashell and Black or Coastal White, the 47-inch Verso round in Pecan, Blonde or Black and the 38-inch Verso round in Pecan or Blonde.",
     sections: [
       {
@@ -221,14 +307,14 @@ const BED_SEO: Record<string, CategorySeo> = {
   },
   "dining|kitchen-tables": {
     seoTitle: "Small Kitchen Tables Canada - Solid Wood, 48 Inch | Forgali",
-    seoDescription: "Small 48-inch solid wood kitchen tables that seat four, from $426 CAD, in Classic, Modern, Mid-Century Modern and Verso styles. Free shipping.",
+    seoDescription: "Small 48-inch solid wood kitchen tables that seat four, from $432 CAD, in Classic, Modern, Mid-Century Modern and Verso styles. Free shipping.",
     h1: "Small Kitchen Tables for Two to Four",
-    lead: "Four 48-inch kitchen tables in knot-free solid wood, each seating four, from $426 CAD with free shipping.",
+    lead: "Four 48-inch kitchen tables in knot-free solid wood, each seating four, from $432 CAD with free shipping.",
     intro: "A 48-inch table is the standard size for an eat-in kitchen, a condo dining nook or an apartment. It seats four with everyday elbow room and still leaves space to walk past. These four tables are the 48-inch versions of the Classic, Modern, Mid-Century Modern and Verso dining collections, so the same finishes are available on the matching benches and chairs if you add seating later.\n\nAll four are knot-free solid wood with hand-applied, low-VOC finishes. The Classic table has a textured wirebrush finish and a farmhouse look, Modern has square legs, Mid-Century Modern has tapered legs and Verso has crossed legs. Finishes are Pecan, Walnut, Blonde, Black, Seashell and Coastal White depending on the collection.",
     sections: [
       {
         h2: "Small kitchen tables for two to four",
-        body: "The Modern, Verso and Mid-Century Modern tables are 48 by 32 inches, which seats two along each long side, or two people with the ends free. The Mid-Century Modern table at $426 CAD is the lightest of the four at 45 pounds and comes in Black; the Verso from $454 CAD comes in Pecan, Walnut, Blonde or Black; and the Modern at $566 CAD and the Classic at $583 CAD add the wirebrushed finishes and Coastal White.",
+        body: "The Modern, Verso and Mid-Century Modern tables are 48 by 32 inches, which seats two along each long side, or two people with the ends free. The Mid-Century Modern table at $432 CAD is the lightest of the four at 45 pounds and comes in Black; the Verso from $461 CAD comes in Pecan, Walnut, Blonde or Black; and the Modern at $566 CAD and the Classic at $583 CAD add the wirebrushed finishes and Coastal White.",
         links: [{ label: "Dining table size guide", href: "/guides/dining-table-size" }],
       },
       {
@@ -241,7 +327,7 @@ const BED_SEO: Record<string, CategorySeo> = {
       },
       {
         h2: "Counter height kitchen tables",
-        body: "The Classic counter height dining table is 41.5 inches square and 36 inches high, from $454 CAD, which works as a breakfast bar, a homework station or a standing-height workspace in an open kitchen, and the counter height dining set adds four chairs. Pair the table with 24 to 26 inch counter stools.",
+        body: "The Classic counter height dining table is 41.5 inches square and 36 inches high, from $461 CAD, which works as a breakfast bar, a homework station or a standing-height workspace in an open kitchen, and the counter height dining set adds four chairs. Pair the table with 24 to 26 inch counter stools.",
         links: [
           { label: "All dining tables", href: "/category/dining?subcategory=dining-tables" },
           { label: "Counter stools", href: "/category/dining?subcategory=counter-stools" },
@@ -272,6 +358,15 @@ const BED_SEO: Record<string, CategorySeo> = {
         ],
       },
       {
+        h2: "Dining chairs in sets of 2 and sets of 4",
+        body: "Buying chairs as a set costs less per chair than buying them one at a time. The Solid Wood dining chair starts at $483 on its own, $530 for a set of two and $1,023 for a set of four. The Windsor chair starts at $461 on its own, $636 for two and $927 for four. The Lido chair and the upholstered Solid Wood chair also come as a set of two, from $636 and $709.",
+        links: [
+          { label: "Solid Wood dining chairs, set of 4", href: "/product/solid-wood-dining-chair-set-of-4" },
+          { label: "Windsor dining chairs, set of 4", href: "/product/windsor-dining-chair-set-of-4" },
+          { label: "Solid Wood dining chairs, set of 2", href: "/product/solid-wood-dining-chair-set-of-2" },
+        ],
+      },
+      {
         h2: "How many chairs fit your table",
         body: "Plan on 24 inches of table edge per chair. A 48-inch table takes four chairs, a 72-inch table takes six, and a 94-inch table takes eight. Armless chairs fit closer together than the Ernesto armchair, which needs a little more room at the ends.",
         links: [
@@ -282,7 +377,7 @@ const BED_SEO: Record<string, CategorySeo> = {
     ],
     faqs: [
       { q: "Are the dining chairs solid wood?", a: "The frames are solid rubberwood or hardwood. The Windsor chair is all hardwood, the Lido is solid rubberwood with a 400-pound weight rating, and the upholstered chairs have a cushioned seat on a rubberwood frame." },
-      { q: "Do the chairs come in sets?", a: "Yes. The Windsor, Lido and Solid Wood chairs are sold in sets of two from $530 and sets of four from $909. Other chairs are sold individually, and the Ernesto armchair and Chesnee come in sets of two." },
+      { q: "Do the chairs come in sets?", a: "Yes. The Windsor, Lido and Solid Wood chairs are sold in sets of two from $530 and sets of four from $927. Other chairs are sold individually, and the Ernesto armchair and Chesnee come in sets of two." },
       { q: "Can the Chesnee slipcover be washed?", a: "Yes. The twill slipcover slips off and is machine washable. Short and long slipcover versions are available in Chocolate, Bone, Concrete, Ocean Blue and Sand." },
       { q: "Do the chairs match the tables?", a: "Yes. Chairs come in the same Pecan, Walnut, Blonde and Black finishes as the dining tables, so a Lido chair matches a Lido table and a Windsor chair matches the Classic or Modern tables." },
       { q: "Is assembly required?", a: "Yes, with hardware and instructions included. Chairs go together quickly." },
@@ -305,6 +400,15 @@ const BED_SEO: Record<string, CategorySeo> = {
         ],
       },
       {
+        h2: "Mid-century dining bench",
+        body: "The Mid-Century Modern dining bench is 58.75 inches long, 13.75 inches deep and 17.75 inches high, on angled, tapered legs, in Walnut or Black, from $353. It seats three, matches the 72-inch Mid-Century Modern dining table, and works as an entryway or end-of-bed bench as well.",
+        links: [
+          { label: "Mid-Century Modern dining bench", href: "/product/mid-century-modern-dining-bench-59" },
+          { label: "Mid-century modern furniture", href: "/category/living?subcategory=mid-century-modern" },
+          { label: "Entryway benches", href: "/category/living?subcategory=entryway" },
+        ],
+      },
+      {
         h2: "Banquette seating for a breakfast nook",
         body: "The Risa banquette fits a corner in a left or right configuration, seats three to four around a 47-inch round or a 48-inch kitchen table, and ships in one box with all hardware. It is the only bench in the range with a backrest, and the cushion is optional.",
         links: [
@@ -320,13 +424,14 @@ const BED_SEO: Record<string, CategorySeo> = {
       { q: "How many people can sit on a dining bench?", a: "Two on a 46 to 49-inch bench, three on a 58 to 61-inch bench and four on an 83 or 85-inch bench." },
       { q: "Can a dining bench go outside?", a: "Only the Modern outdoor bench, which is finished for a covered patio or porch. Keep it out of direct rain and sun to avoid weathering. The indoor benches should stay indoors." },
       { q: "Is shipping free?", a: "Yes. Every bench ships free." },
+      { q: "How high is a dining bench?", a: "The straight benches have a seat 17.75 inches high and 13.25 to 14 inches deep, which suits a standard 30-inch dining table." },
     ],
   },
   "dining|bar-counter-chairs": {
     seoTitle: "Counter & Bar Stools Canada - Solid Wood | Forgali",
-    seoDescription: "13 solid wood counter and bar stools from $341 CAD: 24 to 26 inch counter height and 30 to 31 inch bar height, backless or with backs, upholstered options. Free shipping.",
+    seoDescription: "13 solid wood counter and bar stools from $344 CAD: 24 to 26 inch counter height and 30 to 31 inch bar height, backless or with backs, upholstered options. Free shipping.",
     h1: "Counter & Bar Stools Canada",
-    lead: "13 counter and bar stools on solid rubberwood and hardwood frames, from $341 CAD, with free shipping.",
+    lead: "13 counter and bar stools on solid rubberwood and hardwood frames, from $344 CAD, with free shipping.",
     intro: "Counter stools are 24 to 26 inches to the seat and fit a standard 36-inch kitchen counter or island. Bar stools are 30 to 31 inches to the seat for a 42-inch bar. Plank & Beam makes both heights in the same designs, so you can match stools to a kitchen island and a home bar in one finish.\n\nThe Smythe and Beryl stools are backless with a contoured seat and tuck fully under the counter. The Solid Wood, Elio, Sereno, Brio and Loar chairs have backs, and the Elio, Sereno, Brio and Loar add an upholstered seat in Ivory, Sesame, Toffee, Terracotta, Marine or Evergreen. Finishes are Pecan, Walnut, Blonde and Black, with Antique White on the Sereno. Most are sold individually, and the Smythe, Beryl and Solid Wood stools come in sets of two and four.",
     sections: [
       {
@@ -340,7 +445,7 @@ const BED_SEO: Record<string, CategorySeo> = {
       },
       {
         h2: "Backless or with a back?",
-        body: "Backless stools like the Smythe and Beryl cost less, from $341, and disappear under the counter when not in use, which keeps a small kitchen open. Stools with backs are better for longer sitting, homework at the island or a breakfast bar that doubles as the dining table. The Loar upholstered counter chair is the most comfortable in the range for that.",
+        body: "Backless stools like the Smythe and Beryl cost less, from $344, and disappear under the counter when not in use, which keeps a small kitchen open. Stools with backs are better for longer sitting, homework at the island or a breakfast bar that doubles as the dining table. The Loar upholstered counter chair is the most comfortable in the range for that.",
         links: [
           { label: "Counter height dining tables", href: "/category/dining?subcategory=kitchen-tables" },
           { label: "Dining chairs", href: "/category/dining?subcategory=dining-chairs" },
@@ -357,9 +462,9 @@ const BED_SEO: Record<string, CategorySeo> = {
   },
   "dining|counter-stools": {
     seoTitle: "Counter Height Stools Canada - Solid Wood | Forgali",
-    seoDescription: "Eight counter height stools and chairs with 24 to 26 inch seats for 36-inch counters, backless or with backs, from $341 CAD. Free shipping.",
+    seoDescription: "Eight counter height stools and chairs with 24 to 26 inch seats for 36-inch counters, backless or with backs, from $344 CAD. Free shipping.",
     h1: "Counter Height Stools and Chairs",
-    lead: "Eight counter height stools with 24 to 26 inch seats, backless or with a back, from $341 CAD, with free shipping.",
+    lead: "Eight counter height stools with 24 to 26 inch seats, backless or with a back, from $344 CAD, with free shipping.",
     intro: "A counter stool seats you at a standard 36-inch kitchen counter or island with about 10 inches of legroom. These eight are the counter height versions of the Plank & Beam stool range: the backless Smythe and Beryl at 24 inches, the Solid Wood counter chair and Elio and Sereno chairs at 24 inches, the Brio at 25 inches and the Loar upholstered counter chair at 26 inches.\n\nAll are built on wood frames with low-VOC finishes in Pecan, Walnut, Blonde and Black. The Elio, Sereno, Brio and Loar add an upholstered seat, and the Smythe and Beryl are available in sets of two and four.",
     sections: [
       {
@@ -372,7 +477,7 @@ const BED_SEO: Record<string, CategorySeo> = {
       },
       {
         h2: "Backless counter stools",
-        body: "The Smythe and Beryl counter stools have a contoured seat with no back, so they slide fully under the counter and keep a small kitchen looking open. They are the least expensive stools in the range, from $341 CAD each or less per stool in a set of four.",
+        body: "The Smythe and Beryl counter stools have a contoured seat with no back, so they slide fully under the counter and keep a small kitchen looking open. They are the least expensive stools in the range, from $344 CAD each or less per stool in a set of four.",
         links: [{ label: "All counter and bar stools", href: "/category/dining?subcategory=bar-counter-chairs" }],
       },
       {
@@ -540,9 +645,9 @@ const BED_SEO: Record<string, CategorySeo> = {
   },
   "living|round-coffee-tables": {
     seoTitle: "Round Coffee Tables Canada - Solid Wood | Forgali",
-    seoDescription: "Seven solid wood round coffee tables, 30 to 36 inches, from $341 CAD, in Classic, Mid-Century Modern, Verso, Contour and Forma styles. Free shipping.",
+    seoDescription: "Seven solid wood round coffee tables, 30 to 36 inches, from $344 CAD, in Classic, Mid-Century Modern, Verso, Contour and Forma styles. Free shipping.",
     h1: "Round Solid Wood Coffee Tables",
-    lead: "Seven round coffee tables in knot-free solid wood, 30 to 36 inches across, from $341 CAD with free shipping.",
+    lead: "Seven round coffee tables in knot-free solid wood, 30 to 36 inches across, from $344 CAD with free shipping.",
     intro: "A round coffee table has no corners to catch a shin, which matters with small children and in a room where people walk past the sofa. It also suits a sectional or an L-shaped seating arrangement, because everyone reaches it from the same distance. These seven are the round versions of the Classic, Mid-Century Modern, Verso, Contour and Forma collections.\n\nThe 30-inch Classic, Verso and Contour rounds fit a loveseat or a small living room. The 36-inch Classic, Mid-Century Modern and Verso rounds suit a full-size sofa, and the 34-inch Forma round has a lower shelf for storage. All are knot-free solid wood with low-VOC finishes in Pecan, Walnut, Blonde and Black, with Coastal White on the Verso rounds and wirebrushed Pecan, Blonde, Seashell and Black on the Classic.",
     sections: [
       {
@@ -563,7 +668,7 @@ const BED_SEO: Record<string, CategorySeo> = {
       },
       {
         h2: "Round coffee table sets",
-        body: "Pair a round coffee table with the side table from the same collection for a set that matches without buying a suite. The Classic, Contour, Forma and Mid-Century Modern side tables stand 24 inches high, and the Verso round side table is a 24-inch round at 17.75 inches high, the same height as the Verso coffee tables, so it doubles as a second small table beside the sofa. Side tables start at $298 CAD.",
+        body: "Pair a round coffee table with the side table from the same collection for a set that matches without buying a suite. The Classic, Contour, Forma and Mid-Century Modern side tables stand 24 inches high, and the Verso round side table is a 24-inch round at 17.75 inches high, the same height as the Verso coffee tables, so it doubles as a second small table beside the sofa. Side tables start at $301 CAD.",
         links: [{ label: "Side tables", href: "/category/living?subcategory=side-tables" }],
       },
     ],
@@ -580,7 +685,7 @@ const BED_SEO: Record<string, CategorySeo> = {
     seoDescription: "23 solid wood console tables from 36 to 66 inches wide, from $211 CAD, for entryways, hallways and behind the sofa. Free shipping and 30-day returns.",
     h1: "Solid Wood Console Tables",
     lead: "23 Plank & Beam console tables in knot-free solid wood, 36 to 66 inches wide, from $211 CAD with free shipping.",
-    intro: "A console table is the narrow table that goes against a wall in an entryway, down a hallway or behind a sofa. These 23 run from 36 inches, which fits a condo entry, up to 66 inches for a wide hallway or the back of a sectional. Four of them add a lower shelf or closed storage for shoes, baskets and mail.\n\nThe Classic consoles start at $158, the lowest price in the range. Verso has crossed legs, Mid-Century Modern has tapered legs, Contour and Forma have rounded tops, Camden is a rustic plank style, Grande is a heavier wirebrushed design and Arcata is an arched waterfall console in oak veneer. Finishes are Pecan, Walnut, Blonde and Black, with Coastal White, Seashell and White on Classic and Modern, rustic finishes on Camden and Cashew, Cerused White, Hazelnut and Noir on Arcata.",
+    intro: "A console table is the narrow table that goes against a wall in an entryway, down a hallway or behind a sofa. These 23 run from 36 inches, which fits a condo entry, up to 66 inches for a wide hallway or the back of a sectional. Four of them add a lower shelf or closed storage for shoes, baskets and mail.\n\nThe Classic consoles start at $211, the lowest price in the range. Verso has crossed legs, Mid-Century Modern has tapered legs, Contour and Forma have rounded tops, Camden is a rustic plank style, Grande is a heavier wirebrushed design and Arcata is an arched waterfall console in oak veneer. Finishes are Pecan, Walnut, Blonde and Black, with Coastal White, Seashell and White on Classic and Modern, rustic finishes on Camden and Cashew, Cerused White, Hazelnut and Noir on Arcata.",
     sections: [
       {
         h2: "Console table sizes for an entryway or behind a sofa",
@@ -590,6 +695,18 @@ const BED_SEO: Record<string, CategorySeo> = {
           { label: "Entryway benches", href: "/category/living?subcategory=entryway" },
           { label: "Console table sizing guide", href: "/guides/console-table-behind-sofa" },
         ],
+      },
+      {
+        h2: "Long console tables: 56 and 66 inches",
+        body: "Ten of the consoles are 56 or 66 inches long, the sizes for a long hallway or the back of a three-seat sofa. The 56-inch consoles start at $330 for the Classic and $432 for the Modern, with Contour, Arcata, Camden and Grande versions above that. The 66-inch consoles are the Classic from $454, the Grande and the Camden.",
+        links: [
+          { label: "Classic console table, 56 inch", href: "/product/classic-console-table-56" },
+          { label: "Classic console table, 66 inch", href: "/product/classic-console-table-66" },
+        ],
+      },
+      {
+        h2: "Console table height and depth",
+        body: "Every console table in the range is 12 inches deep, apart from the Mid-Century Modern console with storage at 12.75 inches, so all of them leave a walkway in a hallway. They are 32 inches high, apart from the Grande console with shelf at 30 inches. That is a little taller than a dining table and level with or just below the back of most sofas.",
       },
       {
         h2: "Matching the rest of the room",
@@ -602,7 +719,7 @@ const BED_SEO: Record<string, CategorySeo> = {
     ],
     faqs: [
       { q: "Are the console tables solid wood?", a: "Yes. The Classic, Modern, Verso, Mid-Century Modern, Contour, Forma, Camden and Grande consoles are knot-free solid wood. The Arcata console has a real oak veneer over a solid wood and engineered core." },
-      { q: "How wide are the console tables?", a: "36, 46, 47, 56 and 66 inches depending on the collection. Check the Details tab on each product for exact depth and height." },
+      { q: "How wide are the console tables?", a: "36, 46, 47, 56 and 66 inches depending on the collection. All of them are about 12 inches deep and 30 to 32 inches high." },
       { q: "Which console tables have storage?", a: "The Classic console with shelf in 36 and 46 inches, the Mid-Century Modern console with storage and the Grande console with shelf. The rest have an open base." },
       { q: "Can a console table go behind a sofa?", a: "Yes. Choose one slightly shorter than the sofa and no taller than the sofa back. The 56 and 66 inch consoles suit most three-seat sofas." },
       { q: "Is shipping free?", a: "Yes. Every console table ships free." },
@@ -652,9 +769,9 @@ const BED_SEO: Record<string, CategorySeo> = {
   },
   "living|side-tables": {
     seoTitle: "Solid Wood Side Tables Canada - Free Shipping | Forgali",
-    seoDescription: "13 solid wood side and end tables from $298 CAD: 18 to 25 inch round and square tables, tables with a shelf or storage, and a 32-inch corner table. Free shipping.",
+    seoDescription: "13 solid wood side and end tables from $301 CAD: 18 to 25 inch round and square tables, tables with a shelf or storage, and a 32-inch corner table. Free shipping.",
     h1: "Solid Wood Side & End Tables",
-    lead: "13 side and end tables in knot-free solid wood, 18 to 32 inches, from $298 CAD with free shipping.",
+    lead: "13 side and end tables in knot-free solid wood, 18 to 32 inches, from $301 CAD with free shipping.",
     intro: "A side table goes at the end of a sofa or beside an armchair and should sit level with the arm, which for most sofas means 22 to 26 inches high. These 13 are sized for that: round tables at 24 inches, square tables at 20 inches, rectangular tables at 23 to 25 inches, the 18-inch Mid-Century Modern side table with storage, which is the one melamine piece in the range, and the 32-inch Modern square corner table for the gap between two sofas in an L.\n\nEach one matches a coffee table from the same collection in the same finish: Classic, Modern, Mid-Century Modern, Verso, Contour and Forma, in Pecan, Walnut, Blonde and Black with Coastal White and wirebrushed options on Classic and Modern. All but the storage side table are solid wood with hand-applied, low-VOC finishes.",
     sections: [
       {
@@ -663,6 +780,14 @@ const BED_SEO: Record<string, CategorySeo> = {
         links: [
           { label: "Coffee tables to match", href: "/category/living?subcategory=coffee-tables" },
           { label: "Nightstands for the bedroom", href: "/category/accessories?subcategory=nightstands" },
+        ],
+      },
+      {
+        h2: "Mid-century side tables",
+        body: "There are four Mid-Century Modern side tables. The rectangular table is 25 by 14.75 inches and 24 inches high, from $301, and the square table is 20.25 inches a side, from $315, both in Pecan, Walnut or Black. The taller 23-inch table stands 25.5 inches high, and the 18-inch table with storage adds a compartment. All four match the Mid-Century Modern coffee tables.",
+        links: [
+          { label: "Mid-Century Modern side table", href: "/product/mid-century-modern-side-table-24" },
+          { label: "Mid-century modern furniture", href: "/category/living?subcategory=mid-century-modern" },
         ],
       },
       {
@@ -806,7 +931,7 @@ const BED_SEO: Record<string, CategorySeo> = {
       },
       {
         h2: "Mid-century modern side tables and coffee tables",
-        body: "Four side tables: a 20-inch square, 23 and 24 inch rectangular tables and an 18-inch side table with a storage cabinet, 24 to 25.5 inches high, from $298 CAD. Three coffee tables: the 36-inch round in Black or Walnut and the 40 and 48 inch rectangular tables, all 17.75 inches high, from $327 CAD.",
+        body: "Four side tables: a 20-inch square, 23 and 24 inch rectangular tables and an 18-inch side table with a storage cabinet, 24 to 25.5 inches high, from $301 CAD. Three coffee tables: the 36-inch round in Black or Walnut and the 40 and 48 inch rectangular tables, all 17.75 inches high, from $330 CAD.",
         links: [
           { label: "Side tables", href: "/category/living?subcategory=side-tables" },
           { label: "Round coffee tables", href: "/category/living?subcategory=round-coffee-tables" },
