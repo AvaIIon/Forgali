@@ -27,7 +27,7 @@ export const categoryInfoMap: Record<string, { title: string; description: strin
   },
   "bedroom": {
     title: "Bedroom",
-    description: "Solid wood beds for every sleeper — bunk beds, loft beds, and single beds built to last from childhood through the teenage years."
+    description: "Solid wood beds for every sleeper: bunk beds, loft beds, and single beds built to last from childhood through the teenage years."
   },
   "dining": {
     title: "Dining",
@@ -35,6 +35,6 @@ export const categoryInfoMap: Record<string, { title: string; description: strin
   },
   "living": {
     title: "Living",
-    description: "Coffee tables, console and side tables, sideboards, TV stands, and shelving — solid wood pieces that bring warmth to every living space."
+    description: "Solid wood coffee tables, console and side tables, sideboards, TV stands, and shelving that bring warmth to every living space."
   }
 };
