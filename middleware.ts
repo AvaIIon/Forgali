@@ -370,7 +370,7 @@ function productHead(handle: string, m: ProductMeta): Head {
     m.sd ||
     (m.d
       ? m.d.slice(0, 160)
-      : `${m.t}: solid wood furniture with free Canada-wide shipping from Forgali.`);
+      : `${m.t}: solid wood furniture with free shipping from Forgali.`);
   const jsonLd: Record<string, unknown> = {
     "@context": "https://schema.org/",
     "@type": "Product",
@@ -444,7 +444,7 @@ const money = (p: string): string => {
 };
 
 const TRUST_LINE =
-  "Free Canada-wide shipping · 30-day returns · 5-year limited warranty";
+  "Free shipping · 30-day returns · 5-year limited warranty";
 
 // `subcategory` renders the filtered subset under that subcategory's own copy —
 // never the parent's list, which is why the subcategory views shipped body-less
@@ -606,7 +606,7 @@ function productBody(handle: string, m: ProductMeta): string | null {
   const price = m.p
     ? `<p style="margin:0 0 8px;font-size:1.25rem;font-weight:700;">${esc(money(m.p))}</p>`
     : "";
-  const stock = `<p style="margin:0 0 16px;">${m.a ? "In stock" : "Out of stock"}. Ships free anywhere in Canada.</p>`;
+  const stock = `<p style="margin:0 0 16px;">${m.a ? "In stock" : "Out of stock"}. Ships free.</p>`;
   const siblings = findSizeSiblings({ handle, title: m.t, category: HANDLE_CATEGORY.get(handle) ?? null }, SIZE_INPUTS);
   const sizes = siblings.length
     ? `<p style="margin:0 0 16px;">${esc(EN["pdp.alsoAvailableIn"])}: ${siblings

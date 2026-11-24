@@ -4,13 +4,13 @@
 export const PLANK_AND_BEAM_SEO = {
   title: "Plank & Beam Furniture Canada – Solid Wood | Forgali",
   description:
-    "Shop Plank & Beam solid wood dining and living furniture in Canada, 164 pieces, from $140, with free Canada-wide shipping, CAD pricing and 30-day returns.",
+    "Shop Plank & Beam solid wood dining and living furniture in Canada, 164 pieces, from $140, with free shipping, CAD pricing and 30-day returns.",
   jsonLd: {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
     name: "Plank & Beam Furniture Canada",
     description:
-      "Shop the Plank & Beam collection of solid wood dining and living furniture in Canada, free Canada-wide shipping, CAD pricing and local 30-day returns.",
+      "Shop the Plank & Beam collection of solid wood dining and living furniture in Canada, free shipping, CAD pricing and local 30-day returns.",
     url: "https://www.forgali.com/plank-and-beam",
   },
 };

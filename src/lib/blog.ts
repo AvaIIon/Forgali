@@ -244,7 +244,7 @@ export const BLOG_INDEX_SEO: Record<Locale, BlogIndexSeo> = {
   en: {
     title: "Blog – Solid Wood Furniture Ideas, Sizing & Care Tips | Forgali",
     description:
-      "Room ideas, sizing help, care tips and news from Forgali, a Canadian solid wood furniture shop: bunk and loft beds, dining tables, benches, stools and living room pieces, shipped free across Canada.",
+      "Room ideas, sizing help, care tips and news from Forgali, a Canadian solid wood furniture shop: bunk and loft beds, dining tables, benches, stools and living room pieces, shipped free.",
     path: "/blog",
     h1: "The Forgali Blog",
     lead: "Room ideas, sizing help, care tips and what's new at Forgali, written for Canadian homes.",
@@ -252,7 +252,7 @@ export const BLOG_INDEX_SEO: Record<Locale, BlogIndexSeo> = {
   fr: {
     title: "Blogue – Idées, dimensions et entretien des meubles en bois massif | Forgali",
     description:
-      "Idées d'aménagement, conseils de dimensions, entretien et nouveautés de Forgali, boutique canadienne de meubles en bois massif : lits superposés et mezzanines, tables, bancs, tabourets et meubles de salon, livrés gratuitement partout au Canada.",
+      "Idées d'aménagement, conseils de dimensions, entretien et nouveautés de Forgali, boutique canadienne de meubles en bois massif : lits superposés et mezzanines, tables, bancs, tabourets et meubles de salon, livrés gratuitement.",
     path: "/blog",
     h1: "Le blogue Forgali",
     lead: "Idées d'aménagement, conseils de dimensions, entretien et nouveautés de Forgali, pensés pour les maisons canadiennes.",

@@ -27,7 +27,7 @@ const en = {
   checkoutWithShopify: "Checkout with Shopify",
   processing: "Processing...",
   "common.continueShopping": "Continue Shopping",
-  "common.freeShipping": "Free Canada-Wide Shipping",
+  "common.freeShipping": "Free Shipping",
   "common.returns30": "30-Day Returns",
   "common.bfPill": "BLACK FRIDAY",
   "common.bfBar": "10% off everything with code FRIDAY at checkout · Nov 18–30",
@@ -144,7 +144,7 @@ const en = {
   // --- homepage sections --------------------------------------------------
   "home.seoTitle": "Forgali | Solid Wood Furniture for Every Room",
   "home.seoDescription":
-    "Solid wood furniture families trust: bunk and loft beds, dining tables and chairs, and living-room pieces. Free Canada-wide shipping.",
+    "Solid wood furniture families trust: bunk and loft beds, dining tables and chairs, and living-room pieces. Free shipping.",
   "home.featured": "Featured Furniture",
   "home.loadError": "We couldn't load products right now.",
   "home.browseDining": "Browse the Dining collection",
@@ -173,7 +173,7 @@ const en = {
   "promo.kicker": "In Stock Now",
   "promo.titleEm": "Here before",
   "promo.titleRest": " Christmas",
-  "promo.body": "Free shipping across Canada, 5-year warranty.",
+  "promo.body": "Free shipping, 5-year warranty.",
   "promo.cta": "Shop Dining & Living",
   "promo.browse": "Shop bedroom →",
   "look.shopItem": "Shop {title}",
@@ -236,7 +236,7 @@ const en = {
   "pdp.notFoundBody":
     "It may have been renamed or is no longer available, but the rest of the collection is right here.",
   "pdp.errorBody": "Please try again in a moment.",
-  "pdp.seoDescriptionFallback": "{name}: solid wood furniture with free Canada-wide shipping from Forgali.",
+  "pdp.seoDescriptionFallback": "{name}: solid wood furniture with free shipping from Forgali.",
   "pdp.home": "Home",
   "pdp.prevImage": "Previous image",
   "pdp.nextImage": "Next image",
@@ -269,7 +269,7 @@ const en = {
   "pdp.tabDescription": "Description",
   "pdp.tabShipping": "Shipping",
   "pdp.tabShippingLong": "Shipping Information",
-  "pdp.freeShippingTitle": "Free Canada-wide shipping",
+  "pdp.freeShippingTitle": "Free shipping",
   "pdp.freeShippingBody": "Standard delivery is {window} from the day your order is placed.",
   "pdp.returnsBody": "Return an unused item in its original packaging within 30 days of delivery.",
   "pdp.flatPackTitle": "Flat-packed for assembly",
@@ -293,7 +293,7 @@ const en = {
   // --- smart deals --------------------------------------------------------
   "deals.title": "Smart Deals",
   "deals.lead":
-    "Save on solid wood furniture for every room, dining, living, and bedroom. Sale prices with free Canada-wide shipping.",
+    "Save on solid wood furniture for every room, dining, living, and bedroom. Sale prices with free shipping.",
   "deals.loading": "Loading deals...",
   "deals.all": "All Deals",
   "deals.countOne": "{count} deal",
@@ -358,7 +358,7 @@ const en = {
 
   // --- guides -------------------------------------------------------------
   "guide.shopPieces": "Shop the pieces in this guide",
-  "guide.trust": "Free Canada-wide shipping · 30-day returns · 5-year limited warranty",
+  "guide.trust": "Free shipping · 30-day returns · 5-year limited warranty",
   "guide.more": "More buying guides",
   "guide.lastUpdated": "Last updated {date}.",
 
@@ -389,7 +389,7 @@ const en = {
   "contact.hours": "9:00 AM - 5:00 PM EST",
   "contact.onlineOnly": "Online Only",
   "contact.onlineBody": "100% online store with no retail showroom",
-  "contact.servingCanada": "Serving all of Canada with free shipping",
+  "contact.servingCanada": "Free shipping on every order",
   "contact.formTitle": "Send us a message",
   "contact.sentTitle": "Thanks, your message is on its way",
   "contact.sentBody1": "It's landed in our inbox and we'll reply to ",
@@ -493,7 +493,7 @@ const en = {
 
   // --- shipping page ------------------------------------------------------
   "shipping.title": "Shipping Information",
-  "shipping.lead": "Solid wood furniture, shipped straight to your door, free, anywhere in Canada.",
+  "shipping.lead": "Solid wood furniture, shipped straight to your door. Shipping is free.",
   "shipping.card1Body": "Every order ships free to any Canadian address, no minimums, no surprises at checkout.",
   "shipping.card2Title": "Tracking on Every Order",
   "shipping.card2Body":
@@ -613,7 +613,7 @@ const en = {
   // --- about page ---------------------------------------------------------
   "about.title": "About Forgali",
   "about.lead":
-    "An online-only Canadian furniture store. Solid wood beds, dining and living pieces, over 300 of them, shipped free to your door, from Victoria to St. John's.",
+    "An online-only Canadian furniture store. Solid wood beds, dining and living pieces, over 300 of them, shipped free to your door.",
   "about.storyTitle": "Our Story",
   "about.story1a": "Forgali started in furniture the long way around, as",
   "about.story1b":
@@ -667,7 +667,7 @@ const en = {
   "about.howTitle": "How Buying From Us Works",
   "about.howLead":
     "No memberships, no delivery surcharges, no fine-print games. Here's the whole thing, start to finish.",
-  "about.how1Title": "Free shipping, anywhere in Canada",
+  "about.how1Title": "Free shipping",
   "about.how1Body":
     "Every order ships free to any Canadian address, no minimum, no surprise total at checkout, no duties or brokerage fees.",
   "about.how1Link": "Shipping details",
@@ -697,7 +697,7 @@ const en = {
   "about.noteBody":
     "Forgali's earlier chapter as Forgali Design Centre, a custom-furniture showroom in Mississauga, is permanently closed, as is the former Concord location. Directory entries that still show a showroom at 2111 Dunwin Dr., a Concord or Vaughan address (Keele Street, Rivermede Road), or phone numbers such as (905) 820-2020 or (905) 820-9461 are out of date: those locations are closed and the numbers are no longer in service. Forgali operates entirely online today. Our current phone number is (365) 387-2345, and you can also reach us by email:",
   "about.ctaBody":
-    "Real solid wood, priced fairly, shipped free across Canada. Have a look, and if you're stuck between two finishes or not sure a loft will clear your ceiling, just email us.",
+    "Real solid wood, priced fairly, shipped free. Have a look, and if you're stuck between two finishes or not sure a loft will clear your ceiling, just email us.",
   "about.shopBeds": "Shop Beds",
 } as const;
 
@@ -710,7 +710,7 @@ const fr: Record<keyof typeof en, string> = {
   checkoutWithShopify: "Passer au paiement avec Shopify",
   processing: "Traitement en cours...",
   "common.continueShopping": "Continuer à magasiner",
-  "common.freeShipping": "Livraison gratuite partout au Canada",
+  "common.freeShipping": "Livraison gratuite",
   "common.returns30": "Retours sous 30 jours",
   "common.bfPill": "VENDREDI FOU",
   "common.bfBar": "10\u00a0% de rabais sur tout avec le code FRIDAY à la caisse · du 18 au 30 nov.",
@@ -827,7 +827,7 @@ const fr: Record<keyof typeof en, string> = {
   // --- homepage sections --------------------------------------------------
   "home.seoTitle": "Forgali | Meubles en bois massif pour chaque pièce",
   "home.seoDescription":
-    "Des meubles en bois massif auxquels les familles font confiance : lits superposés et lits mezzanine, tables et chaises de salle à manger, meubles de salon. Livraison gratuite partout au Canada.",
+    "Des meubles en bois massif auxquels les familles font confiance : lits superposés et lits mezzanine, tables et chaises de salle à manger, meubles de salon. Livraison gratuite.",
   "home.featured": "Meubles en vedette",
   "home.loadError": "Impossible de charger les produits pour le moment.",
   "home.browseDining": "Parcourez plutôt la collection Salle à manger",
@@ -856,7 +856,7 @@ const fr: Record<keyof typeof en, string> = {
   "promo.kicker": "En stock maintenant",
   "promo.titleEm": "Chez vous avant",
   "promo.titleRest": " Noël",
-  "promo.body": "Livraison gratuite partout au Canada, garantie de 5\u00a0ans.",
+  "promo.body": "Livraison gratuite, garantie de 5\u00a0ans.",
   "promo.cta": "Magasiner la salle à manger et le salon",
   "promo.browse": "Magasiner la chambre →",
   "look.shopItem": "Magasiner {title}",
@@ -919,7 +919,7 @@ const fr: Record<keyof typeof en, string> = {
   "pdp.notFoundBody":
     "Il a peut-être été renommé ou n'est plus offert, mais le reste de la collection est juste ici.",
   "pdp.errorBody": "Veuillez réessayer dans un instant.",
-  "pdp.seoDescriptionFallback": "{name} : meuble en bois massif avec livraison gratuite partout au Canada, par Forgali.",
+  "pdp.seoDescriptionFallback": "{name} : meuble en bois massif avec livraison gratuite, par Forgali.",
   "pdp.home": "Accueil",
   "pdp.prevImage": "Image précédente",
   "pdp.nextImage": "Image suivante",
@@ -952,7 +952,7 @@ const fr: Record<keyof typeof en, string> = {
   "pdp.tabDescription": "Description",
   "pdp.tabShipping": "Livraison",
   "pdp.tabShippingLong": "Information sur la livraison",
-  "pdp.freeShippingTitle": "Livraison gratuite partout au Canada",
+  "pdp.freeShippingTitle": "Livraison gratuite",
   "pdp.freeShippingBody": "La livraison standard prend {window} à partir du jour de la commande.",
   "pdp.returnsBody": "Retournez un article inutilisé dans son emballage d'origine dans les 30 jours suivant la livraison.",
   "pdp.flatPackTitle": "Livré à plat, à assembler",
@@ -976,7 +976,7 @@ const fr: Record<keyof typeof en, string> = {
   // --- smart deals --------------------------------------------------------
   "deals.title": "Aubaines",
   "deals.lead":
-    "Économisez sur des meubles en bois massif pour chaque pièce : salle à manger, salon et chambre. Prix réduits et livraison gratuite partout au Canada.",
+    "Économisez sur des meubles en bois massif pour chaque pièce : salle à manger, salon et chambre. Prix réduits et livraison gratuite.",
   "deals.loading": "Chargement des aubaines...",
   "deals.all": "Toutes les aubaines",
   "deals.countOne": "{count} aubaine",
@@ -1041,7 +1041,7 @@ const fr: Record<keyof typeof en, string> = {
 
   // --- guides -------------------------------------------------------------
   "guide.shopPieces": "Magasiner les pièces de ce guide",
-  "guide.trust": "Livraison gratuite partout au Canada · Retours sous 30 jours · Garantie limitée de 5 ans",
+  "guide.trust": "Livraison gratuite · Retours sous 30 jours · Garantie limitée de 5 ans",
   "guide.more": "Autres guides d'achat",
   "guide.lastUpdated": "Dernière mise à jour : {date}.",
 
@@ -1072,7 +1072,7 @@ const fr: Record<keyof typeof en, string> = {
   "contact.hours": "9\u00a0h - 17\u00a0h (HNE)",
   "contact.onlineOnly": "En ligne seulement",
   "contact.onlineBody": "Boutique 100\u00a0% en ligne, sans salle de montre",
-  "contact.servingCanada": "Livraison gratuite partout au Canada",
+  "contact.servingCanada": "Livraison gratuite sur toutes les commandes",
   "contact.formTitle": "Écrivez-nous",
   "contact.sentTitle": "Merci, votre message est en route",
   "contact.sentBody1": "Il est arrivé dans notre boîte de réception et nous répondrons à ",
@@ -1176,7 +1176,7 @@ const fr: Record<keyof typeof en, string> = {
 
   // --- shipping page ------------------------------------------------------
   "shipping.title": "Information sur la livraison",
-  "shipping.lead": "Des meubles en bois massif livrés directement à votre porte, gratuitement, partout au Canada.",
+  "shipping.lead": "Des meubles en bois massif livrés directement à votre porte, gratuitement.",
   "shipping.card1Body":
     "Chaque commande est livrée gratuitement à toute adresse au Canada : aucun minimum, aucune surprise à la caisse.",
   "shipping.card2Title": "Suivi pour chaque commande",
@@ -1300,7 +1300,7 @@ const fr: Record<keyof typeof en, string> = {
   // --- about page ---------------------------------------------------------
   "about.title": "À propos de Forgali",
   "about.lead":
-    "Une boutique de meubles canadienne, en ligne seulement. Des lits, des meubles de salle à manger et de salon en bois massif (plus de 300) livrés gratuitement à votre porte, de Victoria à St. John's.",
+    "Une boutique de meubles canadienne, en ligne seulement. Des lits, des meubles de salle à manger et de salon en bois massif (plus de 300) livrés gratuitement à votre porte.",
   "about.storyTitle": "Notre histoire",
   "about.story1a": "Forgali est arrivée au meuble par le chemin le plus long : d'abord sous le nom de",
   "about.story1b":
@@ -1355,7 +1355,7 @@ const fr: Record<keyof typeof en, string> = {
   "about.howTitle": "Comment ça se passe quand vous achetez chez nous",
   "about.howLead":
     "Pas d'abonnement, pas de supplément de livraison, pas de petits caractères. Voici tout le processus, du début à la fin.",
-  "about.how1Title": "Livraison gratuite, partout au Canada",
+  "about.how1Title": "Livraison gratuite",
   "about.how1Body":
     "Chaque commande est livrée gratuitement à toute adresse au Canada : aucun minimum, aucune surprise à la caisse, aucuns droits de douane ni frais de courtage.",
   "about.how1Link": "Détails de livraison",
@@ -1385,7 +1385,7 @@ const fr: Record<keyof typeof en, string> = {
   "about.noteBody":
     "L'ancien chapitre de Forgali sous le nom de Forgali Design Centre, une salle de montre de meubles sur mesure à Mississauga, est fermé définitivement, tout comme l'ancien emplacement de Concord. Les fiches d'annuaire qui affichent encore une salle de montre au 2111 Dunwin Dr., une adresse à Concord ou à Vaughan (rue Keele, chemin Rivermede) ou des numéros de téléphone comme le (905) 820-2020 ou le (905) 820-9461 sont périmées : ces emplacements sont fermés et les numéros ne sont plus en service. Forgali fonctionne aujourd'hui entièrement en ligne. Notre numéro de téléphone actuel est le (365) 387-2345, et vous pouvez aussi nous joindre par courriel :",
   "about.ctaBody":
-    "Du vrai bois massif, à prix juste, livré gratuitement partout au Canada. Jetez un coup d'œil, et si vous hésitez entre deux finis ou si vous n'êtes pas certain qu'un lit mezzanine passera sous votre plafond, écrivez-nous simplement.",
+    "Du vrai bois massif, à prix juste, livré gratuitement. Jetez un coup d'œil, et si vous hésitez entre deux finis ou si vous n'êtes pas certain qu'un lit mezzanine passera sous votre plafond, écrivez-nous simplement.",
   "about.shopBeds": "Magasiner les lits",
 };
 
