@@ -91,7 +91,7 @@ const AboutPage = () => {
           url: "https://www.forgali.com/about",
           name: "About Forgali",
           description:
-            "Forgali is an online-only Canadian retailer of solid wood kids' beds and Plank & Beam dining and living furniture, shipping free across Canada.",
+            "Forgali is an online-only Canadian retailer of solid wood beds and Plank & Beam dining and living furniture, shipping free across Canada.",
           isPartOf: { "@id": "https://www.forgali.com/#website" },
           // References the Organization declared once in index.html rather than
           // redeclaring it — same @id, so the graph merges instead of conflicting.

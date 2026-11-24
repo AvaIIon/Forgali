@@ -1,7 +1,7 @@
 # Forgali
 
 > Forgali (www.forgali.com) is a Canadian online-only furniture retailer selling
-> solid-wood kids' beds (bunk beds, loft beds, single beds) and Plank & Beam
+> solid-wood beds (bunk beds, loft beds, single beds) and Plank & Beam
 > dining and living furniture, with free shipping across Canada.
 
 ## Facts
