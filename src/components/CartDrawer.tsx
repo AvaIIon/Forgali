@@ -15,6 +15,7 @@ import {
   SPEND_THRESHOLD,
   isSpendRewardClaimed,
   setSpendRewardClaimed,
+  wholeDollars,
 } from "@/lib/spendReward";
 
 export const CartDrawer = () => {
@@ -55,11 +56,8 @@ export const CartDrawer = () => {
     setSpendClaimed(true);
   };
   const spendApplied = spendReached && spendClaimed;
-  // "$50", not "$50.00" ("50 $" in French)
-  // Only the trailing cents go: an unanchored match turned "$1,000.00" into "$10.00"
-  const wholeDollars = (n: number) => money(n).replace(/[.,]00(?=\D*$)/, "");
-  const spendReward = wholeDollars(SPEND_REWARD);
-  const spendGoal = wholeDollars(SPEND_THRESHOLD);
+  const spendReward = wholeDollars(money(SPEND_REWARD));
+  const spendGoal = wholeDollars(money(SPEND_THRESHOLD));
   // The sentence split around its amounts, so each can be set in bold
   const spendMessageKey = spendApplied
     ? "cart.spendClaimed"
