@@ -1,6 +1,6 @@
-import { AlertTriangle, ChevronRight, Gift, Minus, Plus, Trash2 } from "lucide-react";
+import { AlertTriangle, Check, ChevronRight, Gift, Minus, Plus, Trash2 } from "lucide-react";
 import { useLocale } from "@/i18n/LocaleContext";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "@/i18n/router";
 import { useCart } from "@/context/CartContext";
 import { useShopifyCheckout } from "@/hooks/useShopifyCheckout";
@@ -9,12 +9,13 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { cdnImage } from "@/lib/imageProxy";
 
-// "Spend $1,000, get $50 off" nudge. The $50 is an automatic Shopify discount
-// (minimum subtotal $1,000) — keep these two numbers in step with it. The
-// nudge shows from SPEND_NUDGE_FROM up to the threshold, and not past it.
-const SPEND_THRESHOLD = 1000;
-const SPEND_REWARD = 50;
-const SPEND_NUDGE_FROM = 750;
+import {
+  SPEND_NUDGE_FROM,
+  SPEND_REWARD,
+  SPEND_THRESHOLD,
+  isSpendRewardClaimed,
+  setSpendRewardClaimed,
+} from "@/lib/spendReward";
 
 export const CartDrawer = () => {
   const { t, money } = useLocale();
@@ -40,16 +41,34 @@ export const CartDrawer = () => {
 
   const subtotal = getTotalPrice();
   const spendRemaining = SPEND_THRESHOLD - subtotal;
-  // Only while they are close but not there yet: nothing at $1,000 and up
-  const showSpendNudge = subtotal >= SPEND_NUDGE_FROM && spendRemaining > 0;
+  // The card shows from SPEND_NUDGE_FROM and stays past the threshold: below
+  // $1,000 it counts down, at $1,000 and up it offers the Claim button, and
+  // once claimed it confirms the discount (checkout then sends the code).
+  const showSpendNudge = subtotal >= SPEND_NUDGE_FROM;
+  const spendReached = spendRemaining <= 0;
+  const [spendClaimed, setSpendClaimed] = useState(false);
+  useEffect(() => {
+    if (isCartOpen) setSpendClaimed(isSpendRewardClaimed());
+  }, [isCartOpen]);
+  const claimSpendReward = () => {
+    setSpendRewardClaimed(true);
+    setSpendClaimed(true);
+  };
+  const spendApplied = spendReached && spendClaimed;
   // "$50", not "$50.00" ("50 $" in French)
   const spendReward = money(SPEND_REWARD).replace(/[.,]00/, "");
   const spendGoal = money(SPEND_THRESHOLD).replace(/[.,]00/, "");
-  // The sentence split around its two amounts, so each can be set in bold
-  const spendNudgeParts = t("cart.spendNudge", {
+  // The sentence split around its amounts, so each can be set in bold
+  const spendMessageKey = spendApplied
+    ? "cart.spendClaimed"
+    : spendReached
+      ? "cart.spendReached"
+      : "cart.spendNudge";
+  const spendNudgeParts = t(spendMessageKey, {
     remaining: "{remaining}",
     reward: "{reward}",
-  }).split(/(\{remaining\}|\{reward\})/);
+    goal: "{goal}",
+  }).split(/(\{remaining\}|\{reward\}|\{goal\})/);
 
   const goToProduct = (handle: string) => {
     setIsCartOpen(false);
@@ -165,12 +184,18 @@ export const CartDrawer = () => {
                   >
                     <div className="flex items-center gap-3">
                       <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-positive text-white shadow-md shadow-brand-positive/30">
-                        <Gift className="h-5 w-5" aria-hidden="true" />
+                        {spendApplied ? (
+                          <Check className="h-5 w-5" aria-hidden="true" />
+                        ) : (
+                          <Gift className="h-5 w-5" aria-hidden="true" />
+                        )}
                       </span>
                       <p className="text-[15px] font-medium leading-snug">
                         {spendNudgeParts.map((part, i) =>
                           part === "{remaining}" ? (
                             <strong key={i} className="font-bold">{money(spendRemaining)}</strong>
+                          ) : part === "{goal}" ? (
+                            <strong key={i} className="font-bold">{spendGoal}</strong>
                           ) : part === "{reward}" ? (
                             <strong key={i} className="font-extrabold text-brand-positive">{spendReward}</strong>
                           ) : (
@@ -179,16 +204,28 @@ export const CartDrawer = () => {
                         )}
                       </p>
                     </div>
-                    <div className="mt-3 h-2.5 w-full overflow-hidden rounded-full bg-background ring-1 ring-inset ring-brand-positive/15">
-                      <div
-                        className="h-full rounded-full bg-gradient-to-r from-brand-positive-hover via-brand-positive to-emerald-400 transition-all duration-500"
-                        style={{ width: `${(subtotal / SPEND_THRESHOLD) * 100}%` }}
-                      />
-                    </div>
-                    <div className="mt-1.5 flex justify-between text-xs font-semibold">
-                      <span className="text-muted-foreground">{money(subtotal)}</span>
-                      <span className="text-brand-positive">{spendGoal}</span>
-                    </div>
+                    {!spendReached && (
+                      <>
+                        <div className="mt-3 h-2.5 w-full overflow-hidden rounded-full bg-background ring-1 ring-inset ring-brand-positive/15">
+                          <div
+                            className="h-full rounded-full bg-gradient-to-r from-brand-positive-hover via-brand-positive to-emerald-400 transition-all duration-500"
+                            style={{ width: `${(subtotal / SPEND_THRESHOLD) * 100}%` }}
+                          />
+                        </div>
+                        <div className="mt-1.5 flex justify-between text-xs font-semibold">
+                          <span className="text-muted-foreground">{money(subtotal)}</span>
+                          <span className="text-brand-positive">{spendGoal}</span>
+                        </div>
+                      </>
+                    )}
+                    {spendReached && !spendClaimed && (
+                      <Button
+                        onClick={claimSpendReward}
+                        className="mt-3 w-full bg-brand-positive hover:bg-brand-positive-hover text-white font-semibold"
+                      >
+                        {t("cart.spendClaim", { reward: spendReward })}
+                      </Button>
+                    )}
                   </div>
                 )}
                 <div className="flex justify-between items-center">
@@ -197,6 +234,12 @@ export const CartDrawer = () => {
                     {money(subtotal)}
                   </span>
                 </div>
+                {spendApplied && (
+                  <div className="flex justify-between items-center text-brand-positive">
+                    <span className="font-medium">{t("cart.spendDiscount")}</span>
+                    <span className="font-bold">-{money(SPEND_REWARD)}</span>
+                  </div>
+                )}
                 {/* The delivery window and the Afterpay note used to live on
                     the /checkout interstitial. Checkout now hands straight off
                     to Shopify, so this drawer is the last thing the shopper
