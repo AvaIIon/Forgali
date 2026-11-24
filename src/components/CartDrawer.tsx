@@ -1,4 +1,4 @@
-import { AlertTriangle, ChevronRight, Minus, Plus, Trash2 } from "lucide-react";
+import { AlertTriangle, ChevronRight, Gift, Minus, Plus, Trash2 } from "lucide-react";
 import { useLocale } from "@/i18n/LocaleContext";
 import { useEffect } from "react";
 import { useNavigate } from "@/i18n/router";
@@ -44,6 +44,12 @@ export const CartDrawer = () => {
   const showSpendNudge = subtotal >= SPEND_NUDGE_FROM && spendRemaining > 0;
   // "$50", not "$50.00" ("50 $" in French)
   const spendReward = money(SPEND_REWARD).replace(/[.,]00/, "");
+  const spendGoal = money(SPEND_THRESHOLD).replace(/[.,]00/, "");
+  // The sentence split around its two amounts, so each can be set in bold
+  const spendNudgeParts = t("cart.spendNudge", {
+    remaining: "{remaining}",
+    reward: "{reward}",
+  }).split(/(\{remaining\}|\{reward\})/);
 
   const goToProduct = (handle: string) => {
     setIsCartOpen(false);
@@ -153,18 +159,35 @@ export const CartDrawer = () => {
 
               <div className="border-t border-border pt-4 pb-6 space-y-4">
                 {showSpendNudge && (
-                  <div className="rounded-lg bg-brand-tint p-3" role="status">
-                    <p className="text-sm font-medium">
-                      {t("cart.spendNudge", {
-                        remaining: money(spendRemaining),
-                        reward: spendReward,
-                      })}
-                    </p>
-                    <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-background">
+                  <div
+                    className="rounded-xl border border-brand-positive/25 bg-gradient-to-br from-brand-positive/15 via-brand-positive/5 to-brand-accent-light/30 p-4"
+                    role="status"
+                  >
+                    <div className="flex items-center gap-3">
+                      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-positive text-white shadow-md shadow-brand-positive/30">
+                        <Gift className="h-5 w-5" aria-hidden="true" />
+                      </span>
+                      <p className="text-[15px] font-medium leading-snug">
+                        {spendNudgeParts.map((part, i) =>
+                          part === "{remaining}" ? (
+                            <strong key={i} className="font-bold">{money(spendRemaining)}</strong>
+                          ) : part === "{reward}" ? (
+                            <strong key={i} className="font-extrabold text-brand-positive">{spendReward}</strong>
+                          ) : (
+                            part
+                          ),
+                        )}
+                      </p>
+                    </div>
+                    <div className="mt-3 h-2.5 w-full overflow-hidden rounded-full bg-background ring-1 ring-inset ring-brand-positive/15">
                       <div
-                        className="h-full rounded-full bg-brand-positive transition-all"
+                        className="h-full rounded-full bg-gradient-to-r from-brand-positive-hover via-brand-positive to-emerald-400 transition-all duration-500"
                         style={{ width: `${(subtotal / SPEND_THRESHOLD) * 100}%` }}
                       />
+                    </div>
+                    <div className="mt-1.5 flex justify-between text-xs font-semibold">
+                      <span className="text-muted-foreground">{money(subtotal)}</span>
+                      <span className="text-brand-positive">{spendGoal}</span>
                     </div>
                   </div>
                 )}
