@@ -57,7 +57,7 @@ const PlankAndBeamPage = () => {
               Plank &amp; Beam Furniture, in Canada
             </h1>
             <p className="text-lg mt-4 text-white/90">
-              Solid wood dining and living furniture — now easy to buy at home.
+              Solid wood dining and living furniture, now easy to buy at home.
               Free Canada-wide shipping, prices in CAD, and returns handled
               right here.
             </p>
@@ -84,7 +84,7 @@ const PlankAndBeamPage = () => {
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {[
             { icon: Truck, title: "Free Canada-Wide Shipping", body: "Every order ships free across Canada, with pricing in CAD and no surprise duties or brokerage." },
-            { icon: RotateCcw, title: "Local 30-Day Returns", body: "Returns are handled here in Canada within 30 days — no cross-border hassle." },
+            { icon: RotateCcw, title: "Local 30-Day Returns", body: "Returns are handled here in Canada within 30 days, with no cross-border hassle." },
             { icon: TreePine, title: "Solid Wood", body: "Real solid wood dining and living pieces built to live with for years, not particleboard." },
           ].map((f) => (
             <div key={f.title} className="bg-brand-tint rounded-lg p-6">
@@ -102,7 +102,7 @@ const PlankAndBeamPage = () => {
           <h2 className="text-2xl font-bold text-brand">About Plank &amp; Beam</h2>
           <p>
             Plank &amp; Beam is a solid wood furniture brand known for clean,
-            timeless dining and living pieces — the kind that anchor a room and
+            timeless dining and living pieces, the kind that anchor a room and
             hold up to everyday life. Buying it from the brand's own US site
             means FedEx charges of $50 to $225 to cross the border, and no way
             to send anything back: their returns policy excludes Canada. At
@@ -113,15 +113,15 @@ const PlankAndBeamPage = () => {
             Our Plank &amp; Beam range spans 164 pieces across dining and living,
             starting from $140. On the dining side you'll find tables in round,
             oval and rectangular shapes, matching chairs and benches, counter and
-            bar stools, and complete dining sets — across collections like Camden,
+            bar stools, and complete dining sets, across collections like Camden,
             Verso, Lido and Classic. For the living room, there are coffee tables,
             console and side tables, and sideboards from lines such as Arcata,
             Forma and Modern.
           </p>
           <p>
-            Most pieces come in a wide range of finishes — from Black, Blonde and
+            Most pieces come in a wide range of finishes, from Black, Blonde and
             Coastal White to warm Pecan and Walnut, plus wirebrushed and rustic
-            options — so it's easy to build a look that carries from the dining
+            options, so it's easy to build a look that carries from the dining
             table through to the living room. Browse by room below, and every
             order ships free across Canada with 30-day returns.
           </p>
