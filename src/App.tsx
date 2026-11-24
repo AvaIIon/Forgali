@@ -7,6 +7,7 @@ import { CartProvider } from "@/context/CartContext";
 import { LocaleProvider } from "@/i18n/LocaleContext";
 import { CustomerProvider } from "@/context/CustomerContext";
 import { CartDrawer } from "@/components/CartDrawer";
+import { SpendRewardToast } from "@/components/SpendRewardToast";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import { MetaPixel } from "@/components/MetaPixel";
 import { PinterestTag } from "@/components/PinterestTag";
@@ -77,6 +78,7 @@ const App = () => (
               <TooltipProvider>
                 <Sonner />
                 <CartDrawer />
+                <SpendRewardToast />
                 <Routes>
                   <Route path="/">{pageRoutes}</Route>
                   <Route path="/fr">{pageRoutes}</Route>
