@@ -30,14 +30,14 @@ export interface StaticPageSeo {
 
 export const STATIC_PAGE_SEO = {
   "/shipping": {
-    title: "Shipping Information – Free Canada-Wide | Forgali",
+    title: "Shipping Information – Free Shipping | Forgali",
     description:
-      "How Forgali shipping works: free Canada-wide delivery, processing times, tracking, and what to check when your furniture arrives.",
+      "How Forgali shipping works: free delivery, processing times, tracking, and what to check when your furniture arrives.",
     path: "/shipping",
     h1: "Shipping Information",
-    lead: "Free shipping across Canada on every order, with tracking on every shipment.",
+    lead: "Free shipping on every order, with tracking on every shipment.",
     facts: [
-      "Shipping is free Canada-wide on all orders.",
+      "Shipping is free on all orders.",
       "Standard delivery takes 12-18 business days.",
       "No duties or brokerage fees on delivery.",
       "Inspect your delivery on arrival and report any damage to support@forgali.com.",
@@ -82,7 +82,7 @@ export const STATIC_PAGE_SEO = {
   "/about": {
     title: "About Forgali – Canadian Solid Wood Furniture, Online Only",
     description:
-      "Forgali is an online-only Canadian furniture store: solid wood bunk beds, loft beds and Plank & Beam dining and living furniture, shipped free across Canada with 30-day returns and a 5-year warranty.",
+      "Forgali is an online-only Canadian furniture store: solid wood bunk beds, loft beds and Plank & Beam dining and living furniture, shipped free with 30-day returns and a 5-year warranty.",
     path: "/about",
     h1: "About Forgali",
     lead: "A Canadian online store for solid wood furniture: beds and Plank & Beam dining and living.",
@@ -90,7 +90,7 @@ export const STATIC_PAGE_SEO = {
       "Forgali sells solid wood furniture online across Canada.",
       "The bedroom range covers bunk beds, loft beds and single beds, including a wide selection of Max & Lily.",
       "We also carry the Plank & Beam collection of dining and living room furniture.",
-      "Shipping is free Canada-wide, returns are handled locally within 30 days, and orders carry a 5-year limited warranty.",
+      "Shipping is free, returns are handled locally within 30 days, and orders carry a 5-year limited warranty.",
       "Forgali operates entirely online. There is no retail showroom. The phone number is (365) 387-2345.",
     ],
   },
@@ -135,10 +135,10 @@ export const STATIC_PAGE_SEO = {
   "/smart-deals": {
     title: "Smart Deals – Solid Wood Furniture on Sale | Forgali",
     description:
-      "Save on solid wood bunk beds, loft beds, and furniture for every room. Sale prices with free Canada-wide shipping.",
+      "Save on solid wood bunk beds, loft beds, and furniture for every room. Sale prices with free shipping.",
     path: "/smart-deals",
     h1: "Smart Deals",
-    lead: "Current sale prices on solid wood beds and furniture, with free Canada-wide shipping.",
+    lead: "Current sale prices on solid wood beds and furniture, with free shipping.",
   },
   "/privacy": {
     title: "Privacy Policy | Forgali",

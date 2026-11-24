@@ -210,7 +210,7 @@ export const GUIDES: Guide[] = [
       { q: "How many people does a corner banquette seat?", a: "The 63 by 63 inch Risa banquette seats three adults comfortably, or four with children, before you add chairs on the open side of the table." },
       { q: "What size table fits a corner banquette?", a: "A 38 or 47 inch round table, or a 48-inch kitchen table. Round tables are easier to slide in and out around." },
       { q: "Does the banquette come with a cushion?", a: "The cushion is optional, in Cream or Onyx. The bench is a finished solid wood seat on its own." },
-      { q: "Does it ship assembled?", a: "No. It ships in one box with all hardware and instructions, free to any address in Canada." },
+      { q: "Does it ship assembled?", a: "No. It ships in one box with all hardware and instructions, free." },
     ],
     related: ["dining-benches", "round-dining-tables", "kitchen-tables"],
   },
