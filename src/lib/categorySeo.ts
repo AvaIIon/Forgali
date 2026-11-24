@@ -41,27 +41,27 @@ const BED_SEO: Record<string, CategorySeo> = {
     seoDescription:
       "Shop our collection of solid wood loft beds in low, mid and high styles that free up floor space. Free Canada-wide shipping and 30-day returns. Shop today.",
     h1: "Loft Beds",
-    lead: "Solid wood loft beds in low, mid and high styles, free up the floor for a desk, storage or play.",
+    lead: "Solid wood loft beds in low, mid and high styles that free up the floor for a desk, storage or play.",
   },
   "bunk-beds": {
     seoTitle: "Bunk Beds Canada – Solid Wood, Free Shipping | Forgali",
     seoDescription:
-      "Shop 69 solid-wood bunk beds for kids and teens: twin-over-twin to full-over-full, with stairs, storage or trundle. Free Canada-wide shipping. Browse today.",
+      "Shop 69 solid-wood bunk beds for kids and teens, twin-over-twin to full-over-full, with stairs, storage or trundle. Free Canada-wide shipping. Browse today.",
     h1: "Bunk Beds Canada",
-    lead: "69 solid-wood bunk beds: twin-over-twin to full-over-full, with stairs, storage and trundle options.",
+    lead: "69 solid-wood bunk beds, twin-over-twin to full-over-full, with stairs, storage and trundle options.",
   },
   "single-beds": {
     seoTitle: "Single Beds Canada – Solid Wood, Free Shipping | Forgali",
     seoDescription:
       "Shop 24 solid-wood single beds in Twin, Full and Queen, from $268. Free Canada-wide shipping and 30-day returns. Find a platform, house or trundle bed today.",
     h1: "Single Beds Canada",
-    lead: "24 solid-wood single beds: platform, house and trundle styles in Twin, Full and Queen, from $268.",
+    lead: "24 solid-wood single beds in Twin, Full and Queen: platform, house and trundle styles from $268.",
   },
   "bedroom": {
-    seoTitle: "Kids Beds Canada – Solid Wood, Free Shipping | Forgali",
+    seoTitle: "Solid Wood Beds Canada – Free Shipping | Forgali",
     seoDescription:
-      "Shop kids beds in Canada from $268: solid-wood bunk, loft and single beds with free Canada-wide shipping and easy 30-day returns. Find the right fit today.",
-    h1: "Kids Beds Canada",
+      "Shop solid-wood beds in Canada from $268: bunk, loft and single beds with free Canada-wide shipping and easy 30-day returns. Find the right fit today.",
+    h1: "Solid Wood Beds",
     lead: "122 solid-wood bunk, loft and single beds, including a wide range of Max & Lily, shipped across Canada.",
   },
   "loft-beds|low-loft": {
@@ -76,14 +76,14 @@ const BED_SEO: Record<string, CategorySeo> = {
     seoDescription:
       "Shop mid loft beds in solid wood, a middle-height design that frees up room for storage or a desk while staying easy to reach. Free Canada-wide shipping.",
     h1: "Mid Loft Beds",
-    lead: "A middle-height loft: enough clearance for a desk or storage, still easy to reach.",
+    lead: "A middle-height loft with enough clearance for a desk or storage, still easy to reach.",
   },
   "loft-beds|high-loft": {
     seoTitle: "High Loft Beds – Solid Wood, Free Shipping | Forgali",
     seoDescription:
       "High loft beds lift the sleeping surface up high, freeing the floor below for a desk or dresser. Solid wood, free Canada-wide shipping. Shop finishes today.",
     h1: "High Loft Beds",
-    lead: "Lift the bed to its tallest: a full desk, dresser or reading nook fits underneath.",
+    lead: "Lift the bed to its tallest and a full desk, dresser or reading nook fits underneath.",
   },
   "loft-beds|loft-with-desk": {
     seoTitle: "Loft Beds With Desk – Solid Wood | Forgali",

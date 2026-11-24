@@ -85,7 +85,7 @@ export const STATIC_PAGE_SEO = {
       "Forgali is an online-only Canadian furniture store: solid wood bunk beds, loft beds and Plank & Beam dining and living furniture, shipped free across Canada with 30-day returns and a 5-year warranty.",
     path: "/about",
     h1: "About Forgali",
-    lead: "A Canadian online store for solid wood furniture: kids' beds and Plank & Beam dining and living.",
+    lead: "A Canadian online store for solid wood furniture: beds and Plank & Beam dining and living.",
     facts: [
       "Forgali sells solid wood furniture online across Canada.",
       "The bedroom range covers bunk beds, loft beds and single beds, including a wide selection of Max & Lily.",
