@@ -44,18 +44,95 @@ const BED_SEO: Record<string, CategorySeo> = {
     lead: "Solid wood loft beds in low, mid and high styles that free up the floor for a desk, storage or play.",
   },
   "bunk-beds": {
-    seoTitle: "Bunk Beds Canada – Solid Wood, Free Shipping | Forgali",
+    seoTitle: "Bunk Beds Canada - Solid Wood Twin, Full & Queen | Forgali",
     seoDescription:
-      "Shop 69 solid-wood bunk beds for kids and teens, twin-over-twin to full-over-full, with stairs, storage or trundle. Free shipping. Browse today.",
+      "61 solid wood bunk beds from $656: twin over twin, twin over full, full over full and queen, with stairs, storage or a trundle. Free shipping and 30-day returns.",
     h1: "Bunk Beds Canada",
-    lead: "69 solid-wood bunk beds, twin-over-twin to full-over-full, with stairs, storage and trundle options.",
+    lead: "61 solid wood bunk beds, twin over twin to queen over queen, with stairs, storage and trundle options, from $656 with free shipping.",
+    intro: "These 61 bunk beds are solid wood, most of them solid New Zealand pine, with low-VOC finishes. Sizes run from twin over twin for a shared bedroom up to queen over queen for teens, adults and guest rooms, and most of them list a 400 lb weight capacity per bed.\n\nChoose by size, by height and by how you get to the top bunk: a ladder on the front, a ladder on the end, or a staircase. Trundle and storage versions use the space under the bottom bunk, and L-shaped bunk beds fit into a corner.",
+    sections: [
+      {
+        h2: "Bunk beds by size",
+        body: "There are 30 twin over twin bunk beds, from $656, and 22 twin over full bunk beds, from $893, with a full size bed on the bottom. The two full over full bunk beds start at $1,265. Seven queen bunk beds, from $1,186, come as twin XL over queen, full over queen and queen over queen. A standard twin over twin is about 81.5 inches long and 42.5 inches wide, and a twin over full is about 57.5 inches wide.",
+        links: [
+          { label: "Twin over twin bunk beds", href: "/category/bunk-beds?subcategory=twin-over-twin" },
+          { label: "Twin over full bunk beds", href: "/category/bunk-beds?subcategory=twin-over-full" },
+          { label: "Full over full bunk beds", href: "/category/bunk-beds?subcategory=full-over-full" },
+          { label: "Queen bunk beds", href: "/category/bunk-beds?subcategory=queen-bunk" },
+        ],
+      },
+      {
+        h2: "Wooden bunk beds in white, natural and wood tones",
+        body: "The frames are solid pine, most of them knot-free New Zealand pine. The classic bunk beds come in White, Grey, Natural, Espresso, Clay, Blue, Pecan and Walnut, depending on the model. The Modern Farmhouse bunk beds come in Driftwood, White Wash, Barnwood Brown and Pecan, and the Mid-Century Modern bunk beds pair white with a wood tone.",
+      },
+      {
+        h2: "Bunk beds with stairs, a trundle or storage",
+        body: "Nineteen bunk beds have a staircase in place of the ladder, from $955. Nine have a trundle, from $963, which is a third bed that pulls out from under the bottom bunk. Nine have storage, from $1,069, in drawers under the bottom bunk or built into the staircase.",
+        links: [
+          { label: "Bunk beds with stairs", href: "/category/bunk-beds?subcategory=with-stairs" },
+          { label: "L-shaped bunk beds", href: "/category/bunk-beds?subcategory=l-shaped" },
+        ],
+      },
+      {
+        h2: "How tall is a bunk bed?",
+        body: "The standard bunk beds here are 63.25 to 70 inches high overall, and 65 inches is the most common height. Under a standard 8-foot ceiling, which is 96 inches, a 65-inch bunk bed leaves 31 inches above the frame. The 12 low bunk beds are 48.25 to 50.5 inches high, which leaves about 46 inches and suits a lower ceiling.",
+        links: [
+          { label: "Low bunk beds", href: "/category/bunk-beds?subcategory=low-bunk" },
+          { label: "Loft beds", href: "/category/loft-beds" },
+        ],
+      },
+    ],
+    faqs: [
+      { q: "How tall is a bunk bed?", a: "63.25 to 70 inches overall for the standard bunk beds here, and 48.25 to 50.5 inches for the low bunk beds." },
+      { q: "Will a bunk bed fit under an 8-foot ceiling?", a: "Yes. A 65-inch bunk bed leaves 31 inches between the top of the frame and a 96-inch ceiling. For more room on the top bunk, a low bunk bed leaves about 46 inches." },
+      { q: "How much weight does a bunk bed hold?", a: "Most of the bunk beds list a 400 lb weight capacity per bed. Check the product page for the model you choose." },
+      { q: "Do you have queen bunk beds?", a: "Yes. Seven bunk beds have a queen on the bottom, from $1,186: twin XL over queen, full over queen and queen over queen." },
+      { q: "Which bunk beds have a trundle?", a: "Nine of them, from $963, in twin over twin and twin over full. The trundle is a third bed that pulls out from under the bottom bunk." },
+      { q: "Is shipping free?", a: "Yes. Every bunk bed ships free, with 30-day returns on unused items." },
+    ],
   },
   "single-beds": {
-    seoTitle: "Single Beds Canada – Solid Wood, Free Shipping | Forgali",
+    seoTitle: "Single Beds Canada - Solid Wood Twin, Full & Queen | Forgali",
     seoDescription:
-      "Shop 24 solid-wood single beds in Twin, Full and Queen, from $268. Free shipping and 30-day returns. Find a platform, house or trundle bed today.",
+      "24 solid wood single bed frames in Twin, Full and Queen from $268: platform, panel, upholstered, storage and trundle beds. Free shipping and 30-day returns.",
     h1: "Single Beds Canada",
-    lead: "24 solid-wood single beds in Twin, Full and Queen: platform, house and trundle styles from $268.",
+    lead: "24 solid wood single beds in Twin, Full and Queen: platform, panel, upholstered, storage and trundle styles from $268, with free shipping.",
+    intro: "A single bed here is one bed frame on its own, as opposed to a bunk bed or a loft bed. In Canada, single is also another name for the twin size, and ten of these 24 beds are Twin. Nine are Full and five are Queen.\n\nMost of the frames are solid New Zealand pine with low-VOC finishes, and the slats are included. Styles run from a plain platform bed to panel headboards, house beds and chenille upholstered beds.",
+    sections: [
+      {
+        h2: "Is a single bed the same as a twin bed?",
+        body: "Yes. Single and twin are two names for the same mattress size, 38 or 39 inches wide and 75 inches long. The Twin bed frames here are about 78 to 82 inches long and 42 to 44 inches wide, and start at $310 for the Classic twin floor bed and $331 for the Mid-Century Modern twin bed.",
+        links: [
+          { label: "Platform beds", href: "/category/single-beds?subcategory=platform" },
+          { label: "Toddler and floor beds", href: "/category/single-beds?subcategory=floor-bed" },
+          { label: "House beds", href: "/category/single-beds?subcategory=house-bed" },
+        ],
+      },
+      {
+        h2: "Single bed frames in Full and Queen",
+        body: "The nine Full bed frames start at $268 for the Full size platform bed and are about 57.5 to 59.25 inches wide. The five Queen bed frames start at $304 for the Queen size platform bed and are about 62 to 66 inches wide. Both sizes come as a plain platform, with a panel headboard, or in Mid-Century Modern and Modern Farmhouse styles.",
+      },
+      {
+        h2: "Single beds with storage or a trundle",
+        body: "For storage under the bed, there is the Twin bed with slatted headboard and storage at $699, the Full platform bed with storage drawers at $739, and the Kenzie and Nicholas upholstered beds with storage, from $570. The Modern Farmhouse Twin and Full panel beds can be ordered with storage or a trundle. The Twin size trundle bed, at $636, is a pull-out second bed sold on its own.",
+        links: [
+          { label: "Trundle beds", href: "/category/single-beds?subcategory=trundle-bed" },
+          { label: "Bunk beds with a trundle", href: "/category/bunk-beds" },
+        ],
+      },
+      {
+        h2: "Upholstered single beds",
+        body: "The Kenzie and Nicholas beds have chenille upholstery on a solid pine and engineered wood frame, in Twin and Full, from $522. Kenzie comes in Dusty Rose or Cream, and Nicholas in Navy, Cream or Green.",
+      },
+    ],
+    faqs: [
+      { q: "Is a single bed the same as a twin?", a: "Yes. Both names mean a mattress 38 or 39 inches wide and 75 inches long." },
+      { q: "What sizes do the single beds come in?", a: "Twin, Full and Queen. Ten are Twin from $310, nine are Full from $268 and five are Queen from $304." },
+      { q: "Do the beds need a box spring?", a: "No. Slats are included with the frame, so the mattress sits directly on them." },
+      { q: "How much weight does a single bed hold?", a: "Several of the frames list a 400 lb weight capacity. Check the product page for the model you choose." },
+      { q: "Which single beds have storage?", a: "The Twin bed with slatted headboard and storage, the Full platform bed with storage drawers, the Kenzie and Nicholas upholstered beds with storage, and the Modern Farmhouse panel beds ordered with the storage option." },
+      { q: "Is shipping free?", a: "Yes. Every bed ships free, with 30-day returns on unused items." },
+    ],
   },
   "bedroom": {
     seoTitle: "Solid Wood Beds Canada – Free Shipping | Forgali",
