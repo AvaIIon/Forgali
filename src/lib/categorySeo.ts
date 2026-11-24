@@ -37,11 +37,51 @@ export interface CategorySeo {
 
 const BED_SEO: Record<string, CategorySeo> = {
   "loft-beds": {
-    seoTitle: "Loft Beds – Solid Wood, Free Shipping | Forgali",
+    seoTitle: "Loft Beds Canada - Solid Wood Twin & Full | Forgali",
     seoDescription:
-      "Shop our collection of solid wood loft beds in low, mid and high styles that free up floor space. Free shipping and 30-day returns. Shop today.",
+      "26 solid wood loft beds from $544: low lofts about 50 inches high and high lofts about 68 inches, with a desk, bookcase, stairs or slide. Free shipping.",
     h1: "Loft Beds",
-    lead: "Solid wood loft beds in low, mid and high styles that free up the floor for a desk, storage or play.",
+    lead: "26 solid wood loft beds, low and high, in Twin and Full, with desk, bookcase, staircase and slide options, from $544 with free shipping.",
+    intro: "A loft bed lifts one bed off the floor so the space underneath can do a second job: storage, a play area, a reading corner or a desk. These 26 are solid wood, most of them solid New Zealand pine with low-VOC finishes.\n\nThe main choice is height. A low loft keeps the mattress within reach from the floor, and a high loft clears enough room underneath for a desk or a dresser. After that, choose a ladder or a staircase, and whether you want a desk, a bookcase or a slide built in.",
+    sections: [
+      {
+        h2: "Low loft or high loft?",
+        body: "The 16 low loft beds stand 34.75 to 50.3 inches high and start at $544. They are all Twin, and they suit a younger child or a room with a lower ceiling. The 10 high loft beds stand 68.25 to 70 inches high and start at $662, in Twin and Full, with enough height underneath for a desk, a dresser or a lounge area.",
+        links: [
+          { label: "Low loft beds", href: "/category/loft-beds?subcategory=low-loft" },
+          { label: "High loft beds", href: "/category/loft-beds?subcategory=high-loft" },
+          { label: "Low loft or high loft: ceiling height and what fits underneath", href: "/blog/low-loft-or-high-loft-ceiling-height-and-what-fits-underneath" },
+        ],
+      },
+      {
+        h2: "Loft beds with a desk",
+        body: "Nine loft beds come with a desk or can be ordered with one, from $697. The Twin low loft with desk has a pull-out desk, and larger models add bookcases or dressers. On the Twin high loft with desk, the desk attaches to the outside of the bed, so the bed and the desk share one footprint.",
+        links: [
+          { label: "Loft beds with a desk", href: "/category/loft-beds?subcategory=loft-with-desk" },
+          { label: "Loft beds with a slide", href: "/category/loft-beds?subcategory=loft-with-slide" },
+        ],
+      },
+      {
+        h2: "Twin and Full loft beds",
+        body: "Twenty-three of the loft beds are Twin. Three high loft beds are Full, from $1,009: the Full high loft with bookcase, the Mid-Century Modern Full high loft, and the Full high loft with bookcase and desk. The Full lofts are 70 to 75 inches wide, so check the wall you plan to use.",
+        links: [
+          { label: "Bunk beds", href: "/category/bunk-beds" },
+          { label: "Single beds", href: "/category/single-beds" },
+        ],
+      },
+      {
+        h2: "How tall is a loft bed?",
+        body: "Low loft beds are about 50 inches high and high loft beds about 68 inches. Under a standard 8-foot ceiling, which is 96 inches, a 50-inch low loft leaves about 46 inches above the frame and a 68.5-inch high loft leaves 27.5 inches. Measure your ceiling before choosing a high loft.",
+      },
+    ],
+    faqs: [
+      { q: "How tall is a loft bed?", a: "The low loft beds here are 34.75 to 50.3 inches high and the high loft beds are 68.25 to 70 inches." },
+      { q: "What ceiling height do you need for a loft bed?", a: "A 68.5-inch high loft leaves 27.5 inches between the top of the frame and a standard 96-inch ceiling. A 50-inch low loft leaves about 46 inches, which is the better choice under a lower ceiling." },
+      { q: "How much weight does a loft bed hold?", a: "Most of the loft beds list a 400 lb weight capacity. Check the product page for the model you choose." },
+      { q: "Do you have Full size loft beds?", a: "Yes. Three of the high loft beds are Full size, from $1,009. All of the low loft beds are Twin." },
+      { q: "Do loft beds need a box spring?", a: "No. Slats are included, so the mattress sits directly on the frame." },
+      { q: "Is shipping free?", a: "Yes. Every loft bed ships free, with 30-day returns on unused items." },
+    ],
   },
   "bunk-beds": {
     seoTitle: "Bunk Beds Canada - Solid Wood Twin, Full & Queen | Forgali",
@@ -135,11 +175,48 @@ const BED_SEO: Record<string, CategorySeo> = {
     ],
   },
   "bedroom": {
-    seoTitle: "Solid Wood Beds Canada – Free Shipping | Forgali",
+    seoTitle: "Solid Wood Beds Canada - Bunk, Loft & Single | Forgali",
     seoDescription:
-      "Shop solid-wood beds in Canada from $268: bunk, loft and single beds with free shipping and easy 30-day returns. Find the right fit today.",
+      "111 solid wood beds from $268: 61 bunk beds, 26 loft beds and 24 single beds in Twin, Full and Queen. Free shipping and 30-day returns.",
     h1: "Solid Wood Beds",
-    lead: "122 solid-wood bunk, loft and single beds, including a wide range of Max & Lily, with free shipping.",
+    lead: "111 solid wood bunk, loft and single beds in Twin, Full and Queen, from $268 with free shipping.",
+    intro: "The bedroom range is 111 solid wood beds: 61 bunk beds, 26 loft beds and 24 single beds. Most of the frames are solid New Zealand pine with low-VOC finishes, and slats are included, so a mattress goes straight on the frame.\n\nStart with the type of bed, then the size. Bunk beds sleep two or three in one footprint, loft beds free up the floor under one bed, and single beds run from a plain platform frame to panel, house and upholstered styles.",
+    sections: [
+      {
+        h2: "Shop by bed type",
+        body: "Bunk beds start at $656, from twin over twin up to queen over queen, with stairs, trundle and storage options. Loft beds start at $544, in low and high heights, with desk, bookcase and slide options. Single beds start at $268 in Twin, Full and Queen.",
+        links: [
+          { label: "Bunk beds", href: "/category/bunk-beds" },
+          { label: "Loft beds", href: "/category/loft-beds" },
+          { label: "Single beds", href: "/category/single-beds" },
+          { label: "Low bunk beds", href: "/category/bunk-beds?subcategory=low-bunk" },
+          { label: "Low loft beds", href: "/category/loft-beds?subcategory=low-loft" },
+        ],
+      },
+      {
+        h2: "Solid wood beds in Twin, Full and Queen",
+        body: "Twin is the most common size across the range. Full is available in single beds from $268, in twin over full and full over full bunk beds, and in three high loft beds. Queen is available in five single beds from $304 and in seven bunk beds with a queen on the bottom, from $1,186.",
+        links: [
+          { label: "Twin over full bunk beds", href: "/category/bunk-beds?subcategory=twin-over-full" },
+          { label: "Queen bunk beds", href: "/category/bunk-beds?subcategory=queen-bunk" },
+        ],
+      },
+      {
+        h2: "Dressers, nightstands and mattresses",
+        body: "To finish the room, there are dressers and storage pieces, nightstands from $333, a desk and bookcases, plus four mattresses from $379.",
+        links: [
+          { label: "Bedroom storage and nightstands", href: "/category/accessories" },
+          { label: "Mattresses", href: "/category/mattresses" },
+        ],
+      },
+    ],
+    faqs: [
+      { q: "Are the beds solid wood?", a: "Most of the frames are solid New Zealand pine with low-VOC finishes. The Mid-Century Modern beds pair solid wood with white melamine panels, and the upholstered beds have chenille over a pine and engineered wood frame." },
+      { q: "What sizes do the beds come in?", a: "Twin, Full and Queen, depending on the bed. Twin XL over queen is also available in the bunk beds." },
+      { q: "How much weight do the beds hold?", a: "Most of the bunk and loft beds list a 400 lb weight capacity per bed. Check the product page for the model you choose." },
+      { q: "Do the beds need a box spring?", a: "No. Slats are included with the frame." },
+      { q: "Is shipping free?", a: "Yes. Every bed ships free, with 30-day returns on unused items." },
+    ],
   },
   "loft-beds|low-loft": {
     seoTitle: "Low Loft Beds Canada - Solid Wood Twin | Forgali",
@@ -184,25 +261,99 @@ const BED_SEO: Record<string, CategorySeo> = {
     ],
   },
   "loft-beds|mid-loft": {
-    seoTitle: "Mid Loft Beds – Solid Wood, Free Shipping | Forgali",
+    seoTitle: "Mid Loft Beds - Solid Wood Twin | Forgali",
     seoDescription:
-      "Shop mid loft beds in solid wood, a middle-height design that frees up room for storage or a desk while staying easy to reach. Free shipping.",
+      "Mid-height loft beds in solid wood, about 48 to 50 inches high, with room underneath for storage, play or a desk. 16 Twin models from $544. Free shipping.",
     h1: "Mid Loft Beds",
-    lead: "A middle-height loft with enough clearance for a desk or storage, still easy to reach.",
+    lead: "Mid-height loft beds about 48 to 50 inches high, with usable space underneath, from $544 with free shipping.",
+    intro: "A mid loft sits between a floor-level bed and a full-height loft. The loft beds at this height here stand about 48 to 50 inches overall, tall enough to use the space underneath for storage, play or a pull-out desk, and low enough to reach the mattress from the floor. They are the same 16 Twin beds listed as low loft beds.",
+    sections: [
+      {
+        h2: "Mid loft or high loft?",
+        body: "A mid-height loft about 50 inches high leaves about 46 inches above the frame under a standard 96-inch ceiling. A high loft, at 68.25 to 70 inches, gives more room underneath for a desk or dresser and leaves about 27 inches above the frame.",
+        links: [
+          { label: "Low loft beds", href: "/category/loft-beds?subcategory=low-loft" },
+          { label: "High loft beds", href: "/category/loft-beds?subcategory=high-loft" },
+          { label: "Ceiling height and what fits underneath", href: "/blog/low-loft-or-high-loft-ceiling-height-and-what-fits-underneath" },
+        ],
+      },
+    ],
+    faqs: [
+      { q: "How tall is a mid loft bed?", a: "The mid-height loft beds here are about 48 to 50 inches high overall. A few lower models are 41.5 and 34.75 inches." },
+      { q: "What size are the mid loft beds?", a: "All 16 are Twin. Full size is available in three of the high loft beds." },
+      { q: "Is shipping free?", a: "Yes. Every loft bed ships free, with 30-day returns on unused items." },
+    ],
   },
   "loft-beds|high-loft": {
-    seoTitle: "High Loft Beds – Solid Wood, Free Shipping | Forgali",
+    seoTitle: "High Loft Beds Canada - Solid Wood Twin & Full | Forgali",
     seoDescription:
-      "High loft beds lift the sleeping surface up high, freeing the floor below for a desk or dresser. Solid wood, free shipping. Shop finishes today.",
+      "10 solid wood high loft beds about 68 inches high, in Twin and Full, with bookcase and desk options, from $662. Free shipping and 30-day returns.",
     h1: "High Loft Beds",
-    lead: "Lift the bed to its tallest and a full desk, dresser or reading nook fits underneath.",
+    lead: "10 solid wood high loft beds about 68 inches high, in Twin and Full, with bookcase and desk options, from $662 with free shipping.",
+    intro: "A high loft bed lifts the mattress to its tallest position, so the floor underneath is free for a desk, a dresser or a lounge area. These 10 stand 68.25 to 70 inches high, in solid wood, and each one lists a 400 lb weight capacity. Seven are Twin and three are Full.",
+    sections: [
+      {
+        h2: "How tall is a high loft bed?",
+        body: "The high loft beds here are 68.25 to 70 inches high overall, and most are 68.5 inches. Under a standard 96-inch ceiling that leaves 27.5 inches above the frame, so measure your ceiling first. If it is lower than 8 feet, a low loft is the better fit.",
+        links: [
+          { label: "Low loft beds", href: "/category/loft-beds?subcategory=low-loft" },
+          { label: "Ceiling height and what fits underneath", href: "/blog/low-loft-or-high-loft-ceiling-height-and-what-fits-underneath" },
+        ],
+      },
+      {
+        h2: "High loft beds with a desk or a bookcase",
+        body: "The Twin high loft with bookcase starts at $662. With a desk, there is the Twin high loft with the desk option from $773, the Twin high loft with desk at $953, the Twin high loft with bookcase and desk at $955, and the Modern Farmhouse Twin high loft with the desk option from $934.",
+        links: [
+          { label: "Loft beds with a desk", href: "/category/loft-beds?subcategory=loft-with-desk" },
+        ],
+      },
+      {
+        h2: "Full size high loft beds",
+        body: "Three high loft beds are Full size: the Full high loft with bookcase from $1,009, the Mid-Century Modern Full high loft at $1,136, and the Full high loft with bookcase and desk from $1,226. They are 70.25 to 75.25 inches wide.",
+        links: [
+          { label: "All loft beds", href: "/category/loft-beds" },
+        ],
+      },
+    ],
+    faqs: [
+      { q: "How tall is a high loft bed?", a: "68.25 to 70 inches overall. Most of the high loft beds here are 68.5 inches." },
+      { q: "What ceiling height does a high loft bed need?", a: "A 68.5-inch high loft leaves 27.5 inches between the top of the frame and a standard 96-inch ceiling. Under a lower ceiling, choose a low loft bed." },
+      { q: "How much weight does a high loft bed hold?", a: "Each of the high loft beds lists a 400 lb weight capacity." },
+      { q: "Do high loft beds come in Full size?", a: "Yes. Three of the 10 are Full, from $1,009." },
+      { q: "Is shipping free?", a: "Yes. Every loft bed ships free, with 30-day returns on unused items." },
+    ],
   },
   "loft-beds|loft-with-desk": {
-    seoTitle: "Loft Beds With Desk – Solid Wood | Forgali",
+    seoTitle: "Loft Beds With Desk Canada - Solid Wood | Forgali",
     seoDescription:
-      "Shop loft beds with a built-in desk and bookcase, a bed plus study space in one footprint. Solid wood, free shipping. Twin and Full sizes.",
+      "Solid wood loft beds with a desk, in low and high heights, Twin and Full, from $697. Desk, bookcase and dresser combinations. Free shipping and 30-day returns.",
     h1: "Loft Beds With Desk",
-    lead: "Bed plus a built-in desk and bookcase in one footprint, ideal for small and shared rooms.",
+    lead: "Loft beds with a desk in low and high heights, Twin and Full, from $697 with free shipping.",
+    intro: "A loft bed with a desk puts the bed and the study space in one footprint, which is the usual answer for a small or shared bedroom. Nine loft beds here come with a desk or can be ordered with one, in solid wood, alongside the bookcase lofts shown on this page.",
+    sections: [
+      {
+        h2: "Low loft beds with a desk",
+        body: "The Twin low loft with desk is $697 and has a pull-out desk under a bed about 50 inches high. The same bed comes with a desk and two bookcases at $1,216, or with a desk and two dressers at $2,291. The Modern Farmhouse Twin low loft can be ordered with a desk from $885.",
+        links: [
+          { label: "Low loft beds", href: "/category/loft-beds?subcategory=low-loft" },
+        ],
+      },
+      {
+        h2: "High loft beds with a desk",
+        body: "The high lofts are about 68 inches high. The Twin high loft with the desk option starts at $773, and the Twin high loft with desk is $953, with a desk that attaches to the outside of the bed. The Twin high loft with bookcase and desk is $955. The Modern Farmhouse Twin high loft has a desk option from $934, and the Full high loft with bookcase and desk starts at $1,226.",
+        links: [
+          { label: "High loft beds", href: "/category/loft-beds?subcategory=high-loft" },
+          { label: "Desks", href: "/category/accessories?subcategory=desks" },
+        ],
+      },
+    ],
+    faqs: [
+      { q: "Which loft beds have a desk?", a: "Nine: four low lofts and five high lofts, from $697 for the Twin low loft with desk." },
+      { q: "Is there a Full size loft bed with a desk?", a: "Yes. The Full high loft with bookcase and desk, from $1,226." },
+      { q: "How tall is a loft bed with a desk?", a: "The low lofts with a desk are about 48 to 50 inches high and the high lofts are 68.5 to 70 inches." },
+      { q: "How much weight does a loft bed with a desk hold?", a: "Most of the loft beds list a 400 lb weight capacity. Check the product page for the model you choose." },
+      { q: "Is shipping free?", a: "Yes. Every loft bed ships free, with 30-day returns on unused items." },
+    ],
   },
   "bunk-beds|low-bunk": {
     seoTitle: "Low Bunk Beds Canada - Solid Wood, Twin & Full | Forgali",
