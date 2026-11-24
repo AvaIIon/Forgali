@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useCart, CHECKOUT_CART_KEY } from "@/context/CartContext";
 import { createShopifyCartWithLines } from "@/services/shopifyService";
 import { adClickCartAttributes } from "@/lib/adClick";
+import { spendRewardCodes } from "@/lib/spendReward";
 
 /**
  * Starts the Shopify handoff from wherever the shopper asked to check out.
@@ -13,7 +14,7 @@ import { adClickCartAttributes } from "@/lib/adClick";
  * drifted away from these checks the first time either side changed.
  */
 export const useShopifyCheckout = () => {
-  const { items } = useCart();
+  const { items, getTotalPrice } = useCart();
   const [isLoading, setIsLoading] = useState(false);
 
   const startCheckout = async () => {
@@ -43,7 +44,12 @@ export const useShopifyCheckout = () => {
       // drop an item and check out a subset without the customer noticing).
       // The Google Ads click IDs go along as cart attributes so the checkout
       // pixel can attribute the purchase (src/lib/adClick.ts).
-      const cart = await createShopifyCartWithLines(lines, adClickCartAttributes());
+      // A claimed "$50 off $1,000" reward goes along as a discount code.
+      const cart = await createShopifyCartWithLines(
+        lines,
+        adClickCartAttributes(),
+        spendRewardCodes(getTotalPrice()),
+      );
 
       const expectedQuantity = items.reduce((n, i) => n + i.quantity, 0);
       if (cart.totalQuantity !== expectedQuantity) {

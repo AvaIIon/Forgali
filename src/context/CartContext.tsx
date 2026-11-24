@@ -2,6 +2,7 @@ import { createContext, useContext, useState, useEffect, useCallback, useRef, Re
 import { ConvertedProduct, fetchVariantStates, fetchCartStatus, isShopifyConfigured } from "@/services/shopifyService";
 import { trackPinterest } from "@/lib/pinterest";
 import { trackMeta } from "@/lib/meta";
+import { setSpendRewardClaimed } from "@/lib/spendReward";
 
 const CART_STORAGE_KEY = "forgali_cart";
 // Cart id recorded at checkout handoff; on the next visit we ask Shopify
@@ -128,7 +129,10 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     fetchCartStatus(cartId)
       .then(status => {
         if (status === "completed") {
-          if (wasRecent) setItems([]); // recent handoff + gone cart ⇒ paid
+          if (wasRecent) {
+            setItems([]); // recent handoff + gone cart ⇒ paid
+            setSpendRewardClaimed(false); // the next order claims its own reward
+          }
           window.localStorage.removeItem(CHECKOUT_CART_KEY);
         }
       })

@@ -850,7 +850,11 @@ export const createShopifyCartWithLines = async (
   // Cart attributes ride along to the order (note attributes) and to the
   // checkout pixel (event.data.checkout.attributes). Used for the Google Ads
   // click IDs — see src/lib/adClick.ts.
-  attributes: Array<{ key: string; value: string }> = []
+  attributes: Array<{ key: string; value: string }> = [],
+  // Discount codes to pre-apply at checkout (the claimed "$50 off $1,000"
+  // reward, see src/lib/spendReward.ts). A code Shopify finds not applicable
+  // is ignored by checkout, it does not fail the cart.
+  discountCodes: string[] = []
 ) => {
   const data = await shopifyFetch<{
     cartCreate: {
@@ -864,7 +868,13 @@ export const createShopifyCartWithLines = async (
         userErrors { field message }
       }
     }`,
-    { input: attributes.length > 0 ? { lines, attributes } : { lines } }
+    {
+      input: {
+        lines,
+        ...(attributes.length > 0 ? { attributes } : {}),
+        ...(discountCodes.length > 0 ? { discountCodes } : {}),
+      },
+    }
   );
 
   if (data.cartCreate.userErrors.length > 0) {
