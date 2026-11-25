@@ -92,7 +92,6 @@ export const Footer = () => {
             <Link to="/terms" className="hover:text-background">{t("footer.terms")}</Link>
           </div>
           <p>{t("footer.copyright")}</p>
-          <p>{t("footer.poweredBy")}</p>
         </div>
       </div>
     </footer>
