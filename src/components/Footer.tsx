@@ -81,7 +81,6 @@ export const Footer = () => {
                 <br />
                 North York, ON M3J 3C7
               </address>
-              <p className="mt-3 text-xs text-background/50">{t("footer.officeNote")}</p>
             </div>
           </div>
         </div>

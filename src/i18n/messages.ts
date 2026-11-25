@@ -117,7 +117,6 @@ const en = {
   "footer.copyright": "© 2026 Forgali. All rights reserved.",
   "footer.poweredBy": "Powered by Avallon",
   "footer.office": "Head Office",
-  "footer.officeNote": "By appointment only.",
 
   // --- cart drawer --------------------------------------------------------
   "cart.title": "Shopping Cart",
@@ -805,7 +804,6 @@ const fr: Record<keyof typeof en, string> = {
   "footer.copyright": "© 2026 Forgali. Tous droits réservés.",
   "footer.poweredBy": "Propulsé par Avallon",
   "footer.office": "Siège social",
-  "footer.officeNote": "Sur rendez-vous seulement.",
 
   // --- cart drawer --------------------------------------------------------
   "cart.title": "Panier",
