@@ -70,6 +70,19 @@ export const Footer = () => {
               <Twitter className="w-5 h-5 text-background/70" />
               <Youtube className="w-5 h-5 text-background/70" />
             </div>
+            {/* Business address for trust only: plain text, no map link, no
+                pin icon, no hours. Forgali has no showroom or pickup. */}
+            <div className="mt-8">
+              <h4 className="font-bold mb-4">{t("footer.office")}</h4>
+              <address className="not-italic text-sm text-background/70 leading-relaxed">
+                Forgali
+                <br />
+                1111 Flint Road
+                <br />
+                North York, ON M3J 3C7
+              </address>
+              <p className="mt-3 text-xs text-background/50">{t("footer.officeNote")}</p>
+            </div>
           </div>
         </div>
         
