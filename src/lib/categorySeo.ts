@@ -41,7 +41,7 @@ const BED_SEO: Record<string, CategorySeo> = {
     seoDescription:
       "26 solid wood loft beds from $544: low lofts about 50 inches high and high lofts about 68 inches, with a desk, bookcase, stairs or slide. Free shipping.",
     h1: "Loft Beds",
-    lead: "26 solid wood loft beds, low and high, in Twin and Full, with desk, bookcase, staircase and slide options, from $544 with free shipping.",
+    lead: "Solid wood loft beds that free up the floor for a desk, shelves or storage.",
     intro: "A loft bed lifts one bed off the floor so the space underneath can do a second job: storage, a play area, a reading corner or a desk. These 26 are solid wood, most of them solid New Zealand pine with low-VOC finishes.\n\nThe main choice is height. A low loft keeps the mattress within reach from the floor, and a high loft clears enough room underneath for a desk or a dresser. After that, choose a ladder or a staircase, and whether you want a desk, a bookcase or a slide built in.",
     sections: [
       {
@@ -88,7 +88,7 @@ const BED_SEO: Record<string, CategorySeo> = {
     seoDescription:
       "61 solid wood bunk beds from $656: twin over twin, twin over full, full over full and queen, with stairs, storage or a trundle. Free shipping and 30-day returns.",
     h1: "Bunk Beds Canada",
-    lead: "61 solid wood bunk beds, twin over twin to queen over queen, with stairs, storage and trundle options, from $656 with free shipping.",
+    lead: "Solid wood bunk beds in every size, with stairs, storage and trundle options.",
     intro: "These 61 bunk beds are solid wood, most of them solid New Zealand pine, with low-VOC finishes. Sizes run from twin over twin for a shared bedroom up to queen over queen for teens, adults and guest rooms, and most of them list a 400 lb weight capacity per bed.\n\nChoose by size, by height and by how you get to the top bunk: a ladder on the front, a ladder on the end, or a staircase. Trundle and storage versions use the space under the bottom bunk, and L-shaped bunk beds fit into a corner.",
     sections: [
       {
@@ -136,7 +136,7 @@ const BED_SEO: Record<string, CategorySeo> = {
     seoDescription:
       "24 solid wood single bed frames in Twin, Full and Queen from $268: platform, panel, upholstered, storage and trundle beds. Free shipping and 30-day returns.",
     h1: "Single Beds Canada",
-    lead: "24 solid wood single beds in Twin, Full and Queen: platform, panel, upholstered, storage and trundle styles from $268, with free shipping.",
+    lead: "Solid wood beds in Twin, Full and Queen, from simple platforms to storage and trundle frames.",
     intro: "A single bed here is one bed frame on its own, as opposed to a bunk bed or a loft bed. In Canada, single is also another name for the twin size, and ten of these 24 beds are Twin. Nine are Full and five are Queen.\n\nMost of the frames are solid New Zealand pine with low-VOC finishes, and the slats are included. Styles run from a plain platform bed to panel headboards, house beds and chenille upholstered beds.",
     sections: [
       {
@@ -179,7 +179,7 @@ const BED_SEO: Record<string, CategorySeo> = {
     seoDescription:
       "111 solid wood beds from $268: 61 bunk beds, 26 loft beds and 24 single beds in Twin, Full and Queen. Free shipping and 30-day returns.",
     h1: "Solid Wood Beds",
-    lead: "111 solid wood bunk, loft and single beds in Twin, Full and Queen, from $268 with free shipping.",
+    lead: "Solid wood bunk beds, loft beds and single beds, built to last.",
     intro: "The bedroom range is 111 solid wood beds: 61 bunk beds, 26 loft beds and 24 single beds. Most of the frames are solid New Zealand pine with low-VOC finishes, and slats are included, so a mattress goes straight on the frame.\n\nStart with the type of bed, then the size. Bunk beds sleep two or three in one footprint, loft beds free up the floor under one bed, and single beds run from a plain platform frame to panel, house and upholstered styles.",
     sections: [
       {
@@ -223,7 +223,7 @@ const BED_SEO: Record<string, CategorySeo> = {
     seoDescription:
       "16 solid wood twin low loft beds, 35 to 50 inches high, with a ladder, stairs, slide, desk or storage, from $544. Free shipping and 30-day returns.",
     h1: "Low Loft Beds",
-    lead: "16 twin low loft beds in solid wood, 35 to 50 inches high, with a ladder, stairs, slide, desk or storage, from $544 with free shipping.",
+    lead: "Low loft beds that keep the climb short and leave room underneath.",
     intro: "A low loft bed raises one twin bed about four feet off the floor. That is high enough to use the space underneath for storage, a play area or a desk, and low enough for a younger child to climb into and for a parent to reach the mattress.\n\nAll 16 low loft beds here are Twin size and solid wood, most of them solid New Zealand pine. Choose an angled ladder, a staircase, a slide, a pull-out desk, bookcases, or curtains that close off the space below.",
     sections: [
       {
@@ -265,7 +265,7 @@ const BED_SEO: Record<string, CategorySeo> = {
     seoDescription:
       "Mid-height loft beds in solid wood, about 48 to 50 inches high, with room underneath for storage, play or a desk. 16 Twin models from $544. Free shipping.",
     h1: "Mid Loft Beds",
-    lead: "Mid-height loft beds about 48 to 50 inches high, with usable space underneath, from $544 with free shipping.",
+    lead: "Mid-height loft beds with usable space underneath.",
     intro: "A mid loft sits between a floor-level bed and a full-height loft. The loft beds at this height here stand about 48 to 50 inches overall, tall enough to use the space underneath for storage, play or a pull-out desk, and low enough to reach the mattress from the floor. They are the same 16 Twin beds listed as low loft beds.",
     sections: [
       {
@@ -289,7 +289,7 @@ const BED_SEO: Record<string, CategorySeo> = {
     seoDescription:
       "10 solid wood high loft beds about 68 inches high, in Twin and Full, with bookcase and desk options, from $662. Free shipping and 30-day returns.",
     h1: "High Loft Beds",
-    lead: "10 solid wood high loft beds about 68 inches high, in Twin and Full, with bookcase and desk options, from $662 with free shipping.",
+    lead: "High loft beds that leave the most room underneath for a desk, bookcase or seating.",
     intro: "A high loft bed lifts the mattress to its tallest position, so the floor underneath is free for a desk, a dresser or a lounge area. These 10 stand 68.25 to 70 inches high, in solid wood, and each one lists a 400 lb weight capacity. Seven are Twin and three are Full.",
     sections: [
       {
@@ -328,7 +328,7 @@ const BED_SEO: Record<string, CategorySeo> = {
     seoDescription:
       "Solid wood loft beds with a desk, in low and high heights, Twin and Full, from $697. Desk, bookcase and dresser combinations. Free shipping and 30-day returns.",
     h1: "Loft Beds With Desk",
-    lead: "Loft beds with a desk in low and high heights, Twin and Full, from $697 with free shipping.",
+    lead: "Loft beds with a built-in desk, so sleep and study share one footprint.",
     intro: "A loft bed with a desk puts the bed and the study space in one footprint, which is the usual answer for a small or shared bedroom. Nine loft beds here come with a desk or can be ordered with one, in solid wood, alongside the bookcase lofts shown on this page.",
     sections: [
       {
@@ -360,7 +360,7 @@ const BED_SEO: Record<string, CategorySeo> = {
     seoDescription:
       "12 solid wood low bunk beds about 50 inches high, in twin over twin and twin over full, with a ladder or stairs, from $656. Free shipping and 30-day returns.",
     h1: "Low Bunk Beds",
-    lead: "12 low bunk beds in solid wood, about 50 inches high, in twin over twin and twin over full, from $656 with free shipping.",
+    lead: "Low bunk beds with a shorter climb, made for rooms with lower ceilings.",
     intro: "A low bunk bed, sometimes called a lowline bunk bed, stacks two beds in a frame about 50 inches high, where the standard bunk beds in the range stand 63 to 70 inches. The top bunk is easier to climb into and easier to make, the frame fits under a lower ceiling, and the bottom bed sits close to the floor.\n\nThese 12 low bunks are solid wood, most of them solid New Zealand pine. Ten are twin over twin and two are twin over full. Choose a ladder on the front or on the end, a staircase, an L-shaped layout, or curtains that turn the bottom bunk into a hideaway.",
     sections: [
       {
@@ -408,7 +408,7 @@ const BED_SEO: Record<string, CategorySeo> = {
     seoTitle: "Plank & Beam Dining Furniture Canada | Forgali",
     seoDescription: "Shop Plank & Beam solid wood dining tables, chairs, benches, stools and sets in Canada. Free shipping and 30-day returns.",
     h1: "Plank & Beam Dining Furniture",
-    lead: "Solid wood dining tables, chairs, benches, counter and bar stools and complete sets, with free shipping.",
+    lead: "Solid wood dining tables, chairs, benches and stools for everyday meals and long dinners.",
     intro: "Forgali is an online Canadian stockist of Plank & Beam dining furniture. Every table, bench and set is built from knot-free solid wood with hand-applied, low-VOC finishes, and the chairs and stools use solid rubberwood or hardwood frames. Shipping is free, and there are no duties or brokerage fees on delivery.\n\nThe range covers 28 dining and kitchen tables, 19 dining chairs, 13 benches including a corner banquette, 13 counter and bar stools, and 14 ready-made dining sets. Most pieces come in Pecan, Walnut, Blonde and Black, with Coastal White, wirebrushed and rustic finishes on selected collections.",
     sections: [
       {
@@ -458,7 +458,7 @@ const BED_SEO: Record<string, CategorySeo> = {
     seoTitle: "Solid Wood Dining Tables Canada - Free Shipping | Forgali",
     seoDescription: "28 solid wood dining tables from $432 CAD: 48 to 94 inch rectangular, 38 and 47 inch round, oval and counter height. Free shipping, 30-day returns.",
     h1: "Solid Wood Dining Tables Canada",
-    lead: "28 Plank & Beam dining and kitchen tables in knot-free solid wood, from $432 CAD with free shipping.",
+    lead: "Solid wood dining and kitchen tables, made to be gathered around every day.",
     intro: "Every table here is built from knot-free solid wood with hand-applied, low-VOC finishes, so you get real wood grain without the price of a custom maker. Rectangular tables run from 48 inches up to 94 inches, round tables come in 38 and 47 inch sizes, and there are two oval tables and two counter-height tables for smaller rooms.\n\nThe Classic collection is a farmhouse style with a textured wirebrush finish. Modern has clean square legs, Mid-Century Modern has tapered legs, Verso has crossed Scandinavian-style legs, Contour has rounded edges, Lido has a slatted pedestal base and Camden is a rustic plank look. All of them share Pecan, Walnut, Blonde and Black finishes, with Coastal White and wirebrushed options on Classic and Modern.",
     sections: [
       {
@@ -492,7 +492,7 @@ const BED_SEO: Record<string, CategorySeo> = {
     seoTitle: "Round Dining Tables Canada - Solid Wood & Oval | Forgali",
     seoDescription: "Solid wood round dining tables in 38 and 47 inch sizes and 62 and 72 inch ovals, from $432 CAD. Seats four to six. Free shipping, 30-day returns.",
     h1: "Round Dining Tables in Solid Wood",
-    lead: "Six round tables in 38 and 47 inch sizes and two oval tables, all solid wood, from $432 CAD with free shipping.",
+    lead: "Round and oval solid wood tables that keep everyone within reach.",
     intro: "A round table is the easiest way to seat four in a small dining area or kitchen. There are no corners to walk around, everyone faces each other, and a 47-inch round takes less floor space than a 60-inch rectangle while seating the same four people. The 38-inch Lido and Verso rounds suit breakfast nooks and condos where a table for two to four needs to fit.\n\nThe round tables come in the Classic, Verso, Contour and Lido collections, and the oval tables in Verso and Lido. Classic uses four legs, Verso has crossed legs, Contour has rounded edges and Lido sits on a slatted pedestal base so nobody gets a leg in the way. The Contour and Lido rounds and both ovals come in Pecan, Walnut, Blonde and Black, the Classic round in wirebrushed Pecan, Blonde, Seashell and Black or Coastal White, the 47-inch Verso round in Pecan, Blonde or Black and the 38-inch Verso round in Pecan or Blonde.",
     sections: [
       {
@@ -537,7 +537,7 @@ const BED_SEO: Record<string, CategorySeo> = {
     seoTitle: "Small Kitchen Tables Canada - Solid Wood, 48 Inch | Forgali",
     seoDescription: "Small 48-inch solid wood kitchen tables that seat four, from $432 CAD, in Classic, Modern, Mid-Century Modern and Verso styles. Free shipping.",
     h1: "Small Kitchen Tables for Two to Four",
-    lead: "Four 48-inch kitchen tables in knot-free solid wood, each seating four, from $432 CAD with free shipping.",
+    lead: "Compact solid wood kitchen tables that seat four.",
     intro: "A 48-inch table is the standard size for an eat-in kitchen, a condo dining nook or an apartment. It seats four with everyday elbow room and still leaves space to walk past. These four tables are the 48-inch versions of the Classic, Modern, Mid-Century Modern and Verso dining collections, so the same finishes are available on the matching benches and chairs if you add seating later.\n\nAll four are knot-free solid wood with hand-applied, low-VOC finishes. The Classic table has a textured wirebrush finish and a farmhouse look, Modern has square legs, Mid-Century Modern has tapered legs and Verso has crossed legs. Finishes are Pecan, Walnut, Blonde, Black, Seashell and Coastal White depending on the collection.",
     sections: [
       {
@@ -574,7 +574,7 @@ const BED_SEO: Record<string, CategorySeo> = {
     seoTitle: "Solid Wood Dining Chairs Canada - Free Shipping | Forgali",
     seoDescription: "19 Plank & Beam dining chairs and stools from $312 CAD: Windsor, spindle-back, upholstered, slipcovered and armchairs, sold singly or in sets of 2 and 4. Free shipping.",
     h1: "Solid Wood Dining Chairs",
-    lead: "19 dining chairs on solid rubberwood and hardwood frames, from $312 CAD for the Smythe dining stool and $454 for a chair, sold individually or in sets of two and four with free shipping.",
+    lead: "Dining chairs on solid wood frames, sold individually or in sets.",
     intro: "Plank & Beam dining chairs are built on solid rubberwood or hardwood frames with low-VOC finishes, in the same Pecan, Walnut, Blonde and Black finishes as the tables. The Windsor and Lido chairs are all-wood spindle backs, the Lido rated to 400 pounds. The Elio, Brio, Loar and Sereno chairs add an upholstered seat in Ivory, Sesame, Toffee, Terracotta, Marine or Evergreen. The Chesnee chair wears a machine-washable twill slipcover in five colours, and the Ernesto armchair is fully upholstered in microsuede for the head of the table.\n\nMost chairs are sold individually, and the Windsor, Lido and Solid Wood chairs also come in sets of two and four at a lower per-chair price. The 18-inch Smythe stool is a backless option for a kitchen table or a kids' end of the table.",
     sections: [
       {
@@ -615,7 +615,7 @@ const BED_SEO: Record<string, CategorySeo> = {
     seoTitle: "Solid Wood Dining Benches Canada - Free Shipping | Forgali",
     seoDescription: "13 solid wood dining benches from 46 to 85 inches plus the Risa corner banquette, from $326 CAD. Free shipping and 30-day returns.",
     h1: "Solid Wood Dining Benches",
-    lead: "13 dining benches in knot-free solid wood, from 46 to 85 inches long, plus the Risa corner banquette, from $326 CAD with free shipping.",
+    lead: "Solid wood dining benches that seat more people in less space.",
     intro: "A bench seats more people per foot than chairs, tucks fully under the table when nobody is sitting on it, and costs less than two chairs. These benches are the matching seating for the Classic, Modern, Mid-Century Modern, Verso, Contour and Camden dining tables, in the same Pecan, Walnut, Blonde, Black, Coastal White and wirebrushed finishes.\n\nLengths run from 46 inches for a 48-inch kitchen table, through 58 to 61 inches for the 72-inch tables, up to 83 and 85 inches for the 94-inch tables. The Risa banquette is the one piece with a back: a 63 by 63 inch solid pine and hardwood corner bench for a breakfast nook, with an optional Cream or Onyx cushion. There is also a Modern outdoor bench finished for a covered patio.",
     sections: [
       {
@@ -659,7 +659,7 @@ const BED_SEO: Record<string, CategorySeo> = {
     seoTitle: "Counter & Bar Stools Canada - Solid Wood | Forgali",
     seoDescription: "13 solid wood counter and bar stools from $344 CAD: 24 to 26 inch counter height and 30 to 31 inch bar height, backless or with backs, upholstered options. Free shipping.",
     h1: "Counter & Bar Stools Canada",
-    lead: "13 counter and bar stools on solid rubberwood and hardwood frames, from $344 CAD, with free shipping.",
+    lead: "Counter and bar stools on solid wood frames, backless or with a back.",
     intro: "Counter stools are 24 to 26 inches to the seat and fit a standard 36-inch kitchen counter or island. Bar stools are 30 to 31 inches to the seat for a 42-inch bar. Plank & Beam makes both heights in the same designs, so you can match stools to a kitchen island and a home bar in one finish.\n\nThe Smythe and Beryl stools are backless with a contoured seat and tuck fully under the counter. The Solid Wood, Elio, Sereno, Brio and Loar chairs have backs, and the Elio, Sereno, Brio and Loar add an upholstered seat in Ivory, Sesame, Toffee, Terracotta, Marine or Evergreen. Finishes are Pecan, Walnut, Blonde and Black, with Antique White on the Sereno. Most are sold individually, and the Smythe, Beryl and Solid Wood stools come in sets of two and four.",
     sections: [
       {
@@ -692,7 +692,7 @@ const BED_SEO: Record<string, CategorySeo> = {
     seoTitle: "Counter Height Stools Canada - Solid Wood | Forgali",
     seoDescription: "Eight counter height stools and chairs with 24 to 26 inch seats for 36-inch counters, backless or with backs, from $344 CAD. Free shipping.",
     h1: "Counter Height Stools and Chairs",
-    lead: "Eight counter height stools with 24 to 26 inch seats, backless or with a back, from $344 CAD, with free shipping.",
+    lead: "Counter height stools for kitchen islands, backless or with a back.",
     intro: "A counter stool seats you at a standard 36-inch kitchen counter or island with about 10 inches of legroom. These eight are the counter height versions of the Plank & Beam stool range: the backless Smythe and Beryl at 24 inches, the Solid Wood counter chair and Elio and Sereno chairs at 24 inches, the Brio at 25 inches and the Loar upholstered counter chair at 26 inches.\n\nAll are built on wood frames with low-VOC finishes in Pecan, Walnut, Blonde and Black. The Elio, Sereno, Brio and Loar add an upholstered seat, and the Smythe and Beryl are available in sets of two and four.",
     sections: [
       {
@@ -731,7 +731,7 @@ const BED_SEO: Record<string, CategorySeo> = {
     seoTitle: "Wooden Bar Stools Canada - 30 Inch Seat | Forgali",
     seoDescription: "Five wooden bar stools with 30 to 31 inch seats for 42-inch bars, backless or with backs, from $363 CAD. Free shipping and 30-day returns.",
     h1: "Wooden Bar Stools, 30 to 31 Inch Seat",
-    lead: "Five bar height stools with 30 to 31 inch seats for a 42-inch bar, from $363 CAD, with free shipping.",
+    lead: "Bar height stools sized for a 42-inch bar.",
     intro: "Bar stools are taller than counter stools: the seat sits 30 to 31 inches off the floor to fit a 42-inch home bar, a raised breakfast bar or a pub-height table. These five are the bar height versions of the Plank & Beam range, so each one has a counter height twin if you also have a 36-inch island to seat.\n\nThe Smythe and Beryl bar stools are backless with a contoured seat and sell from $363 CAD. The Solid Wood bar height chair has a back, and the Sereno bar chair adds an upholstered seat in Ivory. Finishes are low-VOC Pecan, Walnut, Blonde and Black, and the Smythe and Beryl are sold in sets of two and four, the Solid Wood chair and the Sereno in sets of two.",
     sections: [
       {
@@ -768,7 +768,7 @@ const BED_SEO: Record<string, CategorySeo> = {
     seoTitle: "Solid Wood Dining Sets Canada - Table & Seating | Forgali",
     seoDescription: "14 solid wood dining sets for 4 to 8 people from $1,238 CAD: 72-inch tables with two benches, bench plus four chairs or six chairs, and a 94-inch set for eight. Free shipping.",
     h1: "Solid Wood Dining Sets Canada",
-    lead: "14 ready-made dining sets in knot-free solid wood, seating four to eight, from $1,238 CAD with free shipping.",
+    lead: "Solid wood dining sets with the table and seating matched for you.",
     intro: "A dining set takes the guesswork out of matching: the table and seating arrive in the same finish, sized to fit each other. Most sets are built around the 72-inch Classic, Modern, Mid-Century Modern or Contour table, which seats six, and come with two benches, a bench plus four chairs, or six chairs. The 94-inch Classic set with two benches seats eight, and the counter height set with four chairs seats four at bar-table height.\n\nEvery set is knot-free solid wood with hand-applied, low-VOC finishes. Sets with benches start at $1,238, sets with a bench and four chairs from $1,503, and sets with six matching chairs from $1,698. Finishes are Pecan, Walnut, Blonde, Black and Coastal White, with wirebrushed versions on the Classic and Modern sets.",
     sections: [
       {
@@ -799,7 +799,7 @@ const BED_SEO: Record<string, CategorySeo> = {
     seoTitle: "Plank & Beam Living Room Furniture Canada | Forgali",
     seoDescription: "Shop Plank & Beam solid wood coffee tables, console tables, side tables, sideboards, TV stands and entryway benches in Canada. Free shipping and 30-day returns.",
     h1: "Plank & Beam Living Room Furniture",
-    lead: "Solid pine coffee tables, console tables, side tables, sideboards, TV stands, mantels and entryway benches, with free shipping.",
+    lead: "Solid wood tables, storage and accent pieces for the living room and entryway.",
     intro: "Forgali is an online Canadian stockist of Plank & Beam living room furniture. The tables are knot-free solid wood with hand-applied, low-VOC finishes, and the sideboards and TV stands are solid pine with engineered wood only on the back panels. Shipping is free, and there are no duties or brokerage fees at the door.\n\nThe range covers 26 coffee tables, 23 console tables, 13 side tables, 7 sideboards, 3 TV stands, 3 floating mantels and 2 entryway benches. The Classic, Modern, Mid-Century Modern, Verso, Contour and Forma collections share Pecan, Walnut, Blonde and Black finishes, the Camden pieces come in rustic finishes and the Arcata pieces in an oak veneer, so a coffee table, console and side table from one collection match.",
     sections: [
       {
@@ -842,7 +842,7 @@ const BED_SEO: Record<string, CategorySeo> = {
     seoTitle: "Solid Wood Coffee Tables Canada - Free Shipping | Forgali",
     seoDescription: "26 solid wood coffee tables: rectangular 40 to 54 inch, round 30 to 36 inch, square, and tables with a storage shelf. Free shipping, 30-day returns.",
     h1: "Solid Wood Coffee Tables",
-    lead: "Solid wood coffee tables by Plank & Beam. Round, square or rectangular, with free shipping.",
+    lead: "Solid wood coffee tables in round, square and rectangular shapes.",
     intro: "A coffee table is the one piece every sofa needs, and these are built to take daily use: knot-free solid wood tops and legs with hand-applied, low-VOC finishes, assembled from a single-panel top that bolts straight to the legs. Rectangular tables come in 40, 45, 48 and 54 inch lengths, round tables in 30, 34 and 36 inches, and there is a 36-inch square Forma table.\n\nThe Classic collection is a traditional four-leg table, Modern has square legs and a version with a storage shelf, Mid-Century Modern has tapered legs, Verso has crossed legs, Contour has rounded edges, Forma has a rounded top with a lower shelf and Arcata is a waterfall design in oak veneer. Finishes are Pecan, Walnut, Blonde and Black, with Coastal White and wirebrushed options on Classic and Modern.",
     sections: [
       {
@@ -875,7 +875,7 @@ const BED_SEO: Record<string, CategorySeo> = {
     seoTitle: "Round Coffee Tables Canada - Solid Wood | Forgali",
     seoDescription: "Seven solid wood round coffee tables, 30 to 36 inches, from $344 CAD, in Classic, Mid-Century Modern, Verso, Contour and Forma styles. Free shipping.",
     h1: "Round Solid Wood Coffee Tables",
-    lead: "Seven round coffee tables in knot-free solid wood, 30 to 36 inches across, from $344 CAD with free shipping.",
+    lead: "Round solid wood coffee tables that soften a room and are easy to walk around.",
     intro: "A round coffee table has no corners to catch a shin, which matters with small children and in a room where people walk past the sofa. It also suits a sectional or an L-shaped seating arrangement, because everyone reaches it from the same distance. These seven are the round versions of the Classic, Mid-Century Modern, Verso, Contour and Forma collections.\n\nThe 30-inch Classic, Verso and Contour rounds fit a loveseat or a small living room. The 36-inch Classic, Mid-Century Modern and Verso rounds suit a full-size sofa, and the 34-inch Forma round has a lower shelf for storage. All are knot-free solid wood with low-VOC finishes in Pecan, Walnut, Blonde and Black, with Coastal White on the Verso rounds and wirebrushed Pecan, Blonde, Seashell and Black on the Classic.",
     sections: [
       {
@@ -912,7 +912,7 @@ const BED_SEO: Record<string, CategorySeo> = {
     seoTitle: "Solid Wood Console Tables Canada - Free Shipping | Forgali",
     seoDescription: "23 solid wood console tables from 36 to 66 inches wide, from $211 CAD, for entryways, hallways and behind the sofa. Free shipping and 30-day returns.",
     h1: "Solid Wood Console Tables",
-    lead: "23 Plank & Beam console tables in knot-free solid wood, 36 to 66 inches wide, from $211 CAD with free shipping.",
+    lead: "Solid wood console tables for the entryway, hallway or behind the sofa.",
     intro: "A console table is the narrow table that goes against a wall in an entryway, down a hallway or behind a sofa. These 23 run from 36 inches, which fits a condo entry, up to 66 inches for a wide hallway or the back of a sectional. Four of them add a lower shelf or closed storage for shoes, baskets and mail.\n\nThe Classic consoles start at $211, the lowest price in the range. Verso has crossed legs, Mid-Century Modern has tapered legs, Contour and Forma have rounded tops, Camden is a rustic plank style, Grande is a heavier wirebrushed design and Arcata is an arched waterfall console in oak veneer. Finishes are Pecan, Walnut, Blonde and Black, with Coastal White, Seashell and White on Classic and Modern, rustic finishes on Camden and Cashew, Cerused White, Hazelnut and Noir on Arcata.",
     sections: [
       {
@@ -957,7 +957,7 @@ const BED_SEO: Record<string, CategorySeo> = {
     seoTitle: "Console Tables with Storage Canada - Solid Wood | Forgali",
     seoDescription: "Four solid wood console tables with a shelf or closed storage, 36 to 56 inches wide, from $300 CAD, for entryways and hallways. Free shipping.",
     h1: "Console Tables with Storage",
-    lead: "Four console tables with a lower shelf or closed storage, in knot-free solid wood, from $300 CAD with free shipping.",
+    lead: "Console tables with a shelf or closed storage to keep the entryway clear.",
     intro: "An entryway console with storage gives shoes, baskets and bags somewhere to go instead of the floor. These four add storage to the standard console table: the Classic console with shelf in 36 and 46 inch widths has a full solid wood lower shelf, the 46-inch Mid-Century Modern console with storage has closed cabinets behind pull-down doors, and the 56-inch Grande console with shelf is a wider wirebrushed design with an open lower shelf.\n\nAll four are knot-free solid wood with hand-applied, low-VOC finishes. The Classic consoles come in Pecan, Walnut, Seashell, Black and White, the Mid-Century Modern in Pecan, Walnut and Black, and the Grande in Pecan or Black wirebrush.",
     sections: [
       {
@@ -999,7 +999,7 @@ const BED_SEO: Record<string, CategorySeo> = {
     seoTitle: "Solid Wood Side Tables Canada - Free Shipping | Forgali",
     seoDescription: "13 solid wood side and end tables from $301 CAD: 18 to 25 inch round and square tables, tables with a shelf or storage, and a 32-inch corner table. Free shipping.",
     h1: "Solid Wood Side & End Tables",
-    lead: "13 side and end tables in knot-free solid wood, 18 to 32 inches, from $301 CAD with free shipping.",
+    lead: "Solid wood side and end tables for beside the sofa or an armchair.",
     intro: "A side table goes at the end of a sofa or beside an armchair and should sit level with the arm, which for most sofas means 22 to 26 inches high. These 13 are sized for that: round tables at 24 inches, square tables at 20 inches, rectangular tables at 23 to 25 inches, the 18-inch Mid-Century Modern side table with storage, which is the one melamine piece in the range, and the 32-inch Modern square corner table for the gap between two sofas in an L.\n\nEach one matches a coffee table from the same collection in the same finish: Classic, Modern, Mid-Century Modern, Verso, Contour and Forma, in Pecan, Walnut, Blonde and Black with Coastal White and wirebrushed options on Classic and Modern. All but the storage side table are solid wood with hand-applied, low-VOC finishes.",
     sections: [
       {
@@ -1035,7 +1035,7 @@ const BED_SEO: Record<string, CategorySeo> = {
     seoTitle: "Solid Wood Sideboards Canada - Free Shipping | Forgali",
     seoDescription: "Seven solid pine sideboards and buffets in 49 and 59 inch widths with 2 or 3 doors and adjustable shelves, from $671 CAD. Free shipping.",
     h1: "Solid Wood Sideboards & Buffets",
-    lead: "Seven sideboards in knot-free solid pine, 49 and 59 inches wide, with two or three doors and adjustable shelves, from $671 CAD with free shipping.",
+    lead: "Solid pine sideboards with doors and adjustable shelves for dining and living rooms.",
     intro: "A sideboard is the storage piece that works in a dining room as a buffet, in a living room as a media cabinet or in a hallway as a credenza. These seven are built from knot-free solid pine with engineered wood only on the back panels, and come in 49 and 59 inch widths with two or three doors. Behind the doors, adjustable shelves have three height positions for platters, glassware, board games or a record collection.\n\nThe Mid-Century Modern sideboard has tapered legs and comes in 49 and 59 inch two-door and 59-inch three-door versions. The Modern sideboard has soft-close doors and the Contour sideboard has slatted doors with rounded edges, each in two and three-door versions at 59 inches. All are finished in low-VOC Pecan, Walnut, Blonde or Black and match the TV stands and coffee tables of the same collection.",
     sections: [
       {
@@ -1059,7 +1059,7 @@ const BED_SEO: Record<string, CategorySeo> = {
     seoTitle: "Solid Wood TV Stands Canada - Fits 65 Inch TV | Forgali",
     seoDescription: "Three solid pine TV stands for screens up to 65 inches, with two doors, adjustable shelves and cord cutouts, from $707 CAD. Free shipping.",
     h1: "Solid Wood TV Stands",
-    lead: "Three media consoles in knot-free solid pine, sized for TVs up to 65 inches, from $707 CAD with free shipping.",
+    lead: "Solid pine media consoles for TVs up to 65 inches.",
     intro: "Each of these TV stands is built from knot-free solid pine with engineered wood back panels, and is designed to hold a television up to 65 inches. Two doors hide a cable box, console or router on shelves that adjust to three heights, an open middle shelf holds a soundbar or a record player, and cord cutouts in the back keep the cables out of sight.\n\nThe Mid-Century Modern TV stand has tapered legs and slatted doors, the Modern TV stand has soft-close doors and the Contour TV stand has slatted doors with rounded corners. Each matches the sideboard and coffee table of the same collection, in low-VOC Pecan, Walnut, Blonde or Black.",
     sections: [
       {
@@ -1083,7 +1083,7 @@ const BED_SEO: Record<string, CategorySeo> = {
     seoTitle: "Fireplace Mantel Shelf Canada - Solid Pine | Forgali",
     seoDescription: "Camden floating mantel shelves in 100 percent solid pine, 48, 60 and 72 inches, in Rustic Barnwood or Rustic Honey, from $341 CAD. Free shipping.",
     h1: "Fireplace Mantel Shelves",
-    lead: "Three Camden floating mantels in 100 percent solid pine, 48, 60 and 72 inches long, from $341 CAD with free shipping.",
+    lead: "Solid pine floating mantels in three lengths.",
     intro: "The Camden mantel is a solid pine beam that mounts to the wall on a wooden bracket with four screws, so it works as a fireplace mantel or as a floating shelf on any blank wall. The pine is left with its knots and grain showing and finished in Rustic Barnwood, a grey weathered look, or Rustic Honey, a warm natural tone.\n\nChoose the 48-inch mantel for a fireplace up to about 42 inches wide, the 60-inch for a standard fireplace opening, and the 72-inch for a wide fireplace or a feature wall. The Camden console table and dining pieces come in the same rustic finishes.",
     sections: [
       {
@@ -1106,7 +1106,7 @@ const BED_SEO: Record<string, CategorySeo> = {
     seoTitle: "Entryway Bench Canada - Solid Wood, 8 Finishes | Forgali",
     seoDescription: "Mid-Century Modern entryway benches in solid pine and birch, 41 and 56 inches, rated to 275 pounds, in eight finishes from $176 CAD. Free shipping.",
     h1: "Entryway Benches",
-    lead: "Two Mid-Century Modern entryway benches in solid pine and birch, 41 and 56 inches long, in eight finishes from $176 CAD with free shipping.",
+    lead: "Solid wood entryway benches in eight finishes.",
     intro: "An entryway bench is somewhere to sit and pull your boots off, and in a Canadian winter that matters more than it does anywhere else. The Mid-Century Modern bench has a slatted solid wood seat on tapered legs, a frame of solid pine and birch with metal-on-metal connections, and a 275-pound weight rating. The 41-inch bench fits a condo entry or the end of a bed, and the 56-inch bench suits a mudroom, a hallway or the foot of a queen bed.\n\nBoth lengths come in eight finishes: Pecan, Walnut, Natural and Black for a wood look, and White, Clay, Teal and Yellow if the entry needs some colour. Finishes are low-VOC. The same bench works at the end of a dining table, as extra seating in a living room or on a covered porch.",
     sections: [
       {
@@ -1130,7 +1130,7 @@ const BED_SEO: Record<string, CategorySeo> = {
     seoTitle: "Mid-Century Modern Furniture Canada - Solid Wood | Forgali",
     seoDescription: "Plank & Beam Mid-Century Modern living room furniture in solid wood: coffee tables, side tables, console, sideboards, TV stand and entryway bench, from $176 CAD. Free shipping.",
     h1: "Mid-Century Modern Living Room Furniture",
-    lead: "The Plank & Beam Mid-Century Modern living collection in knot-free solid wood, from $176 CAD with free shipping.",
+    lead: "Mid-Century Modern living room pieces in solid wood, designed to match across the room.",
     intro: "The Mid-Century Modern collection is the tapered-leg, slatted-door range that gives a living room the 1950s and 60s look without vintage prices or particleboard. Every piece except the melamine side table with storage is knot-free solid wood with hand-applied, low-VOC finishes, and the cabinets use engineered wood only on the back panels.\n\nThe collection covers a 36-inch round coffee table and 40 and 48 inch rectangular coffee tables, 18 to 24 inch side tables including one with storage, a 46-inch console with storage, 49 and 59 inch sideboards with two or three doors, a TV stand for screens up to 65 inches, and the 41 and 56 inch entryway benches. Finishes are Walnut, Pecan, Blonde and Black, with the entryway bench also in White, Clay, Teal, Yellow and Natural.",
     sections: [
       {
