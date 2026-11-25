@@ -392,6 +392,9 @@ const en = {
   "contact.onlineOnly": "Online Only",
   "contact.onlineBody": "100% online store with no retail showroom",
   "contact.servingCanada": "Free shipping on every order",
+  "contact.officeTitle": "Head Office",
+  "contact.officeNote":
+    "This is our office and mailing address. Every order ships free to your door, and email or phone is the fastest way to reach us.",
   "contact.formTitle": "Send us a message",
   "contact.sentTitle": "Thanks, your message is on its way",
   "contact.sentBody1": "It's landed in our inbox and we'll reply to ",
@@ -1077,6 +1080,9 @@ const fr: Record<keyof typeof en, string> = {
   "contact.onlineOnly": "En ligne seulement",
   "contact.onlineBody": "Boutique 100\u00a0% en ligne, sans salle de montre",
   "contact.servingCanada": "Livraison gratuite sur toutes les commandes",
+  "contact.officeTitle": "Siège social",
+  "contact.officeNote":
+    "Voici l'adresse de notre bureau et notre adresse postale. Chaque commande est livrée gratuitement chez vous, et le courriel ou le téléphone est le moyen le plus rapide de nous joindre.",
   "contact.formTitle": "Écrivez-nous",
   "contact.sentTitle": "Merci, votre message est en route",
   "contact.sentBody1": "Il est arrivé dans notre boîte de réception et nous répondrons à ",

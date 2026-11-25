@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { Mail, Phone, Clock, Globe, Check, Copy, ExternalLink, ArrowLeft } from "lucide-react";
+import { Mail, Phone, Clock, Globe, Building2, Check, Copy, ExternalLink, ArrowLeft } from "lucide-react";
 import { Seo } from "@/components/Seo";
 import { seoProps } from "@/lib/staticPageSeo";
 import { useLocale } from "@/i18n/LocaleContext";
@@ -136,7 +136,7 @@ const ContactPage = () => {
       
       <section className="py-16 px-4">
         <div className="max-w-4xl mx-auto">
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
             <div className="bg-brand-tint rounded-lg p-6">
               <Mail className="w-8 h-8 text-brand mb-4" />
               <h3 className="font-bold text-lg mb-2">{t("contact.email")}</h3>
@@ -164,6 +164,28 @@ const ContactPage = () => {
               <p className="text-muted-foreground">{t("contact.onlineBody")}</p>
               <p className="text-sm text-muted-foreground mt-2">{t("contact.servingCanada")}</p>
             </div>
+          </div>
+
+          {/* Business address for trust, deliberately quieter than the cards
+              above: plain text, no map link, no directions, and the note
+              steers people to email and phone instead of a visit. */}
+          <div className="bg-brand-tint rounded-lg p-6 mb-12 flex flex-col sm:flex-row gap-4 sm:gap-8">
+            <div className="flex gap-4 shrink-0">
+              <Building2 className="w-8 h-8 text-brand shrink-0" />
+              <div>
+                <h3 className="font-bold text-lg mb-1">{t("contact.officeTitle")}</h3>
+                <address className="not-italic text-muted-foreground">
+                  Forgali
+                  <br />
+                  1111 Flint Road
+                  <br />
+                  North York, ON M3J 3C7
+                </address>
+              </div>
+            </div>
+            <p className="text-sm text-muted-foreground sm:border-l sm:border-border sm:pl-8 sm:self-center">
+              {t("contact.officeNote")}
+            </p>
           </div>
 
           <div className="bg-background border border-border rounded-lg p-8">
